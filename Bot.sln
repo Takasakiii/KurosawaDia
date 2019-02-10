@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot", "Bot\Bot.csproj", "{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LauncherGUI", "LauncherGUI\LauncherGUI.csproj", "{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B9CB2C6-AFE9-4002-8400-EC810469D18E}
+	EndGlobalSection
+EndGlobal
