@@ -7,5 +7,7 @@ namespace Bot.Modelos
     public class BotCore
     {
         public string token { get; set; }
+        public string prefix { get; set; }
+
     }
 }

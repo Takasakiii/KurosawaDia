@@ -33,12 +33,12 @@ namespace LauncherGUI
 
         private void Process()
         {
-            if(txtToken.Text != null)
+            if(txtToken.Text != null && txtPrefix.Text != null)
             {
-                new Bot.Core().Iniciar(txtToken.Text);
+                new Bot.Core().Iniciar(txtToken.Text, txtPrefix.Text);
             } else
             {
-                MessageBox.Show("O token eh invalido");
+                MessageBox.Show("O token ou o prefixo eh invalido");
             }
         }
     }

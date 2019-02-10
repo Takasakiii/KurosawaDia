@@ -32,6 +32,8 @@
             this.lbToken = new System.Windows.Forms.Label();
             this.txtToken = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
+            this.lbPrefix = new System.Windows.Forms.Label();
+            this.txtPrefix = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbToken
@@ -53,7 +55,7 @@
             // 
             // btIniciar
             // 
-            this.btIniciar.Location = new System.Drawing.Point(427, 7);
+            this.btIniciar.Location = new System.Drawing.Point(173, 69);
             this.btIniciar.Name = "btIniciar";
             this.btIniciar.Size = new System.Drawing.Size(67, 20);
             this.btIniciar.TabIndex = 2;
@@ -61,11 +63,30 @@
             this.btIniciar.UseVisualStyleBackColor = true;
             this.btIniciar.Click += new System.EventHandler(this.btIniciar_Click);
             // 
+            // lbPrefix
+            // 
+            this.lbPrefix.AutoSize = true;
+            this.lbPrefix.Location = new System.Drawing.Point(3, 46);
+            this.lbPrefix.Name = "lbPrefix";
+            this.lbPrefix.Size = new System.Drawing.Size(45, 13);
+            this.lbPrefix.TabIndex = 3;
+            this.lbPrefix.Text = "Prefixo: ";
+            // 
+            // txtPrefix
+            // 
+            this.txtPrefix.Location = new System.Drawing.Point(43, 43);
+            this.txtPrefix.Name = "txtPrefix";
+            this.txtPrefix.Size = new System.Drawing.Size(378, 20);
+            this.txtPrefix.TabIndex = 4;
+            this.txtPrefix.Text = "\'";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(498, 33);
+            this.ClientSize = new System.Drawing.Size(427, 93);
+            this.Controls.Add(this.txtPrefix);
+            this.Controls.Add(this.lbPrefix);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.lbToken);
@@ -85,6 +106,8 @@
         private System.Windows.Forms.Label lbToken;
         private System.Windows.Forms.TextBox txtToken;
         private System.Windows.Forms.Button btIniciar;
+        private System.Windows.Forms.Label lbPrefix;
+        private System.Windows.Forms.TextBox txtPrefix;
     }
 }
 

@@ -12,15 +12,17 @@ namespace Bot
 
         private BotCore botCore = new BotCore(); 
 
-        public void Iniciar(string token)
+        public void Iniciar(string token, string prefix)
         {
             botCore.token = token;
+            botCore.prefix = prefix;
             Async().GetAwaiter().GetResult();
         }
 
         private async Task Async()
         {
             client = new DiscordSocketClient();
+            new Nucleo.Eventos.MessageEvent(client, botCore.prefix);
             await client.LoginAsync(TokenType.Bot, botCore.token);
             await client.StartAsync();
             await Task.Delay(-1);
