@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.Nucleo.Extensions;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -36,6 +37,36 @@ namespace Bot.Nucleo.Modulos
                 .WithTitle(animo)
                 .WithDescription($"**{context.User.Username}#{context.User.Discriminator}** 🏓 meu ping eh {client.Latency}ms")
                 .WithColor(color);
+            Embed embed = builder.Build();
+
+            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+        }
+
+        public async Task Avatar(DiscordSocketClient client)
+        {
+            ulong id = 0;
+            try
+            {
+                id = Convert.ToUInt64(context.Message.MentionedUserIds);
+            } catch
+            {
+                id = context.User.Id;
+            }
+
+            Discord.WebSocket.SocketUser user = client.GetUser(id);
+
+            string avatarUrl = "";
+            if(user.GetAvatarUrl() != null)
+            {
+                avatarUrl = user.GetAvatarUrl(0, 2048);
+            } else
+            {
+                avatarUrl = user.GetDefaultAvatarUrl();
+            }
+
+            EmbedBuilder builder = new EmbedBuilder()
+                .WithImageUrl(avatarUrl)
+                .WithOkColor();
             Embed embed = builder.Build();
 
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);

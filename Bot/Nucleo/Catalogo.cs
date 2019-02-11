@@ -19,6 +19,9 @@ namespace Bot.Nucleo
                 case "ping":
                     await new Teste(contexto).Ping(client);
                     break;
+                case "avatar":
+                    await new Teste(contexto).Avatar(client);
+                    break;
             }
         }
     }
