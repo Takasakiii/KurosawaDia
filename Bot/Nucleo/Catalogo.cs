@@ -5,15 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Weeb.net;
 
 namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando)
+        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando, WeebClient weebClient)
         {
-            var user = contexto.User as SocketGuildUser;
-
             switch(comando[0])
             {
                 case "ping":
@@ -21,6 +20,9 @@ namespace Bot.Nucleo
                     break;
                 case "avatar":
                     await new Teste(contexto).Avatar(client);
+                    break;
+                case "hug":
+                    await new WeebCmds(contexto).hug(weebClient);
                     break;
             }
         }

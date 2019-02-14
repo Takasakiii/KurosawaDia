@@ -34,6 +34,8 @@
             this.btIniciar = new System.Windows.Forms.Button();
             this.lbPrefix = new System.Windows.Forms.Label();
             this.txtPrefix = new System.Windows.Forms.TextBox();
+            this.lbWeebToken = new System.Windows.Forms.Label();
+            this.txtWeeb = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbToken
@@ -51,11 +53,11 @@
             this.txtToken.Name = "txtToken";
             this.txtToken.Size = new System.Drawing.Size(378, 20);
             this.txtToken.TabIndex = 1;
-            this.txtToken.Text = "NDU4NDYyNjgxMTk2NjU4Njg4.D0Cb9Q.RtCa7bjsi1RNLCZT3Mv2WLuFqvk";
+            this.txtToken.Text = "NTI3MjM2OTYxODcwODA3MDQx.D0ZuBA.HdHvsnLvlOspsPBj2Ueko6i6BjA";
             // 
             // btIniciar
             // 
-            this.btIniciar.Location = new System.Drawing.Point(173, 69);
+            this.btIniciar.Location = new System.Drawing.Point(170, 96);
             this.btIniciar.Name = "btIniciar";
             this.btIniciar.Size = new System.Drawing.Size(67, 20);
             this.btIniciar.TabIndex = 2;
@@ -66,7 +68,7 @@
             // lbPrefix
             // 
             this.lbPrefix.AutoSize = true;
-            this.lbPrefix.Location = new System.Drawing.Point(3, 46);
+            this.lbPrefix.Location = new System.Drawing.Point(2, 42);
             this.lbPrefix.Name = "lbPrefix";
             this.lbPrefix.Size = new System.Drawing.Size(45, 13);
             this.lbPrefix.TabIndex = 3;
@@ -74,17 +76,37 @@
             // 
             // txtPrefix
             // 
-            this.txtPrefix.Location = new System.Drawing.Point(43, 43);
+            this.txtPrefix.Location = new System.Drawing.Point(43, 39);
             this.txtPrefix.Name = "txtPrefix";
             this.txtPrefix.Size = new System.Drawing.Size(378, 20);
             this.txtPrefix.TabIndex = 4;
             this.txtPrefix.Text = "\'";
             // 
+            // lbWeebToken
+            // 
+            this.lbWeebToken.AutoSize = true;
+            this.lbWeebToken.Location = new System.Drawing.Point(2, 73);
+            this.lbWeebToken.Name = "lbWeebToken";
+            this.lbWeebToken.Size = new System.Drawing.Size(39, 13);
+            this.lbWeebToken.TabIndex = 6;
+            this.lbWeebToken.Text = "Weeb:";
+            // 
+            // txtWeeb
+            // 
+            this.txtWeeb.Location = new System.Drawing.Point(43, 70);
+            this.txtWeeb.Name = "txtWeeb";
+            this.txtWeeb.Size = new System.Drawing.Size(378, 20);
+            this.txtWeeb.TabIndex = 7;
+            this.txtWeeb.Text = "SEpGb1JpYkJtOjUzMGQ0MWE4YTkwZDNiOGU0NWFkZDhjOGQzODBmMDhmZDVjNDQ4ZmM0OWQ3YjdhNzI5Z" +
+    "mU2NWJj";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 93);
+            this.ClientSize = new System.Drawing.Size(427, 122);
+            this.Controls.Add(this.txtWeeb);
+            this.Controls.Add(this.lbWeebToken);
             this.Controls.Add(this.txtPrefix);
             this.Controls.Add(this.lbPrefix);
             this.Controls.Add(this.btIniciar);
@@ -108,6 +130,8 @@
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Label lbPrefix;
         private System.Windows.Forms.TextBox txtPrefix;
+        private System.Windows.Forms.Label lbWeebToken;
+        private System.Windows.Forms.TextBox txtWeeb;
     }
 }
 

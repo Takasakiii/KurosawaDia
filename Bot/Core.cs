@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Bot.Modelos;
 using Discord;
 using Discord.WebSocket;
+using Weeb.net;
 
 namespace Bot
 {
@@ -10,20 +11,24 @@ namespace Bot
     {
         private DiscordSocketClient client;
 
-        private BotCore botCore = new BotCore(); 
+        private BotCore botCore = new BotCore();
 
-        public void Iniciar(string token, string prefix)
+        WeebClient weebClient = new WeebClient("Yummi", "1.0.0");
+
+        public void Iniciar(string token, string prefix, string weebToken)
         {
             botCore.token = token;
             botCore.prefix = prefix;
+            botCore.weebToken = weebToken;
             Async().GetAwaiter().GetResult();
         }
 
         private async Task Async()
         {
             client = new DiscordSocketClient();
-            new Nucleo.Eventos.MessageEvent(client, botCore.prefix);
-            await client.LoginAsync(TokenType.Bot, botCore.token);
+            new Nucleo.Eventos.MessageEvent(client, botCore.prefix, weebClient);
+            await client.LoginAsync(Discord.TokenType.Bot, botCore.token);
+            await weebClient.Authenticate(botCore.weebToken, Weeb.net.TokenType.Wolke);
             await client.StartAsync();
             await Task.Delay(-1);
         }

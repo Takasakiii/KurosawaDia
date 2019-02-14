@@ -13,5 +13,7 @@ namespace Bot.Nucleo.Extensions
 
         public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) =>
             eb.WithColor(new Color(Constants.red));
+    
+     
     }
 }

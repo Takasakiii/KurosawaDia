@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Weeb.net;
 
 namespace Bot.Nucleo.Modulos
 {
@@ -44,27 +45,26 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Avatar(DiscordSocketClient client)
         {
-            ulong id = 0;
+            //eh na gambiarra mas eh o melhor q consigo agr 
+            //perdoa nois Takasaki S2
+            string UserId = "";
+            
             try
             {
-                id = Convert.ToUInt64(context.Message.MentionedUserIds);
+                string[] msgArr = context.Message.Content.Split(' ');
+                UserId = msgArr[1].Replace("<", "").Replace("!", "").Replace("@", "").Replace(">", "");
             } catch
             {
-                id = context.User.Id;
+                UserId = context.User.Id.ToString();
             }
 
-            Discord.WebSocket.SocketUser user = client.GetUser(id);
+            Discord.WebSocket.SocketUser user = client.GetUser(Convert.ToUInt64(UserId));
 
-            string avatarUrl = "";
-            if(user.GetAvatarUrl() != null)
-            {
-                avatarUrl = user.GetAvatarUrl(0, 2048);
-            } else
-            {
-                avatarUrl = user.GetDefaultAvatarUrl();
-            }
+            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
             EmbedBuilder builder = new EmbedBuilder()
+                .WithAuthor($"{user.Username}#{user.Discriminator}")
+                .WithDescription($"[Link Direto]({avatarUrl})")
                 .WithImageUrl(avatarUrl)
                 .WithOkColor();
             Embed embed = builder.Build();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,21 +26,28 @@ namespace LauncherGUI
             t = new Thread(Process);
             t.Start();
 
-            btIniciar.Enabled = false;
-            txtToken.Enabled = false;
-
             MessageBox.Show("Bot Iniciado");
+
+            GUI(false);
         }
 
         private void Process()
         {
-            if(txtToken.Text != null && txtPrefix.Text != null)
+            if(txtToken.Text != null && txtPrefix.Text != null && txtWeeb != null)
             {
-                new Bot.Core().Iniciar(txtToken.Text, txtPrefix.Text);
+                new Core().Iniciar(txtToken.Text, txtPrefix.Text, txtWeeb.Text);
             } else
             {
                 MessageBox.Show("O token ou o prefixo eh invalido");
             }
+        }
+
+        private void GUI(bool tipo)
+        {
+            btIniciar.Enabled = tipo;
+            txtToken.Enabled = tipo;
+            txtPrefix.Enabled = tipo;
+            txtWeeb.Enabled = tipo;
         }
     }
 }
