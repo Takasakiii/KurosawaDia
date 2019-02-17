@@ -32,5 +32,10 @@ namespace Bot
             await client.StartAsync();
             await Task.Delay(-1);
         }
+
+        public async void DesligarAsync()
+        {
+            await client.StopAsync();
+        }
     }
 }

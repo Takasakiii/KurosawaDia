@@ -15,6 +15,7 @@ namespace LauncherGUI
     public partial class Form1 : Form
     {
         private Thread t;
+        Core core = new Core();
 
         public Form1()
         {
@@ -35,7 +36,7 @@ namespace LauncherGUI
         {
             if(txtToken.Text != null && txtPrefix.Text != null && txtWeeb != null)
             {
-                new Core().Iniciar(txtToken.Text, txtPrefix.Text, txtWeeb.Text);
+               core.Iniciar(txtToken.Text, txtPrefix.Text, txtWeeb.Text);
             } else
             {
                 MessageBox.Show("O token ou o prefixo eh invalido");
@@ -45,9 +46,17 @@ namespace LauncherGUI
         private void GUI(bool tipo)
         {
             btIniciar.Enabled = tipo;
+            btDesligar.Enabled = !tipo;
             txtToken.Enabled = tipo;
             txtPrefix.Enabled = tipo;
             txtWeeb.Enabled = tipo;
+        }
+
+        private void btDesligar_Click(object sender, EventArgs e)
+        {
+            GUI(true);
+            core.DesligarAsync();
+            t.Abort();
         }
     }
 }

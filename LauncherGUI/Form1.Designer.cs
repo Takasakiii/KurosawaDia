@@ -36,6 +36,7 @@
             this.txtPrefix = new System.Windows.Forms.TextBox();
             this.lbWeebToken = new System.Windows.Forms.Label();
             this.txtWeeb = new System.Windows.Forms.TextBox();
+            this.btDesligar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbToken
@@ -57,9 +58,9 @@
             // 
             // btIniciar
             // 
-            this.btIniciar.Location = new System.Drawing.Point(170, 96);
+            this.btIniciar.Location = new System.Drawing.Point(127, 96);
             this.btIniciar.Name = "btIniciar";
-            this.btIniciar.Size = new System.Drawing.Size(67, 20);
+            this.btIniciar.Size = new System.Drawing.Size(67, 23);
             this.btIniciar.TabIndex = 2;
             this.btIniciar.Text = "Iniciar";
             this.btIniciar.UseVisualStyleBackColor = true;
@@ -100,11 +101,23 @@
             this.txtWeeb.Text = "SEpGb1JpYkJtOjUzMGQ0MWE4YTkwZDNiOGU0NWFkZDhjOGQzODBmMDhmZDVjNDQ4ZmM0OWQ3YjdhNzI5Z" +
     "mU2NWJj";
             // 
+            // btDesligar
+            // 
+            this.btDesligar.Enabled = false;
+            this.btDesligar.Location = new System.Drawing.Point(210, 96);
+            this.btDesligar.Name = "btDesligar";
+            this.btDesligar.Size = new System.Drawing.Size(75, 23);
+            this.btDesligar.TabIndex = 8;
+            this.btDesligar.Text = "Desligar";
+            this.btDesligar.UseVisualStyleBackColor = true;
+            this.btDesligar.Click += new System.EventHandler(this.btDesligar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 122);
+            this.Controls.Add(this.btDesligar);
             this.Controls.Add(this.txtWeeb);
             this.Controls.Add(this.lbWeebToken);
             this.Controls.Add(this.txtPrefix);
@@ -132,6 +145,7 @@
         private System.Windows.Forms.TextBox txtPrefix;
         private System.Windows.Forms.Label lbWeebToken;
         private System.Windows.Forms.TextBox txtWeeb;
+        private System.Windows.Forms.Button btDesligar;
     }
 }
 
