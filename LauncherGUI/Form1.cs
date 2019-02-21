@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace LauncherGUI
 {
-    public partial class Form1 : Form
+    public partial class frGUI : Form
     {
         private Thread t;
         Core core = new Core();
 
-        public Form1()
+        public frGUI()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace LauncherGUI
             t = new Thread(Process);
             t.Start();
 
-            MessageBox.Show("Bot Iniciado");
+            MessageBox.Show("O Bot Iniciado");
 
             GUI(false);
         }
@@ -57,6 +57,7 @@ namespace LauncherGUI
             GUI(true);
             core.DesligarAsync();
             t.Abort();
+            MessageBox.Show("O Bot foi Desligado");
         }
     }
 }

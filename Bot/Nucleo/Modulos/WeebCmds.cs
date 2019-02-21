@@ -70,12 +70,7 @@ namespace Bot.Nucleo.Modulos
                     }
                     catch
                     {
-                        EmbedBuilder builder = new EmbedBuilder()
-                            .WithDescription($"**{context.User}** você não me disse o tipo de gif ou esse tipo não existe")
-                            .WithErrorColor();
-                        Embed embed = builder.Build();
-
-                        await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                        await context.Channel.SendErrorAsync($"**{context.User}**você não me disse o tipo de gif ou esse tipo não existe");
                     }
                 }
             } catch {

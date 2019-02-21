@@ -1,6 +1,6 @@
 ﻿namespace LauncherGUI
 {
-    partial class Form1
+    partial class frGUI
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frGUI));
             this.lbToken = new System.Windows.Forms.Label();
             this.txtToken = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
@@ -58,6 +58,7 @@
             // 
             // btIniciar
             // 
+            this.btIniciar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btIniciar.Location = new System.Drawing.Point(127, 96);
             this.btIniciar.Name = "btIniciar";
             this.btIniciar.Size = new System.Drawing.Size(67, 23);
@@ -103,6 +104,7 @@
             // 
             // btDesligar
             // 
+            this.btDesligar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btDesligar.Enabled = false;
             this.btDesligar.Location = new System.Drawing.Point(210, 96);
             this.btDesligar.Name = "btDesligar";
@@ -112,7 +114,7 @@
             this.btDesligar.UseVisualStyleBackColor = true;
             this.btDesligar.Click += new System.EventHandler(this.btDesligar_Click);
             // 
-            // Form1
+            // frGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,9 +130,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "frGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Teste iniciador do bot";
+            this.Text = "Iniciador";
             this.ResumeLayout(false);
             this.PerformLayout();
 

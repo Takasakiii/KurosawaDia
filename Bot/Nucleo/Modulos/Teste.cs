@@ -4,6 +4,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Weeb.net;
@@ -21,26 +23,12 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Ping(DiscordSocketClient client)
         {
-            string animo = "";
-            Discord.Color color = new Color();
+            var sw = Stopwatch.StartNew();
+            var msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
+            sw.Stop();
+            msg.DeleteAfter(0);
 
-            if(client.Latency < 200)
-            {
-                animo = "Eu estou animada pro trabalho 😃";
-                color = new Color(Constants.cor);
-            } else
-            {
-                animo = "Eu estou triste para o trabalho 😔";
-                color = new Color(Constants.red);
-            }
-
-            EmbedBuilder builder = new EmbedBuilder()
-                .WithTitle(animo)
-                .WithDescription($"**{context.User.Username}#{context.User.Discriminator}** 🏓 meu ping eh {client.Latency}ms")
-                .WithColor(color);
-            Embed embed = builder.Build();
-
-            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+            await context.Channel.SendConfirmAsync($"{Format.Bold(context.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
         }
 
         public async Task Avatar(DiscordSocketClient client)
@@ -51,8 +39,7 @@ namespace Bot.Nucleo.Modulos
             
             try
             {
-                string[] msgArr = context.Message.Content.Split(' ');
-                UserId = msgArr[1].Replace("<", "").Replace("!", "").Replace("@", "").Replace(">", "");
+                UserId = context.Message.MentionedUserIds.GetFirst();
             } catch
             {
                 UserId = context.User.Id.ToString();
