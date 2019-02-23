@@ -70,7 +70,7 @@ namespace Bot.Nucleo.Modulos
                     }
                     catch
                     {
-                        await context.Channel.SendErrorAsync($"**{context.User}**você não me disse o tipo de gif ou esse tipo não existe");
+                        await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe");
                     }
                 }
             } catch {

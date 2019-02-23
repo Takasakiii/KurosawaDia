@@ -19,7 +19,7 @@ namespace Bot.Nucleo
                     await new Teste(contexto).Ping(client);
                     break;
                 case "avatar":
-                    await new Teste(contexto).Avatar(client);
+                    await new Teste(contexto).Avatar(client, comando);
                     break;
                 case "hug":
                     await new WeebCmds(contexto).Hug(weebClient);

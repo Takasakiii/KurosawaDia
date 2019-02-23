@@ -28,29 +28,20 @@ namespace Bot.Nucleo.Modulos
             sw.Stop();
             msg.DeleteAfter(0);
 
-            await context.Channel.SendConfirmAsync($"{Format.Bold(context.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
+            await context.SendConfirmAsync($"🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
         }
 
-        public async Task Avatar(DiscordSocketClient client)
+        public async Task Avatar(DiscordSocketClient client, string[] comando)
         {
             //eh na gambiarra mas eh o melhor q consigo agr 
             //perdoa nois Takasaki S2
-            string UserId = "";
-            
-            try
-            {
-                UserId = context.Message.MentionedUserIds.GetFirst();
-            } catch
-            {
-                UserId = context.User.Id.ToString();
-            }
 
-            Discord.WebSocket.SocketUser user = client.GetUser(Convert.ToUInt64(UserId));
+            SocketUser user = context.GetUser(client, comando);
 
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
             EmbedBuilder builder = new EmbedBuilder()
-                .WithAuthor($"{user.Username}#{user.Discriminator}")
+                .WithAuthor($"{user}")
                 .WithDescription($"[Link Direto]({avatarUrl})")
                 .WithImageUrl(avatarUrl)
                 .WithOkColor();

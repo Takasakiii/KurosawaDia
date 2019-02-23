@@ -57,7 +57,13 @@ namespace LauncherGUI
             GUI(true);
             core.DesligarAsync();
             t.Abort();
-            MessageBox.Show("O Bot foi Desligado");
+           if(t.IsAlive == true)
+            {
+                MessageBox.Show("A thred não foi Desligada");
+            } else
+            {
+                MessageBox.Show("O Bot foi Desligado");
+            }
         }
     }
 }

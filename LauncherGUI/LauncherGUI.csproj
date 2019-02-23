@@ -7,7 +7,7 @@
     <ProjectGuid>{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Bot</RootNamespace>
-    <AssemblyName>Iniciador</AssemblyName>
+    <AssemblyName>GUI</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
