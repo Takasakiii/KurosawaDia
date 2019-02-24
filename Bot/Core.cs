@@ -9,11 +9,11 @@ namespace Bot
 {
     public class Core
     {
-        private DiscordSocketClient client;
+        private DiscordSocketClient client; // n eh uma variavel geral
 
-        private BotCore botCore = new BotCore();
+        private BotCore botCore = new BotCore(); // n eh uma variavel geral
 
-        WeebClient weebClient = new WeebClient("Yummi", "1.0.0");
+        WeebClient weebClient = new WeebClient("Yummi", "1.0.0"); // a entao eh daqui q essa praga ta fazendo trenzinho (grave)
 
         public void Iniciar(string token, string prefix, string weebToken)
         {
@@ -35,7 +35,9 @@ namespace Bot
 
         public async void DesligarAsync()
         {
-            await client.StopAsync();
+            await client.StopAsync(); 
         }
+        
+        //***ULTRAGRAVE*** n preciso nem comentar q essa classe possui um erro muito erroneo de otimização relacionada ao DiscordSocketCliente
     }
 }
