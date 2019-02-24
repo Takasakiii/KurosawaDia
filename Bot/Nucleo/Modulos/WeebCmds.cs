@@ -13,9 +13,15 @@ namespace Bot.Nucleo.Modulos
     {
         CommandContext context;
 
-        public WeebCmds(CommandContext context)
+        public WeebCmds(CommandContext context, string[] comando)
         {
             this.context = context;
+
+        }
+
+        public void getImg()
+        {
+
         }
 
         public async Task Hug(WeebClient weebClient)

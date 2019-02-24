@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SQLite.3.13.0\build\net45\SQLite.props" Condition="Exists('..\packages\SQLite.3.13.0\build\net45\SQLite.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +28,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -70,6 +73,12 @@
     <Reference Include="Discord.Net.WebSocket, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Discord.Net.WebSocket.2.0.1\lib\net46\Discord.Net.WebSocket.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.1.1\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
@@ -94,12 +103,19 @@
       <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.109.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.109.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -186,6 +202,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB\ConnectionFactory.cs" />
+    <Compile Include="DB\DAO\TokensDAO.cs" />
+    <Compile Include="DB\Modelos\Tokens.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,5 +261,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SQLite.3.13.0\build\net45\SQLite.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLite.3.13.0\build\net45\SQLite.props'))" />
+  </Target>
 </Project>

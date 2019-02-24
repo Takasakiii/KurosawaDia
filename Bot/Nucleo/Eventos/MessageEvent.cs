@@ -35,11 +35,11 @@ namespace Bot.Nucleo.Eventos
 
             if(msg.HasStringPrefix(prefix, ref argPos))
             {
-                tratada = context.Message.Content.Substring(prefix.Length);
+                tratada = context.Message.Content.Substring(prefix.Length).ToLower();
             }
             else if(msg.HasMentionPrefix(client.CurrentUser, ref argPos))
             {
-                tratada = context.Message.Content.Substring(22);
+                tratada = context.Message.Content.Substring(22).ToLower();
             }
 
             comando = tratada.Split(' ');

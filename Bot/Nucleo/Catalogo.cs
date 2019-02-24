@@ -22,10 +22,10 @@ namespace Bot.Nucleo
                     await new Teste(contexto).Avatar(client, comando);
                     break;
                 case "hug":
-                    await new WeebCmds(contexto).Hug(weebClient);
+                    await new WeebCmds(contexto, comando).Hug(weebClient);
                     break;
                 case "weeb":
-                    await new WeebCmds(contexto).Weeb(weebClient, comando);
+                    await new WeebCmds(contexto, comando).Weeb(weebClient, comando);
                     break;
             }
         }

@@ -33,9 +33,6 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Avatar(DiscordSocketClient client, string[] comando)
         {
-            //eh na gambiarra mas eh o melhor q consigo agr 
-            //perdoa nois Takasaki S2
-
             SocketUser user = context.GetUser(client, comando);
 
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
