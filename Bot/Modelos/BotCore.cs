@@ -8,6 +8,6 @@ namespace Bot.Modelos
     {
         public string token { get; set; }
         public string prefix { get; set; }
-        public string weebToken { get; set; }
+        public string weebToken { get; set; } //essa classe n possui uma identidade propria
     }
 }
