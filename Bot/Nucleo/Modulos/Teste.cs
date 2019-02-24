@@ -23,8 +23,8 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Ping(DiscordSocketClient client)
         {
-            var sw = Stopwatch.StartNew();
-            var msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
+            var sw = Stopwatch.StartNew(); //evite var
+            var msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);// ja disse evite var 
             sw.Stop();
             msg.DeleteAfter(0);
 
@@ -35,7 +35,7 @@ namespace Bot.Nucleo.Modulos
         {
             SocketUser user = context.GetUser(client, comando);
 
-            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl(); //mais um dado do Objeto usuario (criar) souto
 
             EmbedBuilder builder = new EmbedBuilder()
                 .WithAuthor($"{user}")
