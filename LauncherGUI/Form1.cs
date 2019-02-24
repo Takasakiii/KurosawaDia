@@ -16,7 +16,7 @@ namespace LauncherGUI
     public partial class frGUI : Form
     {
         private Thread t;
-        Core core = new Core();
+        Core core = new Core(); // n eh um objeto geral de todos os metodos
 
         public frGUI()
         {
