@@ -19,7 +19,7 @@ namespace Bot.Nucleo.Extensions
         public static Task<IUserMessage> SendErrorAsync(this CommandContext context, string text) {
             return context.Channel.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription($"**{context.User}** {text}").Build());
         }
-        //generalizar pode ser legal :D (os dois metodos acima)
+        //generalizar pode ser legal :D (os dois metodos acima) (¯\_(ツ)_/¯)
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
         {
             Task.Run(async () => 
@@ -32,7 +32,7 @@ namespace Bot.Nucleo.Extensions
 
         public static SocketUser GetUser(this CommandContext context, DiscordSocketClient client, string[] comando)
         {
-            ulong UserId; //Falta um modelo pra Usuario 
+            ulong UserId; //Falta um modelo pra Usuario (¯\_(ツ)_/¯)
 
             try
             {
@@ -52,7 +52,7 @@ namespace Bot.Nucleo.Extensions
 
            return client.GetUser(UserId);
             
-            //se vc trabalha com userid em uint64 em maioria pq esta em string (grave erro de otimização) || resolvido (eu acho)
+            
         }
     }
 }
