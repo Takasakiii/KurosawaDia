@@ -1,4 +1,5 @@
 ﻿using Bot.Nucleo.Extensions;
+using Bot.Nucleo.Modulos.WeebCmds;
 using Discord;
 using Discord.Commands;
 using System;
@@ -6,28 +7,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Weeb.net;
+using Weeb.net.Data;
 
 namespace Bot.Nucleo.Modulos
 {
-    public class WeebCmds
+    public class weebCmds
     {
         CommandContext context;
+        WeebClient weebClient;
 
-        public WeebCmds(CommandContext context, string[] comando)
+        public weebCmds(CommandContext context, string[] comando)
         {
             this.context = context;
-
         }
 
-        public void getImg()
+        public async Task Hug()
         {
-            //imagine um codigo pika aki
-            //foda esse codigo kkkkkkkkkk esse aki so zuando
-        }
-
-        public async Task Hug(WeebClient weebClient)
-        {
-            var img = await weebClient.GetRandomAsync("hug", new string[] { }, FileType.Gif, false, NsfwSearch.False); //ja disse hj evite var???
+            RandomData img = await weebClient.GetRandomAsync("hug", new string[] { }, FileType.Gif, false, NsfwSearch.False); //ja disse hj evite var??? || resolvida
 
             EmbedBuilder builder = new EmbedBuilder()
                 .WithImageUrl(img.Url)
@@ -37,14 +33,14 @@ namespace Bot.Nucleo.Modulos
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
         }
 
-        public async Task Weeb(WeebClient weebClient, string[] comando)
+        public async Task Weeb(string[] comando)
         {
             try
             {
                 if (comando[1] == "t" || comando[1] == "tipos")
                 {
-                    Weeb.net.Data.TypesData tipos = await weebClient.GetTypesAsync();
-                    string[] tiposArr = tipos.Types.ToArray(); //enumetates n devem virar array (erro de otimização grave)
+                    TypesData tipos = await weebClient.GetTypesAsync();
+                    string[] tiposArr = tipos.Types.ToArray(); //enumetates n devem virar array (erro de otimização grave) || resolvido
                     string txt = "";
 
                     for (int i = 0; i < tiposArr.Length; i++)
@@ -64,7 +60,7 @@ namespace Bot.Nucleo.Modulos
                 {
                     try
                     {
-                        var img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False); //entao n preciso nem comentar ne??
+                        RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False); //entao n preciso nem comentar ne?? || resolvido
 
                         EmbedBuilder builder = new EmbedBuilder()
                             .WithTitle(img.BaseType)

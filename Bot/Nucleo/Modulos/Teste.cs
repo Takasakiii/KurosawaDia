@@ -23,8 +23,8 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Ping(DiscordSocketClient client)
         {
-            var sw = Stopwatch.StartNew(); //evite var
-            var msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);// ja disse evite var 
+            Stopwatch sw = Stopwatch.StartNew(); //evite var || resolvida
+            IUserMessage msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);// ja disse evite var || resolvida
             sw.Stop();
             msg.DeleteAfter(0);
 

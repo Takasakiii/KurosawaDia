@@ -13,14 +13,12 @@ namespace Bot.Nucleo.Eventos
     {
         private DiscordSocketClient client;
         string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto???
-        private WeebClient weebClient;
 
-        public MessageEvent(DiscordSocketClient client, string prefix, WeebClient weebClient)
+        public MessageEvent(DiscordSocketClient client, string prefix)
         {
             client.MessageReceived += MessageRecived;
             this.client = client;
             this.prefix = prefix;
-            this.weebClient = weebClient;
         }
 
         public async Task MessageRecived(SocketMessage socket)
@@ -31,7 +29,7 @@ namespace Bot.Nucleo.Eventos
             string[] comando;
             string tratada = "";
             var context = new CommandContext(client, msg);
-            string prefix = this.prefix; //alem de ser uma variavel replicada desnecessaria como disse acima esse dado devia estar vinculado com seu propria classe
+            //alem de ser uma variavel replicada desnecessaria como disse acima esse dado devia estar vinculado com seu propria classe || Resolvido
 
             if(msg.HasStringPrefix(prefix, ref argPos))
             {
@@ -43,7 +41,7 @@ namespace Bot.Nucleo.Eventos
             }
 
             comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, client, socket, comando, weebClient); //vc ta puxando um objeto inteiro entre varias classes q n a usam para entregar a um destinatario longe, de vez de criar ele num lugar ja util
+            await new Catalogo().IrComando(context, client, socket, comando); //vc ta puxando um objeto inteiro entre varias classes q n a usam para entregar a um destinatario longe, de vez de criar ele num lugar ja util || resolvido (eu acho)
         }
     }
 }

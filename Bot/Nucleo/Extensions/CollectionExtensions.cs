@@ -7,9 +7,9 @@ namespace Bot.Nucleo.Extensions
 {
     public static class CollectionExtensions
     {
-        public static string GetFirst(this IReadOnlyCollection<ulong> collection)
+        public static ulong GetFirst(this IReadOnlyCollection<ulong> collection)
         {
-            return collection.ElementAt(0).ToString();
+            return collection.ElementAt(0);
         }
     }
 }

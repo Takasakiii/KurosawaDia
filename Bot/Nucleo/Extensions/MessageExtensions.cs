@@ -25,21 +25,20 @@ namespace Bot.Nucleo.Extensions
             Task.Run(async () => 
             {
                 await Task.Delay(seconds * 1000).ConfigureAwait(false);
-                try { await msg.DeleteAsync().ConfigureAwait(false); }
-                catch { } // <- Exeption erronea sem tratamento (erro grave)
+                await msg.DeleteAsync().ConfigureAwait(false);// <- Exeption erronea sem tratamento (erro grave) || resolvida
             });
             return msg;
         }
 
         public static SocketUser GetUser(this CommandContext context, DiscordSocketClient client, string[] comando)
         {
-            string UserId = ""; //Falta um modelo pra Usuario 
+            ulong UserId; //Falta um modelo pra Usuario 
 
             try
             {
                 try
                 {
-                    UserId = client.GetUser(Convert.ToUInt64(comando[1])).Id.ToString();
+                    UserId = client.GetUser(Convert.ToUInt64(comando[1])).Id;
                 }
                 catch
                 {
@@ -48,12 +47,12 @@ namespace Bot.Nucleo.Extensions
             }
             catch
             {
-                UserId = context.User.Id.ToString();
+                UserId = context.User.Id;
             }
 
-           return client.GetUser(Convert.ToUInt64(UserId));
+           return client.GetUser(UserId);
             
-            //se vc trabalha com userid em uint64 em maioria pq esta em string (grave erro de otimização)
+            //se vc trabalha com userid em uint64 em maioria pq esta em string (grave erro de otimização) || resolvido (eu acho)
         }
     }
 }

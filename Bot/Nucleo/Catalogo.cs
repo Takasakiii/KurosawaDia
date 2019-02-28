@@ -11,7 +11,7 @@ namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando, WeebClient weebClient)
+        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando)
         {
             switch(comando[0])
             {
@@ -22,10 +22,10 @@ namespace Bot.Nucleo
                     await new Teste(contexto).Avatar(client, comando);
                     break;
                 case "hug":
-                    await new WeebCmds(contexto, comando).Hug(weebClient); //mano olha o quanto isso ai ta andando em 200 classes pra n ter usooooooo (erronea)
+                    await new weebCmds(contexto, comando).Hug(); //mano olha o quanto isso ai ta andando em 200 classes pra n ter usooooooo (erronea)
                     break;
                 case "weeb":
-                    await new WeebCmds(contexto, comando).Weeb(weebClient, comando); // dnv aki
+                    await new weebCmds(contexto, comando).Weeb(comando); // dnv aki
                     break;
             }
         }

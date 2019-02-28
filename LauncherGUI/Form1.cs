@@ -1,4 +1,5 @@
 ﻿using Bot;
+using Bot.Nucleo.Modulos.WeebCmds;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +38,7 @@ namespace LauncherGUI
         {
             if(txtToken.Text != null && txtPrefix.Text != null && txtWeeb != null)
             {
-               core.Iniciar(txtToken.Text, txtPrefix.Text, txtWeeb.Text);
+                core.Async(txtToken.Text, txtPrefix.Text).GetAwaiter().GetResult();
             } else
             {
                 MessageBox.Show("O token ou o prefixo eh invalido");
@@ -58,7 +59,8 @@ namespace LauncherGUI
             GUI(true);
             core.DesligarAsync();
             t.Abort();
-           if(t.IsAlive == true)
+
+            if (t.IsAlive == true)
             {
                 MessageBox.Show("A thred não foi Desligada");
             } else
