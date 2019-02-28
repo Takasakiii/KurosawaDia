@@ -16,3 +16,5 @@ namespace Bot.Nucleo.Modulos.WeebCmds
         //}
     }
 }
+
+//ok e obrigado pelo token kek
