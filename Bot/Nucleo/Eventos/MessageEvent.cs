@@ -12,7 +12,7 @@ namespace Bot.Nucleo.Eventos
     public class MessageEvent
     {
         private DiscordSocketClient client;
-        string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto???
+        string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto??? (¯\_(ツ)_/¯)
 
         public MessageEvent(DiscordSocketClient client, string prefix)
         {
