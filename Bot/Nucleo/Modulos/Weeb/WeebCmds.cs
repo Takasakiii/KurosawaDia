@@ -23,7 +23,7 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Hug()
         {
-            RandomData img = await weebClient.GetRandomAsync("hug", new string[] { }, FileType.Gif, false, NsfwSearch.False); //ja disse hj evite var??? || resolvida
+            RandomData img = await weebClient.GetRandomAsync("hug", new string[] { }, FileType.Gif, false, NsfwSearch.False);
 
             EmbedBuilder builder = new EmbedBuilder()
                 .WithImageUrl(img.Url)
@@ -40,7 +40,7 @@ namespace Bot.Nucleo.Modulos
                 if (comando[1] == "t" || comando[1] == "tipos")
                 {
                     TypesData tipos = await weebClient.GetTypesAsync();
-                    string[] tiposArr = tipos.Types.ToArray(); //enumetates n devem virar array (erro de otimização grave) || resolvido
+                    string[] tiposArr = tipos.Types.ToArray();
                     string txt = "";
 
                     for (int i = 0; i < tiposArr.Length; i++)
@@ -60,7 +60,7 @@ namespace Bot.Nucleo.Modulos
                 {
                     try
                     {
-                        RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False); //entao n preciso nem comentar ne?? || resolvido
+                        RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False);
 
                         EmbedBuilder builder = new EmbedBuilder()
                             .WithTitle(img.BaseType)
@@ -75,7 +75,7 @@ namespace Bot.Nucleo.Modulos
                     {
                         await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe");
                     }
-                } // default case nesse caso eh bem interessante XD
+                }
             } catch {
                 EmbedBuilder builder = new EmbedBuilder()
                     .WithTitle($"{context.User}")
@@ -88,3 +88,4 @@ namespace Bot.Nucleo.Modulos
         }
     }
 }
+//ok
