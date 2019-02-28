@@ -24,6 +24,6 @@ namespace Bot
             await client.StopAsync(); 
         }
         
-        //***ULTRAGRAVE*** n preciso nem comentar q essa classe possui um erro muito erroneo de otimização relacionada ao DiscordSocketCliente || resolvida (eu acho)
+        //ok
     }
 }
