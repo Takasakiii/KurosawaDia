@@ -129,6 +129,7 @@
             this.Controls.Add(this.lbToken);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.MaximizeBox = false;
             this.Name = "frGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

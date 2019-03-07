@@ -14,9 +14,9 @@ namespace Bot.Nucleo.Modulos
     public class weebCmds
     {
         CommandContext context;
-        WeebClient weebClient;
+        WeebClient weebClient = new WeebGen().weebClient;
 
-        public weebCmds(CommandContext context, string[] comando)
+        public weebCmds(CommandContext context)
         {
             this.context = context;
         }

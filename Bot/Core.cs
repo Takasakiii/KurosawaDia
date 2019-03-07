@@ -10,12 +10,13 @@ namespace Bot
     public class Core
     {
         DiscordSocketClient client;
-        public async Task Async(string token, string prefix)
+        public async Task Async(Tokens tk)
         {
             client = new DiscordSocketClient();
-            new Nucleo.Eventos.MessageEvent(client, prefix);
-            await client.LoginAsync(Discord.TokenType.Bot, token);
+            new Nucleo.Eventos.MessageEvent(client, tk.prefix);
+            await client.LoginAsync(Discord.TokenType.Bot, tk.botToken);
             await client.StartAsync();
+            await client.SetGameAsync("Flores");
             await Task.Delay(-1);
         }
 

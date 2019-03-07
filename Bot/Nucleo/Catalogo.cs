@@ -16,16 +16,16 @@ namespace Bot.Nucleo
             switch(comando[0])
             {
                 case "ping":
-                    await new Teste(contexto).Ping(client);
+                    await new Utility(contexto).Ping(client);
                     break;
                 case "avatar":
-                    await new Teste(contexto).Avatar(client, comando);
+                    await new Utility(contexto).Avatar(client, comando);
                     break;
                 case "hug":
-                    await new weebCmds(contexto, comando).Hug();
+                    await new weebCmds(contexto).Hug();
                     break;
                 case "weeb":
-                    await new weebCmds(contexto, comando).Weeb(comando); 
+                    await new weebCmds(contexto).Weeb(comando); 
                     break;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Bot;
+using Bot.Modelos;
 using Bot.Nucleo.Modulos.WeebCmds;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,12 @@ namespace LauncherGUI
         {
             if(txtToken.Text != null && txtPrefix.Text != null && txtWeeb != null)
             {
-                core.Async(txtToken.Text, txtPrefix.Text).GetAwaiter().GetResult();
+                Tokens tk = new Tokens();
+                tk.botToken = txtToken.Text;
+                tk.prefix = txtPrefix.Text;
+                tk.weebToken = txtWeeb.Text;
+
+                core.Async(tk).GetAwaiter().GetResult();
             } else
             {
                 MessageBox.Show("O token ou o prefixo eh invalido");

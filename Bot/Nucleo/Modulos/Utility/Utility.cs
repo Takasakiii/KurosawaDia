@@ -12,11 +12,11 @@ using Weeb.net;
 
 namespace Bot.Nucleo.Modulos
 {
-    public class Teste
+    public class Utility
     {
         CommandContext context;
 
-        public Teste(CommandContext context)
+        public Utility(CommandContext context)
         {
             this.context = context;
         }
@@ -24,7 +24,7 @@ namespace Bot.Nucleo.Modulos
         public async Task Ping(DiscordSocketClient client)
         {
             Stopwatch sw = Stopwatch.StartNew(); 
-            IUserMessage msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);a
+            IUserMessage msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
             sw.Stop();
             msg.DeleteAfter(0);
 
@@ -46,5 +46,12 @@ namespace Bot.Nucleo.Modulos
 
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
         }
+
+        //public async Task Video()
+        //{
+            
+
+        //    await context.Channel.SendMessageAsync().ConfigureAwait(false);
+        //}
     }
 }
