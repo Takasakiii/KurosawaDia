@@ -21,7 +21,7 @@ namespace Bot.Nucleo.Modulos
             this.context = context;
         }
 
-        public async Task Ping(DiscordSocketClient client)
+        public async Task Ping()
         {
             Stopwatch sw = Stopwatch.StartNew(); 
             IUserMessage msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
@@ -47,11 +47,17 @@ namespace Bot.Nucleo.Modulos
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
         }
 
-        //public async Task Video()
-        //{
-            
+        public async Task WebCam()
+        {
+            SocketGuildUser usr = context.User as SocketGuildUser;
 
-        //    await context.Channel.SendMessageAsync().ConfigureAwait(false);
-        //}
+            if(usr.VoiceChannel != null)
+            {
+                await context.SendConfirmAsync($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam");
+            } else
+            {
+                await context.SendErrorAsync("você precisa estar em um canal de voz para usar esse comando");
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Bot.Nucleo
             switch(comando[0])
             {
                 case "ping":
-                    await new Utility(contexto).Ping(client);
+                    await new Utility(contexto).Ping();
                     break;
                 case "avatar":
                     await new Utility(contexto).Avatar(client, comando);
@@ -26,6 +26,9 @@ namespace Bot.Nucleo
                     break;
                 case "weeb":
                     await new weebCmds(contexto).Weeb(comando); 
+                    break;
+                case "webcam":
+                    await new Utility(contexto).WebCam();
                     break;
             }
         }
