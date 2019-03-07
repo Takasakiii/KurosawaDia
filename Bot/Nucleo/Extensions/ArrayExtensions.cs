@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Bot.Nucleo.Extensions
 {
-    public static class ArrayExtensions
+    public static class ArrayExtensions //bbbbbbbbbb
     {
-        public static string GetRandom(this string[] arr)
+        public static string GetRandom(this string[] arr) // ai essa doeu
         {
             Random rand = new Random();
             int i = rand.Next(arr.Length);

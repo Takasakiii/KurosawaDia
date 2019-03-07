@@ -31,11 +31,13 @@ namespace Bot.Nucleo.Modulos
             Embed embed = builder.Build();
 
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+
+            //geneneralizar
         }
 
         public async Task Weeb(string[] comando)
         {
-            if(context.User.Id == 368280970102833153)
+            if(context.User.Id == 368280970102833153) //constante
             {
                 try
                 {
@@ -57,6 +59,8 @@ namespace Bot.Nucleo.Modulos
                             .WithOkColor();
                         Embed embed = builder.Build();
                         await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+
+                        //generalizar kun
                     }
                     else if (comando[1] == "g" || comando[1] == "get")
                     {
@@ -72,12 +76,15 @@ namespace Bot.Nucleo.Modulos
                             Embed embed = builder.Build();
 
                             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                            //adivinha kun
                         }
                         catch
                         {
-                            await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe");
+                            await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe"); //n use o formater se vc n tem item a formatar
                         }
                     }
+
+                    //execessao default cairia bem
                 }
                 catch
                 {
@@ -88,6 +95,7 @@ namespace Bot.Nucleo.Modulos
                     Embed embed = builder.Build();
 
                     await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                    //.
                 }
             } else
             {
@@ -97,4 +105,3 @@ namespace Bot.Nucleo.Modulos
         }
     }
 }
-//ok

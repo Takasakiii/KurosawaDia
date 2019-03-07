@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+//usingggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
 namespace Bot.Nucleo
 {
@@ -8,6 +9,5 @@ namespace Bot.Nucleo
     {
         public const uint cor = 0x660066;
         public const uint red = 0xcc0000;
-        //so de zoa vou por um submit so pra vc trancar kkkkkkkkkkkkk
     }
 }

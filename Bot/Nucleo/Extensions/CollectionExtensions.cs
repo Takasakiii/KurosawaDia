@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bot.Nucleo.Extensions
 {
-    public static class CollectionExtensions
+    public static class CollectionExtensions //aaaaaaaaaa
     {
         public static ulong GetFirst(this IReadOnlyCollection<ulong> collection)
         {
@@ -13,4 +13,4 @@ namespace Bot.Nucleo.Extensions
         }
     }
 }
-//ok
+

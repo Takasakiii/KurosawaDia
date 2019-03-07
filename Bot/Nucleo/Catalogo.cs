@@ -11,7 +11,7 @@ namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando)
+        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando) //ja disse na classe q vc chama esse metodo e copie mas copie certo n os erros
         {
             switch(comando[0])
             {

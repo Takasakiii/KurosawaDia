@@ -24,7 +24,5 @@ namespace Bot
         {
             await client.StopAsync(); 
         }
-        
-        //ok
     }
 }

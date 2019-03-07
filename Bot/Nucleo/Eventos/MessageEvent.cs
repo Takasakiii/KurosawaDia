@@ -10,9 +10,8 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private DiscordSocketClient client;
-        string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto??? (¯\_(ツ)_/¯)
-
+        private DiscordSocketClient client; // n eh dependencia de todos os metodos
+        string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto??? (¯\_(ツ)_/¯)(¯\_(ツ)_/¯)
         public MessageEvent(DiscordSocketClient client, string prefix)
         {
             client.MessageReceived += MessageRecived;
@@ -22,12 +21,12 @@ namespace Bot.Nucleo.Eventos
 
         public async Task MessageRecived(SocketMessage socket)
         {
-            var msg = socket as SocketUserMessage;
+            var msg = socket as SocketUserMessage; //vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
             if (msg == null) return;
             int argPos = 0;
             string[] comando;
             string tratada = "";
-            var context = new CommandContext(client, msg);
+            var context = new CommandContext(client, msg); //its a var mother fucker?????
             //alem de ser uma variavel replicada desnecessaria como disse acima esse dado devia estar vinculado com seu propria classe || Resolvido
 
             if(msg.HasStringPrefix(prefix, ref argPos))
@@ -40,7 +39,8 @@ namespace Bot.Nucleo.Eventos
             }
 
             comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, client, socket, comando); //vc ta puxando um objeto inteiro entre varias classes q n a usam para entregar a um destinatario longe, de vez de criar ele num lugar ja util || resolvido (eu acho)
+            await new Catalogo().IrComando(context, client, socket, comando); //Client participa de context então chamada n eh valida, obs 2: segundo que poderia ter uma sobrecarga pra quando nem todos
+            //os parametros estejam em uso
         }
     }
 }
