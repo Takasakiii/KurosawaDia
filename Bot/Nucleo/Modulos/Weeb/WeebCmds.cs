@@ -35,55 +35,64 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Weeb(string[] comando)
         {
-            try
+            if(context.User.Id == 368280970102833153)
             {
-                if (comando[1] == "t" || comando[1] == "tipos")
+                try
                 {
-                    TypesData tipos = await weebClient.GetTypesAsync();
-                    string[] tiposArr = tipos.Types.ToArray();
-                    string txt = "";
-
-                    for (int i = 0; i < tiposArr.Length; i++)
+                    if (comando[1] == "t" || comando[1] == "tipos")
                     {
-                        txt += $"`{tiposArr[i]}`, ";
-                    }
+                        TypesData tipos = await weebClient.GetTypesAsync();
+                        string[] tiposArr = tipos.Types.ToArray();
+                        string txt = "";
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                        .WithTitle($"{context.User} Esses são os tipos de gifs:")
-                        .WithDescription(txt)
-                        .WithFooter("Use 'weeb g <tipo>  |  para pegar o gif")
-                        .WithOkColor();
-                    Embed embed = builder.Build();
-                    await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-                }
-                else if (comando[1] == "g" || comando[1] == "get")
-                {
-                    try
-                    {
-                        RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False);
+                        for (int i = 0; i < tiposArr.Length; i++)
+                        {
+                            txt += $"`{tiposArr[i]}`, ";
+                        }
 
                         EmbedBuilder builder = new EmbedBuilder()
-                            .WithTitle(img.BaseType)
-                            .WithUrl(img.Url)
-                            .WithImageUrl(img.Url)
+                            .WithTitle($"{context.User} Esses são os tipos de gifs:")
+                            .WithDescription(txt)
+                            .WithFooter("Use 'weeb g <tipo>  |  para pegar o gif")
                             .WithOkColor();
                         Embed embed = builder.Build();
-
                         await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
                     }
-                    catch
+                    else if (comando[1] == "g" || comando[1] == "get")
                     {
-                        await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe");
+                        try
+                        {
+                            RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False);
+
+                            EmbedBuilder builder = new EmbedBuilder()
+                                .WithTitle(img.BaseType)
+                                .WithUrl(img.Url)
+                                .WithImageUrl(img.Url)
+                                .WithOkColor();
+                            Embed embed = builder.Build();
+
+                            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe");
+                        }
                     }
                 }
-            } catch {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .WithTitle($"{context.User}")
-                    .WithDescription("`'weeb t` para ver os tipos,\n`'weeb g <tipo>` para pegar o gif do tipo")
-                    .WithErrorColor();
-                Embed embed = builder.Build();
+                catch
+                {
+                    EmbedBuilder builder = new EmbedBuilder()
+                        .WithTitle($"{context.User}")
+                        .WithDescription("`'weeb t` para ver os tipos,\n`'weeb g <tipo>` para pegar o gif do tipo")
+                        .WithErrorColor();
+                    Embed embed = builder.Build();
 
-                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false); 
+                    await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                }
+            } else
+            {
+                await context.SendErrorAsync("você não pode user esse comando");
+                return;
             }
         }
     }
