@@ -1,4 +1,5 @@
 ﻿using Bot.Nucleo.Modulos;
+using Bot.Nucleo.Modulos.Owner;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -16,7 +17,7 @@ namespace Bot.Nucleo
             switch(comando[0])
             {
                 case "ping":
-                    await new Utility(contexto).Ping();
+                    await new Owner(contexto).Ping();
                     break;
                 case "avatar":
                     await new Utility(contexto).Avatar(client, comando);

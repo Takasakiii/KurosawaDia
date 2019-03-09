@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bot.Modelos;
-using Discord;
 using Discord.WebSocket;
-using Weeb.net;
 
 namespace Bot
 {

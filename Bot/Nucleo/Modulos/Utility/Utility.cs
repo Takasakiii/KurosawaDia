@@ -2,13 +2,7 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Weeb.net;
 
 namespace Bot.Nucleo.Modulos
 {
@@ -20,19 +14,6 @@ namespace Bot.Nucleo.Modulos
         {
             this.context = context;
         }
-
-        //coerencia
-        public async Task Ping()
-        {
-            Stopwatch sw = Stopwatch.StartNew(); 
-            IUserMessage msg = await context.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
-            sw.Stop();
-            msg.DeleteAfter(0);
-            
-            await context.SendConfirmAsync($"🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
-            //ve sa porra 
-        }
-
 
         public async Task Avatar(DiscordSocketClient client, string[] comando)
         {
