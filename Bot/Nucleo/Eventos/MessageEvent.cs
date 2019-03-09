@@ -1,10 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Weeb.net;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -21,13 +17,12 @@ namespace Bot.Nucleo.Eventos
 
         public async Task MessageRecived(SocketMessage socket)
         {
-            var msg = socket as SocketUserMessage; //vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+            SocketUserMessage msg = socket as SocketUserMessage;
             if (msg == null) return;
             int argPos = 0;
             string[] comando;
             string tratada = "";
-            var context = new CommandContext(client, msg); //its a var mother fucker?????
-            //alem de ser uma variavel replicada desnecessaria como disse acima esse dado devia estar vinculado com seu propria classe || Resolvido
+            CommandContext context = new CommandContext(client, msg);
 
             if(msg.HasStringPrefix(prefix, ref argPos))
             {
@@ -39,7 +34,7 @@ namespace Bot.Nucleo.Eventos
             }
 
             comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, client, socket, comando); //Client participa de context então chamada n eh valida, obs 2: segundo que poderia ter uma sobrecarga pra quando nem todos
+            await new Catalogo().IrComando(context, comando); //Client participa de context então chamada n eh valida, obs 2: segundo que poderia ter uma sobrecarga pra quando nem todos
             //os parametros estejam em uso
         }
     }

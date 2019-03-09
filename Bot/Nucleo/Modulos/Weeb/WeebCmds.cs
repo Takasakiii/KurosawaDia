@@ -80,7 +80,7 @@ namespace Bot.Nucleo.Modulos
                         }
                         catch
                         {
-                            await context.SendErrorAsync($"você não me disse o tipo de gif ou esse tipo não existe"); //n use o formater se vc n tem item a formatar
+                            await context.SendErrorAsync("você não me disse o tipo de gif ou esse tipo não existe");
                         }
                     }
 

@@ -12,7 +12,7 @@ namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, DiscordSocketClient client, SocketMessage sock, string[] comando) //ja disse na classe q vc chama esse metodo e copie mas copie certo n os erros
+        public async Task IrComando(CommandContext contexto, string[] comando) //ja disse na classe q vc chama esse metodo e copie mas copie certo n os erros
         {
             switch(comando[0])
             {
@@ -20,7 +20,7 @@ namespace Bot.Nucleo
                     await new Owner(contexto).Ping();
                     break;
                 case "avatar":
-                    await new Utility(contexto).Avatar(client, comando);
+                    await new Utility(contexto).Avatar(comando);
                     break;
                 case "hug":
                     await new weebCmds(contexto).Hug();

@@ -29,29 +29,5 @@ namespace Bot.Nucleo.Extensions
             });
             return msg;
         }
-
-        public static SocketUser GetUser(this CommandContext context, DiscordSocketClient client, string[] comando) //thistaic this?
-        {
-            ulong UserId; //Falta um modelo pra Usuario (¯\_(ツ)_/¯)(¯\_(ツ)_/¯)
-            try
-            {
-                try
-                {
-                    UserId = client.GetUser(Convert.ToUInt64(comando[1])).Id;
-                }
-                catch
-                {
-                    UserId = context.Message.MentionedUserIds.GetFirst();
-                }
-            }
-            catch
-            {
-                UserId = context.User.Id;
-            }
-            //refaz
-           return client.GetUser(UserId);
-            
-            
-        }
     }
 }

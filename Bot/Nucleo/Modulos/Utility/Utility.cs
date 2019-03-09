@@ -15,11 +15,10 @@ namespace Bot.Nucleo.Modulos
             this.context = context;
         }
 
-        public async Task Avatar(DiscordSocketClient client, string[] comando)
+        public async Task Avatar(string[] comando)
         {
-            SocketUser user = context.GetUser(client, comando);
 
-            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl(); //mais um dado do Objeto usuario (criar) souto (¯\_(ツ)_/¯)(¯\_(ツ)_/¯)
+            string avatarUrl = "aa";
 
             EmbedBuilder builder = new EmbedBuilder()
                 .WithAuthor($"{user}")
