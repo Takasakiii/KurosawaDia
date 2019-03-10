@@ -2,6 +2,7 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
 using System.Threading.Tasks;
 
 namespace Bot.Nucleo.Modulos
@@ -17,8 +18,16 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Avatar(string[] comando)
         {
+            IUser user;
+            try
+            {
+                user = await context.Client.GetUserAsync(Convert.ToUInt64(comando[1])) ?? await context.Client.GetUserAsync(context.Message.MentionedUserIds.First());
+            } catch
+            {
+                user = context.User;
+            }
+            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-            string avatarUrl = "aa";
 
             EmbedBuilder builder = new EmbedBuilder()
                 .WithAuthor($"{user}")

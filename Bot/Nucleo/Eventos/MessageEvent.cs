@@ -18,6 +18,7 @@ namespace Bot.Nucleo.Eventos
         public async Task MessageRecived(SocketMessage socket)
         {
             SocketUserMessage msg = socket as SocketUserMessage;
+            if (msg.Author.IsBot) return;
             if (msg == null) return;
             int argPos = 0;
             string[] comando;
@@ -34,8 +35,7 @@ namespace Bot.Nucleo.Eventos
             }
 
             comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, comando); //Client participa de context então chamada n eh valida, obs 2: segundo que poderia ter uma sobrecarga pra quando nem todos
-            //os parametros estejam em uso
+            await new Catalogo().IrComando(context, comando);
         }
     }
 }

@@ -1,18 +1,13 @@
 ﻿using Bot.Nucleo.Modulos;
 using Bot.Nucleo.Modulos.Owner;
 using Discord.Commands;
-using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Weeb.net;
 
 namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, string[] comando) //ja disse na classe q vc chama esse metodo e copie mas copie certo n os erros
+        public async Task IrComando(CommandContext contexto, string[] comando)
         {
             switch(comando[0])
             {
@@ -35,4 +30,3 @@ namespace Bot.Nucleo
         }
     }
 }
-//ok
