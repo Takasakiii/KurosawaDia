@@ -21,7 +21,13 @@ namespace Bot.Nucleo.Modulos
             IUser user;
             try
             {
-                user = await context.Client.GetUserAsync(Convert.ToUInt64(comando[1])) ?? await context.Client.GetUserAsync(context.Message.MentionedUserIds.First());
+                if (context.Message.MentionedUserIds.Count != 0)
+                {
+                    user = await context.Client.GetUserAsync(context.Message.MentionedUserIds.First());
+                } else
+                {
+                    user = await context.Client.GetUserAsync(Convert.ToUInt64(comando[1]));
+                }
             } catch
             {
                 user = context.User;
