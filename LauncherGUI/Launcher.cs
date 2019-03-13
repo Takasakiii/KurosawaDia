@@ -6,12 +6,12 @@ using System.Windows.Forms;
 
 namespace LauncherGUI
 {
-    public partial class frGUI : Form
+    public partial class launcherGUI : Form
     {
         private Thread t;
         Core core = new Core(); // n eh um objeto geral de todos os metodos¯\_(ツ)_/¯¯\_(ツ)_/¯
 
-        public frGUI()
+        public launcherGUI()
         {
             InitializeComponent();
         }

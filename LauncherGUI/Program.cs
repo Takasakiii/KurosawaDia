@@ -16,7 +16,7 @@ namespace LauncherGUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frGUI());
+            Application.Run(new launcherGUI());
         }
     }
 }

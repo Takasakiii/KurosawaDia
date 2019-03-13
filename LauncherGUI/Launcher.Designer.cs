@@ -1,6 +1,6 @@
 ﻿namespace LauncherGUI
 {
-    partial class frGUI
+    partial class launcherGUI
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frGUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(launcherGUI));
             this.lbToken = new System.Windows.Forms.Label();
             this.txtToken = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
@@ -114,10 +114,11 @@
             this.btDesligar.UseVisualStyleBackColor = true;
             this.btDesligar.Click += new System.EventHandler(this.btDesligar_Click);
             // 
-            // frGUI
+            // launcherGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(427, 122);
             this.Controls.Add(this.btDesligar);
             this.Controls.Add(this.txtWeeb);
@@ -131,9 +132,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.MaximizeBox = false;
-            this.Name = "frGUI";
+            this.Name = "launcherGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Iniciador";
+            this.Text = "Ayura Launcher";
             this.ResumeLayout(false);
             this.PerformLayout();
 
