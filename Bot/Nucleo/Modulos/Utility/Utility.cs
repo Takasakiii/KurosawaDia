@@ -1,8 +1,8 @@
-﻿using Bot.Nucleo.Extensions;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bot.Nucleo.Modulos
@@ -23,7 +23,7 @@ namespace Bot.Nucleo.Modulos
             {
                 if (context.Message.MentionedUserIds.Count != 0)
                 {
-                    user = await context.Client.GetUserAsync(context.Message.MentionedUserIds.First());
+                    user = await context.Client.GetUserAsync(context.Message.MentionedUserIds.ElementAt(0));
                 } else
                 {
                     user = await context.Client.GetUserAsync(Convert.ToUInt64(comando[1]));
@@ -38,8 +38,7 @@ namespace Bot.Nucleo.Modulos
             EmbedBuilder builder = new EmbedBuilder()
                 .WithAuthor($"{user}")
                 .WithDescription($"[Link Direto]({avatarUrl})")
-                .WithImageUrl(avatarUrl)
-                .WithOkColor();
+                .WithImageUrl(avatarUrl);
             Embed embed = builder.Build();
 
             await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
@@ -53,10 +52,18 @@ namespace Bot.Nucleo.Modulos
 
             if(usr.VoiceChannel != null)
             {
-                await context.SendConfirmAsync($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam");
+                EmbedBuilder builder = new EmbedBuilder()
+                    .WithDescription($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam");
+                Embed embed = builder.Build();
+
+                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
             } else
             {
-                await context.SendErrorAsync("você precisa estar em um canal de voz para usar esse comando");
+                EmbedBuilder builder = new EmbedBuilder()
+                    .WithDescription("você precisa estar em um canal de voz para usar esse comando");
+                Embed embed = builder.Build();
+
+                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
             }
         }
     }

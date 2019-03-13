@@ -1,4 +1,4 @@
-﻿using Bot.Nucleo.Extensions;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
@@ -17,7 +17,11 @@ namespace Bot.Nucleo.Modulos.Owner
         public async Task Ping()
         {
             DiscordSocketClient client = context.Client as DiscordSocketClient;
-            await context.SendConfirmAsync($" meu ping é {client.Latency}ms").ConfigureAwait(false);
+            EmbedBuilder builder = new EmbedBuilder()
+                 .WithDescription($" meu ping é {client.Latency}ms");
+           Embed embed = builder.Build();
+
+            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
         }
     }
 }
