@@ -35,7 +35,7 @@ namespace Bot.Nucleo.Eventos
             }
 
             comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, comando);
+            await new Catalogo().IrComando(context, comando, config);
         }
     }
 }

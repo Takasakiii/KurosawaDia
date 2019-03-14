@@ -1,4 +1,5 @@
-﻿using Bot.Nucleo.Modulos.WeebCmds;
+﻿using Bot.Modelos;
+using Bot.Nucleo.Modulos.WeebCmds;
 using Discord;
 using Discord.Commands;
 using System;
@@ -13,11 +14,13 @@ namespace Bot.Nucleo.Modulos
     public class weebCmds
     {
         CommandContext context;
+        AyuraConfig config;
         WeebClient weebClient = new WeebGen().weebClient;
 
-        public weebCmds(CommandContext context)
+        public weebCmds(CommandContext context, AyuraConfig config)
         {
             this.context = context;
+            this.config = config;
         }
 
         public async Task Hug()
@@ -35,7 +38,7 @@ namespace Bot.Nucleo.Modulos
 
         public async Task Weeb(string[] comando)
         {
-            if(context.User.Id == 368280970102833153) //constante
+            if(context.User.Id == Convert.ToUInt64(config.ownerId))
             {
                 try
                 {
@@ -49,15 +52,12 @@ namespace Bot.Nucleo.Modulos
                         {
                             txt += $"`{tiposArr[i]}`, ";
                         }
-
-                        EmbedBuilder builder = new EmbedBuilder()
-                            .WithTitle($"{context.User} Esses são os tipos de gifs:")
-                            .WithDescription(txt)
-                            .WithFooter("Use 'weeb g <tipo>  |  para pegar o gif");
-                        Embed embed = builder.Build();
-                        await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-
-                        //generalizar kun
+                        await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithColor(Color.DarkPurple)
+                                .WithTitle($"{context.User} Esses são os tipos de gifs:")
+                                .WithDescription(txt)
+                                .WithFooter("Use 'weeb g <tipo>  |  para pegar o gif")
+                            .Build());
                     }
                     else if (comando[1] == "g" || comando[1] == "get")
                     {
@@ -65,22 +65,19 @@ namespace Bot.Nucleo.Modulos
                         {
                             RandomData img = await weebClient.GetRandomAsync(comando[2], new string[] { }, FileType.Gif, false, NsfwSearch.False);
 
-                            EmbedBuilder builder = new EmbedBuilder()
-                                .WithTitle(img.BaseType)
-                                .WithUrl(img.Url)
-                                .WithImageUrl(img.Url);
-                            Embed embed = builder.Build();
-
-                            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-                            //adivinha kun
+                            await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.DarkPurple)
+                                    .WithTitle(img.BaseType)
+                                    .WithUrl(img.Url)
+                                    .WithImageUrl(img.Url)
+                                .Build());
                         }
                         catch
                         {
-                            EmbedBuilder builder = new EmbedBuilder()
-                                .WithDescription($"**{context.User}** você não me disse o tipo de gif ou esse tipo não existe");
-                            Embed embed = builder.Build();
-
-                            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                            await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Red)
+                                    .WithDescription($"**{context.User}** você não me disse o tipo de gif ou esse tipo não existe")
+                                .Build());
                         }
                     }
 
@@ -88,22 +85,18 @@ namespace Bot.Nucleo.Modulos
                 }
                 catch
                 {
-                    EmbedBuilder builder = new EmbedBuilder()
-                        .WithTitle($"{context.User}")
-                        .WithDescription("`'weeb t` para ver os tipos,\n`'weeb g <tipo>` para pegar o gif do tipo");
-                    Embed embed = builder.Build();
-
-                    await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-                    //.
+                    await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithColor(Color.DarkPurple)
+                            .WithTitle($"{context.User}")
+                            .WithDescription("`'weeb t` para ver os tipos,\n`'weeb g <tipo>` para pegar o gif do tipo")
+                        .Build());
                 }
             } else
             {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .WithDescription($"**{context.User}** você não pode usar esse comando");
-                Embed embed = builder.Build();
-
-                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-                return;
+                await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.Red)
+                        .WithDescription($"**{context.User}** você não pode usar esse comando")
+                    .Build());
             }
         }
     }

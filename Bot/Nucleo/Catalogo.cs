@@ -1,4 +1,5 @@
-﻿using Bot.Nucleo.Modulos;
+﻿using Bot.Modelos;
+using Bot.Nucleo.Modulos;
 using Bot.Nucleo.Modulos.Owner;
 using Discord.Commands;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace Bot.Nucleo
 {
     public class Catalogo
     {
-        public async Task IrComando(CommandContext contexto, string[] comando)
+        public async Task IrComando(CommandContext contexto, string[] comando, AyuraConfig config)
         {
             switch(comando[0])
             {
@@ -18,10 +19,10 @@ namespace Bot.Nucleo
                     await new Utility(contexto).Avatar(comando);
                     break;
                 case "hug":
-                    await new weebCmds(contexto).Hug();
+                    await new weebCmds(contexto, config).Hug();
                     break;
                 case "weeb":
-                    await new weebCmds(contexto).Weeb(comando); 
+                    await new weebCmds(contexto, config).Weeb(comando); 
                     break;
                 case "webcam":
                     await new Utility(contexto).WebCam();

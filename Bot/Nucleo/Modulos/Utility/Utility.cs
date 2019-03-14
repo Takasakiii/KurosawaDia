@@ -34,36 +34,30 @@ namespace Bot.Nucleo.Modulos
             }
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-
-            EmbedBuilder builder = new EmbedBuilder()
+            await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithColor(Color.DarkPurple)
                 .WithAuthor($"{user}")
                 .WithDescription($"[Link Direto]({avatarUrl})")
-                .WithImageUrl(avatarUrl);
-            Embed embed = builder.Build();
-
-            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
-
-            //generalizar
+                .WithImageUrl(avatarUrl)
+            .Build());
         }
 
         public async Task WebCam()
         {
             SocketGuildUser usr = context.User as SocketGuildUser;
 
-            if(usr.VoiceChannel != null)
+            if(!context.IsPrivate && usr.VoiceChannel != null)
             {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .WithDescription($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam");
-                Embed embed = builder.Build();
-
-                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.DarkPurple)
+                        .WithDescription($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam")
+                .Build());
             } else
             {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .WithDescription("você precisa estar em um canal de voz para usar esse comando");
-                Embed embed = builder.Build();
-
-                await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+                await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.Red)
+                        .WithDescription("você precisa estar em um canal de voz e em um servidor para usar esse comando")
+                .Build());
             }
         }
     }
