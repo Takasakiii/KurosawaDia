@@ -33,7 +33,7 @@
             this.txtLocal = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
             this.btLocal = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -73,10 +73,9 @@
             this.btLocal.UseVisualStyleBackColor = true;
             this.btLocal.Click += new System.EventHandler(this.BtLocal_Click);
             // 
-            // openFileDialog1
+            // fdDBFinder
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
+            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.fdDBFinder_FileOk);
             // 
             // launcherGUI
             // 
@@ -107,7 +106,7 @@
         private System.Windows.Forms.TextBox txtLocal;
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Button btLocal;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog fdDBFinder;
     }
 }
 
