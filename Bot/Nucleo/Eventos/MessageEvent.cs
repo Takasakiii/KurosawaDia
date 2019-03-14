@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Bot.Modelos;
+using Discord.Commands;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
@@ -6,16 +7,15 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private DiscordSocketClient client; // n eh dependencia de todos os metodos
-        string prefix = ""; //se esse tado tem uma classe relacionada pq ele esta souto??? (¯\_(ツ)_/¯)(¯\_(ツ)_/¯)
-        public MessageEvent(DiscordSocketClient client, string prefix)
+        private readonly DiscordSocketClient client;
+        private readonly AyuraConfig config;
+        public MessageEvent(DiscordSocketClient client, AyuraConfig config)
         {
-            client.MessageReceived += MessageRecived;
             this.client = client;
-            this.prefix = prefix;
+            this.config = config;
         }
 
-        public async Task MessageRecived(SocketMessage socket)
+        public async Task MessageReceived(SocketMessage socket)
         {
             SocketUserMessage msg = socket as SocketUserMessage;
             if (msg.Author.IsBot) return;
@@ -25,9 +25,9 @@ namespace Bot.Nucleo.Eventos
             string tratada = "";
             CommandContext context = new CommandContext(client, msg);
 
-            if(msg.HasStringPrefix(prefix, ref argPos))
+            if(msg.HasStringPrefix(config.prefix, ref argPos))
             {
-                tratada = context.Message.Content.Substring(prefix.Length).ToLower();
+                tratada = context.Message.Content.Substring(config.prefix.Length).ToLower();
             }
             else if(msg.HasMentionPrefix(client.CurrentUser, ref argPos))
             {

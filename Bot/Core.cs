@@ -1,25 +1,35 @@
 ﻿using System.Threading.Tasks;
+using Bot.DAO;
 using Bot.Modelos;
+using Bot.Nucleo.Eventos;
 using Discord.WebSocket;
 
 namespace Bot
 {
     public class Core
     {
-        DiscordSocketClient client;
-        public async Task Async(Tokens tk)
+        private void CriarCliente()
         {
-            client = new DiscordSocketClient();
-            new Nucleo.Eventos.MessageEvent(client, tk.prefix);
-            await client.LoginAsync(Discord.TokenType.Bot, tk.botToken);
-            await client.StartAsync();
-            await client.SetGameAsync("Flores");
-            await Task.Delay(-1);
+            DiscordSocketClient client = new DiscordSocketClient();
+            AyuraConfig config = new AyuraConfig(2);
+            AyuraConfigDAO dao = new AyuraConfigDAO();
+            config = dao.Carregar(config);
+
+            client.MessageReceived += new MessageEvent(client, config).MessageReceived;
+
+            Iniciar(client, config).GetAwaiter().GetResult();
         }
 
-        public async void DesligarAsync()
+        private async Task Iniciar(DiscordSocketClient client, AyuraConfig ayuraConfig)
         {
-            await client.StopAsync(); 
+            await client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
+            await client.StartAsync();
+            await Task.Delay(-1);
+        }
+         
+        public void IniciarBot()
+        {
+            CriarCliente();
         }
     }
 }

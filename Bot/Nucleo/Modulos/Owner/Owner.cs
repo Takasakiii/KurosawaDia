@@ -17,11 +17,11 @@ namespace Bot.Nucleo.Modulos.Owner
         public async Task Ping()
         {
             DiscordSocketClient client = context.Client as DiscordSocketClient;
-            EmbedBuilder builder = new EmbedBuilder()
-                 .WithDescription($" meu ping é {client.Latency}ms");
-           Embed embed = builder.Build();
 
-            await context.Channel.SendMessageAsync("", embed: embed).ConfigureAwait(false);
+            await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithColor(Color.DarkPurple)
+                .WithDescription($" meu ping é {client.Latency}ms")
+                .Build());
         }
     }
 }
