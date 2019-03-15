@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot", "Bot\Bot.csproj", "{F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGUI", "LauncherGUI\WindowsGUI.csproj", "{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreGUI", "NetCoreGUI\NetCoreGUI.csproj", "{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
