@@ -1,8 +1,5 @@
 ﻿using Bot.Singletons;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
 
 namespace Bot.Constructors
 {

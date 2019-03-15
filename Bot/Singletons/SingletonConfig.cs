@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bot.Singletons
+﻿namespace Bot.Singletons
 {
     public static class SingletonConfig
     {

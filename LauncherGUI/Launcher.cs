@@ -1,6 +1,4 @@
 ﻿using Bot;
-using Bot.Modelos;
-using Discord.WebSocket;
 using System;
 using System.IO;
 using System.Threading;
@@ -13,6 +11,7 @@ namespace LauncherGUI
     public partial class launcherGUI : Form
     {
         private const string nomeArquivo = "dblocal.ayura";
+        private Thread botThread;
         public launcherGUI()
         {
             InitializeComponent();
@@ -53,12 +52,27 @@ namespace LauncherGUI
             SingletonConfig.localConfig = txtLocal.Text;
             try
             {
-                new Thread(() => new Core().IniciarBot()).Start();
+                botThread = new Thread(() => new Core().IniciarBot());
+                botThread.Start();
+
                 btIniciar.Enabled = false;
                 MessageBox.Show("O bot foi iniciado");
             } catch (Exception erro)
             {
                 MessageBox.Show($"Não foi possivel iniciar o bot: {erro}");
+            }
+        }
+
+        private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            botThread.Abort();
+
+            if(!botThread.IsAlive)
+            {
+                MessageBox.Show("O bot foi desligado");
+            } else
+            {
+                MessageBox.Show("A Thread do bot ainda esta ligada");
             }
         }
     }

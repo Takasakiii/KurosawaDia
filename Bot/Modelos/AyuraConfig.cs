@@ -3,10 +3,10 @@
     public class AyuraConfig
     {
         public string token { private set; get; }
-        public string prefix { private set; get; }
+        public char[] prefix { private set; get; }
         public string ownerId { private set; get; }
         public uint id { private set; get; }
-        public AyuraConfig(string token, string prefix, string ownerId, uint id)
+        public AyuraConfig(string token, char[] prefix, string ownerId, uint id)
         {
             this.token = token;
             this.prefix = prefix;
@@ -18,7 +18,7 @@
         {
             this.id = id;
         }
-        public void SetBotConfig(string token, string prefix, string ownerId)
+        public void SetBotConfig(string token, char[] prefix, string ownerId)
         {
             this.token = token;
             this.prefix = prefix;

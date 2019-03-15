@@ -3,38 +3,38 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bot.Nucleo.Modulos
 {
-    public class Utility
+    public class Utility : Owner.Owner
     {
-        CommandContext context;
-
-        public Utility(CommandContext context)
-        {
-            this.context = context;
-        }
-
-        public async Task Avatar(string[] comando)
+        public void avatar(CommandContext context, object[] args)
         {
             IUser user;
             try
             {
                 if (context.Message.MentionedUserIds.Count != 0)
                 {
-                    user = await context.Client.GetUserAsync(context.Message.MentionedUserIds.ElementAt(0));
-                } else
-                {
-                    user = await context.Client.GetUserAsync(Convert.ToUInt64(comando[1]));
+                    user = context.Client.GetUserAsync(context.Message.MentionedUserIds.ElementAt(0)).GetAwaiter().GetResult();
                 }
-            } catch
+                else
+                {
+                    string[] comando = (string[])args[1];
+                    user = context.Client.GetUserAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
+                }
+            }
+            catch
+            {
+                user = context.User;
+            }
+
+            if(user == null)
             {
                 user = context.User;
             }
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-            await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
                 .WithAuthor($"{user}")
                 .WithDescription($"[Link Direto]({avatarUrl})")
@@ -42,19 +42,20 @@ namespace Bot.Nucleo.Modulos
             .Build());
         }
 
-        public async Task WebCam()
+        public void webcam(CommandContext context, object[] args)
         {
             SocketGuildUser usr = context.User as SocketGuildUser;
 
-            if(!context.IsPrivate && usr.VoiceChannel != null)
+            if (!context.IsPrivate && usr.VoiceChannel != null)
             {
-                await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithDescription($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam")
                 .Build());
-            } else
+            }
+            else
             {
-                await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
                         .WithDescription("você precisa estar em um canal de voz e em um servidor para usar esse comando")
                 .Build());

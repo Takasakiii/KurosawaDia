@@ -1,41 +1,53 @@
 ﻿using Bot.Modelos;
+using Bot.Nucleo.Modulos;
 using Discord.Commands;
 using Discord.WebSocket;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private readonly DiscordSocketClient client;
         private readonly AyuraConfig config;
+        private readonly DiscordSocketClient client;
+
         public MessageEvent(DiscordSocketClient client, AyuraConfig config)
         {
             this.client = client;
             this.config = config;
         }
 
-        public async Task MessageReceived(SocketMessage socket)
+        public object CommandContex { get; private set; }
+
+        public async Task MessageRecived(SocketMessage mensagem)
         {
-            SocketUserMessage msg = socket as SocketUserMessage;
-            if (msg.Author.IsBot) return;
-            if (msg == null) return;
-            int argPos = 0;
-            string[] comando;
-            string tratada = "";
-            CommandContext context = new CommandContext(client, msg);
+            var lastClassCommand = new Utility();
 
-            if(msg.HasStringPrefix(config.prefix, ref argPos))
+            SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
+            CommandContext commandContex = new CommandContext(client, mensagemTratada);
+
+            if(!mensagem.Author.IsBot)
             {
-                tratada = context.Message.Content.Substring(config.prefix.Length).ToLower();
-            }
-            else if(msg.HasMentionPrefix(client.CurrentUser, ref argPos))
-            {
-                tratada = context.Message.Content.Substring(22).ToLower();
+                int argPos = 0;
+                if(mensagemTratada.HasStringPrefix(new string (config.prefix), ref argPos))
+                {
+                    string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
+
+                    string[] comando = messageSemPrefix.Split(' ');
+                    MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
+                    object instanced = lastClassCommand;
+                    object[] parametros = new object[2];
+                    parametros[0] = commandContex;
+                    object[] args = new object[2];
+                    args[0] = new string(config.prefix);
+                    args[1] = comando;
+                    parametros[1] = args;
+
+                    metodo.Invoke(instanced, parametros);
+                }
             }
 
-            comando = tratada.Split(' ');
-            await new Catalogo().IrComando(context, comando, config);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Bot
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
-            client.MessageReceived += new MessageEvent(client, config).MessageReceived;
+            client.MessageReceived += new MessageEvent(client, config).MessageRecived;
 
             Iniciar(client, config).GetAwaiter().GetResult();
         }
@@ -24,6 +24,7 @@ namespace Bot
         {
             await client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
             await client.StartAsync();
+            await client.SetGameAsync("Flores");
             await Task.Delay(-1);
         }
          

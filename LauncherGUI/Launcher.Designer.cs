@@ -94,6 +94,7 @@
             this.Name = "launcherGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ayura Launcher";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LauncherGUI_FormClosed);
             this.Load += new System.EventHandler(this.LauncherGUI_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

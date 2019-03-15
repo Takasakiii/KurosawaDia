@@ -1,9 +1,6 @@
 ﻿using Bot.Constructors;
 using Bot.Modelos;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
 
 namespace Bot.DAO
 {
@@ -20,7 +17,7 @@ namespace Bot.DAO
                 SQLiteDataReader rs = cmd.ExecuteReader();
                 if(rs.Read())
                 {
-                    ayuraConfig.SetBotConfig((string)rs["Token"], (string)rs["Prefix"], (string)rs["idDono"]);
+                    ayuraConfig.SetBotConfig((string)rs["token"], ((string)rs["prefix"]).ToCharArray(), (string)rs["idDono"]);
                 }
                 conexao.Close();
                 return ayuraConfig;
