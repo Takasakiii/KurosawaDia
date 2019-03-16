@@ -22,9 +22,9 @@ namespace Bot.Comandos
         {
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos")
-                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}webcam`, `{(string)args[0]}avatar`")
+                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}webcam`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`")
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`")
-                .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`")
+                .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}neko`")
                 .WithColor(Color.DarkPurple)
                 .Build();
 

@@ -61,5 +61,30 @@ namespace Bot.Nucleo.Modulos
                 .Build());
             }
         }
+
+        public void emote(CommandContext context, object[] args)
+        {
+            try
+            {
+                string[] comando = (string[])args[1];
+                Emote emote = Emote.Parse(comando[1]);
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                         .WithTitle(emote.Name)
+                         .WithUrl(emote.Url)
+                         .WithImageUrl(emote.Url)
+                         .WithColor(Color.DarkPurple)
+                     .Build());
+            }
+            catch
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription($"**{context.User}** o emoji que você tentou usar é inválido")
+                        .AddField("Uso do comando: ", $"`{(string)args[0]}emote emoji`")
+                        .AddField("Exemplo: ", $"`{(string)args[0]}emote :kanna:`")
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
     }
 }
