@@ -1,17 +1,14 @@
 ﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bot.Comandos
 {
-    public class Image
+    public class Image : Nsfw
     {
         public void neko(CommandContext context, object[] args)
         {
-            string url = new HttpExtension().GetSite("https://nekos.life/api/v2/img/neko", "url").GetAwaiter().GetResult();
+            string url = new HttpExtensions().GetSite("https://nekos.life/api/v2/img/neko", "url").GetAwaiter().GetResult();
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Nekos")
@@ -23,7 +20,7 @@ namespace Bot.Comandos
 
         public void cat(CommandContext context, object[] args)
         {
-            string url = new HttpExtension().GetSite("https://nekos.life/api/v2/img/meow", "url").GetAwaiter().GetResult();
+            string url = new HttpExtensions().GetSite("https://nekos.life/api/v2/img/meow", "url").GetAwaiter().GetResult();
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Meow")
@@ -35,7 +32,7 @@ namespace Bot.Comandos
 
         public void dog(CommandContext context, object[] args)
         {
-            string url = new HttpExtension().GetSite("https://random.dog/woof.json", "url").GetAwaiter().GetResult();
+            string url = new HttpExtensions().GetSite("https://random.dog/woof.json", "url").GetAwaiter().GetResult();
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Woof")

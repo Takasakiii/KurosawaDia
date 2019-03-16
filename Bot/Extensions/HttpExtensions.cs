@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bot.Extensions
 {
-    public class HttpExtension
+    public class HttpExtensions
     {
         public async Task<string> GetSite(string url, string parametro)
         {

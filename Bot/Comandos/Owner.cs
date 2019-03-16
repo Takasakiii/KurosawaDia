@@ -1,12 +1,7 @@
 ﻿using Bot.Comandos;
-using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Net;
 
 namespace Bot.Nucleo.Modulos.Owner
 {
