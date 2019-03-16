@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Bot.Comandos
 {
-    public class Ajuda
+    public class Ajuda : Image
     {
         public void ajuda(CommandContext context, object[] args)
         {
@@ -24,6 +24,7 @@ namespace Bot.Comandos
                 .WithTitle("Esses são os meus comandos")
                 .AddField("Comandos de Utilidades:", $"`{(string)args[0]}webcam`, `{(string)args[0]}avatar`")
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`")
+                .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`")
                 .WithColor(Color.DarkPurple)
                 .Build();
 
