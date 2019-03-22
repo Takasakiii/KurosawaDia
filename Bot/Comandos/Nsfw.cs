@@ -4,7 +4,7 @@ using Discord.Commands;
 
 namespace Bot.Comandos
 {
-    public class Nsfw
+    public class Nsfw : Weeb
     {
         public void hentai(CommandContext context, object[] args)
         {
@@ -12,7 +12,7 @@ namespace Bot.Comandos
             if (canal.IsNsfw)
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithImageUrl(new HttpExtensions().GetSite("https://nekobot.xyz/api/image?type=hentai", "message").GetAwaiter().GetResult())
+                        .WithImageUrl(new HttpExtensions().GetSite("https://nekobot.xyz/api/image?type=hentai", "message"))
                         .WithColor(Color.DarkPurple)
                     .Build());
             }

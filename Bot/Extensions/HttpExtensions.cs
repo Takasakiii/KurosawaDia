@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bot.Extensions
 {
     public class HttpExtensions
     {
-        public async Task<string> GetSite(string url, string parametro)
+        public string GetSite(string url, string parametro)
         {
             using (WebClient wc = new WebClient())
             {

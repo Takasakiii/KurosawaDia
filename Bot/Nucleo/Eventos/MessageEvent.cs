@@ -1,5 +1,6 @@
 ﻿using Bot.Modelos;
 using Bot.Nucleo.Modulos;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
@@ -34,17 +35,25 @@ namespace Bot.Nucleo.Eventos
                 {
                     string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
 
-                    string[] comando = messageSemPrefix.Split(' ');
-                    MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
-                    object instanced = lastClassCommand;
-                    object[] parametros = new object[2];
-                    parametros[0] = commandContex;
-                    object[] args = new object[2];
-                    args[0] = new string(config.prefix);
-                    args[1] = comando;
-                    parametros[1] = args;
+                    try
+                    {
+                        string[] comando = messageSemPrefix.Split(' ');
+                        MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
+                        object instanced = lastClassCommand;
+                        object[] parametros = new object[2];
+                        parametros[0] = commandContex;
+                        object[] args = new object[2];
+                        args[0] = new string(config.prefix);
+                        args[1] = comando;
+                        parametros[1] = args;
 
-                    metodo.Invoke(instanced, parametros);
+                        metodo.Invoke(instanced, parametros);
+                    } catch {
+                        await mensagem.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription($"**{mensagem.Author}** esse comando não existe use `{new string(config.prefix)}comandos` para ver os comandos")
+                                .WithColor(Color.DarkPurple)
+                            .Build());
+                    }
                 }
             }
 

@@ -11,7 +11,7 @@ namespace Bot
         private void CriarCliente()
         {
             DiscordSocketClient client = new DiscordSocketClient();
-            AyuraConfig config = new AyuraConfig(2);
+            AyuraConfig config = new AyuraConfig(1);
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 

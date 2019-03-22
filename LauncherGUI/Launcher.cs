@@ -65,15 +65,24 @@ namespace LauncherGUI
 
         private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
         {
-            botThread.Abort();
+            if(botThread != null)
+            {
+                botThread.Abort();
 
-            if(!botThread.IsAlive)
-            {
-                MessageBox.Show("O bot foi desligado");
-            } else
-            {
-                MessageBox.Show("A Thread do bot ainda esta ligada");
+                if (!botThread.IsAlive)
+                {
+                    MessageBox.Show("O bot foi desligado");
+                }
+                else
+                {
+                    MessageBox.Show("A Thread do bot ainda esta ligada");
+                }
             }
+        }
+
+        private void BtEdit_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

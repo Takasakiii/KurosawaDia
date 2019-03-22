@@ -34,6 +34,7 @@
             this.btIniciar = new System.Windows.Forms.Button();
             this.btLocal = new System.Windows.Forms.Button();
             this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
+            this.btEdit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -77,12 +78,23 @@
             // 
             this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.fdDBFinder_FileOk);
             // 
+            // btEdit
+            // 
+            this.btEdit.Location = new System.Drawing.Point(533, 9);
+            this.btEdit.Name = "btEdit";
+            this.btEdit.Size = new System.Drawing.Size(75, 23);
+            this.btEdit.TabIndex = 4;
+            this.btEdit.Text = "Editar DB";
+            this.btEdit.UseVisualStyleBackColor = true;
+            this.btEdit.Click += new System.EventHandler(this.BtEdit_Click);
+            // 
             // launcherGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(532, 42);
+            this.ClientSize = new System.Drawing.Size(614, 42);
+            this.Controls.Add(this.btEdit);
             this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtLocal);
@@ -108,6 +120,7 @@
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Button btLocal;
         private System.Windows.Forms.OpenFileDialog fdDBFinder;
+        private System.Windows.Forms.Button btEdit;
     }
 }
 

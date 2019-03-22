@@ -6,9 +6,10 @@ namespace Bot.Comandos
 {
     public class Image : Nsfw
     {
+        HttpExtensions http = new HttpExtensions();
         public void neko(CommandContext context, object[] args)
         {
-            string url = new HttpExtensions().GetSite("https://nekos.life/api/v2/img/neko", "url").GetAwaiter().GetResult();
+            string url = http.GetSite("https://nekos.life/api/v2/img/neko", "url");
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Nekos")
@@ -20,7 +21,7 @@ namespace Bot.Comandos
 
         public void cat(CommandContext context, object[] args)
         {
-            string url = new HttpExtensions().GetSite("https://nekos.life/api/v2/img/meow", "url").GetAwaiter().GetResult();
+            string url = http.GetSite("https://nekos.life/api/v2/img/meow", "url");
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Meow")
@@ -32,7 +33,7 @@ namespace Bot.Comandos
 
         public void dog(CommandContext context, object[] args)
         {
-            string url = new HttpExtensions().GetSite("https://random.dog/woof.json", "url").GetAwaiter().GetResult();
+            string url = http.GetSite("https://random.dog/woof.json", "url");
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Woof")
