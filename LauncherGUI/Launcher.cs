@@ -22,6 +22,7 @@ namespace LauncherGUI
             if(File.Exists(nomeArquivo))
             {
                 txtLocal.Text = File.ReadAllText(nomeArquivo);
+                btIniciar.Enabled = true;
             }
         }
 
@@ -38,6 +39,7 @@ namespace LauncherGUI
             } else
             {
                txtLocal.Text = fdDBFinder.FileName;
+               btIniciar.Enabled = true;
                if (File.Exists(nomeArquivo))
                {
                    File.Delete(nomeArquivo);
@@ -49,19 +51,20 @@ namespace LauncherGUI
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
-            SingletonConfig.localConfig = txtLocal.Text;
-            try
-            {
-                botThread = new Thread(() => new Core().IniciarBot());
-                botThread.Start();
+                SingletonConfig.localConfig = txtLocal.Text;
+                try
+                {
+                    botThread = new Thread(() => new Core().IniciarBot());
+                    botThread.Start();
 
-                btIniciar.Enabled = false;
-                MessageBox.Show("O bot foi iniciado");
-            } catch (Exception erro)
-            {
-                MessageBox.Show($"Não foi possivel iniciar o bot: {erro}");
-            }
-        }
+                    btIniciar.Enabled = false;
+                    MessageBox.Show("O bot foi iniciado");
+                }
+                catch (Exception erro)
+                {
+                    MessageBox.Show($"Não foi possivel iniciar o bot: {erro}");
+                }
+        } 
 
         private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -78,11 +81,6 @@ namespace LauncherGUI
                     MessageBox.Show("A Thread do bot ainda esta ligada");
                 }
             }
-        }
-
-        private void BtEdit_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

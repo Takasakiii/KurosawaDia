@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.Extensions;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -28,7 +29,7 @@ namespace Bot.Nucleo.Modulos
                 user = context.User;
             }
 
-            if(user == null)
+            if (user == null)
             {
                 user = context.User;
             }
