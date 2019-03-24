@@ -3,7 +3,7 @@ using Discord.Commands;
 
 namespace Bot.Comandos
 {
-    public class Weeb
+    public class Weeb : Moderacao
     {
         public void hug(CommandContext context, object[] args)
         {
