@@ -39,16 +39,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
+            this.label1.Location = new System.Drawing.Point(3, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(36, 13);
+            this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Local:";
+            this.label1.Text = "Local da db:";
             // 
             // txtLocal
             // 
             this.txtLocal.Enabled = false;
-            this.txtLocal.Location = new System.Drawing.Point(54, 11);
+            this.txtLocal.Location = new System.Drawing.Point(75, 7);
             this.txtLocal.Name = "txtLocal";
             this.txtLocal.Size = new System.Drawing.Size(311, 20);
             this.txtLocal.TabIndex = 1;
@@ -56,7 +56,7 @@
             // btIniciar
             // 
             this.btIniciar.Enabled = false;
-            this.btIniciar.Location = new System.Drawing.Point(452, 9);
+            this.btIniciar.Location = new System.Drawing.Point(473, 4);
             this.btIniciar.Name = "btIniciar";
             this.btIniciar.Size = new System.Drawing.Size(75, 23);
             this.btIniciar.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // btLocal
             // 
-            this.btLocal.Location = new System.Drawing.Point(371, 9);
+            this.btLocal.Location = new System.Drawing.Point(392, 5);
             this.btLocal.Name = "btLocal";
             this.btLocal.Size = new System.Drawing.Size(75, 23);
             this.btLocal.TabIndex = 3;
@@ -83,7 +83,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(534, 42);
+            this.ClientSize = new System.Drawing.Size(554, 32);
             this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtLocal);

@@ -87,7 +87,7 @@ namespace Bot.Comandos
                             } else
                             {
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription($"**{context.User}** por-favor não kicke desu")
+                                        .WithDescription($"**{context.User}** por-favor não me kicke desu")
                                         .WithColor(Color.DarkPurple)
                                     .Build());
                             }

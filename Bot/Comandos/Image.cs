@@ -42,5 +42,17 @@ namespace Bot.Comandos
                     .WithColor(Color.DarkPurple)
                 .Build());
         }
+
+        public void img(CommandContext context, object[] args)
+        {
+            string url = http.GetSite("https://nekos.life/api/v2/img/avatar", "url");
+
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle("Uma simples imagem para usar onde quiser (ou não kerek)")
+                    .WithUrl(url)
+                    .WithImageUrl(url)
+                    .WithColor(Color.DarkPurple)
+                .Build());
+        }
     }
 }
