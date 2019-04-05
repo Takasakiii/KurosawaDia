@@ -1,4 +1,4 @@
-﻿using Bot.Constructors;
+﻿using Bot.Constructor;
 using Discord;
 using Discord.Commands;
 using System;
@@ -12,7 +12,7 @@ namespace Bot.Extensions
     public class WeebExtensions
     {
         private WeebClient weebClient = new WeebGen().weebClient;
-        public async Task<IUserMessage> WeebCmd(string tipo, string msg, CommandContext context, object[] args)
+        public async Task<IUserMessage> WeebCmd(bool auto, string tipo, string msg, CommandContext context, object[] args)
         {
             RandomData img = await weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False);
 
@@ -39,8 +39,17 @@ namespace Bot.Extensions
                 user = "ele(a) mesmo";
             }
 
+            string txt = "";
+            if(auto)
+            {
+                txt = $"{context.User.Username} esta {msg} {user}";
+            } else
+            {
+                txt = msg;
+            }
+
             return await context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle($"{context.User.Username} esta {msg} {user}")
+                    .WithTitle(txt)
                     .WithImageUrl(img.Url)
                     .WithColor(Color.DarkPurple)
                 .Build());

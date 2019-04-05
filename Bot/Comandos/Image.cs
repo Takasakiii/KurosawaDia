@@ -12,7 +12,7 @@ namespace Bot.Comandos
             string url = http.GetSite("https://nekos.life/api/v2/img/neko", "url");
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Nekos")
+                    .WithTitle("Um pouco de meninas gato (ou gatos com skin) sempre faz bem")
                     .WithUrl(url)
                     .WithImageUrl(url)
                     .WithColor(Color.DarkPurple)

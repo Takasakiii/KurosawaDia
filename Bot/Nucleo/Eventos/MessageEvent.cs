@@ -1,8 +1,13 @@
-﻿using Bot.Modelos;
+﻿using Bot.Configs.DAO;
+using Bot.Configs.Modelos;
+using Bot.DataBase.DAO;
+using Bot.Modelos;
+using Bot.Modelos.Objetos;
 using Bot.Nucleo.Modulos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -30,6 +35,8 @@ namespace Bot.Nucleo.Eventos
 
             if(!mensagem.Author.IsBot)
             {
+               
+
                 int argPos = 0;
                 if(mensagemTratada.HasStringPrefix(new string (config.prefix), ref argPos))
                 {
@@ -37,6 +44,11 @@ namespace Bot.Nucleo.Eventos
 
                     try
                     {
+                        //DBconfig dBconfig = new DBconfig(1);
+                        //dBconfig = new DbConfigDAO().Carregar(dBconfig);
+
+                        //await VerificarACR(commandContex.Message.Content, commandContex, dBconfig);
+
                         string[] comando = messageSemPrefix.Split(' ');
                         MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                         object instanced = lastClassCommand;
@@ -56,7 +68,17 @@ namespace Bot.Nucleo.Eventos
                     }
                 }
             }
+        }
 
+        private async Task VerificarACR(string msg, CommandContext context, DBconfig dBconfig)
+        {
+            BotRespostas botRespostas = new BotRespostas();
+            botRespostas.pergunta = msg;
+            botRespostas.id = Convert.ToInt64(context.Guild.Id);
+            BotRespostasDAO dao = new BotRespostasDAO(dBconfig);
+            botRespostas = dao.Responder(botRespostas);
+            await context.Channel.SendMessageAsync(botRespostas.resposta);
+            return;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Bot.Singletons;
 using System.Data.SQLite;
 
-namespace Bot.Constructors
+namespace Bot.Constructor
 {
     public class SQLiteConstrutor
     {

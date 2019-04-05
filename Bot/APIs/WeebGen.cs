@@ -1,7 +1,7 @@
 ﻿using Bot.APIs;
 using Weeb.net;
 
-namespace Bot.Constructors
+namespace Bot.Constructor
 {
     public class WeebGen
     {

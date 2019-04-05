@@ -11,6 +11,7 @@ namespace Bot.Comandos
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
                 .WithDescription($"Oii {context.User} você pode usar `{(string)args[0]}comandos` para ver os comandos que eu tenho <:hehe:555914678866280448>")
+                .WithFooter("Um projeto by Zuraaa", "https://i.imgur.com/Cm8grM4.png")
                 .Build());
         }
 
@@ -22,7 +23,7 @@ namespace Bot.Comandos
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`")
                 .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}neko`, `{(string)args[0]}img`")
                 .AddField("Comandos NSFW", $"`{(string)args[0]}hentai`")
-                .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`")
+                .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`")
                 .AddField("Comandos de moderação", $"`{(string)args[0]}kick`")
                 .WithThumbnailUrl(context.Client.CurrentUser.GetAvatarUrl(0, 2048))
                 .WithColor(Color.DarkPurple)

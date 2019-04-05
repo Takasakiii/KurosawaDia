@@ -6,6 +6,7 @@
         public char[] prefix { private set; get; }
         public string ownerId { private set; get; }
         public uint id { private set; get; }
+
         public AyuraConfig(string token, char[] prefix, string ownerId, uint id)
         {
             this.token = token;
@@ -18,6 +19,7 @@
         {
             this.id = id;
         }
+
         public void SetBotConfig(string token, char[] prefix, string ownerId)
         {
             this.token = token;

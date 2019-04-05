@@ -1,4 +1,4 @@
-﻿using Bot.Constructors;
+﻿using Bot.Constructor;
 using Bot.Modelos;
 using System.Data.SQLite;
 
