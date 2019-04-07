@@ -52,5 +52,7 @@ namespace Bot.Comandos
             weeb.WeebCmd(true, "pat", "fazendo carinho no(a)", context, args).GetAwaiter().GetResult();
 
         }
+
+        //decepção = decepção + 3000%;
     }
 }

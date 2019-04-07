@@ -23,5 +23,7 @@ namespace Bot.Configs.DAO
                 return DataBaseaConf;
             }
         }
+
+        // n considero
     }
 }

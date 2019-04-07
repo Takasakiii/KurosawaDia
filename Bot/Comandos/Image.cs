@@ -9,7 +9,7 @@ namespace Bot.Comandos
         HttpExtensions http = new HttpExtensions();
         public void neko(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://nekos.life/api/v2/img/neko", "url");
+            string url = http.GetSite("https://nekos.life/api/v2/img/neko", "url"); //this is a constructor
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Um pouco de meninas gato (ou gatos com skin) sempre faz bem")
@@ -21,7 +21,7 @@ namespace Bot.Comandos
 
         public void cat(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://nekos.life/api/v2/img/meow", "url");
+            string url = http.GetSite("https://nekos.life/api/v2/img/meow", "url"); //construtor com repetição
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Meow")
@@ -33,7 +33,7 @@ namespace Bot.Comandos
 
         public void dog(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://random.dog/woof.json", "url");
+            string url = http.GetSite("https://random.dog/woof.json", "url"); //¯\_(ツ)_/¯
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Woof")
@@ -45,7 +45,7 @@ namespace Bot.Comandos
 
         public void img(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://nekos.life/api/v2/img/avatar", "url");
+            string url = http.GetSite("https://nekos.life/api/v2/img/avatar", "url"); //¯\_(ツ)_/¯
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Uma simples imagem para usar onde quiser (ou não kerek)")

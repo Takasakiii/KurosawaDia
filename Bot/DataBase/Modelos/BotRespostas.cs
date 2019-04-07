@@ -2,6 +2,8 @@
 {
     public class BotRespostas
     {
+
+        //restrições invalidas
         public long id { get; set; }
         public string pergunta { get; set; }
         public string resposta { get; set; }
@@ -9,7 +11,7 @@
 
         public BotRespostas()
         {
-            servidor = new Servidores();
+            servidor = new Servidores(); //Construtor invalido
         }
     }
 }

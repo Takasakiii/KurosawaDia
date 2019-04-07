@@ -26,6 +26,7 @@ namespace Bot.DataBase.DAO
 
             connection.Open();
             MySqlDataReader rs = cmd.ExecuteReader();
+            // if (rs.Read())
             while(rs.Read())
             {
                 resp.id = (long)rs["id"];
@@ -42,6 +43,7 @@ namespace Bot.DataBase.DAO
 
             connection.Open();
             MySqlDataReader rs = cmd.ExecuteReader();
+            //if (rs.Read()) carai
             while(rs.Read())
             {
                 resp.resposta = rs["resposta_resposta"].ToString();
@@ -73,7 +75,7 @@ namespace Bot.DataBase.DAO
         public List<BotRespostas> Procurar (BotRespostas resp)
         {
             MySqlCommand cmd = new MySqlCommand("call procurarACR(@sid, @p);", connection);
-            cmd.Parameters.AddWithValue("@sid", resp.servidor.id);
+            cmd.Parameters.AddWithValue("@sid", resp.servidor.id); //por id ??? q tipo de procura é essa???
             cmd.Parameters.AddWithValue("@p", $"%{resp.pergunta}%");
 
             connection.Open();
@@ -100,6 +102,7 @@ namespace Bot.DataBase.DAO
             connection.Open();
             MySqlDataReader rs = cmd.ExecuteReader();
             long result = 0;
+            //refaz
             while (rs.Read())
             {
                 result = (long)rs[0];
@@ -121,6 +124,7 @@ namespace Bot.DataBase.DAO
 
             connection.Open();
             MySqlDataReader rs = cmd.ExecuteReader();
+            //refaz
             long result = 0;
             while (rs.Read())
             {

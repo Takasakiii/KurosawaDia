@@ -13,6 +13,7 @@ namespace Bot.Constructor
             MySqlConnection sql = new MySqlConnection($"Server={dBconfig.ip};Database={dBconfig.db};Uid={dBconfig.login};Pwd={dBconfig.senha}");
             sql.Open();
             return sql;
+            //n considero
         }
     }
 }

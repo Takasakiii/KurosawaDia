@@ -1,7 +1,7 @@
 ﻿using Bot.APIs;
 using Weeb.net;
 
-namespace Bot.Constructor
+namespace Bot.Constructor //organização top
 {
     public class WeebGen
     {
@@ -12,5 +12,7 @@ namespace Bot.Constructor
             weebClient = new WeebClient("Yummi", "1.0.0");
             weebClient.Authenticate(gen.apiConfig.weebToken, TokenType.Wolke);
         }
+
+        //classe com estrutura invalida
     }
 }

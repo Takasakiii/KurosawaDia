@@ -24,4 +24,5 @@ namespace Bot.DAO
             }
         }
     }
+    //n considero
 }

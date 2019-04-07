@@ -17,7 +17,7 @@ namespace Bot.Comandos
 
         public void comandos(CommandContext context, object[] args)
         {
-            string prefix = (string)args[0];
+            string prefix = (string)args[0]; // variavel relutante
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos")
                 .AddField("Comandos de Utilidades:", $"`{prefix}webcam`, `{prefix}avatar`, `{prefix}emote`, `{prefix}say`, `{prefix}simg`")

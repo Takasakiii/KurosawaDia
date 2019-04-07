@@ -24,20 +24,23 @@ namespace Bot.Nucleo.Eventos
             this.config = config;
         }
 
-        public object CommandContex { get; private set; }
+        public object CommandContex { get; private set; } // organização da classe ta uma porra
+        //de vez de perder meia hora criando comandos o pente fino seria melhor
 
         public async Task MessageRecived(SocketMessage mensagem)
         {
             var lastClassCommand = new Utility();
 
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
-            CommandContext commandContex = new CommandContext(client, mensagemTratada);
+            CommandContext commandContex = new CommandContext(client, mensagemTratada); //1000% facepalm
 
             if(!mensagem.Author.IsBot)
             {
-               
+               //otimização grave pode ser resolvida com um poquinho de logica e mover itens
+
 
                 int argPos = 0;
+                //variavel putamente desnecessaria
                 bool err = true;
                 bool cmd = false;
                 if(mensagemTratada.HasStringPrefix(new string (config.prefix), ref argPos))
@@ -62,7 +65,9 @@ namespace Bot.Nucleo.Eventos
                         args[1] = comando;
                         parametros[1] = args;
 
+                        //variavel inutil
                         string[] cmdargs = (string[])args[1];
+                        //isso n deveria estar aqui
                         if (cmdargs[0] != "")
                         {
                             cmd = true;
@@ -78,6 +83,7 @@ namespace Bot.Nucleo.Eventos
                     }
                     catch 
                     {
+                        //if desnecessario, try catch todo errado
                         if(err == false && cmd == true)
                         {
                             err = true;

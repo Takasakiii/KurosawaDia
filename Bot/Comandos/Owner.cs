@@ -13,7 +13,7 @@ namespace Bot.Nucleo.Modulos.Owner
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
-                .WithDescription($" meu ping é {client.Latency}ms")
+                .WithDescription($" meu ping é {client.Latency}ms") //pedreragem top
                 .Build());
         }
     }

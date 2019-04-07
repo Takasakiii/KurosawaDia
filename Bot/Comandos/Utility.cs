@@ -19,7 +19,7 @@ namespace Bot.Nucleo.Modulos
                 }
                 else
                 {
-                    string[] comando = (string[])args[1];
+                    string[] comando = (string[])args[1]; //¯\_(ツ)_/¯
                     user = context.Client.GetUserAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
                 }
             }
@@ -30,7 +30,7 @@ namespace Bot.Nucleo.Modulos
 
             if (user == null)
             {
-                user = context.User;
+                user = context.User; // avaliação desnesessaria 
             }
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
@@ -116,6 +116,7 @@ namespace Bot.Nucleo.Modulos
             }
         }
 
+        //nome bem top
         public void simg(CommandContext context, object[] args)
         {
             string url = $"{context.Guild.IconUrl}?size=2048";

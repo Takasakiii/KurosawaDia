@@ -12,7 +12,7 @@ namespace Bot.Comandos
             if (context.IsPrivate || canal.IsNsfw)
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithImageUrl(new HttpExtensions().GetSite("https://nekobot.xyz/api/image?type=hentai", "message"))
+                        .WithImageUrl(new HttpExtensions().GetSite("https://nekobot.xyz/api/image?type=hentai", "message")) //¯\_(ツ)_/¯
                         .WithColor(Color.DarkPurple)
                     .Build());
             }

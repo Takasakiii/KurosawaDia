@@ -12,6 +12,11 @@ namespace Bot.Extensions
     public class WeebExtensions
     {
         private WeebClient weebClient = new WeebGen().weebClient;
+        //tipo de dados pode ser otimizados
+        // n se passa dados n essenciais pro metodo
+        //Acoplamento desnecessario
+        // paramentros n obrigatorios estão definidos como obrigatorios
+
         public async Task<IUserMessage> WeebCmd(bool auto, string tipo, string msg, CommandContext context, object[] args)
         {
             RandomData img = await weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False);
@@ -25,7 +30,7 @@ namespace Bot.Extensions
                 }
                 else
                 {
-                    string[] comando = (string[])args[1];
+                    string[] comando = (string[])args[1]; // esse args pode muito bem ser convetido pra outra coisa e assim resolvendo problemas de acoplamento
                     user = context.Client.GetUserAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult().Username;
                 }
             }
@@ -36,7 +41,7 @@ namespace Bot.Extensions
 
             if (user == null)
             {
-                user = "ele(a) mesmo";
+                user = "ele(a) mesmo"; //poderia ter uma otimização melhor usando parte da estrutura q ja possui acima
             }
 
             string txt = "";
