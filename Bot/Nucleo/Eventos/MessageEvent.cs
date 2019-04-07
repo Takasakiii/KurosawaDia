@@ -38,10 +38,13 @@ namespace Bot.Nucleo.Eventos
                
 
                 int argPos = 0;
+                bool err = true;
+                bool cmd = false;
                 if(mensagemTratada.HasStringPrefix(new string (config.prefix), ref argPos))
                 {
                     string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
 
+                    string[] comando;
                     try
                     {
                         //DBconfig dBconfig = new DBconfig(1);
@@ -49,7 +52,7 @@ namespace Bot.Nucleo.Eventos
 
                         //await VerificarACR(commandContex.Message.Content, commandContex, dBconfig);
 
-                        string[] comando = messageSemPrefix.Split(' ');
+                        comando = messageSemPrefix.Split(' ');
                         MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                         object instanced = lastClassCommand;
                         object[] parametros = new object[2];
@@ -59,26 +62,48 @@ namespace Bot.Nucleo.Eventos
                         args[1] = comando;
                         parametros[1] = args;
 
+                        string[] cmdargs = (string[])args[1];
+                        if (cmdargs[0] != "")
+                        {
+                            cmd = true;
+                        }
+                        else
+                        {
+                            cmd = false;
+                        }
+                        err = false;
+
                         metodo.Invoke(instanced, parametros);
-                    } catch {
+
+                    }
+                    catch 
+                    {
+                        if(err == false && cmd == true)
+                        {
+                            err = true;
+                        }
+                    }
+
+                    if(err)
+                    {
                         await mensagem.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{mensagem.Author}** esse comando não existe use `{new string(config.prefix)}comandos` para ver os comandos")
-                                .WithColor(Color.DarkPurple)
-                            .Build());
+                            .WithDescription($"**{mensagem.Author}** esse comando não existe use `{new string(config.prefix)}comandos` para ver os comandos")
+                             .WithColor(Color.DarkPurple)
+                         .Build());
                     }
                 }
             }
         }
 
-        private async Task VerificarACR(string msg, CommandContext context, DBconfig dBconfig)
-        {
-            BotRespostas botRespostas = new BotRespostas();
-            botRespostas.pergunta = msg;
-            botRespostas.id = Convert.ToInt64(context.Guild.Id);
-            BotRespostasDAO dao = new BotRespostasDAO(dBconfig);
-            botRespostas = dao.Responder(botRespostas);
-            await context.Channel.SendMessageAsync(botRespostas.resposta);
-            return;
-        }
+        //private async Task VerificarACR(string msg, CommandContext context, DBconfig dBconfig)
+        //{
+        //    BotRespostas botRespostas = new BotRespostas();
+        //    botRespostas.pergunta = msg;
+        //    botRespostas.id = Convert.ToInt64(context.Guild.Id);
+        //    BotRespostasDAO dao = new BotRespostasDAO(dBconfig);
+        //    botRespostas = dao.Responder(botRespostas);
+        //    await context.Channel.SendMessageAsync(botRespostas.resposta);
+        //    return;
+        //}
     }
 }
