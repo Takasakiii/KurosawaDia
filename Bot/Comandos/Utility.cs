@@ -115,5 +115,16 @@ namespace Bot.Nucleo.Modulos
                     .Build());
             }
         }
+
+        public void simg(CommandContext context, object[] args)
+        {
+            string url = $"{context.Guild.IconUrl}?size=2048";
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(context.Guild.Name)
+                    .WithDescription($"[Link Direto]({url})")
+                    .WithImageUrl(url)
+                    .WithColor(Color.DarkPurple)
+                .Build());
+        }
     }
 }

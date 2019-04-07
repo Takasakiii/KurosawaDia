@@ -20,7 +20,7 @@ namespace Bot.Comandos
             string prefix = (string)args[0];
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos")
-                .AddField("Comandos de Utilidades:", $"`{prefix}webcam`, `{prefix}avatar`, `{prefix}emote`, `{prefix}say`")
+                .AddField("Comandos de Utilidades:", $"`{prefix}webcam`, `{prefix}avatar`, `{prefix}emote`, `{prefix}say`, `{prefix}simg`")
                 .AddField("Comandos de Ajuda:", $"`{prefix}ajuda`, `{prefix}comandos`, `{prefix}convite`")
                 .AddField("Comandos de Imagens", $"`{prefix}neko`, `{prefix}cat`, `{prefix}img`")
                 .AddField("Comandos NSFW", $"`{prefix}hentai`")
