@@ -86,5 +86,34 @@ namespace Bot.Nucleo.Modulos
                     .Build());
             }
         }
+
+        public void say(CommandContext context, object[] args)
+        {
+
+            string[] comando = (string[])args[1];
+            string msg = "";
+            for (int i = 1; i < comando.Length; i++)
+            {
+                msg += comando[i] + " ";
+            }
+
+            if (msg != "")
+            {
+                context.Message.DeleteAsync().GetAwaiter().GetResult();
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(msg)
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+            } else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle("você precisa de me falar uma mensagem")
+                        .AddField("Uso do comando:", $"`{(string)args[0]}say <mensagem>`")
+                        .AddField("Uso do comando:", $"`{(string)args[0]}say @Thhrag#2527 sai do facebook`")
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
     }
 }
