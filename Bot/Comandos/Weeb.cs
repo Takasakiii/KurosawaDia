@@ -46,5 +46,11 @@ namespace Bot.Comandos
         {
             weeb.WeebCmd(false, "rem", "Rem ❤", context, args).GetAwaiter().GetResult();
         }
+
+        public void pat(CommandContext context, object[] args)
+        {
+            weeb.WeebCmd(true, "pat", "fazendo carinho no(a)", context, args).GetAwaiter().GetResult();
+
+        }
     }
 }
