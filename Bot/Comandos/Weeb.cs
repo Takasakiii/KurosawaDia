@@ -36,5 +36,15 @@ namespace Bot.Comandos
         {
             weeb.WeebCmd(false, "cry", $"{context.User.Username} esta chorando", context, args).GetAwaiter().GetResult();
         }
+
+        public void megumin(CommandContext context, object[] args)
+        {
+            weeb.WeebCmd(false, "megumin", "Megumin ❤", context, args).GetAwaiter().GetResult();
+        }
+
+        public void rem(CommandContext context, object[] args)
+        {
+            weeb.WeebCmd(false, "rem", "Rem ❤", context, args).GetAwaiter().GetResult();
+        }
     }
 }
