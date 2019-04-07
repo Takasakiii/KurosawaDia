@@ -21,7 +21,7 @@ namespace Bot.Comandos
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos")
                 .AddField("Comandos de Utilidades:", $"`{prefix}webcam`, `{prefix}avatar`, `{prefix}emote`, `{prefix}say`, `{prefix}simg`")
-                .AddField("Comandos de Ajuda:", $"`{prefix}ajuda`, `{prefix}comandos`, `{prefix}convite`")
+                .AddField("Comandos de Ajuda:", $"`{prefix}ajuda`, `{prefix}comandos`, `{prefix}convite`, `{prefix}info`")
                 .AddField("Comandos de Imagens", $"`{prefix}neko`, `{prefix}cat`, `{prefix}img`")
                 .AddField("Comandos NSFW", $"`{prefix}hentai`")
                 .AddField("Comandos Weeb", $"`{prefix}hug`, `{prefix}slap`, `{prefix}kiss`, `{prefix}punch`, `{prefix}lick`, `{prefix}cry`")
@@ -81,6 +81,18 @@ namespace Bot.Comandos
                     .WithColor(Color.DarkPurple)
                 .Build());
             }
+        }
+
+        public void info(CommandContext context, object[] args)
+        {
+            DiscordSocketClient client = context.Client as DiscordSocketClient;
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle("Minhas informações:")
+                    .AddField("Meus convites", "[Me convidar para seu servidor](https://ayura.com.br/links/bot)\n[Meu servidor para suporte](https://ayura.com.br/links/server)")
+                    .AddField("Informações do bot", "**Criador:** Yummi#1375\n**Projeto:** Zuraaa!\n**Versão:** 1.0.0")
+                    .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}")
+                    .WithColor(Color.DarkPurple)
+                .Build());
         }
     }
 }
