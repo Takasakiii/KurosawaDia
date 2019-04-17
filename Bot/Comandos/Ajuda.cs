@@ -17,15 +17,14 @@ namespace Bot.Comandos
 
         public void comandos(CommandContext context, object[] args)
         {
-            string prefix = (string)args[0]; // variavel relutante
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos")
-                .AddField("Comandos de Utilidades:", $"`{prefix}webcam`, `{prefix}avatar`, `{prefix}emote`, `{prefix}say`, `{prefix}simg`")
-                .AddField("Comandos de Ajuda:", $"`{prefix}ajuda`, `{prefix}comandos`, `{prefix}convite`, `{prefix}info`")
-                .AddField("Comandos de Imagens", $"`{prefix}neko`, `{prefix}cat`, `{prefix}img`")
-                .AddField("Comandos NSFW", $"`{prefix}hentai`")
-                .AddField("Comandos Weeb", $"`{prefix}hug`, `{prefix}slap`, `{prefix}kiss`, `{prefix}punch`, `{prefix}lick`, `{prefix}cry`")
-                .AddField("Comandos de moderação", $"`{prefix}kick`")
+                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}webcam`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`")
+                .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}convite`, `{(string)args[0]}info`")
+                .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`")
+                .AddField("Comandos NSFW", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`")
+                .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`")
+                .AddField("Comandos de moderação", $"`{(string)args[0]}kick`")
                 .WithThumbnailUrl(context.Client.CurrentUser.GetAvatarUrl(0, 2048))
                 .WithColor(Color.DarkPurple)
                 .Build();
