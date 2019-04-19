@@ -72,5 +72,10 @@ namespace LauncherGUI
             MessageBox.Show("Todos os processos foram encerrados");
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
+
+        private void BtServidores_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

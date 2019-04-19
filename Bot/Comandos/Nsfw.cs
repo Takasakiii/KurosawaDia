@@ -7,7 +7,7 @@ namespace Bot.Comandos
 {
     public class Nsfw : Weeb
     {
-        private void nsfw(CommandContext context, int quantidade, string url, string get)
+        private void nsfw(CommandContext context, string url, string get = "message", int quantidade = 1)
         {
             ITextChannel canal = context.Channel as ITextChannel;
             if (context.IsPrivate || canal.IsNsfw)
@@ -41,12 +41,43 @@ namespace Bot.Comandos
 
         public void hentai(CommandContext context, object[] args)
         {
-            nsfw(context, 1, "https://nekobot.xyz/api/image?type=hentai", "message");
+            nsfw(context, "https://nekobot.xyz/api/image?type=hentai");
         }
 
         public void hentaibomb(CommandContext context, object[] args)
         {
-            nsfw(context, 5, "https://nekobot.xyz/api/image?type=hentai", "message");
+
+            Links[] links = {
+                new Links("https://nekobot.xyz/api/image?type=hentai", "message"),
+                new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
+                new Links("https://nekos.life/api/v2/img/lewdk", "url"),
+            };
+
+            Random rand = new Random();
+            int i = rand.Next(links.Length);
+
+            nsfw(context,links[i].url, links[i].tipo, 5);
+        }
+
+        public void hneko(CommandContext context, object[] args)
+        {
+            string[] links = { "https://nekos.life/api/v2/img/nsfw_neko_gif", "https://nekos.life/api/v2/img/lewdk" };
+            nsfw(context, new ArrayExtensions().GetRandom(links), "url");
+        }
+    }
+
+
+    class Links
+    {
+        public string url {private set; get; }
+        public string tipo { private set; get; }
+
+        public Links(string url, string tipo)
+        {
+            this.url = url;
+            this.tipo = tipo;
         }
     }
 }
+
+
