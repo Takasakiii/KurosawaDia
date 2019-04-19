@@ -1,8 +1,4 @@
-﻿using Bot.Configs.DAO;
-using Bot.Configs.Modelos;
-using Bot.DataBase.DAO;
-using Bot.Modelos;
-using Bot.Modelos.Objetos;
+﻿using Bot.Modelos;
 using Bot.Nucleo.Modulos;
 using Discord;
 using Discord.Commands;

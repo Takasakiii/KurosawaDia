@@ -65,7 +65,14 @@ namespace Bot.Comandos
                                 }
                                 Thread.Sleep(1000);
 
-                                
+                                /*
+                                    pra que server
+                                    tantos codigos
+                                    se a vida
+                                    não é programada
+                                    e as melhores coisas
+                                    não tem logica
+                                */
 
                                 try
                                 {
@@ -115,4 +122,3 @@ namespace Bot.Comandos
         }
     }
 }
-// n conta

@@ -98,11 +98,8 @@ namespace Bot.Nucleo.Modulos
             if(!context.IsPrivate)
             {
                 string[] comando = (string[])args[1];
-                string msg = "";
-                for (int i = 1; i < comando.Length; i++)
-                {
-                    msg += comando[i] + " ";
-                }
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
 
                 if (msg != "")
                 {
@@ -120,7 +117,7 @@ namespace Bot.Nucleo.Modulos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle("você precisa de me falar uma mensagem")
+                            .WithTitle("Você precisa de me falar uma mensagem")
                             .AddField("Uso do comando:", $"`{(string)args[0]}say <mensagem>`")
                             .AddField("Uso do comando:", $"`{(string)args[0]}say @Thhrag#2527 sai do facebook`")
                             .WithColor(Color.Red)
@@ -159,11 +156,7 @@ namespace Bot.Nucleo.Modulos
         public void bigtext(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
-            string msg = "";
-            for (int i = 1; i < comando.Length; i++)
-            {
-                msg += comando[i] + " ";
-            }
+            string msg = string.Join(" ", comando, 1, (comando.Length -1));
 
             char[] aa = msg.ToCharArray();
 
@@ -179,6 +172,37 @@ namespace Bot.Nucleo.Modulos
                 }
             }
             context.Channel.SendMessageAsync(txt.Substring(0, txt.Length - 22));
+        }
+
+        public void sugestao(CommandContext context, object[] args)
+        {
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+            if(msg != "")
+            {
+                IMessageChannel canal = context.Client.GetChannelAsync(556598669500088320).GetAwaiter().GetResult() as IMessageChannel;
+
+                canal.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle($"Nova sugestão de: {context.User}")
+                        .AddField("Sugestão: ", msg)
+                        .AddField("Servidor: ", context.Guild.Name)
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription($"**{context.User}** sua sugestão foi enviada a o meu servidor")
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+            } else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle("Você precisa me falara uma sugestão")
+                        .AddField("Uso: ", $"`{args[0]}sugestao <sugestão>`")
+                        .AddField("Exemplo: ", $"`{args[0]}sugestao fazer com que o bot ficasse mais tempo on`")
+                        .WithColor(Color.Red)
+                    .Build());
+            }
         }
     }
 }

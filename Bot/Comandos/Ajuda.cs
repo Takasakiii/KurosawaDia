@@ -23,9 +23,10 @@ namespace Bot.Comandos
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}convite`, `{(string)args[0]}info`")
                 .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`")
                 .AddField("Comandos NSFW", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`")
-                .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`")
+                .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry` , `{(string)args[0]}megumin` , `{(string)args[0]}rem`")
                 .AddField("Comandos de moderação", $"`{(string)args[0]}kick`")
                 .WithThumbnailUrl(context.Client.CurrentUser.GetAvatarUrl(0, 2048))
+                .WithImageUrl("https://i.imgur.com/ifjBm06.png")
                 .WithColor(Color.DarkPurple)
                 .Build();
 
@@ -85,13 +86,21 @@ namespace Bot.Comandos
         public void info(CommandContext context, object[] args)
         {
             DiscordSocketClient client = context.Client as DiscordSocketClient;
+            int users = 0;
+            foreach(SocketGuild servidor in client.Guilds)
+            {
+                users = servidor.Users.Count;
+            }
+
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Minhas informações:")
-                    .AddField("Meus convites", "[Me convidar para seu servidor](https://ayura.com.br/links/bot)\n[Meu servidor para suporte](https://ayura.com.br/links/server)")
+                    .AddField("Meus convites", "[Me convidar para seu servidor](https://ayura.com.br/links/bot)\n[Meu servidor para suporte](https://ayura.com.br/dia)")
                     .AddField("Informações do bot", "**Criador:** Yummi#1375\n**Projeto:** Zuraaa!\n**Versão:** 1.0.0")
-                    .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}")
+                    .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}\n**Usuarios:** {users}")
                     .WithColor(Color.DarkPurple)
                 .Build());
         }
     }
+
+    //o jogo
 }
