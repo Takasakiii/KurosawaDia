@@ -3,7 +3,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace Bot.Nucleo.Modulos.Owner
+namespace Bot.Comandos
 {
     public class Owner : Nsfw
     {

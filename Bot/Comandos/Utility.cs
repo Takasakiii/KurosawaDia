@@ -1,11 +1,10 @@
-﻿using Bot.Comandos;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Linq;
 
-namespace Bot.Nucleo.Modulos
+namespace Bot.Comandos
 {
     public class Utility : Nsfw
     {

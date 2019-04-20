@@ -1,6 +1,5 @@
 ﻿using Bot.Constructor;
 using Bot.Extensions;
-using Bot.Nucleo.Modulos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -13,50 +12,50 @@ namespace Bot.Comandos
     {
         private void weeb(CommandContext context, string tipo, string msg, bool auto = true)
         {
-            WeebClient weebClient = new WeebGen().weebClient;
-            RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
-            string[] nome = new string[2];
+            //WeebClient weebClient;
+            //RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
+            //string[] nome = new string[2];
 
-            if (context.Message.MentionedUserIds.Count != 0)
-            {
-                SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
+            //if (context.Message.MentionedUserIds.Count != 0)
+            //{
+            //    SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
 
-                if (user.Nickname != null)
-                {
-                    nome[0] = user.Nickname;
-                }
-                else
-                {
-                    nome[0] = user.Username;
-                }
-            }
+            //    if (user.Nickname != null)
+            //    {
+            //        nome[0] = user.Nickname;
+            //    }
+            //    else
+            //    {
+            //        nome[0] = user.Username;
+            //    }
+            //}
 
-            SocketGuildUser userGuild = context.User as SocketGuildUser;
+            //SocketGuildUser userGuild = context.User as SocketGuildUser;
 
-            if (userGuild.Nickname != null)
-            {
-                nome[1] = userGuild.Nickname;
-            }
-            else
-            {
-                nome[1] = userGuild.Username;
-            }
+            //if (userGuild.Nickname != null)
+            //{
+            //    nome[1] = userGuild.Nickname;
+            //}
+            //else
+            //{
+            //    nome[1] = userGuild.Username;
+            //}
 
-            string txt = "";
-            if (auto)
-            {
-                txt = $"{nome[1]} {msg} {nome[0]}";
-            }
-            else
-            {
-                txt = msg.Replace("%author%", nome[1]);
-            }
+            //string txt = "";
+            //if (auto)
+            //{
+            //    txt = $"{nome[1]} {msg} {nome[0]}";
+            //}
+            //else
+            //{
+            //    txt = msg.Replace("%author%", nome[1]);
+            //}
 
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(txt)
-                    .WithImageUrl(img.Url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+            //context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            //        .WithTitle(txt)
+            //        .WithImageUrl(img.Url)
+            //        .WithColor(Color.DarkPurple)
+            //    .Build());
         }
 
         public void hug(CommandContext context, object[] args)

@@ -1,5 +1,5 @@
-﻿using Bot.Modelos;
-using Bot.Nucleo.Modulos;
+﻿using Bot.Comandos;
+using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
