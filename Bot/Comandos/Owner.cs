@@ -5,7 +5,7 @@ using Discord.WebSocket;
 
 namespace Bot.Nucleo.Modulos.Owner
 {
-    public class Owner : Ajuda
+    public class Owner : Nsfw
     {
         public void ping(CommandContext context, object[] args)
         {

@@ -17,7 +17,7 @@ namespace Bot.DAO
                 SQLiteDataReader rs = cmd.ExecuteReader();
                 if (rs.Read())
                 {
-                    ayuraConfig.SetBotConfig((string)rs["token"], ((string)rs["prefix"]).ToCharArray(), (string)rs["idDono"]);
+                    ayuraConfig.SetBotConfig((string)rs["token"], ((string)rs["prefix"]).ToCharArray());
                 }
                 conexao.Close();
                 return ayuraConfig;

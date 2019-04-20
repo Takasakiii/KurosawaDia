@@ -1,5 +1,6 @@
 ﻿using Bot.Constructor;
 using Bot.Extensions;
+using Bot.Nucleo.Modulos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -8,7 +9,7 @@ using Weeb.net.Data;
 
 namespace Bot.Comandos
 {
-    public class Weeb : Moderacao
+    public class Weeb : Utility
     {
         private void weeb(CommandContext context, string tipo, string msg, bool auto = true)
         {

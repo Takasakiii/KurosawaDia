@@ -5,7 +5,7 @@ using Discord.WebSocket;
 
 namespace Bot.Comandos
 {
-    public class Image : Nsfw
+    public class Image : Ajuda
     {
         HttpExtensions http = new HttpExtensions();
         public void neko(CommandContext context, object[] args)

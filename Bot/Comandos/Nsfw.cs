@@ -5,7 +5,7 @@ using System;
 
 namespace Bot.Comandos
 {
-    public class Nsfw : Weeb
+    public class Nsfw : Image
     {
         private void nsfw(CommandContext context, string url, string get = "message", int quantidade = 1)
         {

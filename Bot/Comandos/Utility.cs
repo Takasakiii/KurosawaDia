@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.Comandos;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace Bot.Nucleo.Modulos
 {
-    public class Utility : Owner.Owner
+    public class Utility : Nsfw
     {
         public void avatar(CommandContext context, object[] args)
         {

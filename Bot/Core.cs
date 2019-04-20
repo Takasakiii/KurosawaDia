@@ -33,6 +33,4 @@ namespace Bot
             CriarCliente();
         }
     }
-
-    //n considero
 }

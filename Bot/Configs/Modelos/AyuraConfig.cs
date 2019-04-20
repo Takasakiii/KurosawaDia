@@ -4,27 +4,19 @@
     {
         public string token { private set; get; }
         public char[] prefix { private set; get; }
-        public string ownerId { private set; get; }
         public uint id { private set; get; }
 
-        public AyuraConfig(string token, char[] prefix, string ownerId, uint id)
+        public AyuraConfig(uint id, string token = null, char[] prefix = null)
         {
             this.token = token;
             this.prefix = prefix;
-            this.ownerId = ownerId;
             this.id = id;
         }
 
-        public AyuraConfig(uint id)
-        {
-            this.id = id;
-        }
-
-        public void SetBotConfig(string token, char[] prefix, string ownerId)
+        public void SetBotConfig(string token, char[] prefix)
         {
             this.token = token;
             this.prefix = prefix;
-            this.ownerId = ownerId;
         }
     }
 }
