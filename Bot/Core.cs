@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Bot.DAO;
+﻿using Bot.DAO;
 using Bot.Modelos;
 using Bot.Nucleo.Eventos;
 using Discord.WebSocket;
+using System.Threading.Tasks;
 
 namespace Bot
 {
@@ -27,7 +27,7 @@ namespace Bot
             await client.SetGameAsync("Flores");
             await Task.Delay(-1);
         }
-         
+
         public void IniciarBot()
         {
             CriarCliente();

@@ -14,7 +14,7 @@ namespace Bot.Comandos
             {
                 HttpExtensions http = new HttpExtensions();
 
-                if(quantidade <= 1)
+                if (quantidade <= 1)
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithImageUrl(http.GetSite(url, get))
@@ -30,7 +30,7 @@ namespace Bot.Comandos
                     }
                     context.Channel.SendMessageAsync(txt);
                 }
-            } 
+            }
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -56,7 +56,7 @@ namespace Bot.Comandos
             Random rand = new Random();
             int i = rand.Next(links.Length);
 
-            nsfw(context,links[i].url, links[i].tipo, 5);
+            nsfw(context, links[i].url, links[i].tipo, 5);
         }
 
         public void hneko(CommandContext context, object[] args)
@@ -69,7 +69,7 @@ namespace Bot.Comandos
 
     class Links
     {
-        public string url {private set; get; }
+        public string url { private set; get; }
         public string tipo { private set; get; }
 
         public Links(string url, string tipo)

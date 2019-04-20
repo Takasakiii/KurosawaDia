@@ -30,7 +30,7 @@ namespace Bot.Comandos
                 .WithColor(Color.DarkPurple)
                 .Build();
 
-            if(!context.IsPrivate)
+            if (!context.IsPrivate)
             {
                 try
                 {
@@ -41,14 +41,16 @@ namespace Bot.Comandos
                         .WithDescription($"**{context.User}** eu enviarei a lista dos meus comandos no seu privado 😜")
                        .Build());
                     prive.SendMessageAsync(embed: embed);
-                } catch
+                }
+                catch
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription($"**{context.User}** eu não consegui enviar a lista dos meus comandos no seu privado 😔")
                         .WithColor(Color.DarkPurple)
                      .Build());
                 }
-            } else
+            }
+            else
             {
                 context.Channel.SendMessageAsync(embed: embed);
             }
@@ -87,7 +89,7 @@ namespace Bot.Comandos
         {
             DiscordSocketClient client = context.Client as DiscordSocketClient;
             int users = 0;
-            foreach(SocketGuild servidor in client.Guilds)
+            foreach (SocketGuild servidor in client.Guilds)
             {
                 users = servidor.Users.Count;
             }

@@ -4,7 +4,7 @@
     {
         public string weebToken { private set; get; }
         public uint id { private set; get; }
-        public ApiConfig(string weebToken,uint id)
+        public ApiConfig(string weebToken, uint id)
         {
             this.weebToken = weebToken;
             this.id = id;

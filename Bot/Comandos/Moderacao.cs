@@ -13,10 +13,10 @@ namespace Bot.Comandos
         {
             new Thread(() =>
             {
-                if(!context.IsPrivate)
+                if (!context.IsPrivate)
                 {
                     SocketGuildUser userGuild = context.User as SocketGuildUser;
-                    if(userGuild.GuildPermissions.KickMembers)
+                    if (userGuild.GuildPermissions.KickMembers)
                     {
                         string[] comando = (string[])args[1];
 
@@ -39,7 +39,7 @@ namespace Bot.Comandos
 
                         if (user != null)
                         {
-                            if(user.Id != context.Client.CurrentUser.Id)
+                            if (user.Id != context.Client.CurrentUser.Id)
                             {
                                 string motivo = "";
                                 for (int i = 2; i < comando.Length; i++)
@@ -81,21 +81,24 @@ namespace Bot.Comandos
                                             .WithDescription($"**{context.User}** o membro {user.Mention} foi kickado")
                                             .WithColor(Color.DarkPurple)
                                         .Build());
-                                } catch
+                                }
+                                catch
                                 {
                                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                             .WithDescription($"**{context.User}**vc disse batata")
                                             .WithColor(Color.DarkPurple)
                                         .Build());
                                 }
-                            } else
+                            }
+                            else
                             {
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithDescription($"**{context.User}** por-favor não me kicke desu")
                                         .WithColor(Color.DarkPurple)
                                     .Build());
                             }
-                        } else
+                        }
+                        else
                         {
                             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithTitle("Você precisa marcar o usuario que deseja kickar")
@@ -104,14 +107,16 @@ namespace Bot.Comandos
                                     .WithColor(Color.Red)
                                 .Build());
                         }
-                    } else
+                    }
+                    else
                     {
                         context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithDescription($"**{context.User}** você não tem a pdoe de kickar membros")
                                 .WithColor(Color.Red)
                             .Build());
                     }
-                } else
+                }
+                else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription("Esse comando só pode ser usado em servidores")

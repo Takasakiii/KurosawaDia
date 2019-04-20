@@ -16,5 +16,17 @@ namespace Bot
         {
             InitializeComponent();
         }
+
+        private void Servidores_Load(object sender, EventArgs e)
+        {
+            string[] b = { "a", "b" };
+
+            for(int i =0; i < 5; i++)
+            {
+                dataServidores.Rows.Add(b);
+            }
+
+
+        }
     }
 }

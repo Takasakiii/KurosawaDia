@@ -94,8 +94,8 @@ namespace Bot.Nucleo.Modulos
         }
 
         public void say(CommandContext context, object[] args)
-        { 
-            if(!context.IsPrivate)
+        {
+            if (!context.IsPrivate)
             {
                 string[] comando = (string[])args[1];
                 string msg = string.Join(" ", comando, 1, (comando.Length - 1));
@@ -123,7 +123,8 @@ namespace Bot.Nucleo.Modulos
                             .WithColor(Color.Red)
                         .Build());
                 }
-            } else
+            }
+            else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription("você so pode usar esse comando em servidores")
@@ -135,7 +136,7 @@ namespace Bot.Nucleo.Modulos
         //nome bem top
         public void simg(CommandContext context, object[] args)
         {
-            if(!context.IsPrivate)
+            if (!context.IsPrivate)
             {
                 string url = $"{context.Guild.IconUrl}?size=2048";
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -144,7 +145,8 @@ namespace Bot.Nucleo.Modulos
                         .WithImageUrl(url)
                         .WithColor(Color.DarkPurple)
                     .Build());
-            } else
+            }
+            else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription($"**{context.User}** esse comando so pode ser usado em servidores")
@@ -156,17 +158,18 @@ namespace Bot.Nucleo.Modulos
         public void bigtext(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length -1));
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
             char[] aa = msg.ToCharArray();
 
             string txt = "";
-            for(int i=0; i< aa.Length; i++)
+            for (int i = 0; i < aa.Length; i++)
             {
                 if (aa[i].ToString() == " ")
                 {
                     txt += " ";
-                } else
+                }
+                else
                 {
                     txt += $":regional_indicator_{aa[i]}:";
                 }
@@ -179,7 +182,7 @@ namespace Bot.Nucleo.Modulos
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            if(msg != "")
+            if (msg != "")
             {
                 IMessageChannel canal = context.Client.GetChannelAsync(556598669500088320).GetAwaiter().GetResult() as IMessageChannel;
 
@@ -194,7 +197,8 @@ namespace Bot.Nucleo.Modulos
                         .WithDescription($"**{context.User}** sua sugestão foi enviada a o meu servidor")
                         .WithColor(Color.DarkPurple)
                     .Build());
-            } else
+            }
+            else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle("Você precisa me falara uma sugestão")

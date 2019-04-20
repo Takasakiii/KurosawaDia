@@ -3,7 +3,6 @@ using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using System.Linq;
 using Weeb.net;
 using Weeb.net.Data;
 
@@ -13,11 +12,11 @@ namespace Bot.Comandos
     {
         private void weeb(CommandContext context, string tipo, string msg, bool auto = true)
         {
-             WeebClient weebClient = new WeebGen().weebClient;
-             RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
-             string[] nome = new string[2];
+            WeebClient weebClient = new WeebGen().weebClient;
+            RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
+            string[] nome = new string[2];
 
-            if(context.Message.MentionedUserIds.Count != 0)
+            if (context.Message.MentionedUserIds.Count != 0)
             {
                 SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
 
@@ -33,19 +32,21 @@ namespace Bot.Comandos
 
             SocketGuildUser userGuild = context.User as SocketGuildUser;
 
-            if(userGuild.Nickname != null)
+            if (userGuild.Nickname != null)
             {
                 nome[1] = userGuild.Nickname;
-            } else
+            }
+            else
             {
                 nome[1] = userGuild.Username;
             }
 
             string txt = "";
-            if(auto)
+            if (auto)
             {
                 txt = $"{nome[1]} {msg} {nome[0]}";
-            } else
+            }
+            else
             {
                 txt = msg.Replace("%author%", nome[1]);
             }

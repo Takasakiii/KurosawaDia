@@ -75,7 +75,7 @@ namespace LauncherGUI
 
         private void BtServidores_Click(object sender, EventArgs e)
         {
-
+            new Servidores().Show();
         }
     }
 }

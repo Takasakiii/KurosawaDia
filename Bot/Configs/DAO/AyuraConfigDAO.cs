@@ -10,12 +10,12 @@ namespace Bot.DAO
 
         public AyuraConfig Carregar(AyuraConfig ayuraConfig)
         {
-            using(SQLiteCommand cmd = new SQLiteCommand(conexao))
+            using (SQLiteCommand cmd = new SQLiteCommand(conexao))
             {
                 cmd.CommandText = "select * from AyuraConfig where id = @id";
                 cmd.Parameters.AddWithValue("@id", ayuraConfig.id);
                 SQLiteDataReader rs = cmd.ExecuteReader();
-                if(rs.Read())
+                if (rs.Read())
                 {
                     ayuraConfig.SetBotConfig((string)rs["token"], ((string)rs["prefix"]).ToCharArray(), (string)rs["idDono"]);
                 }

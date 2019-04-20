@@ -25,16 +25,16 @@ namespace Bot.Nucleo.Eventos
             var lastClassCommand = new Utility();
 
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
-            CommandContext commandContex = new CommandContext(client, mensagemTratada); 
+            CommandContext commandContex = new CommandContext(client, mensagemTratada);
 
-            if(!mensagem.Author.IsBot)
+            if (!mensagem.Author.IsBot)
             {
                 int argPos = 0;
-                if(mensagemTratada.HasStringPrefix(new string(config.prefix), ref argPos))
+                if (mensagemTratada.HasStringPrefix(new string(config.prefix), ref argPos))
                 {
                     string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
 
-                    if(messageSemPrefix != "")
+                    if (messageSemPrefix != "")
                     {
                         string[] comando;
                         try
