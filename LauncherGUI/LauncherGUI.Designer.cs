@@ -1,6 +1,6 @@
 ﻿namespace LauncherGUI
 {
-    partial class launcherGUI
+    partial class LauncherGUI
     {
         /// <summary>
         /// Variável de designer necessária.
@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(launcherGUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LauncherGUI));
             this.label1 = new System.Windows.Forms.Label();
             this.txtLocal = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
             this.btLocal = new System.Windows.Forms.Button();
             this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
-            this.btServidores = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -79,23 +78,12 @@
             // 
             this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.fdDBFinder_FileOk);
             // 
-            // btServidores
-            // 
-            this.btServidores.Location = new System.Drawing.Point(554, 4);
-            this.btServidores.Name = "btServidores";
-            this.btServidores.Size = new System.Drawing.Size(75, 23);
-            this.btServidores.TabIndex = 4;
-            this.btServidores.Text = "Servidores";
-            this.btServidores.UseVisualStyleBackColor = true;
-            this.btServidores.Click += new System.EventHandler(this.BtServidores_Click);
-            // 
-            // launcherGUI
+            // LauncherGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(633, 32);
-            this.Controls.Add(this.btServidores);
+            this.ClientSize = new System.Drawing.Size(552, 32);
             this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtLocal);
@@ -104,7 +92,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.MaximizeBox = false;
-            this.Name = "launcherGUI";
+            this.Name = "LauncherGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ayura Launcher";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LauncherGUI_FormClosed);
@@ -121,7 +109,6 @@
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Button btLocal;
         private System.Windows.Forms.OpenFileDialog fdDBFinder;
-        private System.Windows.Forms.Button btServidores;
     }
 }
 
