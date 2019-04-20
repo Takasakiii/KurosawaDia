@@ -47,6 +47,7 @@
             // 
             // txtLocal
             // 
+            this.txtLocal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLocal.Enabled = false;
             this.txtLocal.Location = new System.Drawing.Point(75, 7);
             this.txtLocal.Name = "txtLocal";
@@ -76,7 +77,9 @@
             // 
             // fdDBFinder
             // 
-            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.fdDBFinder_FileOk);
+            this.fdDBFinder.Filter = "Bancos de dados SQLite|*.db";
+            this.fdDBFinder.Title = "Selecione a db";
+            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.FdDBFinder_FileOk);
             // 
             // LauncherGUI
             // 
@@ -95,7 +98,6 @@
             this.Name = "LauncherGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ayura Launcher";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LauncherGUI_FormClosed);
             this.Load += new System.EventHandler(this.LauncherGUI_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
