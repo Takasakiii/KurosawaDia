@@ -1,7 +1,6 @@
 ﻿using Bot;
 using Bot.Singletons;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
@@ -11,8 +10,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string nomeArquivo = "dblocal.ayura"; // constande de facepalm
-        private Thread botThread;
+        private const string arquivo = "db.ayura";
         public LauncherGUI()
         {
             InitializeComponent();
@@ -20,60 +18,35 @@ namespace LauncherGUI
 
         private void LauncherGUI_Load(object sender, EventArgs e)
         {
-            if (File.Exists(nomeArquivo))
+            if (File.Exists(arquivo))
             {
-                txtLocal.Text = File.ReadAllText(nomeArquivo);
+                txtLocal.Text = File.ReadAllText(arquivo);
                 btIniciar.Enabled = true;
             }
         }
-
         private void BtLocal_Click(object sender, EventArgs e)
         {
             fdDBFinder.ShowDialog();
         }
-
-        private void fdDBFinder_FileOk(object sender, CancelEventArgs e)
+        private void FdDBFinder_FileOk(object sender, CancelEventArgs e)
         {
-            //refaz
-            if (!fdDBFinder.FileName.EndsWith(".db"))
+            txtLocal.Text = fdDBFinder.FileName;
+            btIniciar.Enabled = true;
+            if (File.Exists(arquivo))
             {
-                MessageBox.Show("Essa não é um db válida");
+                File.Delete(arquivo);
             }
-            else
-            {
-                txtLocal.Text = fdDBFinder.FileName;
-                btIniciar.Enabled = true;
-                if (File.Exists(nomeArquivo))
-                {
-                    File.Delete(nomeArquivo);
-                }
-                File.Create(nomeArquivo).Close();
-                File.WriteAllText(nomeArquivo, txtLocal.Text);
-            }
+            File.Create(arquivo).Close();
+            File.WriteAllText(arquivo, txtLocal.Text);
         }
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
             SingletonConfig.localConfig = txtLocal.Text;
-            try
-            {
-                botThread = new Thread(() => new Core().IniciarBot());
-                botThread.Start();
 
-                btIniciar.Enabled = false;
-                MessageBox.Show("O bot foi iniciado");
-            }
-            catch (Exception erro)
-            {
-                MessageBox.Show($"Não foi possivel iniciar o bot: {erro}");
-            }
+            new Thread(() => new Core().IniciarBot()).Start();
+            btIniciar.Enabled = false;
+            MessageBox.Show("O Bot foi iniciado");
         }
-
-        private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            MessageBox.Show("Todos os processos foram encerrados");
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
-        }
-
     }
 }

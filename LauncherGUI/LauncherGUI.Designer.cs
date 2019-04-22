@@ -76,7 +76,9 @@
             // 
             // fdDBFinder
             // 
-            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.fdDBFinder_FileOk);
+            this.fdDBFinder.Filter = "Arquivos db|*.db";
+            this.fdDBFinder.Title = "Selecione o local da db";
+            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.FdDBFinder_FileOk);
             // 
             // LauncherGUI
             // 
@@ -95,7 +97,6 @@
             this.Name = "LauncherGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ayura Launcher";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LauncherGUI_FormClosed);
             this.Load += new System.EventHandler(this.LauncherGUI_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
