@@ -117,7 +117,7 @@ namespace Bot.Comandos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle("Você precisa de me falar uma mensagem")
+                            .WithDescription($"**{context.User}** você precisa de me falar uma mensagem")
                             .AddField("Uso do comando:", $"`{(string)args[0]}say <mensagem>`")
                             .AddField("Uso do comando:", $"`{(string)args[0]}say @Thhrag#2527 sai do facebook`")
                             .WithColor(Color.Red)
@@ -201,7 +201,7 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle("Você precisa me falara uma sugestão")
+                        .WithDescription($"**{context.User}** você precisa me falara uma sugestão")
                         .AddField("Uso: ", $"`{args[0]}sugestao <sugestão>`")
                         .AddField("Exemplo: ", $"`{args[0]}sugestao fazer com que o bot ficasse mais tempo on`")
                         .WithColor(Color.Red)

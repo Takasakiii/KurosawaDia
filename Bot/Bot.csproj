@@ -5,14 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="APIs\**" />
+    <EmbeddedResource Remove="APIs\**" />
+    <None Remove="APIs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.0.1" />
     <PackageReference Include="MySql.Data" Version="8.0.15" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.110" />
     <PackageReference Include="Weeb.net" Version="1.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="APIs\" />
   </ItemGroup>
 
 </Project>
