@@ -1,5 +1,8 @@
 ﻿using Bot;
 using Bot.Singletons;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,44 +11,69 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string arquivo = "db.ayura";
+        private const string nomeArquivo = "dblocal.ayura"; // constande de facepalm
+        private Thread botThread;
         public LauncherGUI()
         {
             InitializeComponent();
         }
 
-        private void LauncherGUI_Load(object sender, System.EventArgs e)
+        private void LauncherGUI_Load(object sender, EventArgs e)
         {
-            if (File.Exists(arquivo))
+            if (File.Exists(nomeArquivo))
             {
-                txtLocal.Text = File.ReadAllText(arquivo);
+                txtLocal.Text = File.ReadAllText(nomeArquivo);
                 btIniciar.Enabled = true;
             }
         }
-        private void BtLocal_Click(object sender, System.EventArgs e)
+
+        private void BtLocal_Click(object sender, EventArgs e)
         {
             fdDBFinder.ShowDialog();
         }
 
-        private void FdDBFinder_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void fdDBFinder_FileOk(object sender, CancelEventArgs e)
         {
-            txtLocal.Text = fdDBFinder.FileName;
-            btIniciar.Enabled = true;
-            if (File.Exists(arquivo))
+            //refaz
+            if (!fdDBFinder.FileName.EndsWith(".db"))
             {
-                File.Delete(arquivo);
+                MessageBox.Show("Essa não é um db válida");
             }
-            File.Create(arquivo).Close();
-            File.WriteAllText(arquivo, txtLocal.Text);
+            else
+            {
+                txtLocal.Text = fdDBFinder.FileName;
+                btIniciar.Enabled = true;
+                if (File.Exists(nomeArquivo))
+                {
+                    File.Delete(nomeArquivo);
+                }
+                File.Create(nomeArquivo).Close();
+                File.WriteAllText(nomeArquivo, txtLocal.Text);
+            }
         }
 
-        private void BtIniciar_Click(object sender, System.EventArgs e)
+        private void BtIniciar_Click(object sender, EventArgs e)
         {
             SingletonConfig.localConfig = txtLocal.Text;
+            try
+            {
+                botThread = new Thread(() => new Core().IniciarBot());
+                botThread.Start();
 
-            new Thread(() => new Core().IniciarBot()).Start();
-            btIniciar.Enabled = false;
-            MessageBox.Show("O Bot foi iniciado");
+                btIniciar.Enabled = false;
+                MessageBox.Show("O bot foi iniciado");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show($"Não foi possivel iniciar o bot: {erro}");
+            }
         }
+
+        private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show("Todos os processos foram encerrados");
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
+
     }
 }
