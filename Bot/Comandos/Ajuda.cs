@@ -4,7 +4,7 @@ using Discord.WebSocket;
 
 namespace Bot.Comandos
 {
-    public class Ajuda : Moderacao
+    public class Ajuda : Image
     {
         public void ajuda(CommandContext context, object[] args)
         {

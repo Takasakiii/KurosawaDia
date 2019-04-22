@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Bot.Comandos
 {
-    public class Utility : Nsfw
+    public class Utility : Owner
     {
         public void avatar(CommandContext context, object[] args)
         {
