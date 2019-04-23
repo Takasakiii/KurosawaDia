@@ -13,14 +13,12 @@ namespace Bot.Comandos
 {
     public class Weeb : Moderacao
     {
-        private void weeb(CommandContext context, string tipo, string msg, bool auto = true)
+        private void weeb(CommandContext context, object[] args,  string tipo, string msg, bool auto = true)
         {
-            ApiConfig config = new ApiConfig(1);
-            ApiConfigDAO dao = new ApiConfigDAO();
-            config = dao.Carregar(config);
 
-            var aa = config.weebToken;
             WeebClient weebClient = new WeebClient();
+
+            ApiConfig config = (ApiConfig)args[2];
             weebClient.Authenticate(config.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
 
             RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
@@ -70,47 +68,47 @@ namespace Bot.Comandos
 
         public void hug(CommandContext context, object[] args)
         {
-            weeb(context, "hug", "esta abraçando");
+            weeb(context, args, "hug", "esta abraçando");
         }
 
         public void kiss(CommandContext context, object[] args)
         {
-            weeb(context, "kiss", "esta beijando");
+            weeb(context, args, "kiss", "esta beijando");
         }
 
         public void slap(CommandContext context, object[] args)
         {
-            weeb(context, "slap", "esta dando um tapa no");
+            weeb(context, args, "slap", "esta dando um tapa no");
         }
 
         public void punch(CommandContext context, object[] args)
         {
-            weeb(context, "punch", "esta dando um soco no");
+            weeb(context, args, "punch", "esta dando um soco no");
         }
 
         public void lick(CommandContext context, object[] args)
         {
-            weeb(context, "lick", "esta lambendo o");
+            weeb(context, args, "lick", "esta lambendo o");
         }
 
         public void cry(CommandContext context, object[] args)
         {
-            weeb(context, "cry", "%author% esta chorando", false);
+            weeb(context, args, "cry", "%author% esta chorando", false);
         }
 
         public void megumin(CommandContext context, object[] args)
         {
-            weeb(context, "megumin", "Megumin ❤", false);
+            weeb(context, args, "megumin", "Megumin ❤", false);
         }
 
         public void rem(CommandContext context, object[] args)
         {
-            weeb(context, "rem", "rem ❤", false);
+            weeb(context, args, "rem", "rem ❤", false);
         }
 
         public void pat(CommandContext context, object[] args)
         {
-            weeb(context, "pat", "fazendo carinho no");
+            weeb(context, args, "pat", "fazendo carinho no");
 
         }
 

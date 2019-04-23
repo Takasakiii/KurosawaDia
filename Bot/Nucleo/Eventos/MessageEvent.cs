@@ -13,11 +13,13 @@ namespace Bot.Nucleo.Eventos
     {
         private readonly AyuraConfig config;
         private readonly DiscordSocketClient client;
+        private readonly ApiConfig apiConfig;
 
-        public MessageEvent(DiscordSocketClient client, AyuraConfig config)
+        public MessageEvent(DiscordSocketClient client, AyuraConfig config, ApiConfig apiConfig)
         {
             this.client = client;
             this.config = config;
+            this.apiConfig = apiConfig;
         }
 
         public async Task MessageRecived(SocketMessage mensagem)
@@ -36,17 +38,17 @@ namespace Bot.Nucleo.Eventos
 
                     if (messageSemPrefix != "")
                     {
-                        string[] comando;
                         try
                         {
-                            comando = messageSemPrefix.Split(' ');
+                            string[] comando = messageSemPrefix.Split(' ');
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                             object instanced = lastClassCommand;
                             object[] parametros = new object[2];
                             parametros[0] = commandContex;
-                            object[] args = new object[2];
+                            object[] args = new object[3];
                             args[0] = new string(config.prefix);
                             args[1] = comando;
+                            args[2] = apiConfig;
                             parametros[1] = args;
 
                             metodo.Invoke(instanced, parametros);
