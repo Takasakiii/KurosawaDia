@@ -60,9 +60,10 @@ namespace Bot.Comandos
         {
             string[] nome = new string[2];
 
-            if (context.Message.MentionedUserIds.Count != 0)
+            System.Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            if (getUser.Item1)
             {
-                SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
+                SocketGuildUser user = getUser.Item2 as SocketGuildUser;
 
                 if (user.Nickname != null)
                 {

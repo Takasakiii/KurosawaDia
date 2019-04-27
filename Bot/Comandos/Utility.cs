@@ -4,9 +4,6 @@ using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
 using System;
-using System.IO;
-using System.Net;
-using System.Text;
 
 namespace Bot.Comandos
 {
@@ -14,12 +11,12 @@ namespace Bot.Comandos
     {
         public void avatar(CommandContext context, object[] args)
         {
+            Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
             IUser user;
-            try
+            if(getUser.Item1)
             {
-                user = new User().GetUserAsync(context).GetAwaiter().GetResult();
-            }
-            catch
+                user = getUser.Item2;
+            } else
             {
                 user = context.User;
             }
@@ -189,24 +186,28 @@ namespace Bot.Comandos
             context.Message.DeleteAsync().GetAwaiter().GetResult();
             SocketTextChannel textChannel = context.Channel as SocketTextChannel;
 
-            SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
-            string nome = "";
-            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
-
-            if (user.Nickname != null)
+            Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            if(getUser.Item1)
             {
-                nome = user.Nickname;
-            }
-            else
-            {
-                nome = user.Username;
-            }
+                SocketGuildUser user = getUser.Item2 as SocketGuildUser;
+                string nome = "";
+                string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-            IWebhook webhook = textChannel.CreateWebhookAsync(nome).GetAwaiter().GetResult() as IWebhook;
+                if (user.Nickname != null)
+                {
+                    nome = user.Nickname;
+                }
+                else
+                {
+                    nome = user.Username;
+                }
 
-            DiscordWebhookClient webhookClient = new DiscordWebhookClient(webhook);
-            webhookClient.SendMessageAsync(msg);
-            webhook.DeleteAsync().GetAwaiter().GetResult();
+                IWebhook webhook = textChannel.CreateWebhookAsync(nome).GetAwaiter().GetResult() as IWebhook;
+
+                DiscordWebhookClient webhookClient = new DiscordWebhookClient(webhook);
+                webhookClient.SendMessageAsync(msg);
+                webhook.DeleteAsync().GetAwaiter().GetResult();
+            }
         }
     }
 }
