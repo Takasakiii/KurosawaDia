@@ -1,5 +1,4 @@
-﻿using Bot.Comandos;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -16,6 +15,5 @@ namespace Bot.Comandos
                 .WithDescription($" meu ping é {client.Latency}ms") //pedreragem top
                 .Build());
         }
-
     }
 }

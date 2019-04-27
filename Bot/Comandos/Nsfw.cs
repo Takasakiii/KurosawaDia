@@ -64,6 +64,11 @@ namespace Bot.Comandos
             string[] links = { "https://nekos.life/api/v2/img/nsfw_neko_gif", "https://nekos.life/api/v2/img/lewdk" };
             nsfw(context, new ArrayExtensions().GetRandom(links), "url");
         }
+
+        public void anal(CommandContext context, object[] args)
+        {
+            nsfw(context, "https://nekobot.xyz/api/image?type=anal", "message");
+        }
     }
 
 

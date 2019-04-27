@@ -1,8 +1,12 @@
-﻿using Discord;
+﻿using Bot.Extensions;
+using Discord;
 using Discord.Commands;
+using Discord.Webhook;
 using Discord.WebSocket;
 using System;
-using System.Linq;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace Bot.Comandos
 {
@@ -13,24 +17,11 @@ namespace Bot.Comandos
             IUser user;
             try
             {
-                if (context.Message.MentionedUserIds.Count != 0)
-                {
-                    user = context.Client.GetUserAsync(context.Message.MentionedUserIds.ElementAt(0)).GetAwaiter().GetResult();
-                }
-                else
-                {
-                    string[] comando = (string[])args[1]; //¯\_(ツ)_/¯
-                    user = context.Client.GetUserAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
-                }
+                user = new User().GetUserAsync(context).GetAwaiter().GetResult();
             }
             catch
             {
                 user = context.User;
-            }
-
-            if (user == null)
-            {
-                user = context.User; // avaliação desnesessaria 
             }
             string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
@@ -79,7 +70,10 @@ namespace Bot.Comandos
             catch (ArgumentException)
             {
 
-                context.Channel.SendMessageAsync($"favor enfiar: {comando[1]} no cu do meu dono, agradecida");
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription($"**{context.User}** desculpe mas o meu dono eh um baiano e ainda n consegue aumentar os emoji padrão do discord")
+                        .WithColor(Color.DarkPurple)
+                    .Build());
             }
             catch (Exception e)
             {
@@ -155,28 +149,6 @@ namespace Bot.Comandos
             }
         }
 
-        public void bigtext(CommandContext context, object[] args)
-        {
-            string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-            char[] aa = msg.ToCharArray();
-
-            string txt = "";
-            for (int i = 0; i < aa.Length; i++)
-            {
-                if (aa[i].ToString() == " ")
-                {
-                    txt += " ";
-                }
-                else
-                {
-                    txt += $":regional_indicator_{aa[i]}:";
-                }
-            }
-            context.Channel.SendMessageAsync(txt.Substring(0, txt.Length - 22));
-        }
-
         public void sugestao(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
@@ -207,6 +179,34 @@ namespace Bot.Comandos
                         .WithColor(Color.Red)
                     .Build());
             }
+        }
+
+        public void fakemsg(CommandContext context, object[] args)
+        {
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+            context.Message.DeleteAsync().GetAwaiter().GetResult();
+            SocketTextChannel textChannel = context.Channel as SocketTextChannel;
+
+            SocketGuildUser user = new User().GetUserAsync(context).GetAwaiter().GetResult() as SocketGuildUser;
+            string nome = "";
+            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+
+            if (user.Nickname != null)
+            {
+                nome = user.Nickname;
+            }
+            else
+            {
+                nome = user.Username;
+            }
+
+            IWebhook webhook = textChannel.CreateWebhookAsync(nome).GetAwaiter().GetResult() as IWebhook;
+
+            DiscordWebhookClient webhookClient = new DiscordWebhookClient(webhook);
+            webhookClient.SendMessageAsync(msg);
+            webhook.DeleteAsync().GetAwaiter().GetResult();
         }
     }
 }

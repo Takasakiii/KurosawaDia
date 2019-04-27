@@ -1,6 +1,4 @@
-﻿using Bot.Constructor;
-using Bot.DAO;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
@@ -13,7 +11,7 @@ namespace Bot.Comandos
 {
     public class Weeb : Moderacao
     {
-        private void weeb(CommandContext context, object[] args,  string tipo, string msg, bool auto = true)
+        private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true)
         {
 
             WeebClient weebClient = new WeebClient();
@@ -36,6 +34,10 @@ namespace Bot.Comandos
                 {
                     nome[0] = user.Username;
                 }
+            }
+            else
+            {
+                nome[0] = "ele(a) mesmo";
             }
 
             SocketGuildUser userGuild = context.User as SocketGuildUser;

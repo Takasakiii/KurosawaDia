@@ -1,4 +1,5 @@
 ﻿using Bot.Comandos;
+using Bot.DAO;
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
@@ -13,13 +14,11 @@ namespace Bot.Nucleo.Eventos
     {
         private readonly AyuraConfig config;
         private readonly DiscordSocketClient client;
-        private readonly ApiConfig apiConfig;
 
-        public MessageEvent(DiscordSocketClient client, AyuraConfig config, ApiConfig apiConfig)
+        public MessageEvent(DiscordSocketClient client, AyuraConfig config)
         {
             this.client = client;
             this.config = config;
-            this.apiConfig = apiConfig;
         }
 
         public async Task MessageRecived(SocketMessage mensagem)
@@ -40,6 +39,10 @@ namespace Bot.Nucleo.Eventos
                     {
                         try
                         {
+                            ApiConfig ApiConfig = new ApiConfig(1);
+                            ApiConfigDAO ApiDao = new ApiConfigDAO();
+                            ApiConfig = ApiDao.Carregar(ApiConfig);
+
                             string[] comando = messageSemPrefix.Split(' ');
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                             object instanced = lastClassCommand;
@@ -48,7 +51,7 @@ namespace Bot.Nucleo.Eventos
                             object[] args = new object[3];
                             args[0] = new string(config.prefix);
                             args[1] = comando;
-                            args[2] = apiConfig;
+                            args[2] = ApiConfig;
                             parametros[1] = args;
 
                             metodo.Invoke(instanced, parametros);

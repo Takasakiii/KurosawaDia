@@ -17,4 +17,8 @@
     <PackageReference Include="Weeb.net" Version="1.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="imgs\" />
+  </ItemGroup>
+
 </Project>

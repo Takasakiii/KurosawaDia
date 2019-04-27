@@ -12,15 +12,11 @@ namespace Bot
         {
             DiscordSocketClient client = new DiscordSocketClient();
 
-            ApiConfig ApiConfig = new ApiConfig(1);
-            ApiConfigDAO ApiDao = new ApiConfigDAO();
-            ApiConfig = ApiDao.Carregar(ApiConfig);
-
             AyuraConfig config = new AyuraConfig(1);
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
-            client.MessageReceived += new MessageEvent(client, config, ApiConfig).MessageRecived;
+            client.MessageReceived += new MessageEvent(client, config).MessageRecived;
 
             Iniciar(client, config).GetAwaiter().GetResult();
         }
