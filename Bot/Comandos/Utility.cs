@@ -11,7 +11,7 @@ namespace Bot.Comandos
     {
         public void avatar(CommandContext context, object[] args)
         {
-            Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
             IUser user;
             if(getUser.Item1)
             {
@@ -186,7 +186,7 @@ namespace Bot.Comandos
             context.Message.DeleteAsync().GetAwaiter().GetResult();
             SocketTextChannel textChannel = context.Channel as SocketTextChannel;
 
-            Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
             if(getUser.Item1)
             {
                 SocketGuildUser user = getUser.Item2 as SocketGuildUser;

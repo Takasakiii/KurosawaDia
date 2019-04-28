@@ -22,7 +22,7 @@ namespace Bot.Comandos
             RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
             string[] nome = new string[2];
 
-            System.Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
             if (getUser.Item1)
             {
                 SocketGuildUser user = getUser.Item2 as SocketGuildUser;

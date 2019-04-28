@@ -2,6 +2,10 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 
 namespace Bot.Comandos
@@ -44,7 +48,7 @@ namespace Bot.Comandos
                             msg[3] = "softban";
                             break;
                     }
-                    System.Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+                    System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
                     if (getUser.Item1 && getUser.Item2 != null)
                     {
                         SocketGuildUser user = getUser.Item2 as SocketGuildUser;
@@ -164,73 +168,7 @@ namespace Bot.Comandos
 
         public void unban(CommandContext context, object[] args)
         {
-            if(!context.IsPrivate)
-            {
-                SocketGuildUser bot = context.Guild.GetUserAsync(context.Client.CurrentUser.Id).GetAwaiter().GetResult() as SocketGuildUser;
 
-                if (bot.GuildPermissions.BanMembers)
-                {
-                    string[] comando = (string[])args[1];
-                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                    if (msg != "")
-                    {
-                        ulong id = 0;
-                        try
-                        {
-                            id = System.Convert.ToUInt64(msg);
-                        }
-                        catch
-                        {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** esse não é um id valido")
-                                .WithColor(Color.Red)
-                            .Build());
-                        }
-
-                        try
-                        {
-                            context.Guild.RemoveBanAsync(id).GetAwaiter().GetResult();
-
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** o usuário <@{id}> foi desbanido")
-                                .WithColor(Color.DarkPurple)
-                            .Build());
-
-                        }
-                        catch
-                        {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** esse membro não esta banido")
-                                .WithColor(Color.Red)
-                            .Build());
-                        }
-                    }
-                    else
-                    {
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** você precisa me dizer o id de quem você quer desbanir")
-                                .AddField("Uso do comando: ", $"`{(string)args[0]}unban <id da pessoa>`")
-                                .AddField("Exemplo: ", $"`{(string)args[0]}unban 368280970102833153`")
-                                .WithColor(Color.Red)
-                            .Build());
-                    }
-                }
-                else
-                {
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** eu não tenho a permissão para desbanir esse usuário")
-                            .WithColor(Color.Red)
-                        .Build());
-                }
-            }
-            else
-            {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** esse comando so pode ser usado em servidores")
-                            .WithColor(Color.Red)
-                        .Build());
-            }
         }
     }
 }

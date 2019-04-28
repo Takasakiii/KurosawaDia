@@ -1,66 +1,58 @@
 ﻿using Bot.Extensions;
+using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
 
 namespace Bot.Comandos
 {
     public class Image : Nsfw
     {
-        HttpExtensions http = new HttpExtensions();
-        public void neko(CommandContext context, object[] args)
-        {
-            string url = http.GetSite("https://nekos.life/api/v2/img/neko", "url"); //this is a constructor
 
+        private void img(CommandContext context, string txt, Links link = null, Links[] links = null)
+        {
+            if (links == null)
+            {
+                links = new Links[1];
+                links[0] = link;
+            }
+
+            Random rand = new Random();
+            int i = rand.Next(links.Length);
+
+            HttpExtensions http = new HttpExtensions();
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Um pouco de meninas gato (ou gatos com skin) sempre faz bem")
-                    .WithUrl(url)
-                    .WithImageUrl(url)
+                    .WithTitle(txt)
+                    .WithImageUrl(http.GetSite(links[i].url, links[i].tipo))
                     .WithColor(Color.DarkPurple)
                 .Build());
+        }
+        public void neko(CommandContext context, object[] args)
+        {
+            img(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", new Links("https://nekos.life/api/v2/img/neko", "url"));
         }
 
         public void cat(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://nekos.life/api/v2/img/meow", "url"); //construtor com repetição
-
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Meow")
-                    .WithUrl(url)
-                    .WithImageUrl(url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+            img(context, "Meow", new Links("https://nekos.life/api/v2/img/meow", "url"));
         }
 
         public void dog(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://random.dog/woof.json", "url"); //¯\_(ツ)_/¯
-
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Woof")
-                    .WithUrl(url)
-                    .WithImageUrl(url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+            img(context, "Meow", new Links("https://random.dog/woof.json", "url"));
         }
 
         public void img(CommandContext context, object[] args)
         {
-            string url = http.GetSite("https://nekos.life/api/v2/img/avatar", "url"); //¯\_(ツ)_/¯
-
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Uma simples imagem para usar onde quiser (ou não kerek)")
-                    .WithUrl(url)
-                    .WithImageUrl(url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+            img(context, "Uma simples imagem pra usar onde quiser", new Links("https://nekos.life/api/v2/img/avatar", "url"));
         }
 
         public void fuck(CommandContext context, object[] args)
         {
             string[] nome = new string[2];
 
-            System.Tuple<bool, IUser> getUser = new User().GetUserAsync(context, args);
+            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
             if (getUser.Item1)
             {
                 SocketGuildUser user = getUser.Item2 as SocketGuildUser;

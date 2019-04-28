@@ -1,4 +1,5 @@
 ﻿using Bot.Extensions;
+using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using System;
@@ -7,11 +8,17 @@ namespace Bot.Comandos
 {
     public class Nsfw : Weeb
     {
-        private void nsfw(CommandContext context, Link[] links, int quantidade = 1)
+        private void nsfw(CommandContext context, Links[] links = null, Links link = null, int quantidade = 1)
         {
             ITextChannel canal = context.Channel as ITextChannel;
             if (context.IsPrivate || canal.IsNsfw)
             {
+                if (links == null)
+                {
+                    links = new Links[1];
+                    links[0] = link;
+                }
+
                 HttpExtensions http = new HttpExtensions();
 
                 if (quantidade <= 1)
@@ -48,10 +55,10 @@ namespace Bot.Comandos
 
         public void hentai(CommandContext context, object[] args)
         {
-            Link[] links = {
-                new Link("https://nekobot.xyz/api/image?type=hentai", "message"),
-                new Link("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
-                new Link("https://nekos.life/api/v2/img/lewdk", "url"),
+            Links[] links = {
+                new Links("https://nekobot.xyz/api/image?type=hentai", "message"),
+                new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
+                new Links("https://nekos.life/api/v2/img/lewdk", "url"),
             };
 
             nsfw(context, links);
@@ -60,20 +67,20 @@ namespace Bot.Comandos
         public void hentaibomb(CommandContext context, object[] args)
         {
 
-            Link[] links = {
-                new Link("https://nekobot.xyz/api/image?type=hentai", "message"),
-                new Link("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
-                new Link("https://nekos.life/api/v2/img/lewdk", "url"),
+            Links[] links = {
+                new Links("https://nekobot.xyz/api/image?type=hentai", "message"),
+                new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
+                new Links("https://nekos.life/api/v2/img/lewdk", "url"),
             };
 
-            nsfw(context, links, 5);
+            nsfw(context, links, quantidade: 5);
         }
 
         public void hneko(CommandContext context, object[] args)
         {
-            Link[] links = {
-                new Link("https://nekos.life/api/v2/img/lewdki", "url"),
-                new Link("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
+            Links[] links = {
+                new Links("https://nekos.life/api/v2/img/lewdki", "url"),
+                new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
             };
 
             nsfw(context, links);
@@ -81,25 +88,8 @@ namespace Bot.Comandos
 
         public void anal(CommandContext context, object[] args)
         {
-            Link[] links = {
-                new Link( "https://nekobot.xyz/api/image?type=anal", "message"),
-            };
+            nsfw(context, link: new Links("https://nekobot.xyz/api/image?type=anal", "message"));
 
-            nsfw(context, links);
-
-        }
-    }
-
-
-    class Link
-    {
-        public string url { private set; get; }
-        public string tipo { private set; get; }
-
-        public Link(string url, string tipo)
-        {
-            this.url = url;
-            this.tipo = tipo;
         }
     }
 }
