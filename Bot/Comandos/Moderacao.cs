@@ -70,6 +70,12 @@ namespace Bot.Comandos
                                 IDMChannel privado = user.GetOrCreateDMChannelAsync().GetAwaiter().GetResult();
 
                                 string log = "";
+
+                                if(motivo.Length > 1025)
+                                {
+                                    motivo = motivo.Substring(0, 1024);
+                                }
+
                                 if (motivo != "")
                                 {
                                     log = $"Moderador: {context.User}  ||  Motivo: {motivo}";
@@ -86,6 +92,12 @@ namespace Bot.Comandos
                                                 .WithTitle(msg[0])
                                                 .WithColor(Color.Red)
                                             .Build());
+                                }
+
+
+                                if (log.Length > 512)
+                                {
+                                    log = $"Moderador: {context.User}";
                                 }
 
                                 Thread.Sleep(1000);

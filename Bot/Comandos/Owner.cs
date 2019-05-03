@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Bot.Extensions;
 using System;
 
 namespace Bot.Comandos
