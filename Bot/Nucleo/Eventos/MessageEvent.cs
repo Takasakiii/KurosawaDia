@@ -23,8 +23,6 @@ namespace Bot.Nucleo.Eventos
 
         public async Task MessageRecived(SocketMessage mensagem)
         {
-            var lastClassCommand = new Utility();
-
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
             CommandContext commandContex = new CommandContext(client, mensagemTratada);
 
@@ -44,6 +42,7 @@ namespace Bot.Nucleo.Eventos
                             ApiConfig = ApiDao.Carregar(ApiConfig);
 
                             string[] comando = messageSemPrefix.Split(' ');
+                            var lastClassCommand = new Utility();
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                             object instanced = lastClassCommand;
                             object[] parametros = new object[2];

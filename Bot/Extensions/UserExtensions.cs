@@ -9,8 +9,6 @@ namespace Bot.Extensions
     {
         public Tuple<bool, IUser> GetUserAsync(CommandContext context, object[] args = null, string txt = null)
         {
-
-
             ulong id = 0;
             if (context.Message.MentionedUserIds.Count != 0)
             {
@@ -30,30 +28,32 @@ namespace Bot.Extensions
                     msg = txt;
                 }
 
-                if (!context.IsPrivate)
+                if (context.Message.MentionedUserIds.Count >= 1)
                 {
-                    if (context.Message.MentionedUserIds.Count >= 1)
-                    {
-                        id = context.Message.MentionedUserIds.First();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            id = Convert.ToUInt64(msg);
-                        }
-                        catch
-                        {
-                            id = 0;
-                        }
-                    }
+                    id = context.Message.MentionedUserIds.First();
                 }
                 else
                 {
-                    id = 0;
+                    try
+                    {
+                        id = Convert.ToUInt64(msg);
+                    }
+                    catch
+                    {
+                        id = 0;
+                    }
                 }
             }
-            IUser user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
+
+            IUser user;
+            if (context.IsPrivate)
+            {
+                user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
+            }
+            else
+            {
+                user = null;
+            }
 
             if (user != null)
             {
