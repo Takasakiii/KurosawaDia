@@ -28,7 +28,7 @@ namespace Bot.Extensions
                     msg = txt;
                 }
 
-                if (context.Message.MentionedUserIds.Count >= 1)
+                if (context.Message.MentionedUserIds.Count == 1)
                 {
                     id = context.Message.MentionedUserIds.First();
                 }
@@ -46,7 +46,7 @@ namespace Bot.Extensions
             }
 
             IUser user;
-            if (context.IsPrivate)
+            if (!context.IsPrivate)
             {
                 user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
             }
