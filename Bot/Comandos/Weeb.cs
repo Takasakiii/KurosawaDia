@@ -1,5 +1,4 @@
-﻿using Bot.Extensions;
-using Bot.Modelos;
+﻿using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -15,7 +14,6 @@ namespace Bot.Comandos
         {
 
             WeebClient weebClient = new WeebClient();
-
             ApiConfig config = (ApiConfig)args[2];
             weebClient.Authenticate(config.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
 
@@ -41,15 +39,21 @@ namespace Bot.Comandos
                 nome[0] = "ele(a) mesmo";
             }
 
-            SocketGuildUser userGuild = context.User as SocketGuildUser;
+            if (!context.IsPrivate)
+            {
+                SocketGuildUser userGuild = context.User as SocketGuildUser;
 
-            if (userGuild.Nickname != null)
+                if (userGuild.Nickname != null)
+                {
+                    nome[1] = userGuild.Nickname;
+                }
+                else
+                {
+                    nome[1] = userGuild.Username;
+                }
+            } else
             {
-                nome[1] = userGuild.Nickname;
-            }
-            else
-            {
-                nome[1] = userGuild.Username;
+                nome[1] = context.User.Username;
             }
 
             string txt = "";
@@ -114,7 +118,5 @@ namespace Bot.Comandos
             weeb(context, args, "pat", "fazendo carinho no");
 
         }
-
-        //decepção = decepção + 3000%;
     }
 }

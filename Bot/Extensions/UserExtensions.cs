@@ -1,15 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Bot.Extensions
 {
     public class UserExtensions
     {
-        public Tuple<bool, IUser> GetUserAsync(CommandContext context, object[] args)
+        public Tuple<bool, IUser> GetUserAsync(CommandContext context, object[] args = null, string txt = null)
         {
 
 
@@ -20,31 +18,45 @@ namespace Bot.Extensions
             }
             else
             {
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                string msg = "";
 
-                SocketGuild guild = context.Guild as SocketGuild;
-
-                IReadOnlyCollection<SocketGuildUser> users = guild.Users;
-
-                try
+                if (txt == null && args != null)
                 {
-                    id = users.FirstOrDefault(x => x.Username.ToLowerInvariant() == msg.ToLowerInvariant()).Id;
+                    string[] comando = (string[])args[1];
+                    msg = string.Join(" ", comando, 1, (comando.Length - 1));
                 }
-                catch (NullReferenceException)
+                else
                 {
-                    id = users.FirstOrDefault(x => x.Id == Convert.ToUInt64(msg)).Id;
+                    msg = txt;
                 }
-                catch
+
+                if (!context.IsPrivate)
+                {
+                    if (context.Message.MentionedUserIds.Count >= 1)
+                    {
+                        id = context.Message.MentionedUserIds.First();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            id = Convert.ToUInt64(msg);
+                        }
+                        catch
+                        {
+                            id = 0;
+                        }
+                    }
+                }
+                else
                 {
                     id = 0;
                 }
             }
+            IUser user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
 
-            IUser user = null;
-            if (id != 0)
+            if (user != null)
             {
-                user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
                 return Tuple.Create(true, user);
             }
             else

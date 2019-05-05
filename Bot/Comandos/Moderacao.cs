@@ -1,11 +1,6 @@
-﻿using Bot.Extensions;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 
 namespace Bot.Comandos
@@ -71,7 +66,7 @@ namespace Bot.Comandos
 
                                 string log = "";
 
-                                if(motivo.Length > 1025)
+                                if (motivo.Length > 1025)
                                 {
                                     motivo = motivo.Substring(0, 1024);
                                 }
@@ -176,11 +171,6 @@ namespace Bot.Comandos
         public void softban(CommandContext context, object[] args)
         {
             moderacao(3, context, args);
-        }
-
-        public void unban(CommandContext context, object[] args)
-        {
-
         }
     }
 }

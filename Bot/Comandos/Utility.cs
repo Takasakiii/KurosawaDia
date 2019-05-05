@@ -1,5 +1,4 @@
-﻿using Bot.Extensions;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
@@ -11,23 +10,38 @@ namespace Bot.Comandos
     {
         public void avatar(CommandContext context, object[] args)
         {
-            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
-            IUser user;
-            if(getUser.Item1)
-            {
-                user = getUser.Item2;
-            } else
-            {
-                user = context.User;
-            }
-            string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithColor(Color.DarkPurple)
-                .WithAuthor($"{user}")
-                .WithDescription($"[Link Direto]({avatarUrl})")
-                .WithImageUrl(avatarUrl)
-            .Build());
+            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: msg);
+            if (getUser.Item1 || msg == "")
+            {
+                IUser user;
+                if (msg != "")
+                {
+                    user = getUser.Item2;
+                }
+                else
+                {
+                    user = context.User;
+                }
+
+                string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithColor(Color.DarkPurple)
+                    .WithAuthor($"{user}")
+                    .WithDescription($"[Link Direto]({avatarUrl})")
+                    .WithImageUrl(avatarUrl)
+                .Build());
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithColor(Color.DarkPurple)
+                    .WithDescription($"**{context.User}** eu não encontrei esse usuario")
+                .Build());
+            }
         }
 
         public void webcam(CommandContext context, object[] args)
@@ -187,7 +201,7 @@ namespace Bot.Comandos
             SocketTextChannel textChannel = context.Channel as SocketTextChannel;
 
             Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
-            if(getUser.Item1)
+            if (getUser.Item1)
             {
                 SocketGuildUser user = getUser.Item2 as SocketGuildUser;
                 string nome = "";

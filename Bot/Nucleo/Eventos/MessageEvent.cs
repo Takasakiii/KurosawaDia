@@ -35,7 +35,7 @@ namespace Bot.Nucleo.Eventos
                 {
                     string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
 
-                    if (messageSemPrefix != ""  && messageSemPrefix[0] != config.prefix[0])
+                    if (messageSemPrefix != "" && messageSemPrefix[0] != config.prefix[0])
                     {
                         try
                         {
