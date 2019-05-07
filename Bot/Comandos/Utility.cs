@@ -38,9 +38,11 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithColor(Color.DarkPurple)
-                    .WithDescription($"**{context.User}** eu não encontrei esse usuario")
-                .Build());
+                        .WithDescription($"**{context.User}** não encontrei essa pessoa")
+                        .AddField("Uso do Comando: ", $"`{(string)args[0]}avatar @pessoa`")
+                        .AddField("Exemplo: ", $"`{(string)args[0]}avatar @Hikari#3172`")
+                        .WithColor(Color.Red)
+                 .Build());
             }
         }
 
@@ -124,7 +126,7 @@ namespace Bot.Comandos
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription($"**{context.User}** você precisa de me falar uma mensagem")
                             .AddField("Uso do comando:", $"`{(string)args[0]}say <mensagem>`")
-                            .AddField("Uso do comando:", $"`{(string)args[0]}say @Thhrag#2527 sai do facebook`")
+                            .AddField("Uso do comando:", $"`{(string)args[0]}say @Sora#5614 cade o wallpaper?`")
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -189,38 +191,6 @@ namespace Bot.Comandos
                         .AddField("Exemplo: ", $"`{args[0]}sugestao fazer com que o bot ficasse mais tempo on`")
                         .WithColor(Color.Red)
                     .Build());
-            }
-        }
-
-        public void fakemsg(CommandContext context, object[] args)
-        {
-            string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-            context.Message.DeleteAsync().GetAwaiter().GetResult();
-            SocketTextChannel textChannel = context.Channel as SocketTextChannel;
-
-            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
-            if (getUser.Item1)
-            {
-                SocketGuildUser user = getUser.Item2 as SocketGuildUser;
-                string nome = "";
-                string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
-
-                if (user.Nickname != null)
-                {
-                    nome = user.Nickname;
-                }
-                else
-                {
-                    nome = user.Username;
-                }
-
-                IWebhook webhook = textChannel.CreateWebhookAsync(nome).GetAwaiter().GetResult() as IWebhook;
-
-                DiscordWebhookClient webhookClient = new DiscordWebhookClient(webhook);
-                webhookClient.SendMessageAsync(msg);
-                webhook.DeleteAsync().GetAwaiter().GetResult();
             }
         }
     }
