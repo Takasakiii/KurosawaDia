@@ -10,7 +10,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string arquivo = "db.ayura";
+        private const string arquivo = "db.ayura"; //aki nego sabe o q eh constante 
         public LauncherGUI()
         {
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace LauncherGUI
             if (File.Exists(arquivo))
             {
                 txtLocal.Text = File.ReadAllText(arquivo);
-                btIniciar.Enabled = true;
+                btIniciar.Enabled = true; // interface pode melhorar
             }
         }
         private void BtLocal_Click(object sender, EventArgs e)

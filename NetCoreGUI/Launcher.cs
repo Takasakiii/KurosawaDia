@@ -18,9 +18,10 @@ namespace NetCoreGUI
             } else
             {
                 SingletonConfig.localConfig = args[0];
-                new Thread(() => new Core().IniciarBot()).Start();
-                Console.Write("\nO Bot foi iniciado");
+                new Thread(() => new Core().IniciarBot()).Start(); //aki se repete
+                Console.Write("\nO Bot foi iniciado"); //repete
             }
+            // generalização
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Bot.Comandos
 
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription($"**{context.User}** eu enviarei a lista dos meus comandos no seu privado 😜")
+                        .WithDescription($"**{context.User}** eu enviarei a lista dos meus comandos no seu privado 😜") // generalizar embeds (EmbedBuilder is object magic)
                     .Build());
                 }
                 catch
@@ -61,7 +61,7 @@ namespace Bot.Comandos
         {
             Embed embed = new EmbedBuilder()
                 .WithTitle("Aqui estão meus convites: ")
-                .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")
+                .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)") //shrug
                 .WithColor(Color.DarkPurple)
                 .Build();
             if (!context.IsPrivate)
@@ -109,5 +109,5 @@ namespace Bot.Comandos
         }
     }
 
-    //o jogo
+    //gay
 }

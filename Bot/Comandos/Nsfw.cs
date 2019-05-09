@@ -11,9 +11,9 @@ namespace Bot.Comandos
         private void nsfw(CommandContext context, Links[] links = null, Links link = null, int quantidade = 1)
         {
             ITextChannel canal = context.Channel as ITextChannel;
-            if (context.IsPrivate || canal.IsNsfw)
+            if (context.IsPrivate || canal.IsNsfw) 
             {
-                if (links == null)
+                if (links == null)// 2019 - Kurosawa Dia - Todos os Direitos Reservador - Takasaki
                 {
                     links = new Links[1];
                     links[0] = link;
@@ -42,7 +42,7 @@ namespace Bot.Comandos
                         txt += $"{http.GetSite(links[x].url, links[x].tipo)}\n";
                     }
 
-                    context.Channel.SendMessageAsync(txt);
+                    context.Channel.SendMessageAsync(txt); // padronização ta top
                 }
             }
             else
@@ -59,7 +59,7 @@ namespace Bot.Comandos
                 new Links("https://nekobot.xyz/api/image?type=hentai", "message"),
                 new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
                 new Links("https://nekos.life/api/v2/img/lewdk", "url"),
-            };
+            }; // constantes enumeradaaaaassss (se odeia enumerate pelo menos deixa em constante fdp) atacar
 
             nsfw(context, links);
         }
@@ -71,7 +71,7 @@ namespace Bot.Comandos
                 new Links("https://nekobot.xyz/api/image?type=hentai", "message"),
                 new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
                 new Links("https://nekos.life/api/v2/img/lewdk", "url"),
-            };
+            }; //¯\_(ツ)_/¯
 
             nsfw(context, links, quantidade: 5);
         }
@@ -81,14 +81,14 @@ namespace Bot.Comandos
             Links[] links = {
                 new Links("https://nekos.life/api/v2/img/lewdki", "url"),
                 new Links("https://nekos.life/api/v2/img/nsfw_neko_gif", "url"),
-            };
+            };//¯\_(ツ)_ /¯
 
             nsfw(context, links);
         }
 
         public void anal(CommandContext context, object[] args)
         {
-            nsfw(context, link: new Links("https://nekobot.xyz/api/image?type=anal", "message"));
+            nsfw(context, link: new Links("https://nekobot.xyz/api/image?type=anal", "message")); //enumirati
 
         }
     }

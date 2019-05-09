@@ -77,7 +77,7 @@ namespace Bot.Comandos
                          .WithTitle(emote.Name)
                          .WithUrl(emote.Url)
                          .WithImageUrl(emote.Url)
-                         .WithColor(Color.DarkPurple)
+                         .WithColor(Color.DarkPurple) // public static embedbuilder string args
                      .Build());
             }
             catch (ArgumentException)
@@ -85,7 +85,7 @@ namespace Bot.Comandos
 
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription($"**{context.User}** desculpe mas o meu dono eh um baiano e ainda n consegue aumentar os emoji padrão do discord")
-                        .WithColor(Color.DarkPurple)
+                        .WithColor(Color.DarkPurple) //¯\_(ツ)_/¯
                     .Build());
             }
             catch (Exception e)

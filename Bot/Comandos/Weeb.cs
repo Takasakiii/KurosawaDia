@@ -10,12 +10,12 @@ namespace Bot.Comandos
 {
     public class Weeb : Moderacao
     {
-        private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true)
+        private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
         {
             string[] comando = (string[])args[1];
             string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: cmd);
+            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: cmd); //using
 
             if (getUser.Item1 || cmd == "")
             {
@@ -42,9 +42,9 @@ namespace Bot.Comandos
                     nome[1] = context.User.Username;
                 }
 
-                if (cmd != "")
+                if (cmd != "") //otimização de logica pls
                 {
-                    if (!context.IsPrivate)
+                    if (!context.IsPrivate) 
                     {
                         SocketGuildUser user = getUser.Item2 as SocketGuildUser;
 
@@ -98,7 +98,7 @@ namespace Bot.Comandos
                     .WithColor(Color.Red)
                  .Build());
             }
-        }
+        } //refaz
 
         public void hug(CommandContext context, object[] args)
         {

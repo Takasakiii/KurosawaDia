@@ -15,13 +15,21 @@ namespace Bot.Comandos
             e as melhores coisas
             não tem logica
         */
-        private void moderacao(int tipo, CommandContext context, object[] args)
+        /*
+         *  Pra que serve
+         *  o dinheiro 
+         *  se a melhores coisas
+         *  são feitas de graça
+         *      - Takasaki 2019 
+         *      (so vc pegar mina kkkkkkkkkkkkk ou ter amigos XD)
+         */
+        private void moderacao(int tipo, CommandContext context, object[] args) // piuwiiiiii
         {
             new Thread(() =>
             {
                 if (!context.IsPrivate)
                 {
-                    string[] msg = new string[4];
+                    string[] msg = new string[4]; //descessario Aprenda EmbedBuilder Baiano
                     switch (tipo)
                     {
                         case 1:
@@ -42,20 +50,20 @@ namespace Bot.Comandos
                             msg[2] = "softban @Sakurako Oomuro#5964 muito trap larissinha";
                             msg[3] = "softban";
                             break;
-                    }
-                    System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
-                    if (getUser.Item1 && getUser.Item2 != null)
+                    } // Ta muito pedreiro isso aki
+                    System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args); // usinggggggggggggg 
+                    if (getUser.Item1 && getUser.Item2 != null) // coerencia logica pra q, amaciante é ype (to drogado) (otimização)
                     {
                         SocketGuildUser user = getUser.Item2 as SocketGuildUser;
                         SocketGuildUser ContextUser = context.User as SocketGuildUser;
 
-                        if ((ContextUser.GuildPermissions.KickMembers && tipo == 1) || (ContextUser.GuildPermissions.BanMembers && tipo == 2 || tipo == 3))
+                        if ((ContextUser.GuildPermissions.KickMembers && tipo == 1) || (ContextUser.GuildPermissions.BanMembers && tipo == 2 || tipo == 3)) //logica pedreira parte 2 (otimização) (copiar a dia n vale a pena pq eu posso pedreirar vc n)
                         {
                             string[] comando = (string[])args[1];
                             SocketGuildUser bot = context.Guild.GetUserAsync(context.Client.CurrentUser.Id).GetAwaiter().GetResult() as SocketGuildUser;
                             if (ContextUser.Hierarchy > user.Hierarchy && user != bot && bot.Hierarchy > user.Hierarchy)
                             {
-                                string motivo = "";
+                                string motivo = ""; 
 
                                 for (int i = 2; i < comando.Length; i++)
                                 {
@@ -70,7 +78,7 @@ namespace Bot.Comandos
                                 {
                                     motivo = motivo.Substring(0, 1024);
                                 }
-
+                                // embedo builder {
                                 if (motivo != "")
                                 {
                                     log = $"Moderador: {context.User}  ||  Motivo: {motivo}";
@@ -89,14 +97,14 @@ namespace Bot.Comandos
                                             .Build());
                                 }
 
-
+                                //}
                                 if (log.Length > 512)
                                 {
                                     log = $"Moderador: {context.User}";
                                 }
 
                                 Thread.Sleep(1000);
-
+                                // embedo builder again aki em baixo
                                 switch (tipo)
                                 {
                                     case 1:
@@ -126,7 +134,7 @@ namespace Bot.Comandos
                             else
                             {
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription($"**{context.User}** você não pode {msg[1]} esse membro")
+                                    .WithDescription($"**{context.User}** você não pode {msg[1]} esse membro") //nem preciso falar
                                     .WithColor(Color.Red)
                                 .Build());
                             }
@@ -134,7 +142,7 @@ namespace Bot.Comandos
                         else
                         {
                             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** você não tem permissão para {msg[1]} esse membro")
+                                .WithDescription($"**{context.User}** você não tem permissão para {msg[1]} esse membro") //¯\_(ツ)_/¯
                                 .WithColor(Color.Red)
                             .Build());
                         }
@@ -142,7 +150,7 @@ namespace Bot.Comandos
                     else
                     {
                         context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** você precisa mencionar quem você quer {msg[1]}")
+                            .WithDescription($"**{context.User}** você precisa mencionar quem você quer {msg[1]}") //¯\_(ツ)_/¯
                             .AddField("Uso do Comando: ", $"`{(string)args[0]}{msg[3]} @membro motivo`")
                             .AddField("Exemplo: ", $"`{(string)args[0]}{msg[2]}`")
                             .WithColor(Color.Red)
@@ -152,7 +160,7 @@ namespace Bot.Comandos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** esse comando so pode ser usado em servidores")
+                            .WithDescription($"**{context.User}** esse comando so pode ser usado em servidores") //¯\_(ツ)_/¯
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -162,15 +170,15 @@ namespace Bot.Comandos
 
         public void kick(CommandContext context, object[] args)
         {
-            moderacao(1, context, args);
+            moderacao(1, context, args); // la vai ele o trenzinho
         }
         public void ban(CommandContext context, object[] args)
         {
-            moderacao(2, context, args);
+            moderacao(2, context, args); //¯\_(ツ)_/¯
         }
         public void softban(CommandContext context, object[] args)
         {
-            moderacao(3, context, args);
+            moderacao(3, context, args); //¯\_(ツ)_/¯
         }
     }
 }

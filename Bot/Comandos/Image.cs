@@ -12,7 +12,7 @@ namespace Bot.Comandos
 
         private void img(CommandContext context, string txt, Links link = null, Links[] links = null)
         {
-            if (links == null)
+            if (links == null) //kkkkkk conheço essa estrutura de algum lugar
             {
                 links = new Links[1];
                 links[0] = link;
@@ -30,29 +30,29 @@ namespace Bot.Comandos
         }
         public void neko(CommandContext context, object[] args)
         {
-            img(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", new Links("https://nekos.life/api/v2/img/neko", "url"));
+            img(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", new Links("https://nekos.life/api/v2/img/neko", "url")); // e n u m e r a t e
         }
 
         public void cat(CommandContext context, object[] args)
         {
-            img(context, "Meow", new Links("https://nekos.life/api/v2/img/meow", "url"));
+            img(context, "Meow", new Links("https://nekos.life/api/v2/img/meow", "url")); // ¯\_(ツ)_/¯
         }
 
         public void dog(CommandContext context, object[] args)
         {
-            img(context, "Meow", new Links("https://random.dog/woof.json", "url"));
+            img(context, "Meow", new Links("https://random.dog/woof.json", "url")); //¯\_(ツ)_ /¯
         }
 
         public void img(CommandContext context, object[] args)
         {
-            img(context, "Uma simples imagem pra usar onde quiser", new Links("https://nekos.life/api/v2/img/avatar", "url"));
+            img(context, "Uma simples imagem pra usar onde quiser", new Links("https://nekos.life/api/v2/img/avatar", "url")); //¯\_(ツ)_/¯
         }
 
         public void fuck(CommandContext context, object[] args)
         {
             string[] nome = new string[2];
 
-            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
+            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args); //using system 
             if (getUser.Item1)
             {
                 SocketGuildUser user = getUser.Item2 as SocketGuildUser;
@@ -84,7 +84,7 @@ namespace Bot.Comandos
                 "https://i.imgur.com/LQT87mc.gif",
                 "https://i.imgur.com/4LNI3Nh.gif",
                 "https://i.imgur.com/pPz7p2s.gif"
-            };
+            }; // constante not is var
 
             string img = new ArrayExtensions().GetRandom(imgs);
 

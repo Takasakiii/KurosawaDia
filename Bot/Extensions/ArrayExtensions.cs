@@ -4,6 +4,7 @@ namespace Bot.Extensions
 {
     public class ArrayExtensions
     {
+        //acoplamento desnecessario
         public string GetRandom(object[] arr)
         {
             Random rand = new Random();
