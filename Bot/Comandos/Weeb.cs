@@ -26,21 +26,21 @@ namespace Bot.Comandos
                 RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
                 string[] nome = new string[2];
 
+                SocketGuildUser userGuild = context.User as SocketGuildUser;
+                if (userGuild.Nickname != null)
+                {
+                    nome[1] = userGuild.Nickname;
+                }
+                else
+                {
+                    nome[1] = context.User.Username;
+                }
+
                 if (cmd != "")
                 {
                     if (!context.IsPrivate)
                     {
-                        SocketGuildUser userGuild = context.User as SocketGuildUser;
                         SocketGuildUser user = getUser.Item2 as SocketGuildUser;
-
-                        if (userGuild.Nickname != null)
-                        {
-                            nome[1] = userGuild.Nickname;
-                        }
-                        else
-                        {
-                            nome[1] = userGuild.Username;
-                        }
 
                         if (user.Nickname != null)
                         {
