@@ -12,65 +12,86 @@ namespace Bot.Comandos
     {
         private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true)
         {
+            string[] comando = (string[])args[1];
+            string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            WeebClient weebClient = new WeebClient();
-            ApiConfig config = (ApiConfig)args[2];
-            weebClient.Authenticate(config.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
+            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: cmd);
 
-            RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
-            string[] nome = new string[2];
-
-            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args);
-            if (getUser.Item1)
+            if (getUser.Item1 || cmd == "")
             {
-                SocketGuildUser user = getUser.Item2 as SocketGuildUser;
+                WeebClient weebClient = new WeebClient();
+                ApiConfig config = (ApiConfig)args[2];
+                weebClient.Authenticate(config.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
 
-                if (user.Nickname != null)
+                RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
+                string[] nome = new string[2];
+
+                if (cmd != "")
                 {
-                    nome[0] = user.Nickname;
+                    if (!context.IsPrivate)
+                    {
+                        SocketGuildUser userGuild = context.User as SocketGuildUser;
+                        SocketGuildUser user = getUser.Item2 as SocketGuildUser;
+
+                        if (userGuild.Nickname != null)
+                        {
+                            nome[1] = userGuild.Nickname;
+                        }
+                        else
+                        {
+                            nome[1] = userGuild.Username;
+                        }
+
+                        if (user.Nickname != null)
+                        {
+                            nome[0] = user.Nickname;
+                        }
+                        else
+                        {
+                            nome[0] = user.Username;
+                        }
+                    }
+                    else
+                    {
+                        nome[0] = getUser.Item2.Username;
+                        nome[1] = context.User.Username;
+                    }
+
+                    if (context.User == getUser.Item2)
+                    {
+                        nome[0] = "ele(a) mesmo";
+                    }
                 }
                 else
                 {
-                    nome[0] = user.Username;
+                    nome[0] = "ele(a) mesmo";
                 }
-            }
-            else
-            {
-                nome[0] = "ele(a) mesmo";
-            }
 
-            if (!context.IsPrivate)
-            {
-                SocketGuildUser userGuild = context.User as SocketGuildUser;
-
-                if (userGuild.Nickname != null)
+                string txt = "";
+                if (auto)
                 {
-                    nome[1] = userGuild.Nickname;
+                    txt = $"{nome[1]} {msg} {nome[0]}";
                 }
                 else
                 {
-                    nome[1] = userGuild.Username;
+                    txt = msg;
                 }
-            } else
-            {
-                nome[1] = context.User.Username;
-            }
 
-            string txt = "";
-            if (auto)
-            {
-                txt = $"{nome[1]} {msg} {nome[0]}";
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle(txt)
+                        .WithImageUrl(img.Url)
+                        .WithColor(Color.DarkPurple)
+                    .Build());
             }
             else
             {
-                txt = msg;
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithDescription($"**{context.User}** não encontrei essa pessoa")
+                    .AddField("Uso do Comando: ", $"`{(string)args[0]}{comando[0]} @pessoa`")
+                    .AddField("Exemplo: ", $"`{(string)args[0]}{comando[0]} @Tamires Lima#4256`")
+                    .WithColor(Color.Red)
+                 .Build());
             }
-
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(txt)
-                    .WithImageUrl(img.Url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
         }
 
         public void hug(CommandContext context, object[] args)
