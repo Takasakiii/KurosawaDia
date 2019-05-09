@@ -36,11 +36,12 @@ namespace Bot.Comandos
                 {
                     SocketGuildUser user = context.User as SocketGuildUser;
                     IDMChannel prive = user.GetOrCreateDMChannelAsync().GetAwaiter().GetResult();
+                    prive.SendMessageAsync(embed: embed).GetAwaiter().GetResult();
+
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithDescription($"**{context.User}** eu enviarei a lista dos meus comandos no seu privado 😜")
-                       .Build());
-                    prive.SendMessageAsync(embed: embed);
+                    .Build());
                 }
                 catch
                 {
@@ -58,30 +59,34 @@ namespace Bot.Comandos
 
         public void convite(CommandContext context, object[] args)
         {
-            string msg = "Aqui esta meu convite, Espero que goste de mim :3\nhttps://ayura.com.br/links/bot\n\nse não se importar eu se tiver algum problema, você pode entrar no meu servidor de suporte (ou não so meu)\nhttps://discord.gg/JuWpeNY";
-            try
+            Embed embed = new EmbedBuilder()
+                .WithTitle("Aqui estão meus convites: ")
+                .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")
+                .WithColor(Color.DarkPurple)
+                .Build();
+            if (!context.IsPrivate)
             {
-                if (!context.IsPrivate)
+                try
                 {
                     IDMChannel privado = context.User.GetOrCreateDMChannelAsync().GetAwaiter().GetResult();
-                    privado.SendMessageAsync(msg);
+                    privado.SendMessageAsync(embed: embed).GetAwaiter().GetResult();
 
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription($"**{context.User}** eu enviei os meus convites no seu privado")
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
-                else
+                catch
                 {
-                    context.Channel.SendMessageAsync(msg);
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** eu não consegui enviar os meu convites no seu privado 😔")
+                            .WithColor(Color.DarkPurple)
+                         .Build());
                 }
             }
-            catch
+            else
             {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription($"**{context.User}** eu não consegui enviar os meu convites no seu privado 😔")
-                    .WithColor(Color.DarkPurple)
-                .Build());
+                context.Channel.SendMessageAsync(embed: embed);
             }
         }
 

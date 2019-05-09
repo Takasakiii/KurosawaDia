@@ -63,7 +63,7 @@ namespace Bot.Comandos
             }
             else
             {
-                txt = msg.Replace("%author%", nome[1]);
+                txt = msg;
             }
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -100,7 +100,7 @@ namespace Bot.Comandos
 
         public void cry(CommandContext context, object[] args)
         {
-            weeb(context, args, "cry", "%author% esta chorando", false);
+            weeb(context, args, "cry", "esta chorando com");
         }
 
         public void megumin(CommandContext context, object[] args)
