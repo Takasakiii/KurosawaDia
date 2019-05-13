@@ -50,35 +50,40 @@ namespace Bot.Comandos
 
         public void fuck(CommandContext context, object[] args)
         {
-            string[] nome = new string[2];
-
-            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args); //using system 
-            if (getUser.Item1)
+            if (!context.IsPrivate)
             {
-                SocketGuildUser user = getUser.Item2 as SocketGuildUser;
+                string[] nome = new string[2];
 
-                if (user.Nickname != null)
+                string[] comando = (string[])args[1];
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                IUser getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                if (getUser != null)
                 {
-                    nome[0] = user.Nickname;
+                    SocketGuildUser user = getUser as SocketGuildUser;
+
+                    if (user.Nickname != null)
+                    {
+                        nome[0] = user.Nickname;
+                    }
+                    else
+                    {
+                        nome[0] = user.Username;
+                    }
+                }
+
+                SocketGuildUser userGuild = context.User as SocketGuildUser;
+
+                if (userGuild.Nickname != null)
+                {
+                    nome[1] = userGuild.Nickname;
                 }
                 else
                 {
-                    nome[0] = user.Username;
+                    nome[1] = userGuild.Username;
                 }
-            }
 
-            SocketGuildUser userGuild = context.User as SocketGuildUser;
-
-            if (userGuild.Nickname != null)
-            {
-                nome[1] = userGuild.Nickname;
-            }
-            else
-            {
-                nome[1] = userGuild.Username;
-            }
-
-            string[] imgs = {
+                string[] imgs = {
                 "https://i.imgur.com/KYFJQLY.gif",
                 "https://i.imgur.com/OXixXxm.gif",
                 "https://i.imgur.com/LQT87mc.gif",
@@ -86,13 +91,23 @@ namespace Bot.Comandos
                 "https://i.imgur.com/pPz7p2s.gif"
             }; // constante not is var
 
-            string img = new ArrayExtensions().GetRandom(imgs);
 
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle($"{nome[1]} esta fudendo com {nome[0]}")
-                    .WithImageUrl(img)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+                Random rand = new Random();
+                int i = rand.Next(imgs.Length);
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle($"{nome[1]} esta fudendo com {nome[0]}")
+                        .WithImageUrl(imgs[i])
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription("você so pode usar esse comando em servidores")
+                        .WithColor(Color.Red)
+                    .Build());
+            }
         }
     }
 }

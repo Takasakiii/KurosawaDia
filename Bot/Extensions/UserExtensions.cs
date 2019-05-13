@@ -1,68 +1,78 @@
 ﻿using Discord;
-using Discord.Commands;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Bot.Extensions
 {
     public class UserExtensions
     {
-        public Tuple<bool, IUser> GetUserAsync(CommandContext context, object[] args = null, string txt = null) //passamento de dados inuteis
+        public IUser GetUser(IReadOnlyCollection<IGuildUser> userCollection, string txt)
         {
-            ulong id = 0;
-            if (context.Message.MentionedUserIds.Count != 0)
+            string[] txtArray = txt.Split(' ');
+            char[] idChar = txtArray[0].ToCharArray();
+            string id = "";
+            IUser user = null;
+
+            foreach (char tmp in idChar)
             {
-                id = context.Message.MentionedUserIds.First();
+                if (tmp != '<' && tmp != '!' && tmp != '@' && tmp != '>')
+                {
+                    id += tmp.ToString();
+                }
             }
-            else
+
+            if (id != "")
             {
-                string msg = "";
+                List<IGuildUser> userList = new List<IGuildUser>(userCollection);
 
-                if (txt == null && args != null)
+                try
                 {
-                    string[] comando = (string[])args[1]; //¯\_(ツ)_/¯
-                    msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                    ulong userId = Convert.ToUInt64(id);
+                    user = userList.Find(x => x.Id == userId);
                 }
-                else
+                catch
                 {
-                    msg = txt;
-                }
-
-                if (context.Message.MentionedUserIds.Count == 1)
-                {
-                    id = context.Message.MentionedUserIds.First();
-                }
-                else
-                {
-                    try
+                    if (txtArray[0].Contains("#"))
                     {
-                        id = Convert.ToUInt64(msg);
+                        user = userList.Find(x => x.ToString().ToLowerInvariant() == txtArray[0].ToLowerInvariant());
                     }
-                    catch
+                    else
                     {
-                        id = 0;
+                        if (userList.Exists(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == txtArray[0].ToLowerInvariant()))
+                        {
+                            user = userList.Find(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == txtArray[0].ToLowerInvariant());
+                        }
+                        else if (userList.Exists(x => x.Username != null && x.Username.ToLowerInvariant() == txtArray[0].ToLowerInvariant()))
+                        {
+                            user = userList.Find(x => x.Username != null && x.Username.ToLowerInvariant() == txtArray[0].ToLowerInvariant());
+                        }
                     }
                 }
             }
-
-            IUser user;
-            if (!context.IsPrivate) // isso devia estar acima ja aliviaria 90 % da carga do privado (otimização)
-            {
-                user = context.Guild.GetUserAsync(id).GetAwaiter().GetResult();
-            }
-            else
-            {
-                user = null;
-            }
-
-            if (user != null) // nem preciso falar o tanto de if errado q vc criou nas dependencias desse metodo sendo q vc ja tinha a solução 
-            {
-                return Tuple.Create(true, user);
-            }
-            else
-            {
-                return Tuple.Create(false, user);
-            }
+            return user;
         }
-    } // corige
+
+        public string GetNickname(IUser user, bool servidor)
+        {
+            string nome = "";
+            if (servidor)
+            {
+                IGuildUser guildUser = user as IGuildUser;
+
+                if(guildUser.Nickname != null)
+                {
+                    nome = guildUser.Nickname;
+                }
+                else
+                {
+                    nome = user.Username;
+                }
+            }
+            else
+            {
+                nome = user.Username;
+            }
+            return nome;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Webhook;
 using Discord.WebSocket;
 using System;
 
@@ -13,36 +12,60 @@ namespace Bot.Comandos
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: msg);
-            if (getUser.Item1 || msg == "")
+
+            if (!context.IsPrivate)
             {
-                IUser user;
-                if (msg != "")
+                IUser getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                if (getUser != null || msg == "")
                 {
-                    user = getUser.Item2;
+                    IUser user;
+                    if (msg != "")
+                    {
+                        user = getUser;
+                    }
+                    else
+                    {
+                        user = context.User;
+                    }
+
+                    string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.DarkPurple)
+                        .WithAuthor($"{user}")
+                        .WithDescription($"[Link Direto]({avatarUrl})")
+                        .WithImageUrl(avatarUrl)
+                    .Build());
                 }
                 else
                 {
-                    user = context.User;
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** não encontrei essa pessoa")
+                            .AddField("Uso do Comando: ", $"`{(string)args[0]}avatar @pessoa`")
+                            .AddField("Exemplo: ", $"`{(string)args[0]}avatar @Hikari#3172`")
+                            .WithColor(Color.Red)
+                     .Build());
                 }
-
-                string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
-
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithColor(Color.DarkPurple)
-                    .WithAuthor($"{user}")
-                    .WithDescription($"[Link Direto]({avatarUrl})")
-                    .WithImageUrl(avatarUrl)
-                .Build());
             }
             else
             {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** não encontrei essa pessoa")
-                        .AddField("Uso do Comando: ", $"`{(string)args[0]}avatar @pessoa`")
-                        .AddField("Exemplo: ", $"`{(string)args[0]}avatar @Hikari#3172`")
-                        .WithColor(Color.Red)
-                 .Build());
+                if (msg == "")
+                {
+                    string avatar = context.User.GetAvatarUrl(0, 2048) ?? context.User.GetDefaultAvatarUrl();
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.DarkPurple)
+                        .WithAuthor($"{context.User}")
+                        .WithDescription($"[Link Direto]({avatar})")
+                        .WithImageUrl(avatar)
+                    .Build());
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** desculpa mas eu não consigo pegar o avatar de outras pessoas no privado 😔")
+                            .WithColor(Color.Red)
+                     .Build());
+                }
             }
         }
 

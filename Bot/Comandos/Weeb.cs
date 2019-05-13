@@ -1,10 +1,11 @@
-﻿using Bot.Modelos;
+﻿using Bot.Extensions;
+using Bot.Modelos;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Weeb.net;
 using Weeb.net.Data;
 using TokenType = Weeb.net.TokenType;
+using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
@@ -15,9 +16,11 @@ namespace Bot.Comandos
             string[] comando = (string[])args[1];
             string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, txt: cmd); //using
+            UserExtensions userExtensions = new UserExtensions();
 
-            if (getUser.Item1 || cmd == "")
+            IUser getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+
+            if (getUser != null)
             {
                 WeebClient weebClient = new WeebClient();
                 ApiConfig config = (ApiConfig)args[2];
@@ -26,57 +29,13 @@ namespace Bot.Comandos
                 RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
                 string[] nome = new string[2];
 
-                if (!context.IsPrivate)
-                {
-                    SocketGuildUser userGuild = context.User as SocketGuildUser;
-                    if (userGuild.Nickname != null)
-                    {
-                        nome[1] = userGuild.Nickname;
-                    }
-                    else
-                    {
-                        nome[1] = context.User.Username;
-                    }
-                } else
-                {
-                    nome[1] = context.User.Username;
-                }
-
-                if (cmd != "") //otimização de logica pls
-                {
-                    if (!context.IsPrivate) 
-                    {
-                        SocketGuildUser user = getUser.Item2 as SocketGuildUser;
-
-                        if (user.Nickname != null)
-                        {
-                            nome[0] = user.Nickname;
-                        }
-                        else
-                        {
-                            nome[0] = user.Username;
-                        }
-                    }
-                    else
-                    {
-                        nome[0] = getUser.Item2.Username;
-                        nome[1] = context.User.Username;
-                    }
-
-                    if (context.User == getUser.Item2)
-                    {
-                        nome[0] = "ele(a) mesmo";
-                    }
-                }
-                else
-                {
-                    nome[0] = "ele(a) mesmo";
-                }
+                nome[0] = userExtensions.GetNickname(context.User, !context.IsPrivate);
+                nome[1] = userExtensions.GetNickname(getUser, !context.IsPrivate);
 
                 string txt = "";
                 if (auto)
                 {
-                    txt = $"{nome[1]} {msg} {nome[0]}";
+                    txt = $"{nome[0]} {msg} {nome[1]}";
                 }
                 else
                 {

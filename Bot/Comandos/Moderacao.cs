@@ -51,19 +51,21 @@ namespace Bot.Comandos
                             msg[3] = "softban";
                             break;
                     } // Ta muito pedreiro isso aki
-                    System.Tuple<bool, IUser> getUser = new Extensions.UserExtensions().GetUserAsync(context, args); // usinggggggggggggg 
-                    if (getUser.Item1 && getUser.Item2 != null) // coerencia logica pra q, amaciante é ype (to drogado) (otimização)
+
+                    string[] comando = (string[])args[1];
+
+                    IUser getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), comando[1]);
+                    if (getUser != null)
                     {
-                        SocketGuildUser user = getUser.Item2 as SocketGuildUser;
+                        SocketGuildUser user = getUser as SocketGuildUser;
                         SocketGuildUser ContextUser = context.User as SocketGuildUser;
 
                         if ((ContextUser.GuildPermissions.KickMembers && tipo == 1) || (ContextUser.GuildPermissions.BanMembers && tipo == 2 || tipo == 3)) //logica pedreira parte 2 (otimização) (copiar a dia n vale a pena pq eu posso pedreirar vc n)
                         {
-                            string[] comando = (string[])args[1];
                             SocketGuildUser bot = context.Guild.GetUserAsync(context.Client.CurrentUser.Id).GetAwaiter().GetResult() as SocketGuildUser;
                             if (ContextUser.Hierarchy > user.Hierarchy && user != bot && bot.Hierarchy > user.Hierarchy)
                             {
-                                string motivo = ""; 
+                                string motivo = "";
 
                                 for (int i = 2; i < comando.Length; i++)
                                 {
