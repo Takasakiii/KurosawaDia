@@ -56,14 +56,21 @@ namespace Bot.Nucleo.Eventos
 
                             metodo.Invoke(instanced, parametros);
                         }
-                        catch (NullReferenceException)
+                        catch
                         {
                             await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")
                                     .WithColor(Color.DarkPurple)
                                 .Build());
-                        } // cade a exeption  generica
+                        } 
                     }
+                }
+                if (commandContex.Message.Content == $"<@{client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{client.CurrentUser.Id}>")
+                {
+                    await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(config.prefix)}` se quiser ver meus comando é so usar: `{new string(config.prefix)}comandos`")
+                            .WithColor(Color.DarkPurple)
+                        .Build());
                 }
             }
         }
