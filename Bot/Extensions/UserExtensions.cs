@@ -6,10 +6,10 @@ namespace Bot.Extensions
 {
     public class UserExtensions
     {
-        public IUser GetUser(IReadOnlyCollection<IGuildUser> userCollection, string txt)
+        public Tuple<IUser, string> GetUser(IReadOnlyCollection<IGuildUser> userCollection, string txt)
         {
-            string[] txtArray = txt.Split(' ');
-            char[] idChar = txtArray[0].ToCharArray();
+            char[] txtArray = txt.ToCharArray();
+            char[] idChar = txt.Trim().Split(' ')[0].ToCharArray();
             string id = "";
             IUser user = null;
 
@@ -21,6 +21,7 @@ namespace Bot.Extensions
                 }
             }
 
+            int tamanho = 0;
             if (id != "")
             {
                 List<IGuildUser> userList = new List<IGuildUser>(userCollection);
@@ -29,27 +30,37 @@ namespace Bot.Extensions
                 {
                     ulong userId = Convert.ToUInt64(id);
                     user = userList.Find(x => x.Id == userId);
+                    tamanho = idChar.Length;
                 }
                 catch
                 {
-                    if (txtArray[0].Contains("#"))
+                    string tmp2 = "";
+                    foreach (char a in txtArray)
                     {
-                        user = userList.Find(x => x.ToString().ToLowerInvariant() == txtArray[0].ToLowerInvariant());
-                    }
-                    else
-                    {
-                        if (userList.Exists(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == txtArray[0].ToLowerInvariant()))
+                        tmp2 += a.ToString();
+
+                        if (tmp2.Contains("#"))
                         {
-                            user = userList.Find(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == txtArray[0].ToLowerInvariant());
+                            user = userList.Find(x => x.ToString().ToLowerInvariant() == tmp2.ToLowerInvariant());
+                            tamanho = tmp2.Length;
                         }
-                        else if (userList.Exists(x => x.Username != null && x.Username.ToLowerInvariant() == txtArray[0].ToLowerInvariant()))
+                        else
                         {
-                            user = userList.Find(x => x.Username != null && x.Username.ToLowerInvariant() == txtArray[0].ToLowerInvariant());
+                            if (userList.Exists(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == tmp2.ToLowerInvariant()))
+                            {
+                                user = userList.Find(x => x.Nickname != null && x.Nickname.ToLowerInvariant() == tmp2.ToLowerInvariant());
+                                tamanho = tmp2.Length;
+                            }
+                            else if (userList.Exists(x => x.Username != null && x.Username.ToLowerInvariant() == tmp2.ToLowerInvariant()))
+                            {
+                                user = userList.Find(x => x.Username != null && x.Username.ToLowerInvariant() == tmp2.ToLowerInvariant());
+                                tamanho = tmp2.Length;
+                            }
                         }
                     }
                 }
             }
-            return user;
+            return Tuple.Create(user, txt.Substring(tamanho, txt.Length - tamanho).Trim());
         }
 
         public string GetNickname(IUser user, bool servidor)

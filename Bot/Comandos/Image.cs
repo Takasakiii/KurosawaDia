@@ -2,7 +2,6 @@
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using System;
 
 namespace Bot.Comandos
@@ -57,31 +56,11 @@ namespace Bot.Comandos
                 string[] comando = (string[])args[1];
                 string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                IUser getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
-                if (getUser != null)
-                {
-                    SocketGuildUser user = getUser as SocketGuildUser;
+                Extensions.UserExtensions userExtensions = new Extensions.UserExtensions();
+                Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
 
-                    if (user.Nickname != null)
-                    {
-                        nome[0] = user.Nickname;
-                    }
-                    else
-                    {
-                        nome[0] = user.Username;
-                    }
-                }
-
-                SocketGuildUser userGuild = context.User as SocketGuildUser;
-
-                if (userGuild.Nickname != null)
-                {
-                    nome[1] = userGuild.Nickname;
-                }
-                else
-                {
-                    nome[1] = userGuild.Username;
-                }
+                userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
+                userExtensions.GetNickname(context.User, !context.IsPrivate);
 
                 string[] imgs = {
                 "https://i.imgur.com/KYFJQLY.gif",
@@ -104,7 +83,7 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription("você so pode usar esse comando em servidores")
+                        .WithDescription("Você so pode usar esse comando em servidores")
                         .WithColor(Color.Red)
                     .Build());
             }

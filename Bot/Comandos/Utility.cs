@@ -15,13 +15,13 @@ namespace Bot.Comandos
 
             if (!context.IsPrivate)
             {
-                IUser getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
-                if (getUser != null || msg == "")
+                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                if (getUser.Item1 != null || msg == "")
                 {
                     IUser user;
                     if (msg != "")
                     {
-                        user = getUser;
+                        user = getUser.Item1;
                     }
                     else
                     {
@@ -114,7 +114,7 @@ namespace Bot.Comandos
             catch (Exception e)
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription($"**{context.User}** o emoji que você tentou usar é inválido {e}")
+                    .WithDescription($"**{context.User}** o emoji que você tentou usar é inválido")
                     .AddField("Uso do comando: ", $"`{(string)args[0]}emote emoji`")
                     .AddField("Exemplo: ", $"`{(string)args[0]}emote :kanna:`")
                     .WithColor(Color.Red)
@@ -168,13 +168,23 @@ namespace Bot.Comandos
         {
             if (!context.IsPrivate)
             {
-                string url = $"{context.Guild.IconUrl}?size=2048";
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle(context.Guild.Name)
-                        .WithDescription($"[Link Direto]({url})")
-                        .WithImageUrl(url)
-                        .WithColor(Color.DarkPurple)
+                if(context.Guild.IconUrl != null)
+                {
+                    string url = $"{context.Guild.IconUrl}?size=2048";
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithTitle(context.Guild.Name)
+                            .WithDescription($"[Link Direto]({url})")
+                            .WithImageUrl(url)
+                            .WithColor(Color.DarkPurple)
+                        .Build());
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription($"**{context.User}** o servidor não tem um icone")
+                        .WithColor(Color.Red)
                     .Build());
+                }
             }
             else
             {

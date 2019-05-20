@@ -2,6 +2,7 @@
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
+using System;
 using Weeb.net;
 using Weeb.net.Data;
 using TokenType = Weeb.net.TokenType;
@@ -18,9 +19,9 @@ namespace Bot.Comandos
 
             UserExtensions userExtensions = new UserExtensions();
 
-            IUser getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+            Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
 
-            if (getUser != null)
+            if (getUser.Item1 != null)
             {
                 WeebClient weebClient = new WeebClient();
                 ApiConfig config = (ApiConfig)args[2];
@@ -30,7 +31,7 @@ namespace Bot.Comandos
                 string[] nome = new string[2];
 
                 nome[0] = userExtensions.GetNickname(context.User, !context.IsPrivate);
-                nome[1] = userExtensions.GetNickname(getUser, !context.IsPrivate);
+                nome[1] = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
 
                 string txt = "";
                 if (auto)

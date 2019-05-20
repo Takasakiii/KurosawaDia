@@ -59,35 +59,11 @@ namespace Bot.Comandos
 
         public void convite(CommandContext context, object[] args)
         {
-            Embed embed = new EmbedBuilder()
-                .WithTitle("Aqui estão meus convites: ")
-                .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)") //shrug
-                .WithColor(Color.DarkPurple)
-                .Build();
-            if (!context.IsPrivate)
-            {
-                try
-                {
-                    IDMChannel privado = context.User.GetOrCreateDMChannelAsync().GetAwaiter().GetResult();
-                    privado.SendMessageAsync(embed: embed).GetAwaiter().GetResult();
-
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** eu enviei os meus convites no seu privado")
-                            .WithColor(Color.DarkPurple)
-                        .Build());
-                }
-                catch
-                {
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** eu não consegui enviar os meu convites no seu privado 😔")
-                            .WithColor(Color.DarkPurple)
-                         .Build());
-                }
-            }
-            else
-            {
-                context.Channel.SendMessageAsync(embed: embed);
-            }
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle("Aqui estão meus convites: ")
+                    .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)") //shrug
+                    .WithColor(Color.DarkPurple)
+             .Build());
         }
 
         public void info(CommandContext context, object[] args)
@@ -101,7 +77,7 @@ namespace Bot.Comandos
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Minhas informações:")
-                    .AddField("Meus convites", "[Me convidar para seu servidor](https://ayura.com.br/links/bot)\n[Meu servidor para suporte](https://ayura.com.br/dia)")
+                    .AddField("Meus convites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")
                     .AddField("Informações do bot", "**Criador:** Yummi#1375\n**Projeto:** Zuraaa!\n**Versão:** 1.0.0", true)
                     .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}\n**Usuarios:** {users}", true)
                     .WithColor(Color.DarkPurple)

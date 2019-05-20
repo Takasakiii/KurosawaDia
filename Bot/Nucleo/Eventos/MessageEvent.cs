@@ -37,11 +37,6 @@ namespace Bot.Nucleo.Eventos
                     {
                         try
                         {
-                            //{
-                            ApiConfig ApiConfig = new ApiConfig(1);
-                            ApiConfigDAO ApiDao = new ApiConfigDAO();
-                            ApiConfig = ApiDao.Carregar(ApiConfig);
-                            //} refaz
                             string[] comando = messageSemPrefix.Split(' ');
                             var lastClassCommand = new Utility();
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
@@ -51,12 +46,11 @@ namespace Bot.Nucleo.Eventos
                             object[] args = new object[3];
                             args[0] = new string(config.prefix);
                             args[1] = comando;
-                            args[2] = ApiConfig; //jesus
                             parametros[1] = args;
 
                             metodo.Invoke(instanced, parametros);
                         }
-                        catch
+                        catch (ArgumentNullException)
                         {
                             await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")

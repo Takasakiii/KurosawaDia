@@ -1,28 +1,28 @@
 ﻿using Bot.Constructor;
 using Bot.Modelos;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace Bot.DAO
 {
     public class AyuraConfigDAO
     {
-        private SQLiteConnection conexao = new SQLiteConstrutor().Conectar();
+        private SqliteConnection conexao = new SQLiteConstrutor().Conectar();
 
         public AyuraConfig Carregar(AyuraConfig ayuraConfig)
         {
-            using (SQLiteCommand cmd = new SQLiteCommand(conexao))
+            SqliteCommand selectCmd = conexao.CreateCommand();
+            selectCmd.CommandText = "select * from AyuraConfig where id = @id";
+            selectCmd.Parameters.AddWithValue("@id", ayuraConfig.id);
+
+            using (SqliteDataReader reader = selectCmd.ExecuteReader())
             {
-                cmd.CommandText = "select * from AyuraConfig where id = @id";
-                cmd.Parameters.AddWithValue("@id", ayuraConfig.id);
-                SQLiteDataReader rs = cmd.ExecuteReader();
-                if (rs.Read())
+                if (reader.Read())
                 {
-                    ayuraConfig.SetBotConfig((string)rs["token"], ((string)rs["prefix"]).ToCharArray());
+                    ayuraConfig.SetBotConfig(reader.GetString(1), reader.GetString(2).ToCharArray());
                 }
                 conexao.Close();
                 return ayuraConfig;
             }
         }
     }
-    //n considero
 }

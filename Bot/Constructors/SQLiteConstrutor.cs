@@ -1,13 +1,13 @@
 ﻿using Bot.Singletons;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace Bot.Constructor
 {
     public class SQLiteConstrutor
     {
-        public SQLiteConnection Conectar()
+        public SqliteConnection Conectar()
         {
-            SQLiteConnection conexao = new SQLiteConnection($"Data Source={SingletonConfig.localConfig}");
+            SqliteConnection conexao = new SqliteConnection($"Data Source={SingletonConfig.localConfig}");
             conexao.Open();
             return conexao;
         }

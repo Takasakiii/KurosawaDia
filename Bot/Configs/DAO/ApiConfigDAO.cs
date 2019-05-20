@@ -1,23 +1,24 @@
 ﻿using Bot.Constructor;
 using Bot.Modelos;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace Bot.DAO
 {
     public class ApiConfigDAO
     {
-        private SQLiteConnection conexao = new SQLiteConstrutor().Conectar();
+        private SqliteConnection conexao = new SQLiteConstrutor().Conectar();
 
         public ApiConfig Carregar(ApiConfig apiConfig)
         {
-            using (SQLiteCommand cmd = new SQLiteCommand(conexao))
+            SqliteCommand selectCmd = conexao.CreateCommand();
+            selectCmd.CommandText = "select * from ApiConfig where id = @id";
+            selectCmd.Parameters.AddWithValue("@id", apiConfig.id);
+
+            using (SqliteDataReader reader = selectCmd.ExecuteReader())
             {
-                cmd.CommandText = "select * from ApiConfig where id = @id";
-                cmd.Parameters.AddWithValue("@id", apiConfig.id);
-                SQLiteDataReader rs = cmd.ExecuteReader();
-                if (rs.Read())
+                if (reader.Read())
                 {
-                    apiConfig.setApiConfig((string)rs["WeebToken"]);
+                    apiConfig.setApiConfig(reader.GetString(1));
                 }
                 conexao.Close();
                 return apiConfig;

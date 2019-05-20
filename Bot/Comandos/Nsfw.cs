@@ -11,7 +11,7 @@ namespace Bot.Comandos
         private void nsfw(CommandContext context, Links[] links = null, Links link = null, int quantidade = 1)
         {
             ITextChannel canal = context.Channel as ITextChannel;
-            if (context.IsPrivate || canal.IsNsfw) 
+            if (context.IsPrivate || canal.IsNsfw)
             {
                 if (links == null)// 2019 - Kurosawa Dia - Todos os Direitos Reservador - Takasaki
                 {
