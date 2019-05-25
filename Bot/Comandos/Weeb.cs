@@ -1,4 +1,4 @@
-﻿using Bot.Extensions;
+﻿using Bot.DAO;
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
@@ -10,55 +10,60 @@ using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
-    public class Weeb : Moderacao
+    public class Weeb : Ajuda
     {
         private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
         {
-            string[] comando = (string[])args[1];
-            string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
+            ApiConfig ApiConfig = new ApiConfig(1);
+            ApiConfigDAO ApiDao = new ApiConfigDAO();
+            ApiConfig = ApiDao.Carregar(ApiConfig);
 
-            UserExtensions userExtensions = new UserExtensions();
+            WeebClient weebClient = new WeebClient();
+            weebClient.Authenticate(ApiConfig.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
+            RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
 
-            Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+            embed.WithImageUrl(img.Url);
 
-            if (getUser.Item1 != null)
+            if (auto)
             {
-                WeebClient weebClient = new WeebClient();
-                ApiConfig config = (ApiConfig)args[2];
-                weebClient.Authenticate(config.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
-
-                RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
-                string[] nome = new string[2];
-
-                nome[0] = userExtensions.GetNickname(context.User, !context.IsPrivate);
-                nome[1] = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
-
-                string txt = "";
-                if (auto)
+                if (!context.IsPrivate)
                 {
-                    txt = $"{nome[0]} {msg} {nome[1]}";
+                    string[] comando = (string[])args[1];
+                    string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                    UserExtensions userExtensions = new UserExtensions();
+                    Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+
+                    string user = "";
+                    string author = userExtensions.GetNickname(context.User, !context.IsPrivate);
+
+                    if (getUser.Item1 == null || getUser.Item1 == context.User)
+                    {
+                        user = "ele(a) mesmo";
+                    }
+                    else
+                    {
+                        user = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
+                    }
+
+                    embed.WithTitle($"{author} {msg} {user}");
                 }
                 else
                 {
-                    txt = msg;
+                    embed.WithDescription("Esse comando só pode ser usado em servidores");
+                    embed.WithColor(Color.Red);
+                    embed.WithImageUrl(null);
                 }
-
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle(txt)
-                        .WithImageUrl(img.Url)
-                        .WithColor(Color.DarkPurple)
-                    .Build());
             }
             else
             {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription($"**{context.User}** não encontrei essa pessoa")
-                    .AddField("Uso do Comando: ", $"`{(string)args[0]}{comando[0]} @pessoa`")
-                    .AddField("Exemplo: ", $"`{(string)args[0]}{comando[0]} @Tamires Lima#4256`")
-                    .WithColor(Color.Red)
-                 .Build());
+                embed.WithTitle(msg);
             }
-        } //refaz
+
+            context.Channel.SendMessageAsync(embed: embed.Build());
+        }
 
         public void hug(CommandContext context, object[] args)
         {

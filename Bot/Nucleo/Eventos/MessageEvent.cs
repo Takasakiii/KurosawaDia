@@ -1,5 +1,4 @@
 ﻿using Bot.Comandos;
-using Bot.DAO;
 using Bot.Modelos;
 using Discord;
 using Discord.Commands;
@@ -38,7 +37,7 @@ namespace Bot.Nucleo.Eventos
                         try
                         {
                             string[] comando = messageSemPrefix.Split(' ');
-                            var lastClassCommand = new Utility();
+                            var lastClassCommand = new Owner();
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                             object instanced = lastClassCommand;
                             object[] parametros = new object[2];
@@ -50,13 +49,20 @@ namespace Bot.Nucleo.Eventos
 
                             metodo.Invoke(instanced, parametros);
                         }
-                        catch (ArgumentNullException)
+                        catch (Exception e)
                         {
-                            await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")
-                                    .WithColor(Color.DarkPurple)
-                                .Build());
-                        } 
+                            if(e is NullReferenceException || e is AmbiguousMatchException)
+                            {
+                                await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")
+                                            .WithColor(Color.DarkPurple)
+                                     .Build());
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
                     }
                 }
                 if (commandContex.Message.Content == $"<@{client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{client.CurrentUser.Id}>")

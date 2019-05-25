@@ -4,7 +4,7 @@ using Discord.WebSocket;
 
 namespace Bot.Comandos
 {
-    public class Owner : Ajuda
+    public class Owner : Nsfw
     {
         public void ping(CommandContext context, object[] args)
         {
@@ -16,18 +16,18 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        public void teste(CommandContext context, object[] args)
-        {
+        //public void teste(CommandContext context, object[] args)
+        //{
 
-            EmbedBuilder embedo = new EmbedBuilder();
-            embedo.WithColor(Color.DarkPurple);
+        //    EmbedBuilder embedo = new EmbedBuilder();
+        //    embedo.WithColor(Color.DarkPurple);
 
-            embedo.WithTitle("msgs maneiras");
+        //    embedo.WithTitle("msgs maneiras");
 
-            embedo.WithDescription("msg 1");
-            context.Channel.SendMessageAsync(embed: embedo.Build());
-            embedo.WithDescription("msg 2");
-            context.Channel.SendMessageAsync(embed: embedo.Build());
-        }
+        //    embedo.WithDescription("msg 1");
+        //    context.Channel.SendMessageAsync(embed: embedo.Build());
+        //    embedo.WithDescription("msg 2");
+        //    context.Channel.SendMessageAsync(embed: embedo.Build());
+        //}
     }
 }

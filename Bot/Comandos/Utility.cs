@@ -5,7 +5,7 @@ using System;
 
 namespace Bot.Comandos
 {
-    public class Utility : Owner
+    public class Utility : Weeb
     {
         public void avatar(CommandContext context, object[] args)
         {

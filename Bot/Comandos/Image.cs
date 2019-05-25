@@ -3,48 +3,89 @@ using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using System;
+using System.Threading;
 
 namespace Bot.Comandos
 {
-    public class Image : Nsfw
+    public class Image : Moderacao
     {
-
-        private void img(CommandContext context, string txt, Links link = null, Links[] links = null)
+        public Links links = new Links();
+        public void getImg(CommandContext context, string txt = "", Tuple<string, string> img = null, Tuple<string, string>[] imgs = null, bool nsfw = false, int quantidade = 1)
         {
-            if (links == null) //kkkkkk conheço essa estrutura de algum lugar
+            new Thread(() =>
             {
-                links = new Links[1];
-                links[0] = link;
-            }
+                if (imgs == null)
+                {
+                    Tuple<string, string>[] tuple =
+                    {
+                        img
+                    };
 
-            Random rand = new Random();
-            int i = rand.Next(links.Length);
+                    imgs = tuple;
+                }
 
-            HttpExtensions http = new HttpExtensions();
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(txt)
-                    .WithImageUrl(http.GetSite(links[i].url, links[i].tipo))
-                    .WithColor(Color.DarkPurple)
-                .Build());
+                Random rand = new Random();
+                int i = rand.Next(imgs.Length);
+
+                HttpExtensions http = new HttpExtensions();
+
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkPurple);
+                embed.WithImageUrl(http.GetSite(imgs[i].Item1, imgs[i].Item2));
+                embed.WithTitle(txt);
+
+                if (!nsfw)
+                {
+                    context.Channel.SendMessageAsync(embed: embed.Build());
+                }
+                else
+                {
+                    ITextChannel canal = context.Channel as ITextChannel;
+                    if (context.IsPrivate || canal.IsNsfw)
+                    {
+                        if (quantidade <= 1)
+                        {
+                            context.Channel.SendMessageAsync(embed: embed.Build());
+                        }
+                        else
+                        {
+                            for (int x = 0; x < quantidade; x++)
+                            {
+                                int y = rand.Next(imgs.Length);
+                                embed.WithImageUrl(http.GetSite(imgs[i].Item1, imgs[i].Item2));
+                                context.Channel.SendMessageAsync(embed: embed.Build());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        embed.WithImageUrl(null);
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription($"**{context.User}** esse comando só pode ser usado em canais NSFW");
+                        context.Channel.SendMessageAsync(embed: embed.Build());
+                    }
+                }
+            }).Start();
         }
+
         public void neko(CommandContext context, object[] args)
         {
-            img(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", new Links("https://nekos.life/api/v2/img/neko", "url")); // e n u m e r a t e
+            getImg(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", links.neko);
         }
 
         public void cat(CommandContext context, object[] args)
         {
-            img(context, "Meow", new Links("https://nekos.life/api/v2/img/meow", "url")); // ¯\_(ツ)_/¯
+            getImg(context, "Meow", links.cat);
         }
 
         public void dog(CommandContext context, object[] args)
         {
-            img(context, "Meow", new Links("https://random.dog/woof.json", "url")); //¯\_(ツ)_ /¯
+            getImg(context, "Meow", links.dog);
         }
 
         public void img(CommandContext context, object[] args)
         {
-            img(context, "Uma simples imagem pra usar onde quiser", new Links("https://nekos.life/api/v2/img/avatar", "url")); //¯\_(ツ)_/¯
+            getImg(context, "Uma simples imagem pra usar onde quiser", links.img);
         }
 
         public void fuck(CommandContext context, object[] args)
@@ -62,21 +103,13 @@ namespace Bot.Comandos
                 userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
                 userExtensions.GetNickname(context.User, !context.IsPrivate);
 
-                string[] imgs = {
-                "https://i.imgur.com/KYFJQLY.gif",
-                "https://i.imgur.com/OXixXxm.gif",
-                "https://i.imgur.com/LQT87mc.gif",
-                "https://i.imgur.com/4LNI3Nh.gif",
-                "https://i.imgur.com/pPz7p2s.gif"
-            }; // constante not is var
-
 
                 Random rand = new Random();
-                int i = rand.Next(imgs.Length);
+                int i = rand.Next(links.fuck.Length);
 
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle($"{nome[1]} esta fudendo com {nome[0]}")
-                        .WithImageUrl(imgs[i])
+                        .WithImageUrl(links.fuck[i])
                         .WithColor(Color.DarkPurple)
                     .Build());
             }

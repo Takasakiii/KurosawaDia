@@ -16,10 +16,6 @@ namespace Bot
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
-            ApiConfig ApiConfig = new ApiConfig(1);
-            ApiConfigDAO ApiDao = new ApiConfigDAO();
-            ApiConfig = ApiDao.Carregar(ApiConfig);
-
             client.MessageReceived += new MessageEvent(client, config).MessageRecived;
 
             Iniciar(client, config).GetAwaiter().GetResult();

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Bot.Comandos
 {
-    public class Moderacao
+    public class Moderacao : Utility
     {
         /*
          *  pra que server
