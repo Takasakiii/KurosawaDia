@@ -34,6 +34,7 @@
             this.btIniciar = new System.Windows.Forms.Button();
             this.btLocal = new System.Windows.Forms.Button();
             this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
+            this.btDesligar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -80,12 +81,24 @@
             this.fdDBFinder.Title = "Selecione o local da db";
             this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.FdDBFinder_FileOk);
             // 
+            // btDesligar
+            // 
+            this.btDesligar.Enabled = false;
+            this.btDesligar.Location = new System.Drawing.Point(554, 4);
+            this.btDesligar.Name = "btDesligar";
+            this.btDesligar.Size = new System.Drawing.Size(75, 23);
+            this.btDesligar.TabIndex = 4;
+            this.btDesligar.Text = "Desligar";
+            this.btDesligar.UseVisualStyleBackColor = true;
+            this.btDesligar.Click += new System.EventHandler(this.BtIniciar_Click);
+            // 
             // LauncherGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(552, 32);
+            this.ClientSize = new System.Drawing.Size(633, 32);
+            this.Controls.Add(this.btDesligar);
             this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtLocal);
@@ -110,6 +123,7 @@
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Button btLocal;
         private System.Windows.Forms.OpenFileDialog fdDBFinder;
+        private System.Windows.Forms.Button btDesligar;
     }
 }
 

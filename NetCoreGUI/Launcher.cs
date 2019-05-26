@@ -9,19 +9,18 @@ namespace NetCoreGUI
     {
         static void Main(string[] args)
         {
-            if(args.Length == 0)
+            if (args.Length == 0)
             {
                 Console.Write("Digite o local da DB: ");
                 SingletonConfig.localConfig = Console.ReadLine();
-                new Thread(() => new Core().IniciarBot()).Start();
-                Console.Write("\nO Bot foi iniciado");
-            } else
+            }
+            else
             {
                 SingletonConfig.localConfig = args[0];
-                new Thread(() => new Core().IniciarBot()).Start(); //aki se repete
-                Console.Write("\nO Bot foi iniciado"); //repete
             }
-            // generalização
+
+            new Thread(() => new Core().IniciarBot()).Start();
+            Console.Write("\nO Bot foi iniciado");
         }
     }
 }

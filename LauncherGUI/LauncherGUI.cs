@@ -10,7 +10,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string arquivo = "db.ayura"; //aki nego sabe o q eh constante 
+        private const string arquivo = "db.ayura";
         public LauncherGUI()
         {
             InitializeComponent();
@@ -42,11 +42,22 @@ namespace LauncherGUI
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
-            SingletonConfig.localConfig = txtLocal.Text;
-
-            new Thread(() => new Core().IniciarBot()).Start();
-            btIniciar.Enabled = false;
-            MessageBox.Show("O Bot foi iniciado");
+            if (sender == btIniciar)
+            {
+                SingletonConfig.localConfig = txtLocal.Text;
+                new Thread(() => new Core().IniciarBot()).Start();
+                btIniciar.Enabled = false;
+                btDesligar.Enabled = true;
+                MessageBox.Show("O Bot foi iniciado");
+            }
+            else if (sender == btDesligar)
+            {
+                SingletonClient.client.StopAsync().GetAwaiter().GetResult();
+                SingletonClient.setNull();
+                MessageBox.Show("O Bot foi desligado");
+                btDesligar.Enabled = false;
+                btIniciar.Enabled = true;
+            }
         }
     }
 }

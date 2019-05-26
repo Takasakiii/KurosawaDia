@@ -1,6 +1,7 @@
 ﻿using Bot.DAO;
 using Bot.Modelos;
 using Bot.Nucleo.Eventos;
+using Bot.Singletons;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
@@ -10,22 +11,22 @@ namespace Bot
     {
         private void CriarCliente()
         {
-            DiscordSocketClient client = new DiscordSocketClient();
+            SingletonClient.criarClient();
 
             AyuraConfig config = new AyuraConfig(1);
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
-            client.MessageReceived += new MessageEvent(client, config).MessageRecived;
+            SingletonClient.client.MessageReceived += new MessageEvent(SingletonClient.client, config).MessageRecived;
 
-            Iniciar(client, config).GetAwaiter().GetResult();
+            Iniciar(config).GetAwaiter().GetResult();
         }
 
-        private async Task Iniciar(DiscordSocketClient client, AyuraConfig ayuraConfig)
+        private async Task Iniciar(AyuraConfig ayuraConfig)
         {
-            await client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
-            await client.StartAsync();
-            await client.SetGameAsync("Flores");
+            await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
+            await SingletonClient.client.StartAsync();
+            await SingletonClient.client.SetGameAsync("Flores");
             await Task.Delay(-1);
         }
 
