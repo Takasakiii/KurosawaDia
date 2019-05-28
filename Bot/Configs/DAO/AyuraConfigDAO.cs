@@ -18,7 +18,7 @@ namespace Bot.DAO
             {
                 if (reader.Read())
                 {
-                    ayuraConfig.SetBotConfig(reader.GetString(1), reader.GetString(2).ToCharArray());
+                    ayuraConfig.SetBotConfig(reader.GetString(reader.GetOrdinal("token")), reader.GetString(reader.GetOrdinal("prefix")).ToCharArray());
                 }
                 conexao.Close();
                 return ayuraConfig;

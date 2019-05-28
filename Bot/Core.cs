@@ -2,7 +2,6 @@
 using Bot.Modelos;
 using Bot.Nucleo.Eventos;
 using Bot.Singletons;
-using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace Bot
