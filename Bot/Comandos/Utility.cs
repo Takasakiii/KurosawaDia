@@ -93,34 +93,8 @@ namespace Bot.Comandos
         public void emote(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
-            try
-            {
-                Emote emote = Emote.Parse(comando[1]);
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                         .WithTitle(emote.Name)
-                         .WithUrl(emote.Url)
-                         .WithImageUrl(emote.Url)
-                         .WithColor(Color.DarkPurple) // public static embedbuilder string args
-                     .Build());
-            }
-            catch (ArgumentException)
-            {
 
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** desculpe mas o meu dono eh um baiano e ainda n consegue aumentar os emoji padrão do discord")
-                        .WithColor(Color.DarkPurple) //¯\_(ツ)_/¯
-                    .Build());
-            }
-            catch (Exception e)
-            {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription($"**{context.User}** o emoji que você tentou usar é inválido")
-                    .AddField("Uso do comando: ", $"`{(string)args[0]}emote emoji`")
-                    .AddField("Exemplo: ", $"`{(string)args[0]}emote :kanna:`")
-                    .WithColor(Color.Red)
-                .Build());
-            }
-
+            var aa = Emote.Parse(comando[1]);
         }
 
         public void say(CommandContext context, object[] args)
@@ -129,7 +103,6 @@ namespace Bot.Comandos
             {
                 string[] comando = (string[])args[1];
                 string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
 
                 if (msg != "")
                 {
@@ -168,7 +141,7 @@ namespace Bot.Comandos
         {
             if (!context.IsPrivate)
             {
-                if(context.Guild.IconUrl != null)
+                if (context.Guild.IconUrl != null)
                 {
                     string url = $"{context.Guild.IconUrl}?size=2048";
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -199,6 +172,16 @@ namespace Bot.Comandos
         {
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string servidor = "";
+
+            if (!context.IsPrivate)
+            {
+                servidor = context.Guild.Name;
+            }
+            else
+            {
+                servidor = "Privado";
+            }
 
             if (msg != "")
             {
@@ -207,7 +190,7 @@ namespace Bot.Comandos
                 canal.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle($"Nova sugestão de: {context.User}")
                         .AddField("Sugestão: ", msg)
-                        .AddField("Servidor: ", context.Guild.Name)
+                        .AddField("Servidor: ", servidor)
                         .WithColor(Color.DarkPurple)
                     .Build());
 
