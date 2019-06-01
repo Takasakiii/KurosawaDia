@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,49 +13,50 @@ namespace Bot.Nucleo.Eventos
             this.client = client;
         }
 
-        public Task LogIn()
+        private readonly Tuple<string, int>[] status =
         {
-            List<Tuple<string, int>> status = new List<Tuple<string, int>>();
+                Tuple.Create("flores", 0),
+                Tuple.Create("você se inscrevendo no pewdiepie", 3),
+                Tuple.Create("você xingando o criador do bot", 2),
+                Tuple.Create("minha vida fora", 0)
+        };
 
-            status.Add(Tuple.Create("1", 0));
-            status.Add(Tuple.Create("2", 1));
-            status.Add(Tuple.Create("3", 2));
-            status.Add(Tuple.Create("4", 3));
+        public async Task LogIn()
+        {
+            await client.SetGameAsync("Bom Dia");
 
-            new Thread(() =>
+            new Thread(async () =>
             {
                 do
                 {
-                    for (int i = 0; i < status.Count; i++)
+                    for (int i = 0; i < status.Length; i++)
                     {
                         try
                         {
                             switch (status[i].Item2)
                             {
                                 case 0:
-                                    client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Playing);
+                                    await client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Playing);
                                     break;
                                 case 1:
-                                    client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Streaming);
+                                    await client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Streaming);
                                     break;
                                 case 2:
-                                    client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Listening);
+                                    await client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Listening);
                                     break;
                                 case 3:
-                                    client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Watching);
+                                    await client.SetGameAsync(status[i].Item1, type: Discord.ActivityType.Watching);
                                     break;
                             }
                         }
                         catch
                         {
-
+                            throw;
                         }
                         Thread.Sleep(10000);
                     }
                 } while (true);
             }).Start();
-
-            return null;
         }
     }
 }
