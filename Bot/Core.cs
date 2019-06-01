@@ -17,6 +17,7 @@ namespace Bot
             config = dao.Carregar(config);
 
             SingletonClient.client.MessageReceived += new MessageEvent(SingletonClient.client, config).MessageRecived;
+            SingletonClient.client.LoggedIn += new LogInEvent(SingletonClient.client).LogIn;
 
             Iniciar(config).GetAwaiter().GetResult();
         }
@@ -25,7 +26,6 @@ namespace Bot
         {
             await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
             await SingletonClient.client.StartAsync();
-            await SingletonClient.client.SetGameAsync("Flores");
             await Task.Delay(-1);
         }
 

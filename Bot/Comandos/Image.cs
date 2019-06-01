@@ -1,5 +1,5 @@
-﻿using Bot.Extensions;
-using Bot.Modelos;
+﻿using Bot.Constantes;
+using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using System;

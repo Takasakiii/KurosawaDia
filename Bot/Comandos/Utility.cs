@@ -94,7 +94,6 @@ namespace Bot.Comandos
         {
             string[] comando = (string[])args[1];
 
-            var aa = Emote.Parse(comando[1]);
         }
 
         public void say(CommandContext context, object[] args)

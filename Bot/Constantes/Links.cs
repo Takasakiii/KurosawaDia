@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bot.Modelos
+namespace Bot.Constantes
 {
     public class Links
     {

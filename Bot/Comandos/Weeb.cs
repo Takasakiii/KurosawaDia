@@ -107,7 +107,7 @@ namespace Bot.Comandos
 
         public void pat(CommandContext context, object[] args)
         {
-            weeb(context, args, "pat", "fazendo carinho no");
+            weeb(context, args, "pat", "esta fazendo carinho no");
 
         }
     }
