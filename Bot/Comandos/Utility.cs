@@ -5,6 +5,7 @@ using System;
 
 namespace Bot.Comandos
 {
+//o jogo :D
     public class Utility : Weeb
     {
         public void avatar(CommandContext context, object[] args)
