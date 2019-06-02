@@ -1,11 +1,12 @@
-﻿using Discord;
+﻿using Bot.Extensions;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
 
 namespace Bot.Comandos
 {
-//o jogo :D
+    //o jogo :D
     public class Utility : Weeb
     {
         public void avatar(CommandContext context, object[] args)
@@ -95,6 +96,49 @@ namespace Bot.Comandos
         {
             string[] comando = (string[])args[1];
 
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+
+            try
+            {
+                bool parse = Emote.TryParse(comando[1], out Emote emote);
+
+                if (parse)
+                {
+
+                    embed.WithTitle(emote.Name);
+                    embed.WithDescription($"[Link Direto]({emote.Url})");
+                    embed.WithImageUrl(emote.Url);
+                }
+                else
+                {
+                    HttpExtensions http = new HttpExtensions();
+                    string name = http.GetSiteHttp("https://ayura.com.br/links/emojis.json", comando[1]);
+
+                    string shortName = "";
+                    foreach (char character in name)
+                    {
+                        if (character != ':')
+                        {
+                            shortName += character;
+                        }
+                    }
+                    string unicode = http.GetSite($"https://www.emojidex.com/api/v1/emoji/{shortName}", "unicode");
+
+                    embed.WithTitle(shortName);
+                    embed.WithDescription($"[Link Direto](https://twemoji.maxcdn.com/2/72x72/{unicode}.png)");
+                    embed.WithImageUrl($"https://twemoji.maxcdn.com/2/72x72/{unicode}.png");
+                }
+            }
+            catch
+            {
+                embed.WithDescription($"**{context.User}** o emoji que você tentou usar é inválido");
+                embed.AddField("Uso do comando: ", $"`{(string)args[0]}emote emoji`");
+                embed.AddField("Exemplo: ", $"`{(string)args[0]}emote :kanna:`");
+                embed.WithColor(Color.Red);
+            }
+
+            context.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public void say(CommandContext context, object[] args)
