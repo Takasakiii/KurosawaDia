@@ -17,8 +17,9 @@ namespace Bot.Nucleo.Eventos
         {
                 Tuple.Create("Flores", 0),
                 Tuple.Create("Você se inscrevendo no pewdiepie", 3),
-                Tuple.Create("Você xingando o criador do bot", 2),
-                Tuple.Create("Minha vida fora", 0)
+                Tuple.Create("A op de joaninha versão rock", 2),
+                Tuple.Create("e passando raiva vendo kuzu no honkai", 3),
+                Tuple.Create("os nego me chamando de depresso", 2)
         };
 
         public async Task LogIn()
