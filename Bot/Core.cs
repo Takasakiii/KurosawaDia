@@ -39,10 +39,10 @@ namespace Bot
 
         private Task Log(LogMessage msg)
         {
-            MethodInfo metodo = SingletonErros.tipo.GetMethod("Log");
+            MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
             object[] parms = new object[1];
             parms[0] = msg.ToString();
-            metodo.Invoke(SingletonErros.instanced, parms);
+            metodo.Invoke(SingletonLogs.instanced, parms);
 
             return Task.CompletedTask;
         }

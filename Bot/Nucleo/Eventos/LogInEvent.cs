@@ -47,10 +47,10 @@ namespace Bot.Nucleo.Eventos
                         }
                         catch (Exception e)
                         {
-                            MethodInfo metodo = SingletonErros.tipo.GetMethod("Log");
+                            MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
                             object[] parms = new object[1];
                             parms[0] = e.ToString();
-                            metodo.Invoke(SingletonErros.instanced, parms);
+                            metodo.Invoke(SingletonLogs.instanced, parms);
                         }
                         Thread.Sleep(8000);
                     }

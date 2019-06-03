@@ -16,9 +16,9 @@ namespace Bot.Forms
             {
                 if(Created)
                 {
-                    textBox1.Invoke((MethodInvoker)delegate
+                    txLog.Invoke((MethodInvoker)delegate
                     {
-                        textBox1.Text += $"\r\n  {e}";
+                        txLog.Text += $"\r\n  {e}";
 
                     });
                 }
@@ -32,6 +32,11 @@ namespace Bot.Forms
         public void Fechar()
         {
             Close();
+        }
+
+        private void BtLimpar_Click(object sender, EventArgs e)
+        {
+            txLog.Text = "";
         }
     }
 }

@@ -20,7 +20,12 @@ namespace NetCoreGUI
             }
 
             new Thread(() => new Core().IniciarBot()).Start();
-            Console.Write("\nO Bot foi iniciado");
+            SingletonLogs.SetInstance(new Launcher(), typeof(Launcher));
+        }
+
+        public void Log(string e)
+        {
+            Console.Write($"\n{e}");
         }
     }
 }

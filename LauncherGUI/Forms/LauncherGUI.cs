@@ -48,7 +48,7 @@ namespace LauncherGUI
                 SingletonConfig.localConfig = txtLocal.Text;
 
                 LogForm log = new LogForm();
-                SingletonErros.SetErro(log, typeof(LogForm));
+                SingletonLogs.SetInstance(log, typeof(LogForm));
                 log.Show();
                 new Thread(() => new Core().IniciarBot()).Start();
                 btIniciar.Enabled = false;
@@ -58,7 +58,7 @@ namespace LauncherGUI
             {
                 SingletonClient.client.StopAsync().GetAwaiter().GetResult();
                 SingletonClient.setNull();
-                SingletonErros.Fechar();
+                SingletonLogs.Fechar();
                 btDesligar.Enabled = false;
                 btIniciar.Enabled = true;
             }
