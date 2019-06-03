@@ -1,4 +1,5 @@
 ﻿using Bot;
+using Bot.Forms;
 using Bot.Singletons;
 using System;
 using System.ComponentModel;
@@ -45,16 +46,19 @@ namespace LauncherGUI
             if (sender == btIniciar)
             {
                 SingletonConfig.localConfig = txtLocal.Text;
+
+                LogForm log = new LogForm();
+                SingletonErros.SetErro(log, typeof(LogForm));
+                log.Show();
                 new Thread(() => new Core().IniciarBot()).Start();
                 btIniciar.Enabled = false;
                 btDesligar.Enabled = true;
-                MessageBox.Show("O Bot foi iniciado");
             }
             else if (sender == btDesligar)
             {
                 SingletonClient.client.StopAsync().GetAwaiter().GetResult();
                 SingletonClient.setNull();
-                MessageBox.Show("O Bot foi desligado");
+                SingletonErros.Fechar();
                 btDesligar.Enabled = false;
                 btIniciar.Enabled = true;
             }

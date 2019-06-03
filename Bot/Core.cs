@@ -2,6 +2,8 @@
 using Bot.Modelos;
 using Bot.Nucleo.Eventos;
 using Bot.Singletons;
+using Discord;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Bot
@@ -18,6 +20,7 @@ namespace Bot
 
             SingletonClient.client.MessageReceived += new MessageEvent(SingletonClient.client, config).MessageRecived;
             SingletonClient.client.LoggedIn += new LogInEvent(SingletonClient.client).LogIn;
+            SingletonClient.client.Log += Log;
 
             Iniciar(config).GetAwaiter().GetResult();
         }
@@ -32,6 +35,16 @@ namespace Bot
         public void IniciarBot()
         {
             CriarCliente();
+        }
+
+        private Task Log(LogMessage msg)
+        {
+            MethodInfo metodo = SingletonErros.tipo.GetMethod("Log");
+            object[] parms = new object[1];
+            parms[0] = msg.ToString();
+            metodo.Invoke(SingletonErros.instanced, parms);
+
+            return Task.CompletedTask;
         }
     }
 }

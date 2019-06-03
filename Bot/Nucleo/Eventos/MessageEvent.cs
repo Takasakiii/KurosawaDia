@@ -1,5 +1,6 @@
 ﻿using Bot.Comandos;
 using Bot.Modelos;
+using Bot.Singletons;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -60,7 +61,10 @@ namespace Bot.Nucleo.Eventos
                             }
                             else
                             {
-                                throw;
+                                MethodInfo metodo = SingletonErros.tipo.GetMethod("Log");
+                                object[] parms = new object[1];
+                                parms[0] = e.ToString();
+                                metodo.Invoke(SingletonErros.instanced, parms);
                             }
                         }
                     }

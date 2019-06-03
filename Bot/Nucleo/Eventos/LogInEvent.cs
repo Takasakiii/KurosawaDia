@@ -1,7 +1,10 @@
 ﻿using Bot.Configs.DAO;
 using Bot.Configs.Modelos;
+using Bot.Singletons;
 using Discord.WebSocket;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,10 +18,8 @@ namespace Bot.Nucleo.Eventos
             this.client = client;
         }
 
-        public async Task LogIn()
+        public Task LogIn()
         {
-            await client.SetGameAsync("Bom Dia");
-
             new Thread(async () =>
             {
                 List<StatusConfig> status = new StatusDAO().getStatus();
@@ -44,14 +45,19 @@ namespace Bot.Nucleo.Eventos
                                     break;
                             }
                         }
-                        catch
+                        catch (Exception e)
                         {
-                            throw;
+                            MethodInfo metodo = SingletonErros.tipo.GetMethod("Log");
+                            object[] parms = new object[1];
+                            parms[0] = e.ToString();
+                            metodo.Invoke(SingletonErros.instanced, parms);
                         }
                         Thread.Sleep(8000);
                     }
                 } while (true);
             }).Start();
+
+            return Task.CompletedTask;
         }
     }
 }
