@@ -18,7 +18,7 @@ namespace Bot.Forms
                 {
                     textBox1.Invoke((MethodInvoker)delegate
                     {
-                        textBox1.Text += $"\r\n{e}";
+                        textBox1.Text += $"\r\n  {e}";
 
                     });
                 }
