@@ -100,8 +100,8 @@ namespace Bot.Comandos
                 Extensions.UserExtensions userExtensions = new Extensions.UserExtensions();
                 Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
 
-                userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
-                userExtensions.GetNickname(context.User, !context.IsPrivate);
+                nome[0] = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
+                nome[1] = userExtensions.GetNickname(context.User, !context.IsPrivate);
 
 
                 Random rand = new Random();
