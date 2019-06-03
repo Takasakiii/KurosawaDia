@@ -20,6 +20,7 @@ namespace Bot.DAO
                 {
                     apiConfig.setApiConfig(reader.GetString(reader.GetOrdinal("WeebToken")));
                 }
+                reader.Close();
                 conexao.Close();
                 return apiConfig;
             }
