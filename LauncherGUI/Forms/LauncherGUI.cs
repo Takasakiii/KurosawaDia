@@ -43,25 +43,18 @@ namespace LauncherGUI
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
-            if (sender == btIniciar)
-            {
-                SingletonConfig.localConfig = txtLocal.Text;
+            SingletonConfig.localConfig = txtLocal.Text;
 
-                LogForm log = new LogForm();
-                SingletonLogs.SetInstance(log, typeof(LogForm));
-                log.Show();
-                new Thread(() => new Core().IniciarBot()).Start();
-                btIniciar.Enabled = false;
-                btDesligar.Enabled = true;
-            }
-            else if (sender == btDesligar)
-            {
-                SingletonClient.client.StopAsync().GetAwaiter().GetResult();
-                SingletonClient.setNull();
-                SingletonLogs.Fechar();
-                btDesligar.Enabled = false;
-                btIniciar.Enabled = true;
-            }
+            LogForm log = new LogForm(this);
+            SingletonLogs.SetInstance(log, typeof(LogForm));
+            log.Show();
+            Hide();
+            new Thread(() => new Core().IniciarBot()).Start();
+        }
+
+        private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }
