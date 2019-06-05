@@ -13,18 +13,16 @@ namespace Bot.Nucleo.Eventos
     public class MessageEvent
     {
         private readonly AyuraConfig config;
-        private readonly DiscordSocketClient client;
 
-        public MessageEvent(DiscordSocketClient client, AyuraConfig config)
+        public MessageEvent(AyuraConfig config)
         {
-            this.client = client;
             this.config = config;
         }
 
         public async Task MessageRecived(SocketMessage mensagem)
         {
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
-            CommandContext commandContex = new CommandContext(client, mensagemTratada);
+            CommandContext commandContex = new CommandContext(SingletonClient.client, mensagemTratada);
 
             if (!mensagem.Author.IsBot)
             {
@@ -69,7 +67,7 @@ namespace Bot.Nucleo.Eventos
                         }
                     }
                 }
-                if (commandContex.Message.Content == $"<@{client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{client.CurrentUser.Id}>")
+                if (commandContex.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
                 {
                     await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(config.prefix)}` se quiser ver meus comando é so usar: `{new string(config.prefix)}comandos`")

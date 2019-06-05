@@ -17,8 +17,8 @@ namespace Bot
             AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
-            SingletonClient.client.MessageReceived += new MessageEvent(SingletonClient.client, config).MessageRecived;
-            SingletonClient.client.LoggedIn += new LogInEvent(SingletonClient.client).LogIn;
+            SingletonClient.client.MessageReceived += new MessageEvent(config).MessageRecived;
+            SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
             SingletonClient.client.Log += new Log().LogTask;
 
             Iniciar(config).GetAwaiter().GetResult();

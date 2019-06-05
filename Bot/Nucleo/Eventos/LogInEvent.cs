@@ -12,12 +12,6 @@ namespace Bot.Nucleo.Eventos
 {
     public class LogInEvent
     {
-        private readonly DiscordSocketClient client;
-        public LogInEvent(DiscordSocketClient client)
-        {
-            this.client = client;
-        }
-
         public Task LogIn()
         {
             new Thread(async () =>
@@ -32,16 +26,16 @@ namespace Bot.Nucleo.Eventos
                             switch (status[i].tipo)
                             {
                                 case 0:
-                                    await client.SetGameAsync(status[i].status, type: Discord.ActivityType.Playing);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Playing);
                                     break;
                                 case 1:
-                                    await client.SetGameAsync(status[i].status, type: Discord.ActivityType.Streaming);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Streaming);
                                     break;
                                 case 2:
-                                    await client.SetGameAsync(status[i].status, type: Discord.ActivityType.Listening);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Listening);
                                     break;
                                 case 3:
-                                    await client.SetGameAsync(status[i].status, type: Discord.ActivityType.Watching);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Watching);
                                     break;
                             }
                         }
