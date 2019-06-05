@@ -53,14 +53,23 @@ namespace Bot.Forms
 
         private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            WindowState = FormWindowState.Minimized;
-            ShowInTaskbar = false;
+            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
+            SingletonClient.setNull();
+            Launcher.Show();
         }
 
         private void SairToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void LogForm_Resize(object sender, EventArgs e)
+        {
+            if(((Form)sender).WindowState != FormWindowState.Normal)
+            {
+                WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
+            }
         }
     }
 }

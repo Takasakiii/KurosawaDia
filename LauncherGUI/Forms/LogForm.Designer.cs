@@ -35,10 +35,10 @@
             this.btDesligar = new System.Windows.Forms.Button();
             this.controlNotify = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.desligarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.verLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aaaToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.verLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.desligarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,33 +99,33 @@
             this.verLogsToolStripMenuItem,
             this.desligarToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 98);
-            // 
-            // desligarToolStripMenuItem
-            // 
-            this.desligarToolStripMenuItem.Name = "desligarToolStripMenuItem";
-            this.desligarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.desligarToolStripMenuItem.Text = "Desligar";
-            this.desligarToolStripMenuItem.Click += new System.EventHandler(this.BtDesligar_Click);
-            // 
-            // verLogsToolStripMenuItem
-            // 
-            this.verLogsToolStripMenuItem.Name = "verLogsToolStripMenuItem";
-            this.verLogsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.verLogsToolStripMenuItem.Text = "Ver Logs";
-            this.verLogsToolStripMenuItem.Click += new System.EventHandler(this.VerLogsToolStripMenuItem_Click);
+            this.contextMenuStrip.Size = new System.Drawing.Size(119, 76);
             // 
             // sairToolStripMenuItem
             // 
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.sairToolStripMenuItem.Text = "Sair";
             this.sairToolStripMenuItem.Click += new System.EventHandler(this.SairToolStripMenuItem_Click);
             // 
             // aaaToolStripMenuItem
             // 
             this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
-            this.aaaToolStripMenuItem.Size = new System.Drawing.Size(177, 6);
+            this.aaaToolStripMenuItem.Size = new System.Drawing.Size(115, 6);
+            // 
+            // verLogsToolStripMenuItem
+            // 
+            this.verLogsToolStripMenuItem.Name = "verLogsToolStripMenuItem";
+            this.verLogsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.verLogsToolStripMenuItem.Text = "Ver Logs";
+            this.verLogsToolStripMenuItem.Click += new System.EventHandler(this.VerLogsToolStripMenuItem_Click);
+            // 
+            // desligarToolStripMenuItem
+            // 
+            this.desligarToolStripMenuItem.Name = "desligarToolStripMenuItem";
+            this.desligarToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.desligarToolStripMenuItem.Text = "Desligar";
+            this.desligarToolStripMenuItem.Click += new System.EventHandler(this.BtDesligar_Click);
             // 
             // LogForm
             // 
@@ -137,13 +137,12 @@
             this.Controls.Add(this.txLog);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "LogForm";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Log";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogForm_FormClosing);
+            this.Resize += new System.EventHandler(this.LogForm_Resize);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
