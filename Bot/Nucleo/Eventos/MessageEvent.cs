@@ -1,5 +1,7 @@
 ﻿using Bot.Comandos;
-using Bot.Modelos;
+using Bot.DataBase.ConfigDB.Modelos;
+using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
 using Bot.Singletons;
 using Discord;
 using Discord.Commands;
@@ -13,30 +15,56 @@ namespace Bot.Nucleo.Eventos
     public class MessageEvent
     {
         private readonly AyuraConfig config;
-        private readonly DiscordSocketClient client;
 
-        public MessageEvent(DiscordSocketClient client, AyuraConfig config)
+        public MessageEvent(AyuraConfig config)
         {
-            this.client = client;
             this.config = config;
         }
 
         public async Task MessageRecived(SocketMessage mensagem)
         {
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
-            CommandContext commandContex = new CommandContext(client, mensagemTratada);
+            CommandContext commandContex = new CommandContext(SingletonClient.client, mensagemTratada);
 
             if (!mensagem.Author.IsBot)
             {
-                int argPos = 0;
-                if (mensagemTratada.HasStringPrefix(new string(config.prefix), ref argPos))
-                {
-                    string messageSemPrefix = mensagem.Content.Substring(config.prefix.Length);
+                char[] prefix = config.prefix;
 
-                    if (messageSemPrefix != "" && messageSemPrefix[0] != config.prefix[0])
+                if (!commandContex.IsPrivate)
+                {
+                    Servidores serv = new Servidores();
+                    serv.SetId(Convert.ToInt64(commandContex.Guild.Id));
+                    char[] tmp = new ServidoresDAO().GetPrefix(serv);
+
+                    if(tmp != null)
+                    {
+                        prefix = tmp;
+                    }
+                }
+
+                int argPos = 0;
+                if (mensagemTratada.HasStringPrefix(new string(prefix), ref argPos))
+                {
+                    string messageSemPrefix = mensagem.Content.Substring(prefix.Length);
+
+                    if (messageSemPrefix != "" && messageSemPrefix[0] != prefix[0])
                     {
                         try
                         {
+                            if (!commandContex.IsPrivate)
+                            {
+                                if (!new ServidoresDAO().VerificarServidor(Convert.ToInt64(commandContex.Guild.Id)))
+                                {
+                                    Servidores servi = new Servidores();
+                                    servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
+
+                                    Usuarios usuario = new Usuarios();
+                                    usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.Username);
+
+                                    new ServidoresDAO().inserirServidorUsuario(servi, usuario);
+                                }
+                            }
+
                             string[] comando = messageSemPrefix.Split(' ');
                             var lastClassCommand = new Owner();
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
@@ -44,7 +72,7 @@ namespace Bot.Nucleo.Eventos
                             object[] parametros = new object[2];
                             parametros[0] = commandContex;
                             object[] args = new object[2];
-                            args[0] = new string(config.prefix);
+                            args[0] = new string(prefix);
                             args[1] = comando;
                             parametros[1] = args;
 
@@ -52,7 +80,7 @@ namespace Bot.Nucleo.Eventos
                         }
                         catch (Exception e)
                         {
-                            if(e is NullReferenceException || e is AmbiguousMatchException)
+                            if (e is NullReferenceException || e is AmbiguousMatchException)
                             {
                                 await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                             .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")
@@ -69,7 +97,7 @@ namespace Bot.Nucleo.Eventos
                         }
                     }
                 }
-                if (commandContex.Message.Content == $"<@{client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{client.CurrentUser.Id}>")
+                if (commandContex.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
                 {
                     await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(config.prefix)}` se quiser ver meus comando é so usar: `{new string(config.prefix)}comandos`")

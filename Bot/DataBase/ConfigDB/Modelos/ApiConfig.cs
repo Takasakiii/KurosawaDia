@@ -1,4 +1,4 @@
-﻿namespace Bot.Modelos
+﻿namespace Bot.DataBase.ConfigDB.Modelos
 {
     public class ApiConfig
     {

@@ -1,9 +1,9 @@
-﻿using Bot.Configs.Modelos;
-using Bot.Constructor;
+﻿using Bot.DataBase.ConfigDB.Modelos;
+using Bot.DataBase.Constructor;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 
-namespace Bot.Configs.DAO
+namespace Bot.DataBase.ConfigDB.DAO
 {
     public class StatusDAO
     {

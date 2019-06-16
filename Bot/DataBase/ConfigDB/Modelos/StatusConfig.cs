@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bot.Configs.Modelos
+﻿namespace Bot.DataBase.ConfigDB.Modelos
 {
     public class StatusConfig
     {

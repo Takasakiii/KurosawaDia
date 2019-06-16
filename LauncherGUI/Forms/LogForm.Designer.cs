@@ -53,6 +53,7 @@
             this.txLog.Multiline = true;
             this.txLog.Name = "txLog";
             this.txLog.ReadOnly = true;
+            this.txLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txLog.Size = new System.Drawing.Size(798, 448);
             this.txLog.TabIndex = 0;
             // 
@@ -61,7 +62,7 @@
             this.btLimpar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btLimpar.Location = new System.Drawing.Point(642, 425);
+            this.btLimpar.Location = new System.Drawing.Point(621, 425);
             this.btLimpar.Name = "btLimpar";
             this.btLimpar.Size = new System.Drawing.Size(75, 23);
             this.btLimpar.TabIndex = 1;
@@ -75,7 +76,7 @@
             this.btDesligar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDesligar.Location = new System.Drawing.Point(723, 425);
+            this.btDesligar.Location = new System.Drawing.Point(702, 425);
             this.btDesligar.Name = "btDesligar";
             this.btDesligar.Size = new System.Drawing.Size(75, 23);
             this.btDesligar.TabIndex = 2;
@@ -99,7 +100,7 @@
             this.verLogsToolStripMenuItem,
             this.desligarToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 98);
+            this.contextMenuStrip.Size = new System.Drawing.Size(119, 76);
             // 
             // desligarToolStripMenuItem
             // 
@@ -137,12 +138,10 @@
             this.Controls.Add(this.txLog);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "LogForm";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Log";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogForm_FormClosing);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);

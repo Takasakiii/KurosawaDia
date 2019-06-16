@@ -1,8 +1,8 @@
-﻿using Bot.Constructor;
-using Bot.Modelos;
+﻿using Bot.DataBase.ConfigDB.Modelos;
+using Bot.DataBase.Constructor;
 using Microsoft.Data.Sqlite;
 
-namespace Bot.DAO
+namespace Bot.DataBase.ConfigDB.DAO
 {
     public class ApiConfigDAO
     {
