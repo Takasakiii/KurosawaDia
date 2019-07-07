@@ -45,33 +45,5 @@ namespace Bot.DataBase.MainDB.DAO
             conexao.Close();
             return prefix;
         }
-
-        public bool VerificarServidor(long id)
-        {
-            const string sql = "verificarServidor(@id)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", id);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
-            int codigo = 0;
-
-            if(rs.Read())
-            {
-                codigo = Convert.ToInt32(rs["codigo_servidor"]);
-            }
-
-            rs.Close();
-            conexao.Close();
-
-            if (codigo == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
     }
 }

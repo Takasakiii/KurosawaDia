@@ -18,14 +18,13 @@ namespace Bot.Comandos
         public void comandos(CommandContext context, object[] args)
         {
             Embed embed = new EmbedBuilder()
-                .WithTitle("Esses são os meus comandos")
-                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}webcam`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`")
+                .WithTitle("Esses são os meus comandos: ")
+                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}videochamada`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`")
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}convite`, `{(string)args[0]}info`")
                 .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`")
                 .AddField("Comandos NSFW", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`")
                 .AddField("Comandos Weeb", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`, `{(string)args[0]}megumin`, `{(string)args[0]}rem`")
                 .AddField("Comandos de moderação", $"`{(string)args[0]}kick`, `{(string)args[0]}ban`, `{(string)args[0]}softban`")
-                .WithThumbnailUrl(context.Client.CurrentUser.GetAvatarUrl(0, 2048))
                 .WithImageUrl("https://i.imgur.com/ifjBm06.png")
                 .WithColor(Color.DarkPurple)
                 .Build();

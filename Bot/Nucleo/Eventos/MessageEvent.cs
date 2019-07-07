@@ -53,16 +53,13 @@ namespace Bot.Nucleo.Eventos
                         {
                             if (!commandContex.IsPrivate)
                             {
-                                if (!new ServidoresDAO().VerificarServidor(Convert.ToInt64(commandContex.Guild.Id)))
-                                {
-                                    Servidores servi = new Servidores();
-                                    servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
+                                Servidores servi = new Servidores();
+                                servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
 
-                                    Usuarios usuario = new Usuarios();
-                                    usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.Username);
+                                Usuarios usuario = new Usuarios();
+                                usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.ToString());
 
-                                    new ServidoresDAO().inserirServidorUsuario(servi, usuario);
-                                }
+                                new ServidoresDAO().inserirServidorUsuario(servi, usuario);
                             }
 
                             string[] comando = messageSemPrefix.Split(' ');

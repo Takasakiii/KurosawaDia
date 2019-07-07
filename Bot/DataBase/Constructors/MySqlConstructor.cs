@@ -1,12 +1,15 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Bot.DataBase.ConfigDB.DAO;
+using Bot.DataBase.ConfigDB.Modelos;
+using MySql.Data.MySqlClient;
 
 namespace Bot.DataBase.Constructors
 {
-    class MySqlConstructor
+    public class MySqlConstructor
     {
         public MySqlConnection Conectar()
         {
-            MySqlConnection conexao = new MySqlConnection("Server=127.0.0.1;Database=Ayura;Uid=ayura;Pwd=xpto20166102;");
+            DbConfig dbConfig = new DbConfigDAO().GetDbConfig();
+            MySqlConnection conexao = new MySqlConnection($"Server={dbConfig.ip};Database={dbConfig.database};Uid={dbConfig.login};Pwd={dbConfig.senha};");
             conexao.Open();
             return conexao;
         }

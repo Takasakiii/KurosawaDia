@@ -71,7 +71,7 @@ namespace Bot.Comandos
             }
         }
 
-        public void webcam(CommandContext context, object[] args)
+        public void videochamada(CommandContext context, object[] args)
         {
             SocketGuildUser usr = context.User as SocketGuildUser;
 
@@ -79,8 +79,7 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithTitle($"Canal: {usr.VoiceChannel.Name}")
-                        .WithDescription($"[clique aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam")
+                        .WithDescription($"[Clique Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam")
                 .Build());
             }
             else

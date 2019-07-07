@@ -88,46 +88,5 @@ namespace Bot.Comandos
         {
             getImg(context, "Uma simples imagem pra usar onde quiser", links.img);
         }
-
-        public void fuck(CommandContext context, object[] args)
-        {
-            Random rand = new Random();
-            int i = rand.Next(links.fuck.Length);
-
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-            embed.WithImageUrl(links.fuck[i]);
-
-            if (!context.IsPrivate)
-            {
-                string[] comando = (string[])args[1];
-                string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                Extensions.UserExtensions userExtensions = new Extensions.UserExtensions();
-                Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
-
-                string user = "";
-                string author = userExtensions.GetNickname(context.User, !context.IsPrivate);
-
-                if (getUser.Item1 == null || getUser.Item1 == context.User)
-                {
-                    user = "ele(a) mesmo";
-                }
-                else 
-                {
-                    user = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
-                }
-
-                embed.WithTitle($"{author} etsa fudendo com {user}");
-            }
-            else
-            {
-                embed.WithDescription("Esse comando só pode ser usado em servidores");
-                embed.WithColor(Color.Red);
-                embed.WithImageUrl(null);
-            }
-
-            context.Channel.SendMessageAsync(embed: embed.Build());
-        }
     }
 }

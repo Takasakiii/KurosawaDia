@@ -1,5 +1,5 @@
-create database Ayura;
-use Ayura;
+create database AyuraDB;
+use AyuraDB;
 
 create table Servidores (
 	codigo_servidor int not null auto_increment,
@@ -85,15 +85,10 @@ create procedure atualizarPrefix (
 	update Servidores set prefix_servidor = _prefix_servidor where id_servidor = _id_servidor;
 end$$
 
-create procedure verificarServidor (
-	in _id_servidor bigint
- )begin
-	select * from Servidores where id_servidor = _id_servidor;
-end$$
-
 delimiter ;
 select * from Servidores_usuarios;
 
+SET GLOBAL log_bin_trust_function_creators = 1;
 
 insert into Servidores_usuarios (Servidores_codigo_servidor, Usuarios_codigo_usuario)  values ((Select codigo_servidor from Servidores where id_servidor = 987), (select codigo_usuario from Usuarios where id_usuario = 321));
 select count(Servidores_codigo_servidor) from Servidores_Usuarios where ((Select codigo_servidor from Servidores where id_servidor = 556580866198077451) and (select codigo_usuario from Usuarios where id_usuario = 274289097689006080));
