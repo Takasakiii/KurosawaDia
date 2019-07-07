@@ -17,11 +17,6 @@
             this.codigo = codigo;
         }
 
-        public void SetPrefix(char[] prefix)
-        {
-            this.prefix = prefix;
-        }
-
         public void SetId(long id)
         {
             this.id = id;

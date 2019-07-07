@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="2.1.0" />
+    <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.4" />
     <PackageReference Include="MySql.Data" Version="8.0.16" />
     <PackageReference Include="Weeb.net" Version="1.0.7" />
