@@ -79,7 +79,7 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription($"[Clique Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) para poder compartilhar sua tela ou ligar sua webcam")
+                        .WithDescription($"Para acessar o compartilhamento de tela basta [clique Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) 😃")
                 .Build());
             }
             else

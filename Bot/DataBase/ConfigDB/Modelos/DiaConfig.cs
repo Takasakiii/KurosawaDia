@@ -1,12 +1,12 @@
 ﻿namespace Bot.DataBase.ConfigDB.Modelos
 {
-    public class AyuraConfig
+    public class DiaConfig
     {
         public string token { private set; get; }
         public char[] prefix { private set; get; }
         public uint id { private set; get; }
 
-        public AyuraConfig(uint id, string token = null, char[] prefix = null)
+        public DiaConfig(uint id, string token = null, char[] prefix = null)
         {
             this.token = token;
             this.prefix = prefix;

@@ -1,5 +1,5 @@
-create database AyuraDB;
-use AyuraDB;
+create database Pitas_Kurosawa;
+use Pitas_Kurosawa;
 
 create table Servidores (
 	codigo_servidor int not null auto_increment,
