@@ -63,6 +63,10 @@
             this.cbStatusTipo = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txStatusStatus = new System.Windows.Forms.TextBox();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -323,6 +327,7 @@
             this.btStatusRedefinir.TabIndex = 3;
             this.btStatusRedefinir.Text = "Redefinir";
             this.btStatusRedefinir.UseVisualStyleBackColor = true;
+            this.btStatusRedefinir.Click += new System.EventHandler(this.BtStatusRedefinir_Click);
             // 
             // btStatusSalvar
             // 
@@ -332,15 +337,23 @@
             this.btStatusSalvar.TabIndex = 2;
             this.btStatusSalvar.Text = "Salvar";
             this.btStatusSalvar.UseVisualStyleBackColor = true;
+            this.btStatusSalvar.Click += new System.EventHandler(this.BtStatusSalvar_Click);
             // 
             // dtStatusEdit
             // 
+            this.dtStatusEdit.AllowUserToAddRows = false;
             this.dtStatusEdit.BackgroundColor = System.Drawing.Color.White;
             this.dtStatusEdit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtStatusEdit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Status,
+            this.Tipo,
+            this.CBIndex,
+            this.Remover});
             this.dtStatusEdit.Location = new System.Drawing.Point(6, 93);
             this.dtStatusEdit.Name = "dtStatusEdit";
             this.dtStatusEdit.Size = new System.Drawing.Size(377, 395);
             this.dtStatusEdit.TabIndex = 1;
+            this.dtStatusEdit.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtStatusEdit_CellContentClick);
             // 
             // groupBox4
             // 
@@ -364,6 +377,7 @@
             this.btStatusAdicionar.TabIndex = 4;
             this.btStatusAdicionar.Text = "Adicionar";
             this.btStatusAdicionar.UseVisualStyleBackColor = true;
+            this.btStatusAdicionar.Click += new System.EventHandler(this.BtStatusAdicionar_Click);
             // 
             // label11
             // 
@@ -376,7 +390,13 @@
             // 
             // cbStatusTipo
             // 
+            this.cbStatusTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbStatusTipo.FormattingEnabled = true;
+            this.cbStatusTipo.Items.AddRange(new object[] {
+            "Jogando",
+            "Live",
+            "Ouvindo",
+            "Assistindo"});
             this.cbStatusTipo.Location = new System.Drawing.Point(52, 45);
             this.cbStatusTipo.Name = "cbStatusTipo";
             this.cbStatusTipo.Size = new System.Drawing.Size(238, 21);
@@ -397,6 +417,30 @@
             this.txStatusStatus.Name = "txStatusStatus";
             this.txStatusStatus.Size = new System.Drawing.Size(319, 20);
             this.txStatusStatus.TabIndex = 0;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status:";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo:";
+            this.Tipo.Name = "Tipo";
+            this.Tipo.ReadOnly = true;
+            // 
+            // CBIndex
+            // 
+            this.CBIndex.HeaderText = "CBIndex";
+            this.CBIndex.Name = "CBIndex";
+            this.CBIndex.ReadOnly = true;
+            this.CBIndex.Visible = false;
+            // 
+            // Remover
+            // 
+            this.Remover.HeaderText = "Remover:";
+            this.Remover.Name = "Remover";
             // 
             // ConfiguracoesForm
             // 
@@ -468,5 +512,9 @@
         private System.Windows.Forms.Button btStatusRedefinir;
         private System.Windows.Forms.Button btStatusSalvar;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tipo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CBIndex;
+        private System.Windows.Forms.DataGridViewButtonColumn Remover;
     }
 }
