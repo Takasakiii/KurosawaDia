@@ -11,7 +11,7 @@ namespace Bot.DataBase.ConfigDB.DAO
         public AyuraConfig Carregar(AyuraConfig ayuraConfig)
         {
             SqliteCommand selectCmd = conexao.CreateCommand();
-            selectCmd.CommandText = "select * from AyuraConfig where id = @id";
+            selectCmd.CommandText = "select * from DiaConfig where id = @id";
             selectCmd.Parameters.AddWithValue("@id", ayuraConfig.id);
 
             using (SqliteDataReader reader = selectCmd.ExecuteReader())

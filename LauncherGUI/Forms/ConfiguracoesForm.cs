@@ -31,6 +31,7 @@ namespace Bot.Forms
 
                 DBDAO dao = new DBDAO();
                 dao.AdicionarAtualizar(apiConfig, dBConfig, diaConfig);
+                MessageBox.Show("Dados atualizados com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (FormatException)
             {
@@ -43,6 +44,26 @@ namespace Bot.Forms
             catch(Exception erro)
             {
                 MessageBox.Show("Ops, isso é muito embaraçoso.... Espero que você entenda e corrija XD\n\n" + erro.Message, "Kurosawa Dia - Erro Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ConfiguracoesForm_Load(object sender, EventArgs e)
+        {
+            DBDAO dao = new DBDAO();
+            var retorno = dao.PegarDadosBot();
+
+            if (retorno.Item1 == 3)
+            {
+                txBotToken.Text = retorno.Item4.token;
+                txBotPrefix.Text = retorno.Item4.prefix;
+                txBotIDDono.Text = retorno.Item4.idDono.ToString();
+
+                txDBIP.Text = retorno.Item3.ip;
+                txDBDatabase.Text = retorno.Item3.database;
+                txDBLogin.Text = retorno.Item3.login;
+                txDBSenha.Text = retorno.Item3.senha;
+
+                txWeebAPIToken.Text = retorno.Item2.WeebToken;
             }
         }
     }

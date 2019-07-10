@@ -285,6 +285,8 @@
     <Content Include="html\video.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\NxAxES4.jpg" />
+    <None Include="Resources\LLSS_S2Ep12_321.png" />
     <None Include="Resources\Shiro.png" />
     <None Include="Resources\kurosawa-dia-love-live-sunshine-minimalism-simple-wallpaper-49f0b8ed81aa4dabe6c7180fd02146cd.jpg" />
     <None Include="Resources\universe.jpg" />

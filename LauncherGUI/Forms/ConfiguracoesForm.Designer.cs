@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfiguracoesForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.btPicInicializarSalvar = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -62,7 +63,6 @@
             this.cbStatusTipo = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txStatusStatus = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -99,6 +99,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Inicialização";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 468);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(87, 39);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "Para Salvar:\r\n\r\nClick na Shiro <3";
             // 
             // label9
             // 
@@ -389,15 +398,6 @@
             this.txStatusStatus.Size = new System.Drawing.Size(319, 20);
             this.txStatusStatus.TabIndex = 0;
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 468);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(87, 39);
-            this.label12.TabIndex = 5;
-            this.label12.Text = "Para Salvar:\r\n\r\nClick na Shiro <3";
-            // 
             // ConfiguracoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +413,7 @@
             this.Name = "ConfiguracoesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kurosawa Dia - Configurações";
+            this.Load += new System.EventHandler(this.ConfiguracoesForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
