@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LauncherGUI));
             this.btIniciar = new System.Windows.Forms.Button();
-            this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
             this.btConfiguracoes = new System.Windows.Forms.Button();
             this.wbCustomizacao = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
@@ -45,12 +44,6 @@
             this.btIniciar.Text = "Iniciar";
             this.btIniciar.UseVisualStyleBackColor = true;
             this.btIniciar.Click += new System.EventHandler(this.BtIniciar_Click);
-            // 
-            // fdDBFinder
-            // 
-            this.fdDBFinder.Filter = "Arquivos db|*.db";
-            this.fdDBFinder.Title = "Selecione o local da db";
-            this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.FdDBFinder_FileOk);
             // 
             // btConfiguracoes
             // 
@@ -97,7 +90,6 @@
 
         #endregion
         private System.Windows.Forms.Button btIniciar;
-        private System.Windows.Forms.OpenFileDialog fdDBFinder;
         private System.Windows.Forms.Button btConfiguracoes;
         private System.Windows.Forms.WebBrowser wbCustomizacao;
     }
