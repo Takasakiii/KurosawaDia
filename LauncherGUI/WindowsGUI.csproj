@@ -279,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ico11.ico" />
+    <None Include="Resources\Shiro.png" />
     <None Include="Resources\kurosawa-dia-love-live-sunshine-minimalism-simple-wallpaper-49f0b8ed81aa4dabe6c7180fd02146cd.jpg" />
     <None Include="Resources\universe.jpg" />
   </ItemGroup>
