@@ -63,9 +63,10 @@ namespace Bot.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _20160720_lovelivesunshine03_01 {
+        internal static System.Drawing.Bitmap kurosawa_dia_love_live_sunshine_minimalism_simple_wallpaper_49f0b8ed81aa4dabe6c7180fd02146cd {
             get {
-                object obj = ResourceManager.GetObject("20160720-lovelivesunshine03-01", resourceCulture);
+                object obj = ResourceManager.GetObject("kurosawa-dia-love-live-sunshine-minimalism-simple-wallpaper-49f0b8ed81aa4dabe6c71" +
+                        "80fd02146cd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
