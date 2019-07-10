@@ -55,7 +55,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btStatusRedefinir = new System.Windows.Forms.Button();
             this.btStatusSalvar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dtStatusEdit = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btStatusAdicionar = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -70,7 +70,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtStatusEdit)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -296,7 +296,7 @@
             // 
             this.tabPage2.Controls.Add(this.btStatusRedefinir);
             this.tabPage2.Controls.Add(this.btStatusSalvar);
-            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.dtStatusEdit);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -324,14 +324,14 @@
             this.btStatusSalvar.Text = "Salvar";
             this.btStatusSalvar.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dtStatusEdit
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 93);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(377, 395);
-            this.dataGridView1.TabIndex = 1;
+            this.dtStatusEdit.BackgroundColor = System.Drawing.Color.White;
+            this.dtStatusEdit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtStatusEdit.Location = new System.Drawing.Point(6, 93);
+            this.dtStatusEdit.Name = "dtStatusEdit";
+            this.dtStatusEdit.Size = new System.Drawing.Size(377, 395);
+            this.dtStatusEdit.TabIndex = 1;
             // 
             // groupBox4
             // 
@@ -424,7 +424,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtStatusEdit)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
@@ -457,7 +457,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txBotToken;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtStatusEdit;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btStatusAdicionar;
         private System.Windows.Forms.Label label11;

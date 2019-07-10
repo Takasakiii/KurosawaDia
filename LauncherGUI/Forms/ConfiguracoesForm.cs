@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ConfigurationControler.Factory;
+using ConfigurationControler.Singletons;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +21,8 @@ namespace Bot.Forms
 
         private void BtPicInicializarSalvar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("salvo");
+            DB.SetDB("pitasgay.db");
+            new ConnectionFactory().Conectar();
         }
     }
 }

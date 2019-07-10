@@ -29,53 +29,22 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LauncherGUI));
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtLocal = new System.Windows.Forms.TextBox();
             this.btIniciar = new System.Windows.Forms.Button();
-            this.btLocal = new System.Windows.Forms.Button();
             this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
             this.btConfiguracoes = new System.Windows.Forms.Button();
+            this.wbCustomizacao = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(3, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Local da db:";
-            // 
-            // txtLocal
-            // 
-            this.txtLocal.Enabled = false;
-            this.txtLocal.Location = new System.Drawing.Point(75, 7);
-            this.txtLocal.Name = "txtLocal";
-            this.txtLocal.Size = new System.Drawing.Size(311, 20);
-            this.txtLocal.TabIndex = 1;
             // 
             // btIniciar
             // 
             this.btIniciar.Enabled = false;
-            this.btIniciar.Location = new System.Drawing.Point(473, 5);
+            this.btIniciar.Location = new System.Drawing.Point(349, 254);
             this.btIniciar.Name = "btIniciar";
             this.btIniciar.Size = new System.Drawing.Size(75, 23);
             this.btIniciar.TabIndex = 2;
             this.btIniciar.Text = "Iniciar";
             this.btIniciar.UseVisualStyleBackColor = true;
             this.btIniciar.Click += new System.EventHandler(this.BtIniciar_Click);
-            // 
-            // btLocal
-            // 
-            this.btLocal.Location = new System.Drawing.Point(392, 5);
-            this.btLocal.Name = "btLocal";
-            this.btLocal.Size = new System.Drawing.Size(75, 23);
-            this.btLocal.TabIndex = 3;
-            this.btLocal.Text = "Alterar Local";
-            this.btLocal.UseVisualStyleBackColor = true;
-            this.btLocal.Click += new System.EventHandler(this.BtLocal_Click);
             // 
             // fdDBFinder
             // 
@@ -85,13 +54,22 @@
             // 
             // btConfiguracoes
             // 
-            this.btConfiguracoes.Location = new System.Drawing.Point(554, 5);
+            this.btConfiguracoes.Location = new System.Drawing.Point(430, 254);
             this.btConfiguracoes.Name = "btConfiguracoes";
             this.btConfiguracoes.Size = new System.Drawing.Size(87, 23);
             this.btConfiguracoes.TabIndex = 4;
             this.btConfiguracoes.Text = "Configurações";
             this.btConfiguracoes.UseVisualStyleBackColor = true;
             this.btConfiguracoes.Click += new System.EventHandler(this.BtConfiguracoes_Click);
+            // 
+            // wbCustomizacao
+            // 
+            this.wbCustomizacao.Location = new System.Drawing.Point(-15, -4);
+            this.wbCustomizacao.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbCustomizacao.Name = "wbCustomizacao";
+            this.wbCustomizacao.ScrollBarsEnabled = false;
+            this.wbCustomizacao.Size = new System.Drawing.Size(545, 298);
+            this.wbCustomizacao.TabIndex = 5;
             // 
             // LauncherGUI
             // 
@@ -100,12 +78,10 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::Bot.Properties.Resources.universe;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(650, 33);
+            this.ClientSize = new System.Drawing.Size(528, 289);
             this.Controls.Add(this.btConfiguracoes);
-            this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
-            this.Controls.Add(this.txtLocal);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.wbCustomizacao);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Disable;
@@ -116,18 +92,14 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LauncherGUI_FormClosed);
             this.Load += new System.EventHandler(this.LauncherGUI_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtLocal;
         private System.Windows.Forms.Button btIniciar;
-        private System.Windows.Forms.Button btLocal;
         private System.Windows.Forms.OpenFileDialog fdDBFinder;
         private System.Windows.Forms.Button btConfiguracoes;
+        private System.Windows.Forms.WebBrowser wbCustomizacao;
     }
 }
 
