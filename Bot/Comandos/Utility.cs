@@ -262,16 +262,26 @@ namespace Bot.Comandos
                 string[] comando = (string[])args[1];
                 string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
+                if (msg != "")
+                {
+                    Servidores servidor = new Servidores();
+                    servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
 
-                Servidores servidor = new Servidores();
-                servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
+                    new ServidoresDAO().SetServidorPrefix(servidor);
 
-                new ServidoresDAO().SetServidorPrefix(servidor);
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(new ServidoresDAO().GetPrefix(servidor))}`")
+                            .WithColor(Color.DarkPurple)
+                        .Build());
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** você precisa me falar um prefixo")
+                            .WithColor(Color.Red)
+                        .Build());
+                }
 
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(new ServidoresDAO().GetPrefix(servidor))}`")
-                        .WithColor(Color.DarkPurple)
-                    .Build()); ;
             }
             else
             {
