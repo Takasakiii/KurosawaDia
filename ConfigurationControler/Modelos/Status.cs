@@ -20,6 +20,13 @@ namespace ConfigurationControler.Modelos
             this.status_tipo = status_tipo;
         }
 
+        public Status(uint id, string status_jogo, TiposDeStatus status_tipo)
+        {
+            this.id = id;
+            this.status_jogo = status_jogo;
+            this.status_tipo = status_tipo;
+        }
+
     }
 
 }

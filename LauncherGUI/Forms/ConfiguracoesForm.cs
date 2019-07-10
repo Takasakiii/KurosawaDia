@@ -16,6 +16,7 @@ namespace Bot.Forms
 {
     public partial class ConfiguracoesForm : Form
     {
+
         public ConfiguracoesForm()
         {
             InitializeComponent();
@@ -64,6 +65,63 @@ namespace Bot.Forms
                 txDBSenha.Text = retorno.Item3.senha;
 
                 txWeebAPIToken.Text = retorno.Item2.WeebToken;
+            }
+
+
+            StatusDAO sdao = new StatusDAO();
+            var retorno2 = sdao.CarregarStatus();
+
+            if (retorno2.Item1)
+            {
+                foreach(Status status in retorno2.Item2)
+                {
+                    dtStatusEdit.Rows.Add(status.status_jogo, status.status_tipo, (int)status.status_tipo);
+                }
+            }
+        }
+
+        
+        private void BtStatusAdicionar_Click(object sender, EventArgs e)
+        {
+            if(txStatusStatus.Text != null && cbStatusTipo.SelectedIndex >= 0)
+            {
+                dtStatusEdit.Rows.Add(txStatusStatus.Text, cbStatusTipo.Text, cbStatusTipo.SelectedIndex);
+                txStatusStatus.Clear();
+                txStatusStatus.Focus();
+                cbStatusTipo.SelectedIndex = -1;
+            }
+        }
+
+        private void DtStatusEdit_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dg = (DataGridView)sender;
+            if(dg.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dtStatusEdit.Rows[e.RowIndex];
+                dtStatusEdit.Rows.Remove(row);
+            }
+        }
+
+        private void BtStatusRedefinir_Click(object sender, EventArgs e)
+        {
+            dtStatusEdit.Rows.Clear();
+            new StatusDAO().RemoverTabela();
+        }
+
+        private void BtStatusSalvar_Click(object sender, EventArgs e)
+        {
+            if(dtStatusEdit.Rows.Count > 0)
+            {
+                List<Status> statuses = new List<Status>();
+                for (int i = 0; i < dtStatusEdit.RowCount; i++)
+                {
+                    Status temp = new Status(dtStatusEdit.Rows[i].Cells[0].Value.ToString(), (Status.TiposDeStatus)Convert.ToInt32(dtStatusEdit.Rows[i].Cells[2].Value));
+                    statuses.Add(temp);
+                }
+
+                StatusDAO dao = new StatusDAO();
+                dao.AdicionarAtualizarStatus(statuses);
+                MessageBox.Show("Dados atualizados com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
