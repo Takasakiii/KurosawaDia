@@ -2,13 +2,13 @@
 {
     public class Servidores
     {
-        public long id { get; private set; }
+        public ulong id { get; private set; }
         public string nome { get; private set; }
         public bool especial { get; private set; }
         public char[] prefix { get; private set; }
-        public int codigo { get; private set; }
+        public uint codigo { get; private set; }
 
-        public void SetServidor(long id, string nome, char[] prefix = null, bool especial = false, int codigo = 0)
+        private void SetServidor(ulong id = 0, string nome = null, char[] prefix = null, bool especial = false, uint codigo = 0)
         {
             this.id = id;
             this.nome = nome;
@@ -17,9 +17,19 @@
             this.codigo = codigo;
         }
 
-        public void SetId(long id)
+        public void SetId(ulong id)
         {
-            this.id = id;
+            SetServidor(id);
+        }
+
+        public void SetNome(ulong id, string nome)
+        {
+            SetServidor(id, nome);
+        }
+
+        public void SetPrefix(ulong id, char[] prefix)
+        {
+            SetServidor(id, prefix: prefix);
         }
     }
 }

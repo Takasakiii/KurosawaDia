@@ -34,7 +34,7 @@ namespace Bot.Nucleo.Eventos
                 if (!commandContex.IsPrivate)
                 {
                     Servidores serv = new Servidores();
-                    serv.SetId(Convert.ToInt64(commandContex.Guild.Id));
+                    serv.SetId(commandContex.Guild.Id);
                     char[] tmp = new ServidoresDAO().GetPrefix(serv);
 
                     if (tmp != null)
@@ -57,10 +57,10 @@ namespace Bot.Nucleo.Eventos
                                 new Thread(() =>
                                 {
                                     Servidores servi = new Servidores();
-                                    servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
+                                    servi.SetNome(commandContex.Guild.Id, commandContex.Guild.Name);
 
                                     Usuarios usuario = new Usuarios();
-                                    usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.ToString());
+                                    usuario.SetUsuario(commandContex.User.Id, commandContex.User.ToString());
 
                                     new ServidoresDAO().inserirServidorUsuario(servi, usuario);
                                 }).Start();
@@ -84,7 +84,7 @@ namespace Bot.Nucleo.Eventos
                             if (e is NullReferenceException || e is AmbiguousMatchException)
                             {
                                 await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                            .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(config.prefix)}comandos` para ver os meus comandos")
+                                            .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(prefix)}comandos` para ver os meus comandos")
                                             .WithColor(Color.DarkPurple)
                                      .Build());
                             }

@@ -1,4 +1,6 @@
-﻿using Bot.Extensions;
+﻿using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -248,6 +250,33 @@ namespace Bot.Comandos
                         .WithDescription($"**{context.User}** você precisa me falara uma sugestão")
                         .AddField("Uso: ", $"`{args[0]}sugestao <sugestão>`")
                         .AddField("Exemplo: ", $"`{args[0]}sugestao fazer com que o bot ficasse mais tempo on`")
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
+        public void setprefix(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                string[] comando = (string[])args[1];
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+
+                Servidores servidor = new Servidores();
+                servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
+
+                new ServidoresDAO().SetServidorPrefix(servidor);
+
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(new ServidoresDAO().GetPrefix(servidor))}`")
+                        .WithColor(Color.DarkPurple)
+                    .Build()); ;
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription("Esse comando so pode ser usado em servidores")
                         .WithColor(Color.Red)
                     .Build());
             }

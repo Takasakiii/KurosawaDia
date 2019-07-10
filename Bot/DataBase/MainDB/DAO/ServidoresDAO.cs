@@ -30,7 +30,7 @@ namespace Bot.DataBase.MainDB.DAO
 
         public char[] GetPrefix(Servidores servidor)
         {
-            const string sql = "buscarPrefix(@id)";
+            const string sql = "call buscarPrefix(@id)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
             cmd.Parameters.AddWithValue("@id", servidor.id);
@@ -44,6 +44,18 @@ namespace Bot.DataBase.MainDB.DAO
             rs.Close();
             conexao.Close();
             return prefix;
+        }
+
+        public void SetServidorPrefix(Servidores servidor)
+        {
+            const string sql = "call atualizarPrefix(@id, @prefix)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", servidor.id);
+            cmd.Parameters.AddWithValue("@prefix", new string(servidor.prefix));
+
+            cmd.ExecuteNonQuery();
+            conexao.Close();
         }
     }
 }
