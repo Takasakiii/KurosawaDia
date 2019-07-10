@@ -271,7 +271,6 @@
   <ItemGroup>
     <Content Include="ico11.ico" />
     <None Include="Resources\universe.jpg" />
-    <None Include="Resources\20160720-lovelivesunshine03-01.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bot\Bot.csproj">
