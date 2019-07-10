@@ -1,12 +1,12 @@
-create database AyuraDB;
-use AyuraDB;
+create database Pitas_Kurosawa;
+use Pitas_Kurosawa;
 
 create table Servidores (
 	codigo_servidor int not null auto_increment,
 	id_servidor bigint not null unique key,
     nome_servidor varchar(255) not null,
     especial_servidor boolean not null default false,
-    prefix_servidor varchar(25) not null default "~",
+    prefix_servidor varchar(25) not null default "'",
     primary key (codigo_servidor)
 );
 
@@ -75,35 +75,51 @@ end$$
 create procedure buscarPrefix (
 	in _id_servidor bigint
 ) begin 
-	select prefix_servidor from Servidores where id_servidor = _id_servidor;
+	select Servidores.prefix_servidor from Servidores where Servidores.codigo_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$
 
 create procedure atualizarPrefix (
 	in _id_servidor bigint,
     in _prefix_servidor varchar(25)
 ) begin 
-	update Servidores set prefix_servidor = _prefix_servidor where id_servidor = _id_servidor;
+	declare codigo int;
+    set codigo = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	update Servidores set Servidores.prefix_servidor = _prefix_servidor where Servidores.codigo_servidor = codigo;
+end$$
+
+create procedure criarAcr(
+	in _trigger_acr text,
+    in _resposta_acr text,
+    in _id_servidor bigint
+) begin
+	insert into ACRS (trigger_acr, resposta_acr, codigo_servidor) values (_trigger_acr, _resposta_acr, ((select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor)));
+end$$
+
+create procedure deletarAcr(
+	in _codigo_acr int
+) begin 
+	delete from ACRS where ACRS.codigo_acr = _codigo_acr;
+end$$
+
+create procedure responderAcr(
+	in _trigger_acr text,
+    in _id_servidor bigint
+) begin
+	select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = _trigger_acr and _id_servidor = (select Servidores.id_servidor from Servidores where Servidores.codigo_servidor = (select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr = _trigger_acr order by rand() limit 1)) order by rand() limit 1;
+end$$
+
+create procedure listarAcr(
+	in _id_servidor bigint
+) begin
+	select * from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where id_servidor = _id_servidor);
 end$$
 
 delimiter ;
-select * from Servidores_usuarios;
+call atualizarPrefix(556580866198077451, "'");
 
-SET GLOBAL log_bin_trust_function_creators = 1;
+call criarAcr("oi", "boa noite", 556580866198077451);
+call deletarAcr(4);
+call responderAcr("aa", 556580866198077451);
+call listarAcr(556580866198077451);
 
-insert into Servidores_usuarios (Servidores_codigo_servidor, Usuarios_codigo_usuario)  values ((Select codigo_servidor from Servidores where id_servidor = 987), (select codigo_usuario from Usuarios where id_usuario = 321));
-select count(Servidores_codigo_servidor) from Servidores_Usuarios where ((Select codigo_servidor from Servidores where id_servidor = 556580866198077451) and (select codigo_usuario from Usuarios where id_usuario = 274289097689006080));
-
-insert into Servidores (id_servidor, nome_servidor) values (987, "batata");
-insert into Usuarios (id_usuario, nome_usuario) values (587, "taka");
-
-call inserirServidor_Usuario (556580866198077451, "dia", 387478527064276992, "ana");
-call inserirServidor_Usuario (556580866198077451, "dia", 276125261882458112, "tonio");
-call inserirServidor_Usuario (300407204987666432, "potato", 240860729027198977, "naga");
-
-call verificarServidor(300407204987666432);
-
-call buscarPrefixo(300407204987666432);
-call atualizarPrefix (518069575896793109, "!");
-
-drop database Ayura;
-SET GLOBAL log_bin_trust_function_creators = 1;
+select * from ACRS where
