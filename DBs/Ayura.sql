@@ -34,6 +34,8 @@ create table Servidores_Usuarios (
     primary key (Servidores_codigo_servidor, Usuarios_codigo_usuario)
 );
 
+SET GLOBAL log_bin_trust_function_creators = 1;
+
 delimiter $$
 create function verificarCadastro (
 		_id_servidor bigint,
