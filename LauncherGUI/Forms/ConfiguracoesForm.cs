@@ -16,5 +16,10 @@ namespace Bot.Forms
         {
             InitializeComponent();
         }
+
+        private void BtPicInicializarSalvar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("salvo");
+        }
     }
 }
