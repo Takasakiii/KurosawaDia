@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogForm));
-            this.txLog = new System.Windows.Forms.TextBox();
             this.btLimpar = new System.Windows.Forms.Button();
             this.btDesligar = new System.Windows.Forms.Button();
             this.controlNotify = new System.Windows.Forms.NotifyIcon(this.components);
@@ -39,30 +38,15 @@
             this.aaaToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.verLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.desligarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txLog = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // txLog
-            // 
-            this.txLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txLog.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txLog.Location = new System.Drawing.Point(0, 0);
-            this.txLog.Multiline = true;
-            this.txLog.Name = "txLog";
-            this.txLog.ReadOnly = true;
-            this.txLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txLog.Size = new System.Drawing.Size(798, 448);
-            this.txLog.TabIndex = 0;
             // 
             // btLimpar
             // 
-            this.btLimpar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btLimpar.Location = new System.Drawing.Point(618, 425);
+            this.btLimpar.Location = new System.Drawing.Point(545, 464);
             this.btLimpar.Name = "btLimpar";
             this.btLimpar.Size = new System.Drawing.Size(75, 23);
             this.btLimpar.TabIndex = 1;
@@ -73,10 +57,7 @@
             // 
             // btDesligar
             // 
-            this.btDesligar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDesligar.Location = new System.Drawing.Point(699, 425);
+            this.btDesligar.Location = new System.Drawing.Point(464, 464);
             this.btDesligar.Name = "btDesligar";
             this.btDesligar.Size = new System.Drawing.Size(75, 23);
             this.btDesligar.TabIndex = 2;
@@ -128,31 +109,53 @@
             this.desligarToolStripMenuItem.Text = "Desligar";
             this.desligarToolStripMenuItem.Click += new System.EventHandler(this.BtDesligar_Click);
             // 
+            // txLog
+            // 
+            this.txLog.Location = new System.Drawing.Point(6, 19);
+            this.txLog.Multiline = true;
+            this.txLog.Name = "txLog";
+            this.txLog.ReadOnly = true;
+            this.txLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txLog.Size = new System.Drawing.Size(614, 439);
+            this.txLog.TabIndex = 3;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.txLog);
+            this.groupBox1.Controls.Add(this.btLimpar);
+            this.groupBox1.Controls.Add(this.btDesligar);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(626, 493);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Log:";
+            // 
             // LogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btDesligar);
-            this.Controls.Add(this.btLimpar);
-            this.Controls.Add(this.txLog);
+            this.BackgroundImage = global::Bot.Properties.Resources.NxAxES4;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(948, 517);
+            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "LogForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Log";
+            this.Text = "Kurosawa Dia - Registro de Acontecimentos";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogForm_FormClosing);
             this.Resize += new System.EventHandler(this.LogForm_Resize);
             this.contextMenuStrip.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txLog;
         private System.Windows.Forms.Button btLimpar;
         private System.Windows.Forms.Button btDesligar;
         private System.Windows.Forms.NotifyIcon controlNotify;
@@ -161,5 +164,7 @@
         private System.Windows.Forms.ToolStripMenuItem verLogsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator aaaToolStripMenuItem;
+        private System.Windows.Forms.TextBox txLog;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

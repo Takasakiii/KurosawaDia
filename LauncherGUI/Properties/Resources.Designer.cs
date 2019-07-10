@@ -74,6 +74,26 @@ namespace Bot.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LLSS_S2Ep12_321 {
+            get {
+                object obj = ResourceManager.GetObject("LLSS_S2Ep12_321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NxAxES4 {
+            get {
+                object obj = ResourceManager.GetObject("NxAxES4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Shiro {
             get {
                 object obj = ResourceManager.GetObject("Shiro", resourceCulture);

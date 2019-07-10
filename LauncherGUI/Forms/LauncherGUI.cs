@@ -1,6 +1,7 @@
 ﻿using Bot;
 using Bot.Forms;
 using Bot.Singletons;
+using ConfigurationControler.DAO;
 using ConfigurationControler.Singletons;
 using System;
 using System.IO;
@@ -29,7 +30,10 @@ namespace LauncherGUI
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
-            //SingletonConfig.localConfig = txtLocal.Text;
+            //isso aki eh uma gambiarra fudida, pls consertar pq se n fudeu no futuro Xis De
+            SingletonConfig.localConfig = DB.localDB;
+            
+
 
             LogForm log = new LogForm(this);
             SingletonLogs.SetInstance(log, typeof(LogForm));
@@ -51,7 +55,7 @@ namespace LauncherGUI
 
         private void CheckButton()
         {
-            if (File.Exists(DB.localDB))
+            if (File.Exists(DB.localDB) && new DBDAO().PegarDadosBot().Item1 == 3)
             {
                 btIniciar.Enabled = true;
             }

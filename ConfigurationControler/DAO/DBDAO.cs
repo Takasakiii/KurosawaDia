@@ -47,7 +47,42 @@ namespace ConfigurationControler.DAO
 
         }
 
+        public Tuple<int, ApiConfig, DBConfig, DiaConfig> PegarDadosBot()
+        {
+            string[] sqls = { "select * from ApiConfig", "select * from DbConfig", "select * from DiaConfig" };
+            conexao.Open();
 
+            int estado = 0;
+            ApiConfig api = null;
+            DBConfig db = null;
+            DiaConfig dia = null;
+
+            SqliteCommand cmd = new SqliteCommand(sqls[0], conexao);
+            SqliteDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                api = new ApiConfig((string)rs["WeebToken"]);
+                estado++;
+            }
+
+            cmd = new SqliteCommand(sqls[1], conexao);
+            rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"]);
+                estado++;
+            }
+            cmd = new SqliteCommand(sqls[2], conexao);
+            rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                dia = new DiaConfig((string)rs["token"], (string)rs["prefix"], Convert.ToUInt64(rs["idDono"]));
+                estado++;
+            }
+
+            conexao.Close();
+            return Tuple.Create(estado, api, db, dia);
+        }
         
     }
 }

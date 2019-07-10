@@ -121,10 +121,16 @@
   <data name="kurosawa-dia-love-live-sunshine-minimalism-simple-wallpaper-49f0b8ed81aa4dabe6c7180fd02146cd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kurosawa-dia-love-live-sunshine-minimalism-simple-wallpaper-49f0b8ed81aa4dabe6c7180fd02146cd.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="universe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\universe.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LLSS_S2Ep12_321" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LLSS_S2Ep12_321.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Shiro" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Shiro.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="universe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\universe.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NxAxES4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NxAxES4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
