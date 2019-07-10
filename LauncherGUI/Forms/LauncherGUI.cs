@@ -1,6 +1,7 @@
 ﻿using Bot;
 using Bot.Forms;
 using Bot.Singletons;
+using ConfigurationControler.Singletons;
 using System;
 using System.IO;
 using System.Threading;
@@ -10,7 +11,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string arquivo = "configDia.db";
+        
         public LauncherGUI()
         {
             InitializeComponent();
@@ -50,7 +51,7 @@ namespace LauncherGUI
 
         private void CheckButton()
         {
-            if (File.Exists(arquivo))
+            if (File.Exists(DB.localDB))
             {
                 btIniciar.Enabled = true;
             }
