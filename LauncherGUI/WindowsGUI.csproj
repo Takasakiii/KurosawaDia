@@ -212,12 +212,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\ConfiguracoesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ConfiguracoesForm.Designer.cs">
-      <DependentUpon>ConfiguracoesForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,9 +226,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\ConfiguracoesForm.resx">
-      <DependentUpon>ConfiguracoesForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LogForm.resx">
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
