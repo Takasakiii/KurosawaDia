@@ -14,9 +14,9 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private readonly DiaConfig config;
+        private readonly AyuraConfig config;
 
-        public MessageEvent(DiaConfig config)
+        public MessageEvent(AyuraConfig config)
         {
             this.config = config;
         }
