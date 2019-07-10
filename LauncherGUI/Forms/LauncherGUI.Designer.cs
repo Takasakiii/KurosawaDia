@@ -64,11 +64,11 @@
             // 
             // wbCustomizacao
             // 
-            this.wbCustomizacao.Location = new System.Drawing.Point(-15, -4);
+            this.wbCustomizacao.Location = new System.Drawing.Point(-15, -11);
             this.wbCustomizacao.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbCustomizacao.Name = "wbCustomizacao";
             this.wbCustomizacao.ScrollBarsEnabled = false;
-            this.wbCustomizacao.Size = new System.Drawing.Size(545, 298);
+            this.wbCustomizacao.Size = new System.Drawing.Size(545, 305);
             this.wbCustomizacao.TabIndex = 5;
             // 
             // LauncherGUI
