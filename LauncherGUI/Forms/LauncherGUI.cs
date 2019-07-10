@@ -11,7 +11,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        private const string arquivo = "db.dia";
+        private const string arquivo = "db.ayura";
         public LauncherGUI()
         {
             InitializeComponent();
