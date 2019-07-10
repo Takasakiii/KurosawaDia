@@ -62,7 +62,7 @@
             this.btLimpar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btLimpar.Location = new System.Drawing.Point(618, 425);
+            this.btLimpar.Location = new System.Drawing.Point(642, 425);
             this.btLimpar.Name = "btLimpar";
             this.btLimpar.Size = new System.Drawing.Size(75, 23);
             this.btLimpar.TabIndex = 1;
@@ -76,7 +76,7 @@
             this.btDesligar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDesligar.Location = new System.Drawing.Point(699, 425);
+            this.btDesligar.Location = new System.Drawing.Point(723, 425);
             this.btDesligar.Name = "btDesligar";
             this.btDesligar.Size = new System.Drawing.Size(75, 23);
             this.btDesligar.TabIndex = 2;
