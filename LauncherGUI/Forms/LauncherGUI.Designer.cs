@@ -91,6 +91,7 @@
             this.btConfiguracoes.TabIndex = 4;
             this.btConfiguracoes.Text = "Configurações";
             this.btConfiguracoes.UseVisualStyleBackColor = true;
+            this.btConfiguracoes.Click += new System.EventHandler(this.BtConfiguracoes_Click);
             // 
             // LauncherGUI
             // 
