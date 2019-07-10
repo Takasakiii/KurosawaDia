@@ -19,9 +19,13 @@ namespace LauncherGUI
 
         private void LauncherGUI_Load(object sender, EventArgs e)
         {
+            string curdir = Directory.GetCurrentDirectory();
+            wbCustomizacao.Url = new Uri(String.Format("file:///{0}/html/saporra.html", curdir));
+
+
             if (File.Exists(arquivo))
             {
-                txtLocal.Text = File.ReadAllText(arquivo);
+                //txtLocal.Text = File.ReadAllText(arquivo);
                 btIniciar.Enabled = true; // interface pode melhorar
             }
         }
@@ -31,19 +35,19 @@ namespace LauncherGUI
         }
         private void FdDBFinder_FileOk(object sender, CancelEventArgs e)
         {
-            txtLocal.Text = fdDBFinder.FileName;
+            //txtLocal.Text = fdDBFinder.FileName;
             btIniciar.Enabled = true;
             if (File.Exists(arquivo))
             {
                 File.Delete(arquivo);
             }
             File.Create(arquivo).Close();
-            File.WriteAllText(arquivo, txtLocal.Text);
+            //File.WriteAllText(arquivo, txtLocal.Text);
         }
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
-            SingletonConfig.localConfig = txtLocal.Text;
+            //SingletonConfig.localConfig = txtLocal.Text;
 
             LogForm log = new LogForm(this);
             SingletonLogs.SetInstance(log, typeof(LogForm));
