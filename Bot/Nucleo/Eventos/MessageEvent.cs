@@ -41,6 +41,15 @@ namespace Bot.Nucleo.Eventos
                     {
                         prefix = tmp;
                     }
+
+                    ACRs acrTmp = new ACRs();
+                    acrTmp.SetTrigger(commandContex.Message.Content, commandContex.Guild.Id);
+
+                    ACRs acr = new ACRsDAO().ResponderAcr(acrTmp);
+                    if(acr.resposta != null)
+                    {
+                        await commandContex.Channel.SendMessageAsync(acr.resposta);
+                    }
                 }
 
                 int argPos = 0;
