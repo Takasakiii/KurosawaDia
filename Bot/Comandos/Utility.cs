@@ -9,6 +9,7 @@ using System;
 namespace Bot.Comandos
 {
     //o jogo :D
+    //eu vo mata the corno q pos isso aqui
     public class Utility : Weeb
     {
         public void avatar(CommandContext context, object[] args)
@@ -278,6 +279,8 @@ namespace Bot.Comandos
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription($"**{context.User}** você precisa me falar um prefixo")
+                            .AddField("Uso: ", $"`{args[0]}setprefix <prefixo>`")
+                            .AddField("Exemplo: ", $"`{args[0]}setprefix !`")
                             .WithColor(Color.Red)
                         .Build());
                 }

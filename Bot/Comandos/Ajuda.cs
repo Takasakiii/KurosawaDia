@@ -19,7 +19,7 @@ namespace Bot.Comandos
         {
             Embed embed = new EmbedBuilder()
                 .WithTitle("Esses são os meus comandos: ")
-                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}videochamada`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`")
+                .AddField("Comandos de Utilidades:", $"`{(string)args[0]}videochamada`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`, `{(string)args[0]}setprefix`")
                 .AddField("Comandos de Ajuda:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}convite`, `{(string)args[0]}info`")
                 .AddField("Comandos de Imagens", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`")
                 .AddField("Comandos NSFW", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`")
