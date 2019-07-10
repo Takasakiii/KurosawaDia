@@ -13,8 +13,8 @@ namespace Bot
         {
             SingletonClient.criarClient();
 
-            DiaConfig config = new DiaConfig(1);
-            DiaConfigDAO dao = new DiaConfigDAO();
+            AyuraConfig config = new AyuraConfig(1);
+            AyuraConfigDAO dao = new AyuraConfigDAO();
             config = dao.Carregar(config);
 
             SingletonClient.client.MessageReceived += new MessageEvent(config).MessageRecived;
@@ -24,7 +24,7 @@ namespace Bot
             Iniciar(config).GetAwaiter().GetResult();
         }
 
-        private async Task Iniciar(DiaConfig ayuraConfig)
+        private async Task Iniciar(AyuraConfig ayuraConfig)
         {
             await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, ayuraConfig.token);
             await SingletonClient.client.StartAsync();

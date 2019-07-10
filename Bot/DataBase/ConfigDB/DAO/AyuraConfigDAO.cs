@@ -4,14 +4,14 @@ using Microsoft.Data.Sqlite;
 
 namespace Bot.DataBase.ConfigDB.DAO
 {
-    public class DiaConfigDAO
+    public class AyuraConfigDAO
     {
         private SqliteConnection conexao = new SQLiteConstrutor().Conectar();
 
-        public DiaConfig Carregar(DiaConfig ayuraConfig)
+        public AyuraConfig Carregar(AyuraConfig ayuraConfig)
         {
             SqliteCommand selectCmd = conexao.CreateCommand();
-            selectCmd.CommandText = "select * from DiaConfig where id = @id";
+            selectCmd.CommandText = "select * from AyuraConfig where id = @id";
             selectCmd.Parameters.AddWithValue("@id", ayuraConfig.id);
 
             using (SqliteDataReader reader = selectCmd.ExecuteReader())
