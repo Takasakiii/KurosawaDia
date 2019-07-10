@@ -56,5 +56,11 @@ namespace LauncherGUI
         {
             Environment.Exit(0);
         }
+
+        private void BtConfiguracoes_Click(object sender, EventArgs e)
+        {
+            ConfiguracoesForm form = new ConfiguracoesForm();
+            form.ShowDialog();
+        }
     }
 }

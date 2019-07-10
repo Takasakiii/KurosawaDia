@@ -34,6 +34,7 @@
             this.btIniciar = new System.Windows.Forms.Button();
             this.btLocal = new System.Windows.Forms.Button();
             this.fdDBFinder = new System.Windows.Forms.OpenFileDialog();
+            this.btConfiguracoes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -80,12 +81,23 @@
             this.fdDBFinder.Title = "Selecione o local da db";
             this.fdDBFinder.FileOk += new System.ComponentModel.CancelEventHandler(this.FdDBFinder_FileOk);
             // 
+            // btConfiguracoes
+            // 
+            this.btConfiguracoes.Location = new System.Drawing.Point(554, 4);
+            this.btConfiguracoes.Name = "btConfiguracoes";
+            this.btConfiguracoes.Size = new System.Drawing.Size(84, 23);
+            this.btConfiguracoes.TabIndex = 4;
+            this.btConfiguracoes.Text = "Configurações";
+            this.btConfiguracoes.UseVisualStyleBackColor = true;
+            this.btConfiguracoes.Click += new System.EventHandler(this.BtConfiguracoes_Click);
+            // 
             // LauncherGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(551, 32);
+            this.ClientSize = new System.Drawing.Size(645, 32);
+            this.Controls.Add(this.btConfiguracoes);
             this.Controls.Add(this.btLocal);
             this.Controls.Add(this.btIniciar);
             this.Controls.Add(this.txtLocal);
@@ -111,6 +123,7 @@
         private System.Windows.Forms.Button btIniciar;
         private System.Windows.Forms.Button btLocal;
         private System.Windows.Forms.OpenFileDialog fdDBFinder;
+        private System.Windows.Forms.Button btConfiguracoes;
     }
 }
 
