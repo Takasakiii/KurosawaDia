@@ -6,7 +6,7 @@ create table Servidores (
 	id_servidor bigint not null unique key,
     nome_servidor varchar(255) not null,
     especial_servidor boolean not null default false,
-    prefix_servidor varchar(25) not null default "'",
+    prefix_servidor varchar(25) not null default "~",
     primary key (codigo_servidor)
 );
 
@@ -44,7 +44,7 @@ create function verificarCadastro (
 		set resultado = 1;
 	elseif (select count(id_usuario) from Usuarios where id_usuario = _id_usuario) = 0 then
 		set resultado = 2;
-	elseif (select count(Servidores_codigo_servidor) from Servidores_usuarios where Servidores_codigo_servidor = (Select codigo_servidor from Servidores where id_servidor = _id_servidor) and Usuarios_codigo_usuario = (select codigo_usuario from Usuarios where id_usuario = _id_usuario)) = 0 then
+	elseif (select count(Servidores_codigo_servidor) from Servidores_Usuarios where Servidores_codigo_servidor = (Select codigo_servidor from Servidores where id_servidor = _id_servidor) and Usuarios_codigo_usuario = (select codigo_usuario from Usuarios where id_usuario = _id_usuario)) = 0 then
 		set resultado = 3;
 	else
 		set resultado = 0;
@@ -66,7 +66,7 @@ create procedure inserirServidor_Usuario (
 		elseif opc = 2 then
 			insert into Usuarios (id_usuario, nome_usuario) values (_id_usuario, _nome_usuario);
 		elseif opc = 3 then
-			insert into Servidores_usuarios (Servidores_codigo_servidor, Usuarios_codigo_usuario)  values ((Select codigo_servidor from Servidores where id_servidor = _id_servidor), (select codigo_usuario from Usuarios where id_usuario = _id_usuario));
+			insert into Servidores_Usuarios (Servidores_codigo_servidor, Usuarios_codigo_usuario)  values ((Select codigo_servidor from Servidores where id_servidor = _id_servidor), (select codigo_usuario from Usuarios where id_usuario = _id_usuario));
 		end if;
         set opc = (select verificarCadastro(_id_servidor, _id_usuario));
 	end while;

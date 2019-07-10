@@ -8,6 +8,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bot.Nucleo.Eventos
@@ -36,7 +37,7 @@ namespace Bot.Nucleo.Eventos
                     serv.SetId(Convert.ToInt64(commandContex.Guild.Id));
                     char[] tmp = new ServidoresDAO().GetPrefix(serv);
 
-                    if(tmp != null)
+                    if (tmp != null)
                     {
                         prefix = tmp;
                     }
@@ -53,13 +54,16 @@ namespace Bot.Nucleo.Eventos
                         {
                             if (!commandContex.IsPrivate)
                             {
-                                Servidores servi = new Servidores();
-                                servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
+                                new Thread(() =>
+                                {
+                                    Servidores servi = new Servidores();
+                                    servi.SetServidor(Convert.ToInt64(commandContex.Guild.Id), commandContex.Guild.Name);
 
-                                Usuarios usuario = new Usuarios();
-                                usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.ToString());
+                                    Usuarios usuario = new Usuarios();
+                                    usuario.SetUsuario(Convert.ToInt64(commandContex.User.Id), commandContex.User.ToString());
 
-                                new ServidoresDAO().inserirServidorUsuario(servi, usuario);
+                                    new ServidoresDAO().inserirServidorUsuario(servi, usuario);
+                                }).Start();
                             }
 
                             string[] comando = messageSemPrefix.Split(' ');
@@ -97,7 +101,7 @@ namespace Bot.Nucleo.Eventos
                 if (commandContex.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
                 {
                     await commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(config.prefix)}` se quiser ver meus comando é so usar: `{new string(config.prefix)}comandos`")
+                            .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(prefix)}` se quiser ver meus comando é so usar: `{new string(prefix)}comandos`")
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
