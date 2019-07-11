@@ -156,25 +156,27 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                  msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .AddField("Id", retornoStrings.Item1, true)
-                    .AddField("Trigger", retornoStrings.Item2, true)
+                    .AddField("Ids: ", $"`#{retornoStrings.Item1}`", true)
+                    .AddField("Triggers: ", retornoStrings.Item2, true)
+                    .WithColor(Color.DarkPurple)
                     .Build()).GetAwaiter().GetResult();
                 
             }
 
             bool pProximo = false;
             bool pAnterior = false;
-            if(restricoes[0] == 0 && restricoes[0] < restricoes[1])
+
+            if (restricoes[0] == 0 && restricoes[0] < restricoes[1] - 1)
             {
                 pProximo = true;
             }
             else
             {
-                if (restricoes[0] == (restricoes[1] - 1)) 
+                if (restricoes[0] != (restricoes[1] - 1)) 
                 {
                     pAnterior = true;
                 }
-                else
+                else if (restricoes[1] > 1)
                 {
                     pProximo = true;
                     pAnterior = true;
