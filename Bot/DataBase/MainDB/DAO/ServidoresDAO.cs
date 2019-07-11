@@ -36,14 +36,21 @@ namespace Bot.DataBase.MainDB.DAO
             cmd.Parameters.AddWithValue("@id", servidor.id);
 
             MySqlDataReader rs = cmd.ExecuteReader();
-            char[] prefix = null;
+            string prefix = null;
             if (rs.Read())
             {
-                prefix = rs["prefix_servidor"].ToString().ToCharArray();
+                prefix = rs["prefix_servidor"].ToString();
             }
+            char[] prefixChar = null;
+
+            if(prefix != "" && prefix != null)
+            {
+                prefixChar = prefix.ToCharArray();
+            }
+
             rs.Close();
             conexao.Close();
-            return prefix;
+            return prefixChar;
         }
 
         public char[] SetServidorPrefix(Servidores servidor)

@@ -36,7 +36,7 @@ namespace Bot.Nucleo.Eventos
 
                     if (!commandContex.IsPrivate)
                     {
-                        Servidores serv = new Servidores(id: commandContex.Guild.Id);
+                        Servidores serv = new Servidores(commandContex.Guild.Id);
                         char[] tmp = new ServidoresDAO().GetPrefix(serv);
 
                         if (tmp != null)
@@ -45,7 +45,7 @@ namespace Bot.Nucleo.Eventos
                         }
 
                         ACRs acrTmp = new ACRs();
-                        acrTmp.SetTrigger(commandContex.Message.Content, new Servidores(id: commandContex.Guild.Id));
+                        acrTmp.SetTrigger(commandContex.Message.Content, new Servidores(commandContex.Guild.Id));
 
                         ACRs acr = new ACRsDAO().ResponderAcr(acrTmp);
                         if (acr.resposta != null)

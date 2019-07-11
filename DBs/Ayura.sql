@@ -6,7 +6,7 @@ create table Servidores (
 	id_servidor bigint not null unique key,
     nome_servidor varchar(255) not null,
     especial_servidor boolean not null default false,
-    prefix_servidor varchar(25) not null default "'",
+    prefix_servidor varchar(25),
     primary key (codigo_servidor)
 );
 

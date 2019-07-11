@@ -140,7 +140,7 @@ namespace Bot.Comandos
             for (int i = paginaAtual * 10; i < listaRetorno.Count && i < ((paginaAtual* 10) + 10); i++)
             {
                 ACRs temp = listaRetorno[i];
-                respIds += $"{temp.codigo}\n";
+                respIds += $"`#{temp.codigo}`\n";
                 respTriggers += $"{temp.trigger}\n";
             }
 
@@ -156,7 +156,7 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                  msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .AddField("Ids: ", $"`#{retornoStrings.Item1}`", true)
+                    .AddField("Ids: ", retornoStrings.Item1, true)
                     .AddField("Triggers: ", retornoStrings.Item2, true)
                     .WithColor(Color.DarkPurple)
                     .Build()).GetAwaiter().GetResult();
@@ -166,13 +166,13 @@ namespace Bot.Comandos
             bool pProximo = false;
             bool pAnterior = false;
 
-            if (restricoes[0] == 0 && restricoes[0] < restricoes[1] - 1)
+            if (restricoes[0] == 0 && restricoes[1] > restricoes[0])
             {
                 pProximo = true;
             }
             else
             {
-                if (restricoes[0] != (restricoes[1] - 1)) 
+                if (restricoes[0] != (restricoes[1])) 
                 {
                     pAnterior = true;
                 }
