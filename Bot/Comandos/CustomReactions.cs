@@ -170,7 +170,7 @@ namespace Bot.Comandos
             }
             else
             {
-                if(restricoes[0] < restricoes[1])
+                if (restricoes[0] == (restricoes[1] - 1)) 
                 {
                     pAnterior = true;
                 }
