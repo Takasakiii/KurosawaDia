@@ -11,24 +11,52 @@ namespace Bot.Extensions
     {
         //Versao 2 by Takasaki
 
-        public Thread GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod)
+        public bool ThreadLife { private set; get; }
+
+
+        public ReactionControler()
+        {
+            ThreadLife = true;
+        }
+
+
+        public void DesligarReaction()
+        {
+            ThreadLife = false;
+        }
+
+        public void GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod, int tempoAnalise = 60)
         {
             Thread processo = new Thread(() =>
             {
                 bool gatilho = false;
                 do
                 {
-                    Thread.Sleep(100);
-                    List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
-                    if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
+                    try
                     {
-                        gatilho = true;
+                        List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
+                        if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
+                        {
+                            gatilho = true;
+                        }
+                        Thread.Sleep(100);
                     }
-                } while (!gatilho);
-                returnMethod.Invoke();
+                    catch
+                    {
+                        Thread.Sleep(134);
+                    }
+                } while (!gatilho && ThreadLife);
+                if (ThreadLife)
+                {
+                    returnMethod.Invoke();
+                }
             });
             processo.Start();
-            return processo;
+            new Thread(() =>
+            {
+                Thread.Sleep(tempoAnalise * 1000);
+                DesligarReaction();
+            }).Start();
         }
 
 

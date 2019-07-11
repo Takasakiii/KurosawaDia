@@ -81,7 +81,7 @@ namespace Bot.Nucleo.Eventos
                             object instanced = lastClassCommand;
                             object[] parametros = new object[2];
                             parametros[0] = commandContex;
-                            object[] args = new object[2];
+                            object[] args = new object[3];
                             args[0] = new string(prefix);
                             args[1] = comando;
                             parametros[1] = args;

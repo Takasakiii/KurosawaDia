@@ -8,8 +8,6 @@ namespace Bot.Comandos
 {
     public class Ajuda
     {
-        private Thread[] filhos = new Thread[6];
-        private Thread threadAtual = null;
         public void ajuda(CommandContext context, object[] args)
         {
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -24,17 +22,6 @@ namespace Bot.Comandos
             try
             {
                 string[] userMessage = (string[])args[1];
-
-                new Thread(() =>
-                {
-                    Thread.Sleep(1000 * 60);
-                    if (threadAtual != null && threadAtual.IsAlive)
-                    {
-                        threadAtual.Abort();
-                    }
-                    matadoraDosCorno(-1);
-
-                }).Start();
             }
             catch
             {
@@ -60,13 +47,13 @@ namespace Bot.Comandos
 
             args[1] = msg;
             ReactionControler reaction = new ReactionControler();
-
-            filhos[0] = reaction.GetReaction(msg, menu[0], context.User, new ReturnMethod(help, context, args));
-            filhos[1] = reaction.GetReaction(msg, menu[1], context.User, new ReturnMethod(utilidade, context, args));
-            filhos[2] = reaction.GetReaction(msg, menu[2], context.User, new ReturnMethod(moderacao, context, args));
-            filhos[3] = reaction.GetReaction(msg, menu[3], context.User, new ReturnMethod(nsfw, context, args));
-            filhos[4] = reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
-            filhos[5] = reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
+            args[2] = reaction;
+            reaction.GetReaction(msg, menu[0], context.User, new ReturnMethod(help, context, args));
+            reaction.GetReaction(msg, menu[1], context.User, new ReturnMethod(utilidade, context, args));
+            reaction.GetReaction(msg, menu[2], context.User, new ReturnMethod(moderacao, context, args));
+            reaction.GetReaction(msg, menu[3], context.User, new ReturnMethod(nsfw, context, args));
+            reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
+            reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
 
         }
 
@@ -100,7 +87,7 @@ namespace Bot.Comandos
         private void help(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(0);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Ajuda (❓)")
                     .WithDescription("Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉")
@@ -115,12 +102,12 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
         private void utilidade(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(1);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Ultilidades (🛠)")
                     .WithDescription("Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺")
@@ -135,12 +122,12 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
         private void moderacao(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(2);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Moderação (⚖)")
                     .WithDescription("Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😲")
@@ -155,12 +142,12 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
         private void nsfw(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(3);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo NSFW (🔞)")
                     .WithDescription("Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa😣")
@@ -175,12 +162,12 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
         private void weeb(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(4);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Weeb (❤)")
                     .WithDescription("Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos❤")
@@ -195,12 +182,12 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
         private void img(CommandContext contexto, object[] args)
         {
             ((IUserMessage)args[1]).DeleteAsync();
-            matadoraDosCorno(5);
+            ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Imagem (🖼)")
                     .WithDescription("Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤")
@@ -215,18 +202,7 @@ namespace Bot.Comandos
 
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            threadAtual = reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
-        }
-
-        private void matadoraDosCorno(int sucesso)
-        {
-            for (int i = 0; i < filhos.Length; i++)
-            {
-                if(i != sucesso && filhos[i] != null && filhos[i].IsAlive)
-                {
-                    filhos[i].Abort();
-                }
-            }
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
     }
 
