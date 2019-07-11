@@ -92,7 +92,7 @@ namespace Bot.Comandos
                     .WithTitle("Modulo Ajuda (❓)")
                     .WithDescription("Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉")
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}ajuda` `{(string)args[0]}comandos` `{(string)args[0]}info`")
+                    .AddField("Comandos:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}info`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
                     .WithImageUrl("https://i.imgur.com/XQTVJu9.jpg")
                 .Build()).GetAwaiter().GetResult();

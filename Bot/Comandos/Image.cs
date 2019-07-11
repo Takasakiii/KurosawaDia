@@ -88,5 +88,68 @@ namespace Bot.Comandos
         {
             getImg(context, "Uma simples imagem pra usar onde quiser", links.img);
         }
+
+        public void magikavatar(CommandContext context, object[] args)
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+            if (!context.IsPrivate)
+            {
+                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                IUser user = null;
+
+                if(getUser.Item1 != null)
+                {
+                    user = getUser.Item1;
+                }
+                else
+                {
+                    if(msg == "")
+                    {
+                        user = context.User;
+                    }
+                    else
+                    {
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription("");
+                        embed.WithTitle("Eu não encontrei essa pessoa no servidor");
+                        embed.AddField("Uso do Comando: ", $"`{args[0]}magikavatar <pessoa>`");
+                        embed.AddField("Exemplo: ", $"`{args[0]}magikavatar @KingCerverus#2490`");
+                    }
+                }
+
+                if(user != null)
+                {
+                    embed.WithDescription($"**{context.User}** estou fazendo magica com o avatar por-favor aguarde");
+                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                    IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+
+                    string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+
+                    string magikReturn = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
+
+                    embed.WithImageUrl(magikReturn);
+                    embed.WithDescription("");
+                    userMsg.DeleteAsync();
+                }
+            }
+            else
+            {
+                embed.WithColor(Color.Red);
+                embed.WithDescription("Eu so posso pegar o avatar de outras pessoas em um servidor");
+            }
+
+            context.Channel.SendMessageAsync(embed: embed.Build());
+
+        }
+
+        public void magik(CommandContext context, object[] args)
+        {
+
+        }
     }
 }
