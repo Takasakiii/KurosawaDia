@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.Extensions;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -14,6 +15,21 @@ namespace Bot.Comandos
                 .WithColor(Color.DarkPurple)
                 .WithDescription($" meu ping é {client.Latency}ms") //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
                 .Build());
+        }
+
+        public void testReaction(CommandContext context, object[] args)
+        {
+            IUserMessage msg = context.Channel.SendMessageAsync("pitas gay").GetAwaiter().GetResult();
+            Emoji emoji = new Emoji("😑");
+            msg.AddReactionAsync(emoji);
+
+            ReactionControler reaction = new ReactionControler();
+            reaction.GetReaction(msg, emoji, context.User, new ReturnMethod(pitasgay, context, args));
+        }
+
+        private void pitasgay(CommandContext contexto, object[] args)
+        {
+            contexto.Channel.SendMessageAsync("foi");
         }
 
         //public void teste(CommandContext context, object[] args)
