@@ -130,7 +130,7 @@ namespace Bot.Comandos
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Moderação (⚖)")
-                    .WithDescription("Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😲")
+                    .WithDescription("Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣")
                     .WithColor(Color.DarkPurple)
                     .AddField("Comandos:", $"`{(string)args[0]}kick`, `{(string)args[0]}ban`, `{(string)args[0]}softban`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
@@ -150,7 +150,7 @@ namespace Bot.Comandos
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo NSFW (🔞)")
-                    .WithDescription("Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa😣")
+                    .WithDescription("Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa 😣")
                     .WithColor(Color.DarkPurple)
                     .AddField("Comandos:", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`, `{(string)args[0]}hneko`, `{(string)args[0]}anal`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
@@ -170,7 +170,7 @@ namespace Bot.Comandos
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Modulo Weeb (❤)")
-                    .WithDescription("Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos❤")
+                    .WithDescription("Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤")
                     .WithColor(Color.DarkPurple)
                     .AddField("Comandos:", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`, `{(string)args[0]}megumin`, `{(string)args[0]}rem`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
