@@ -5,20 +5,20 @@
         public ulong codigo { get; private set; }
         public string trigger { get; private set; }
         public string resposta { get; private set; }
-        public ulong id_servidor { get; private set; }
+        public Servidores servidores { get; private set; }
 
-        public void SetAcr(string trigger, string resposta, ulong id_servidor, ulong codigo = 0)
+        public void SetAcr(string trigger, string resposta, Servidores servidores, ulong codigo = 0)
         {
             this.codigo = codigo;
             this.trigger = trigger;
             this.resposta = resposta;
-            this.id_servidor = id_servidor;
+            this.servidores = servidores;
         }
 
-        public void SetTrigger(string trigger, ulong id_servidor)
+        public void SetTrigger(string trigger, Servidores servidores)
         {
             this.trigger = trigger;
-            this.id_servidor = id_servidor;
+            this.servidores = servidores;
         }
 
         public void SetResposta(string resposta)
@@ -26,10 +26,15 @@
             this.resposta = resposta;
         }
 
-        public void SetCod(ulong codigo, ulong id_servidor)
+        public void SetServidor (Servidores servidores)
+        {
+            this.servidores = servidores;
+        }
+
+        public void SetCod(ulong codigo, Servidores servidores)
         {
             this.codigo = codigo;
-            this.id_servidor = id_servidor;
+            this.servidores = servidores;
         }
     }
 }

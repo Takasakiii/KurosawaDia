@@ -276,8 +276,8 @@ namespace Bot.Comandos
 
                     ReactionControler reaction = new ReactionControler();
                     reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) => {
-                        Servidores servidor = new Servidores();
-                        servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
+                        Servidores servidor = new Servidores(context.Guild.Id);
+                        servidor.SetPrefix(msg.ToCharArray());
 
                         char[] prefix = new ServidoresDAO().SetServidorPrefix(servidor);
 

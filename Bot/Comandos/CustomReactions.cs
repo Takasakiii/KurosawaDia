@@ -23,7 +23,7 @@ namespace Bot.Comandos
                 if (resposta_pergunta[0] != "" && resposta_pergunta[1] != "")
                 {
                     ACRs acr = new ACRs();
-                    acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), id_servidor: context.Guild.Id);
+                    acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
                     ulong codigo = new ACRsDAO().CriarAcr(acr);
 
                     embed.WithDescription($"**{context.User}** a reação customizada foi criada com sucesso");
@@ -64,7 +64,7 @@ namespace Bot.Comandos
                     {
                         ulong codigo = Convert.ToUInt64(msg);
                         ACRs acr = new ACRs();
-                        acr.SetCod(codigo, context.Guild.Id);
+                        acr.SetCod(codigo, new Servidores(context.Guild.Id));
 
                         if(new ACRsDAO().DeletarAcr(acr))
                         {
@@ -106,7 +106,8 @@ namespace Bot.Comandos
 
             if (!context.IsPrivate)
             {
-                
+                ACRs acr = new ACRs();
+                //acr.SetServidor(new Servidores());
             }
             else
             {
