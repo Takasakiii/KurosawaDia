@@ -11,7 +11,7 @@ create table Servidores (
 );
 
 create table ACRS (
-	codigo_acr int not null auto_increment,
+	codigo_acr bigint not null auto_increment,
     trigger_acr text not null,
     resposta_acr text not null,
     codigo_servidor int not null,
@@ -87,6 +87,8 @@ create procedure atualizarPrefix (
 	declare codigo int;
     set codigo = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 	update Servidores set Servidores.prefix_servidor = _prefix_servidor where Servidores.codigo_servidor = codigo;
+    
+    select Servidores.prefix_servidor from Servidores where Servidores.id_servidor = _id_servidor;
 end$$
 
 create procedure criarAcr(
@@ -95,12 +97,19 @@ create procedure criarAcr(
     in _id_servidor bigint
 ) begin
 	insert into ACRS (trigger_acr, resposta_acr, codigo_servidor) values (_trigger_acr, _resposta_acr, ((select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor)));
+    select ACRS.codigo_acr from ACRS where ACRS.trigger_acr = _trigger_acr and ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor) order by ACRS.codigo_acr desc limit 1;
 end$$
 
 create procedure deletarAcr(
-	in _codigo_acr int
+	in _codigo_acr bigint,
+    in _id_servidor bigint
 ) begin 
-	delete from ACRS where ACRS.codigo_acr = _codigo_acr;
+	if(select count(_codigo_acr) from ACRS where ACRS.codigo_acr = _codigo_acr and ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor)) = 1 then
+		delete from ACRS where ACRS.codigo_acr = _codigo_acr;
+        select true as Result;
+	else
+		select false as Result;
+	end if;
 end$$
 
 create procedure responderAcr(
@@ -123,11 +132,11 @@ create procedure procurarAcr(
 end$$
 
 delimiter ;
-call atualizarPrefix(556580866198077451, "'");
+call atualizarPrefix(556580866198077451, "!");
 
-call criarAcr("oi", "boa noite", 556580866198077451);
-call deletarAcr(4);
+call criarAcr("gado", "thhhrag", 549064112651370506);
+
+call deletarAcr(10, 556580866198077451);
 call responderAcr("aa", 556580866198077451);
 call listarAcr(556580866198077451);
-call procurarAcr("oi");
-
+call procurarAcr("aaaaa");

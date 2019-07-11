@@ -82,7 +82,7 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription($"Para acessar o compartilhamento de tela basta [Clicar Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id})")
+                        .WithDescription($"Para acessar o compartilhamento de tela basta [Clicar Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) 😀")
                 .Build());
             }
             else
@@ -265,15 +265,28 @@ namespace Bot.Comandos
 
                 if (msg != "")
                 {
-                    Servidores servidor = new Servidores();
-                    servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
-
-                    new ServidoresDAO().SetServidorPrefix(servidor);
-
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(new ServidoresDAO().GetPrefix(servidor))}`")
+                    IUserMessage message = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription($"**{context.User}** você quer mudar o prefixo?")
+                            .WithFooter("se não apenas ignore essa mensagem")
                             .WithColor(Color.DarkPurple)
-                        .Build());
+                        .Build()).GetAwaiter().GetResult();
+
+                    Emoji emoji = new Emoji("✅");
+                    message.AddReactionAsync(emoji);
+
+                    ReactionControler reaction = new ReactionControler();
+                    reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) => {
+                        Servidores servidor = new Servidores();
+                        servidor.SetPrefix(context.Guild.Id, prefix: msg.ToCharArray());
+
+                        char[] prefix = new ServidoresDAO().SetServidorPrefix(servidor);
+
+                        message.DeleteAsync();
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(prefix)}`")
+                                .WithColor(Color.DarkPurple)
+                            .Build());
+                    }, context, args));
                 }
                 else
                 {

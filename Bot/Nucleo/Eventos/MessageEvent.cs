@@ -76,7 +76,7 @@ namespace Bot.Nucleo.Eventos
                             }
 
                             string[] comando = messageSemPrefix.Split(' ');
-                            var lastClassCommand = new Owner();
+                            var lastClassCommand = new CustomReactions();
                             MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
                             object instanced = lastClassCommand;
                             object[] parametros = new object[2];
