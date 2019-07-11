@@ -85,7 +85,7 @@ namespace Bot.DataBase.MainDB.DAO
             while (rs.Read())
             {
                 ACRs tmp = new ACRs();
-                tmp.SetAcr(rs["trigger_acr"].ToString(), rs["resposta_acr"].ToString(), new Servidores(acr.servidores.id, Convert.ToUInt64(rs["codigo_server"])), Convert.ToUInt64(rs["codigo_acr"]));
+                tmp.SetAcr(rs["trigger_acr"].ToString(), rs["resposta_acr"].ToString(), new Servidores(acr.servidores.id, Convert.ToUInt64(rs["codigo_servidor"])), Convert.ToUInt64(rs["codigo_acr"]));
                 acrsTmp.Add(tmp);
             }
             rs.Close();
