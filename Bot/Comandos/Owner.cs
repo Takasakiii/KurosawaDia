@@ -17,21 +17,6 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        public void testReaction(CommandContext context, object[] args)
-        {
-            IUserMessage msg = context.Channel.SendMessageAsync("pitas gay").GetAwaiter().GetResult();
-            Emoji emoji = new Emoji("😑");
-            msg.AddReactionAsync(emoji);
-
-            ReactionControler reaction = new ReactionControler();
-            reaction.GetReaction(msg, emoji, context.User, new ReturnMethod(pitasgay, context, args));
-        }
-
-        private void pitasgay(CommandContext contexto, object[] args)
-        {
-            contexto.Channel.SendMessageAsync("foi");
-        }
-
         //public void teste(CommandContext context, object[] args)
         //{
 

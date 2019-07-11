@@ -2,9 +2,8 @@
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Linq;
+using System.Threading;
 
 namespace Bot.Extensions
 {
@@ -19,12 +18,12 @@ namespace Bot.Extensions
                 bool gatilho = false;
                 do
                 {
+                    Thread.Sleep(100);
                     List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
                     if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
                     {
                         gatilho = true;
                     }
-                    Thread.Sleep(100);
                 } while (!gatilho);
                 returnMethod.Invoke();
             });
@@ -32,7 +31,7 @@ namespace Bot.Extensions
             return processo;
         }
 
-        
+
     }
 
     public class ReturnMethod

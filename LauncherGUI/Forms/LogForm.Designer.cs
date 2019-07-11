@@ -70,7 +70,7 @@
             // 
             this.controlNotify.ContextMenuStrip = this.contextMenuStrip;
             this.controlNotify.Icon = ((System.Drawing.Icon)(resources.GetObject("controlNotify.Icon")));
-            this.controlNotify.Text = "Ayura";
+            this.controlNotify.Text = "Kurosawa Dia";
             this.controlNotify.Visible = true;
             // 
             // contextMenuStrip
