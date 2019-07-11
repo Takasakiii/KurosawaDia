@@ -49,6 +49,9 @@ namespace Bot.Extensions
                 if (ThreadLife)
                 {
                     returnMethod.Invoke();
+                } else
+                {
+                    mensagem.RemoveReactionAsync(emoji, mensagem.Author);
                 }
             });
             processo.Start();
