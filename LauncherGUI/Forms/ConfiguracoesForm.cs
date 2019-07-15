@@ -1,15 +1,7 @@
 ﻿using ConfigurationControler.DAO;
-using ConfigurationControler.Factory;
 using ConfigurationControler.Modelos;
-using ConfigurationControler.Singletons;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bot.Forms
@@ -42,7 +34,7 @@ namespace Bot.Forms
             {
                 MessageBox.Show("O valor do campo ID dono excedeu o limite de dados, verifique se digitou corretamente!", "Kurosawa Dia - Problemas com os dados", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch(Exception erro)
+            catch (Exception erro)
             {
                 MessageBox.Show("Ops, isso é muito embaraçoso.... Espero que você entenda e corrija XD\n\n" + erro.Message, "Kurosawa Dia - Erro Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -73,20 +65,21 @@ namespace Bot.Forms
 
             if (retorno2.Item1)
             {
-                foreach(Status status in retorno2.Item2)
+                foreach (Status status in retorno2.Item2)
                 {
-                    dtStatusEdit.Rows.Add(status.status_jogo, status.status_tipo, (int)status.status_tipo);
+                    dtStatusEdit.Rows.Add(status.status_jogo, status.status_url, status.status_tipo, (int)status.status_tipo);
                 }
             }
         }
 
-        
+
         private void BtStatusAdicionar_Click(object sender, EventArgs e)
         {
-            if(txStatusStatus.Text != null && cbStatusTipo.SelectedIndex >= 0)
+            if (txStatusStatus.Text != null && cbStatusTipo.SelectedIndex >= 0)
             {
-                dtStatusEdit.Rows.Add(txStatusStatus.Text, cbStatusTipo.Text, cbStatusTipo.SelectedIndex);
+                dtStatusEdit.Rows.Add(txStatusStatus.Text, txUrl.Text, cbStatusTipo.Text, cbStatusTipo.SelectedIndex);
                 txStatusStatus.Clear();
+                txUrl.Clear();
                 txStatusStatus.Focus();
                 cbStatusTipo.SelectedIndex = -1;
             }
@@ -95,7 +88,7 @@ namespace Bot.Forms
         private void DtStatusEdit_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dg = (DataGridView)sender;
-            if(dg.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            if (dg.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
                 DataGridViewRow row = dtStatusEdit.Rows[e.RowIndex];
                 dtStatusEdit.Rows.Remove(row);
@@ -110,12 +103,12 @@ namespace Bot.Forms
 
         private void BtStatusSalvar_Click(object sender, EventArgs e)
         {
-            if(dtStatusEdit.Rows.Count > 0)
+            if (dtStatusEdit.Rows.Count > 0)
             {
                 List<Status> statuses = new List<Status>();
                 for (int i = 0; i < dtStatusEdit.RowCount; i++)
                 {
-                    Status temp = new Status(dtStatusEdit.Rows[i].Cells[0].Value.ToString(), (Status.TiposDeStatus)Convert.ToInt32(dtStatusEdit.Rows[i].Cells[2].Value));
+                    Status temp = new Status(dtStatusEdit.Rows[i].Cells[0].Value.ToString(), (Status.TiposDeStatus)Convert.ToInt32(dtStatusEdit.Rows[i].Cells[3].Value), dtStatusEdit.Rows[i].Cells[1].Value.ToString());
                     statuses.Add(temp);
                 }
 

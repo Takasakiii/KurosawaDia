@@ -25,16 +25,16 @@ namespace Bot.Nucleo.Eventos
                             switch (status[i].tipo)
                             {
                                 case 0:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Playing);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Playing);
                                     break;
                                 case 1:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Streaming);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Streaming);
                                     break;
                                 case 2:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Listening);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Listening);
                                     break;
                                 case 3:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, type: Discord.ActivityType.Watching);
+                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Watching);
                                     break;
                             }
                         }

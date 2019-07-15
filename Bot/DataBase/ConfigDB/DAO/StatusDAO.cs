@@ -22,7 +22,7 @@ namespace Bot.DataBase.ConfigDB.DAO
                 while (reader.Read())
                 {
                     StatusConfig tmp = new StatusConfig();
-                    tmp.SetStatus(reader.GetInt32(reader.GetOrdinal("status_id")), reader.GetString(reader.GetOrdinal("status_jogo")), reader.GetInt32(reader.GetOrdinal("status_tipo")));
+                    tmp.SetStatus(reader.GetInt32(reader.GetOrdinal("status_id")), reader.GetString(reader.GetOrdinal("status_jogo")), reader.GetString(reader.GetOrdinal("status_url")), reader.GetInt32(reader.GetOrdinal("status_tipo")));
                     statusTmp.Add(tmp);
                 }
                 reader.Close();
