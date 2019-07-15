@@ -3,8 +3,10 @@ using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bot.Comandos
 {
@@ -17,26 +19,37 @@ namespace Bot.Comandos
 
             if (!context.IsPrivate)
             {
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-                string[] resposta_pergunta = msg.Split('|');
+                SocketGuildUser usuario = context.User as SocketGuildUser;
+                IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
-                if (resposta_pergunta[0] != "" && resposta_pergunta[1] != "")
+                if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
                 {
-                    ACRs acr = new ACRs();
-                    acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
-                    ulong codigo = new ACRsDAO().CriarAcr(acr);
+                    string[] comando = (string[])args[1];
+                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                    string[] resposta_pergunta = msg.Split('|');
 
-                    embed.WithDescription($"**{context.User}** a reação customizada foi criada com sucesso");
-                    embed.AddField("Trigger: ", resposta_pergunta[0].Trim());
-                    embed.AddField("Reposta: ", resposta_pergunta[1].Trim());
-                    embed.AddField("Codigo: ", codigo);
+                    if (resposta_pergunta[0] != "" && resposta_pergunta[1] != "")
+                    {
+                        ACRs acr = new ACRs();
+                        acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
+                        ulong codigo = new ACRsDAO().CriarAcr(acr);
+
+                        embed.WithDescription($"**{context.User}** a reação customizada foi criada com sucesso");
+                        embed.AddField("Trigger: ", resposta_pergunta[0].Trim());
+                        embed.AddField("Reposta: ", resposta_pergunta[1].Trim());
+                        embed.AddField("Codigo: ", codigo);
+                    }
+                    else
+                    {
+                        embed.WithTitle("Para adicionaru ma acr você precisa me falar o trigger e a resposta da acr");
+                        embed.AddField("Uso do comando: ", $"`{(string)args[0]}acr trigger | resposta`");
+                        embed.AddField("Exemplo: ", $"`{(string)args[0]}acr upei | boa corno`");
+                        embed.WithColor(Color.Red);
+                    }
                 }
                 else
                 {
-                    embed.WithTitle("Para adicionaru ma acr você precisa me falar o trigger e a resposta da acr");
-                    embed.AddField("Uso do comando: ", $"`{(string)args[0]}acr trigger | resposta`");
-                    embed.AddField("Exemplo: ", $"`{(string)args[0]}acr upei | boa corno`");
+                    embed.WithDescription($"**{context.User}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕");
                     embed.WithColor(Color.Red);
                 }
             }
@@ -56,38 +69,49 @@ namespace Bot.Comandos
 
             if (!context.IsPrivate)
             {
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                SocketGuildUser usuario = context.User as SocketGuildUser;
+                IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
-                if(msg != "")
+                if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
                 {
-                    try
-                    {
-                        ulong codigo = Convert.ToUInt64(msg);
-                        ACRs acr = new ACRs();
-                        acr.SetCod(codigo, new Servidores(context.Guild.Id));
+                    string[] comando = (string[])args[1];
+                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                        if(new ACRsDAO().DeletarAcr(acr))
+                    if (msg != "")
+                    {
+                        try
                         {
-                            embed.WithDescription($"**{context.User}** a acr com o id: `{codigo}` foi deletada do servidor");
+                            ulong codigo = Convert.ToUInt64(msg);
+                            ACRs acr = new ACRs();
+                            acr.SetCod(codigo, new Servidores(context.Guild.Id));
+
+                            if (new ACRsDAO().DeletarAcr(acr))
+                            {
+                                embed.WithDescription($"**{context.User}** a acr com o id: `{codigo}` foi deletada do servidor");
+                            }
+                            else
+                            {
+                                embed.WithDescription($"**{context.User}** não foi encontrada nenhuma acr com esse id no servidor");
+                            }
+
                         }
-                        else
+                        catch
                         {
-                            embed.WithDescription($"**{context.User}** não foi encontrada nenhuma acr com esse id no servidor");
-                        }          
-
+                            embed.WithDescription("onii-chan esse não é um numero valido");
+                            embed.WithColor(Color.Red);
+                        }
                     }
-                    catch
+                    else
                     {
-                        embed.WithDescription("onii-chan esse não é um numero valido");
+                        embed.WithTitle("Você me precisa falar o codigo da acr para que eu possa deletar ela");
+                        embed.AddField("Uso do Comando: ", $"`{(string)args[0]}dcr <codigo>`");
+                        embed.AddField("Exemplo: ", $"`{(string)args[0]}dcr 1`");
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithTitle("Você me precisa falar o codigo da acr para que eu possa deletar ela");
-                    embed.AddField("Uso do Comando: ", $"`{(string)args[0]}dcr <codigo>`");
-                    embed.AddField("Exemplo: ", $"`{(string)args[0]}dcr 1`");
+                    embed.WithDescription($"**{context.User}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕");
                     embed.WithColor(Color.Red);
                 }
             }
@@ -164,7 +188,8 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                  msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .AddField("Ids: ", retornoStrings.Item1, true)
+                    .WithTitle("Reações Personalizadas")
+                    .AddField("Codigos: ", retornoStrings.Item1, true)
                     .AddField("Triggers: ", retornoStrings.Item2, true)
                     .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
                     .WithColor(Color.DarkPurple)
