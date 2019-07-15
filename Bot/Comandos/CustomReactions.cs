@@ -172,13 +172,17 @@ namespace Bot.Comandos
             }
             else
             {
-                if (restricoes[0] != (restricoes[1])) 
+                if (restricoes[0] == restricoes[1]) 
                 {
                     pAnterior = true;
                 }
-                else if (restricoes[1] > 1)
+                else if (restricoes[0] != restricoes.Length)
                 {
                     pProximo = true;
+                    pAnterior = true;
+                }
+                else
+                {
                     pAnterior = true;
                 }
             }
