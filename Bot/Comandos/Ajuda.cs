@@ -30,18 +30,19 @@ namespace Bot.Comandos
             IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle("Comandos atacaaaaar 😁")
                         .WithDescription("Use as reações para navegar pelos comandos 👍")
-                        .AddField("Modulos:", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens.")
+                        .AddField("Modulos:", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas.")
                         .WithImageUrl("https://i.imgur.com/mQVFSrP.gif")
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
-            Emoji[] menu = new Emoji[6];
+            Emoji[] menu = new Emoji[7];
             menu[0] = new Emoji("❓");
             menu[1] = new Emoji("🛠");
             menu[2] = new Emoji("⚖");
             menu[3] = new Emoji("🔞");
             menu[4] = new Emoji("❤");
             menu[5] = new Emoji("🖼");
+            menu[6] = new Emoji("💬");
 
             msg.AddReactionsAsync(menu);
 
@@ -54,6 +55,7 @@ namespace Bot.Comandos
             reaction.GetReaction(msg, menu[3], context.User, new ReturnMethod(nsfw, context, args));
             reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
             reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
+            reaction.GetReaction(msg, menu[6], context.User, new ReturnMethod(customReaction, context, args));
 
         }
 
@@ -192,9 +194,29 @@ namespace Bot.Comandos
                     .WithTitle("Modulo Imagem (🖼)")
                     .WithDescription("Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤")
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`")
+                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`, `{(string)args[0]}magikavatar`, `{(string)args[0]}holo`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
                     .WithImageUrl("https://i.imgur.com/cQqTUl1.png")
+                .Build()).GetAwaiter().GetResult();
+
+            Emoji emoji = new Emoji("⬅");
+            cmds.AddReactionAsync(emoji);
+
+            ReactionControler reaction = new ReactionControler();
+            args[1] = cmds;
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+        }
+        private void customReaction(CommandContext contexto, object[] args)
+        {
+            ((IUserMessage)args[1]).DeleteAsync();
+            ((ReactionControler)args[2]).DesligarReaction();
+            IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle("Modulo Reações Customizadas (💬)")
+                    .WithDescription("Esse modulo possui comandos para você controlar as minhas Reações Customizadas. \n\nEu adoro usar elas para me divertir com vocês 😂")
+                    .WithColor(Color.DarkPurple)
+                    .AddField("Comandos:", $"`{(string)args[0]}acr`, `{(string)args[0]}dcr`, `{(string)args[0]}lcr`")
+                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
+                    .WithImageUrl("https://i.imgur.com/AUpMkBP.jpg")
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");

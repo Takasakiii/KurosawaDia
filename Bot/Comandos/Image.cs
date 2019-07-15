@@ -147,9 +147,9 @@ namespace Bot.Comandos
 
         }
 
-        public void magik(CommandContext context, object[] args)
+        public void holo(CommandContext context, object[] args)
         {
-
+            getImg(context, "Holo ❤", links.holo);
         }
     }
 }
