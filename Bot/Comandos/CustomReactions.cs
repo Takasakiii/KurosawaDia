@@ -111,26 +111,35 @@ namespace Bot.Comandos
                 acr.SetServidor(new Servidores(context.Guild.Id));
                 ACRsDAO dao = new ACRsDAO();
                 List<ACRs> listaRetorno = dao.ListarAcr(acr);
+                
+                if(listaRetorno.Count != 0)
+                {
 
-                int[] restricoes = new int[2];
-                restricoes[0] = 0;
-                restricoes[1] = listaRetorno.Count / 10 + ((listaRetorno.Count % 10 > 0) ? 1 : 0);
-                //Declaracao da memoria extra que esse comando requer
-                ((List<object>)args[2]).Add(restricoes); //id 00 
-                ((List<object>)args[2]).Add(listaRetorno); //id 01
-                ((List<object>)args[2]).Add(1); //id 02 - Armazena a msg
-                ((List<object>)args[2]).Add(1); //id 03 - Armazena o controlador de reacoes
-                ((List<object>)args[2]).Add(1); //id 04 - Armazena o tipo de acao (next ou fowarding)
+                    int[] restricoes = new int[2];
+                    restricoes[0] = 0;
+                    restricoes[1] = listaRetorno.Count / 10 + ((listaRetorno.Count % 10 > 0) ? 1 : 0);
+                    //Declaracao da memoria extra que esse comando requer
+                    ((List<object>)args[2]).Add(restricoes); //id 00 
+                    ((List<object>)args[2]).Add(listaRetorno); //id 01
+                    ((List<object>)args[2]).Add(1); //id 02 - Armazena a msg
+                    ((List<object>)args[2]).Add(1); //id 03 - Armazena o controlador de reacoes
+                    ((List<object>)args[2]).Add(1); //id 04 - Armazena o tipo de acao (next ou fowarding)
 
-                Menu(context, args);
+                    Menu(context, args);
+                }
+                else
+                {
+                    embed.WithDescription($"**{context.User}** o servidor não tem nenhuma acr");
+                    embed.WithColor(Color.Red);
+                    context.Channel.SendMessageAsync(embed: embed.Build());
+                }
             }
             else
             {
                 embed.WithDescription("Esse comando so pode ser usado em servidores");
                 embed.WithColor(Color.Red);
+                context.Channel.SendMessageAsync(embed: embed.Build());
             }
-
-            //context.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         private Tuple<string, string> CriarPagina(List<ACRs> listaRetorno, int paginaAtual)
@@ -147,7 +156,6 @@ namespace Bot.Comandos
             return Tuple.Create(respIds, respTriggers);
         }
 
-
         private void Menu (CommandContext contexto, object[] args)
         {
             int[] restricoes = (int[])((List<object>)args[2])[0];
@@ -158,6 +166,7 @@ namespace Bot.Comandos
                  msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .AddField("Ids: ", retornoStrings.Item1, true)
                     .AddField("Triggers: ", retornoStrings.Item2, true)
+                    .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
                     .WithColor(Color.DarkPurple)
                     .Build()).GetAwaiter().GetResult();
                 
@@ -166,24 +175,23 @@ namespace Bot.Comandos
             bool pProximo = false;
             bool pAnterior = false;
 
-            if (restricoes[0] == 0 && restricoes[1] > restricoes[0])
+            if (restricoes[1] != 1)
             {
-                pProximo = true;
-            }
-            else
-            {
-                if (restricoes[0] == restricoes[1]) 
-                {
-                    pAnterior = true;
-                }
-                else if (restricoes[0] != restricoes.Length)
+                if (restricoes[0] == 0 && restricoes[0] < restricoes[1])
                 {
                     pProximo = true;
-                    pAnterior = true;
                 }
                 else
                 {
-                    pAnterior = true;
+                    if ((restricoes[0] + 1) != restricoes[1])
+                    {
+                        pProximo = true;
+                        pAnterior = true;
+                    }
+                    else
+                    {
+                        pAnterior = true;
+                    }
                 }
             }
 
@@ -203,7 +211,6 @@ namespace Bot.Comandos
                 controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(ProximaPagina, contexto, args));
             }
         }
-
 
         private void ProximaPagina(CommandContext contexto, object[] args)
         {
