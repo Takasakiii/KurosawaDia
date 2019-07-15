@@ -34,6 +34,26 @@ create table Servidores_Usuarios (
     primary key (Servidores_codigo_servidor, Usuarios_codigo_usuario)
 );
 
+create table Tipos_Cargos(
+	cod bigint not null,
+    Descricao varchar (255) not null unique, 
+    primary key (cod)
+);
+
+#Setup Tipos_Cargos
+insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
+
+create table Cargos(
+	cod bigint not null auto_increment,
+    cod_Tipos_Cargos bigint not null,
+    cargo varchar (255),
+    id bigint not null,
+    codigo_Servidores int not null,
+    foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
+    foreign key (codigo_Servidores) references Servidores (codigo_Servidor),
+    primary key (cod)
+);
+
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 delimiter $$
@@ -125,10 +145,22 @@ create procedure listarAcr(
 	select * from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where id_servidor = _id_servidor);
 end$$
 
+create procedure AdcAjudanteIdol (
+	in _cargo varchar (255),
+    in _id_Cargo bigint,
+    in _id_Servidor bigint
+) begin
+	if(select count(Cargos.cod) from Cargos where Cargos.id = _id_Cargo and Cargos.cod_Tipos_Cargos = (select Servidores.codigo_Servidor from Servidores where servidores.id_servidor = _id_Servidor)) = 0 then
+		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores) values (1, _cargo, _id_Cargo, (select codigo_Servidor from Servidores where id_servidor = _id_Servidor));
+	end if;
+end$$
+
 delimiter ;
 call atualizarPrefix(556580866198077451, "!");
 
 call criarAcr("gado", "thhhrag", 518069575896793109);
+call AdcAjudanteIdol("pitas viado", 32, 556580866198077451);
+select count(Cargos.cod) from Cargos where Cargos.cargo = "oi" and Cargos.cod_Tipos_Cargos = (select Servidores.codigo_Servidor from Servidores where servidores.id_servidor = 91);
 ((select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = 518069575896793109));
 call deletarAcr(10, 518069575896793109);
 call responderAcr("oi", 549064112651370506);
