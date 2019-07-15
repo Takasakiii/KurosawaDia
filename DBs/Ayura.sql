@@ -116,7 +116,7 @@ create procedure responderAcr(
 	in _trigger_acr text,
     in _id_servidor bigint
 ) begin
-	select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = _trigger_acr and _id_servidor = (select Servidores.id_servidor from Servidores where Servidores.codigo_servidor = (select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr = _trigger_acr order by rand() limit 1)) order by rand() limit 1;
+	select ACRS.resposta_acr from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor) and ACRS.trigger_acr = _trigger_acr order by rand() limit 1;
 end$$
 
 create procedure listarAcr(
@@ -125,18 +125,14 @@ create procedure listarAcr(
 	select * from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where id_servidor = _id_servidor);
 end$$
 
-create procedure procurarAcr(
-	in _trigger_acr text
-) begin 
-	select * from ACRS where ACRS.trigger_acr = _trigger_acr;
-end$$
-
 delimiter ;
 call atualizarPrefix(556580866198077451, "!");
 
-call criarAcr("gado", "thhhrag", 549064112651370506);
-
-call deletarAcr(10, 556580866198077451);
-call responderAcr("aa", 556580866198077451);
+call criarAcr("gado", "thhhrag", 518069575896793109);
+((select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = 518069575896793109));
+call deletarAcr(10, 518069575896793109);
+call responderAcr("oi", 549064112651370506);
+select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = "oi" and 549064112651370506 = (select Servidores.id_servidor from Servidores where Servidores.codigo_servidor = (select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1)) order by rand() limit 1;
+select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1;
 call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
