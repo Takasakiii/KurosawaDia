@@ -78,7 +78,7 @@ namespace Bot.Comandos
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Minhas informações:")
                     .AddField("Meus convites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")
-                    .AddField("Informações do bot", "**Criador:** Yummi#1375\n**Projeto:** Zuraaa!\n**Versão:** 1.0.0", true)
+                    .AddField("Informações do bot", "**Criadores:** Yummi#1375, Takasaki#7072\n**Projeto:** Zuraaa!\n**Versão:** 1.0.0", true)
                     .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}\n**Usuarios:** {users}", true)
                     .WithColor(Color.DarkPurple)
                 .Build());

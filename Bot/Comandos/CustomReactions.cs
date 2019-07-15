@@ -34,9 +34,29 @@ namespace Bot.Comandos
                         acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
                         ulong codigo = new ACRsDAO().CriarAcr(acr);
 
+                        string resposta = "", pergunta = "";
+
+                        if(resposta_pergunta[0].Trim().Length > 1024)
+                        {
+                            pergunta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                        }
+                        else
+                        {
+                            pergunta = resposta_pergunta[0].Trim();
+                        }
+
+                        if (resposta_pergunta[1].Trim().Length > 1024)
+                        {
+                            resposta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                        }
+                        else
+                        {
+                            resposta = resposta_pergunta[1].Trim();
+                        }
+
                         embed.WithDescription($"**{context.User}** a reação customizada foi criada com sucesso");
-                        embed.AddField("Trigger: ", resposta_pergunta[0].Trim());
-                        embed.AddField("Reposta: ", resposta_pergunta[1].Trim());
+                        embed.AddField("Trigger: ", pergunta);
+                        embed.AddField("Reposta: ", resposta);
                         embed.AddField("Codigo: ", codigo);
                     }
                     else
@@ -173,8 +193,20 @@ namespace Bot.Comandos
             for (int i = paginaAtual * 10; i < listaRetorno.Count && i < ((paginaAtual* 10) + 10); i++)
             {
                 ACRs temp = listaRetorno[i];
+
+                string trigger = "";
+
+                if(temp.trigger.Length > 25)
+                {
+                    trigger = $"{temp.trigger.Substring(0, 25)}...";
+                }
+                else
+                {
+                    trigger = temp.trigger;
+                }
+
                 respIds += $"`#{temp.codigo}`\n";
-                respTriggers += $"{temp.trigger}\n";
+                respTriggers += $"{trigger}\n";
             }
 
             return Tuple.Create(respIds, respTriggers);
