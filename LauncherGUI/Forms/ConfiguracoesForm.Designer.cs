@@ -63,7 +63,10 @@
             this.cbStatusTipo = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txStatusStatus = new System.Windows.Forms.TextBox();
+            this.txUrl = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Url = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CBIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remover = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -346,17 +349,20 @@
             this.dtStatusEdit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtStatusEdit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Status,
+            this.Url,
             this.Tipo,
             this.CBIndex,
             this.Remover});
-            this.dtStatusEdit.Location = new System.Drawing.Point(6, 93);
+            this.dtStatusEdit.Location = new System.Drawing.Point(6, 114);
             this.dtStatusEdit.Name = "dtStatusEdit";
-            this.dtStatusEdit.Size = new System.Drawing.Size(377, 395);
+            this.dtStatusEdit.Size = new System.Drawing.Size(377, 374);
             this.dtStatusEdit.TabIndex = 1;
             this.dtStatusEdit.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtStatusEdit_CellContentClick);
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.txUrl);
             this.groupBox4.Controls.Add(this.btStatusAdicionar);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.cbStatusTipo);
@@ -364,14 +370,14 @@
             this.groupBox4.Controls.Add(this.txStatusStatus);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(377, 81);
+            this.groupBox4.Size = new System.Drawing.Size(377, 102);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Adicionar Status:";
             // 
             // btStatusAdicionar
             // 
-            this.btStatusAdicionar.Location = new System.Drawing.Point(296, 45);
+            this.btStatusAdicionar.Location = new System.Drawing.Point(296, 71);
             this.btStatusAdicionar.Name = "btStatusAdicionar";
             this.btStatusAdicionar.Size = new System.Drawing.Size(75, 23);
             this.btStatusAdicionar.TabIndex = 4;
@@ -382,7 +388,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 48);
+            this.label11.Location = new System.Drawing.Point(6, 76);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(31, 13);
             this.label11.TabIndex = 3;
@@ -397,7 +403,7 @@
             "Live",
             "Ouvindo",
             "Assistindo"});
-            this.cbStatusTipo.Location = new System.Drawing.Point(52, 45);
+            this.cbStatusTipo.Location = new System.Drawing.Point(52, 71);
             this.cbStatusTipo.Name = "cbStatusTipo";
             this.cbStatusTipo.Size = new System.Drawing.Size(238, 21);
             this.cbStatusTipo.TabIndex = 2;
@@ -418,17 +424,39 @@
             this.txStatusStatus.Size = new System.Drawing.Size(319, 20);
             this.txStatusStatus.TabIndex = 0;
             // 
+            // txUrl
+            // 
+            this.txUrl.Location = new System.Drawing.Point(52, 45);
+            this.txUrl.Name = "txUrl";
+            this.txUrl.Size = new System.Drawing.Size(319, 20);
+            this.txUrl.TabIndex = 5;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 48);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(23, 13);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Url:";
+            // 
             // Status
             // 
             this.Status.HeaderText = "Status:";
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
             // 
+            // Url
+            // 
+            this.Url.HeaderText = "Url:";
+            this.Url.Name = "Url";
+            // 
             // Tipo
             // 
             this.Tipo.HeaderText = "Tipo:";
             this.Tipo.Name = "Tipo";
             this.Tipo.ReadOnly = true;
+            this.Tipo.Width = 70;
             // 
             // CBIndex
             // 
@@ -436,11 +464,13 @@
             this.CBIndex.Name = "CBIndex";
             this.CBIndex.ReadOnly = true;
             this.CBIndex.Visible = false;
+            this.CBIndex.Width = 50;
             // 
             // Remover
             // 
             this.Remover.HeaderText = "Remover:";
             this.Remover.Name = "Remover";
+            this.Remover.Width = 64;
             // 
             // ConfiguracoesForm
             // 
@@ -512,7 +542,10 @@
         private System.Windows.Forms.Button btStatusRedefinir;
         private System.Windows.Forms.Button btStatusSalvar;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Url;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn CBIndex;
         private System.Windows.Forms.DataGridViewButtonColumn Remover;

@@ -4,7 +4,6 @@ using ConfigurationControler.Singletons;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ConfigurationControler.DAO
 {
@@ -16,12 +15,14 @@ namespace ConfigurationControler.DAO
         {
             RemoverTabela();
             conexao.Open();
-            string sql = "insert into Status (status_jogo, status_tipo) values (@status, @tipo)";
+            string sql = "insert into Status (status_jogo, status_tipo, status_url) values (@status, @tipo, @url)";
             for (int i = 0; i < statuses.Count; i++)
             {
                 SqliteCommand cmd = new SqliteCommand(sql, conexao);
                 cmd.Parameters.AddWithValue("@status", statuses[i].status_jogo);
                 cmd.Parameters.AddWithValue("@tipo", statuses[i].status_tipo);
+                cmd.Parameters.AddWithValue("@url", statuses[i].status_url);
+
                 cmd.ExecuteNonQuery();
             }
 
@@ -40,7 +41,7 @@ namespace ConfigurationControler.DAO
         }
 
 
-        public Tuple <bool, List<Status>> CarregarStatus()
+        public Tuple<bool, List<Status>> CarregarStatus()
         {
             const string sql = "select * from Status;";
             conexao.Open();
@@ -50,7 +51,7 @@ namespace ConfigurationControler.DAO
             List<Status> retorno = new List<Status>();
             while (rs.Read())
             {
-                Status temp = new Status(Convert.ToUInt32(rs["status_id"]) ,(string)rs["status_jogo"], (Status.TiposDeStatus)Convert.ToInt32(rs["status_tipo"]));
+                Status temp = new Status(Convert.ToUInt32(rs["status_id"]), (string)rs["status_jogo"], (Status.TiposDeStatus)Convert.ToInt32(rs["status_tipo"]), (string)rs["status_url"]);
                 retorno.Add(temp);
                 estado = true;
             }
