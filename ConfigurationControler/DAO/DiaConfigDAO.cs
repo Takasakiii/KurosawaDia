@@ -1,28 +1,30 @@
-﻿using ConfigurationControler.ConfigDB.Modelos;
-using ConfigurationControler.Factory;
+﻿using ConfigurationControler.Factory;
+using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
+using System;
 
-namespace ConfigurationControler.ConfigDB.DAO
+namespace ConfigurationControler.DAO
 {
-    public class AyuraConfigDAO
+    public class DiaConfigDAO
     {
         private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
-        public AyuraConfig Carregar(AyuraConfig ayuraConfig)
+        public DiaConfig Carregar()
         {
             SqliteCommand selectCmd = conexao.CreateCommand();
             selectCmd.CommandText = "select * from DiaConfig where id = @id";
-            selectCmd.Parameters.AddWithValue("@id", ayuraConfig.id);
+            selectCmd.Parameters.AddWithValue("@id", DiaConfig.id);
 
             using (SqliteDataReader reader = selectCmd.ExecuteReader())
             {
+                DiaConfig diaConfig = null;
                 if (reader.Read())
                 {
-                    ayuraConfig.SetBotConfig(reader.GetString(reader.GetOrdinal("token")), reader.GetString(reader.GetOrdinal("prefix")).ToCharArray());
+                    diaConfig = new DiaConfig(reader.GetString(reader.GetOrdinal("token")), reader.GetString(reader.GetOrdinal("prefix")), Convert.ToUInt64(reader["idDono"]));
                 }
                 reader.Close();
                 conexao.Close();
-                return ayuraConfig;
+                return diaConfig;
             }
         }
     }

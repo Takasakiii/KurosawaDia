@@ -1,24 +1,25 @@
-﻿using ConfigurationControler.ConfigDB.Modelos;
-using ConfigurationControler.Factory;
+﻿using ConfigurationControler.Factory;
+using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
 
-namespace ConfigurationControler.ConfigDB.DAO
+namespace ConfigurationControler.DAO
 {
     public class ApiConfigDAO
     {
         private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
-        public ApiConfig Carregar(ApiConfig apiConfig)
+        public ApiConfig Carregar()
         {
             SqliteCommand selectCmd = conexao.CreateCommand();
             selectCmd.CommandText = "select * from ApiConfig where id = @id";
-            selectCmd.Parameters.AddWithValue("@id", apiConfig.id);
+            selectCmd.Parameters.AddWithValue("@id", ApiConfig.id);
 
             using (SqliteDataReader reader = selectCmd.ExecuteReader())
             {
+                ApiConfig apiConfig = null;
                 if (reader.Read())
                 {
-                    apiConfig.SetApiConfig(reader.GetString(reader.GetOrdinal("WeebToken")));
+                    apiConfig = new ApiConfig(reader.GetString(reader.GetOrdinal("WeebToken")));
                 }
                 reader.Close();
                 conexao.Close();

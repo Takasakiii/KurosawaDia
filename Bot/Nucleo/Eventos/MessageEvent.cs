@@ -3,7 +3,7 @@ using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Bot.Singletons;
-using ConfigurationControler.ConfigDB.Modelos;
+using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -17,9 +17,9 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private readonly AyuraConfig config;
+        private readonly DiaConfig config;
 
-        public MessageEvent(AyuraConfig config)
+        public MessageEvent(DiaConfig config)
         {
             this.config = config;
         }
@@ -33,7 +33,7 @@ namespace Bot.Nucleo.Eventos
             {
                 new Thread(() =>
                 {
-                    char[] prefix = config.prefix;
+                    char[] prefix = config.prefix.ToCharArray();
 
                     if (!commandContex.IsPrivate)
                     {

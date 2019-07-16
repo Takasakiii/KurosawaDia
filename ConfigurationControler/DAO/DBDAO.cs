@@ -3,8 +3,6 @@ using ConfigurationControler.Modelos;
 using ConfigurationControler.Singletons;
 using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ConfigurationControler.DAO
 {
@@ -17,7 +15,7 @@ namespace ConfigurationControler.DAO
             string[] sqls = { "drop TABLE if EXISTS ApiConfig;", "drop TABLE if EXISTS DiaConfig;", "drop TABLE if EXISTS DbConfig;" };
 
             conexao.Open();
-            for(int i = 0; i < sqls.Length; i++)
+            for (int i = 0; i < sqls.Length; i++)
             {
                 SqliteCommand cmd = new SqliteCommand(sqls[i], conexao);
                 cmd.ExecuteNonQuery();
@@ -83,6 +81,6 @@ namespace ConfigurationControler.DAO
             conexao.Close();
             return Tuple.Create(estado, api, db, dia);
         }
-        
+
     }
 }

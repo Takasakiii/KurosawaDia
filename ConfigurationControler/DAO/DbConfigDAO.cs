@@ -1,24 +1,24 @@
-﻿using ConfigurationControler.ConfigDB.Modelos;
-using ConfigurationControler.Factory;
+﻿using ConfigurationControler.Factory;
+using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
 
-namespace ConfigurationControler.ConfigDB.DAO
+namespace ConfigurationControler.DAO
 {
     public class DbConfigDAO
     {
         private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
-        public DbConfig GetDbConfig()
+        public DBConfig GetDbConfig()
         {
             SqliteCommand cmd = conexao.CreateCommand();
             cmd.CommandText = "select * from DbConfig";
 
             using (SqliteDataReader reader = cmd.ExecuteReader())
             {
-                DbConfig dbConfig = new DbConfig();
+                DBConfig dbConfig = null;
                 while (reader.Read())
                 {
-                    dbConfig.SetDb(reader.GetInt32(reader.GetOrdinal("id")), reader.GetString(reader.GetOrdinal("ip")), reader.GetString(reader.GetOrdinal("database")), reader.GetString(reader.GetOrdinal("login")), reader.GetString(reader.GetOrdinal("senha")));
+                    dbConfig = new DBConfig(reader.GetString(reader.GetOrdinal("ip")), reader.GetString(reader.GetOrdinal("database")), reader.GetString(reader.GetOrdinal("login")), reader.GetString(reader.GetOrdinal("senha")));
                 }
                 reader.Close();
                 conexao.Close();
