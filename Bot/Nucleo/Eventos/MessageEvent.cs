@@ -1,9 +1,9 @@
 ﻿using Bot.Comandos;
-using Bot.DataBase.ConfigDB.Modelos;
 using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Bot.Singletons;
+using ConfigurationControler.ConfigDB.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;

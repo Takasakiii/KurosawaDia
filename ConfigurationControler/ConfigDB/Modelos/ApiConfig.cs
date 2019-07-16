@@ -1,16 +1,17 @@
-﻿namespace Bot.DataBase.ConfigDB.Modelos
+﻿namespace ConfigurationControler.ConfigDB.Modelos
 {
     public class ApiConfig
     {
         public string weebToken { private set; get; }
         public uint id { private set; get; }
+
         public ApiConfig(uint id, string weebToken = null)
         {
-            this.weebToken = weebToken;
             this.id = id;
+            this.weebToken = weebToken;
         }
 
-        public void setApiConfig(string weebToken)
+        public void SetApiConfig(string weebToken)
         {
             this.weebToken = weebToken;
         }

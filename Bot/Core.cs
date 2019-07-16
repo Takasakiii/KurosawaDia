@@ -1,8 +1,8 @@
-﻿using Bot.DataBase.ConfigDB.DAO;
-using Bot.DataBase.ConfigDB.Modelos;
-using Bot.Nucleo;
+﻿using Bot.Nucleo;
 using Bot.Nucleo.Eventos;
 using Bot.Singletons;
+using ConfigurationControler.ConfigDB.DAO;
+using ConfigurationControler.ConfigDB.Modelos;
 using System.Threading.Tasks;
 
 namespace Bot

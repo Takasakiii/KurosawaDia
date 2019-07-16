@@ -1,4 +1,4 @@
-﻿namespace Bot.DataBase.ConfigDB.Modelos
+﻿namespace ConfigurationControler.ConfigDB.Modelos
 {
     public class AyuraConfig
     {
@@ -8,9 +8,9 @@
 
         public AyuraConfig(uint id, string token = null, char[] prefix = null)
         {
+            this.id = id;
             this.token = token;
             this.prefix = prefix;
-            this.id = id;
         }
 
         public void SetBotConfig(string token, char[] prefix)

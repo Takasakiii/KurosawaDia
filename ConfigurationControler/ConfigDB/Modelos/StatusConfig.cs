@@ -1,4 +1,4 @@
-﻿namespace Bot.DataBase.ConfigDB.Modelos
+﻿namespace ConfigurationControler.ConfigDB.Modelos
 {
     public class StatusConfig
     {
@@ -11,8 +11,8 @@
         {
             this.id = id;
             this.status = status;
-            this.tipo = tipo;
             this.url = url;
+            this.tipo = tipo;
         }
     }
 }

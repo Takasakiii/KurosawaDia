@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bot.DataBase.ConfigDB.Modelos
+﻿namespace ConfigurationControler.ConfigDB.Modelos
 {
     public class DbConfig
     {

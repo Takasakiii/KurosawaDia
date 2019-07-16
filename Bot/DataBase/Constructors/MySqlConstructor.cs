@@ -1,5 +1,5 @@
-﻿using Bot.DataBase.ConfigDB.DAO;
-using Bot.DataBase.ConfigDB.Modelos;
+﻿using ConfigurationControler.ConfigDB.DAO;
+using ConfigurationControler.ConfigDB.Modelos;
 using MySql.Data.MySqlClient;
 
 namespace Bot.DataBase.Constructors

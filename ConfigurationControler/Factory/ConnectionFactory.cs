@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
+﻿using ConfigurationControler.Singletons;
 using Microsoft.Data.Sqlite;
-using ConfigurationControler.Singletons;
+using System.IO;
 
 namespace ConfigurationControler.Factory
 {
@@ -16,7 +13,9 @@ namespace ConfigurationControler.Factory
             {
                 CriarDB();
             }
-            return new SqliteConnection($"Data Source={DB.localDB}");
+            SqliteConnection conexao = new SqliteConnection($"Data Source={DB.localDB}");
+            conexao.Open();
+            return conexao;
         }
 
         private void CriarDB()
@@ -30,7 +29,7 @@ namespace ConfigurationControler.Factory
                 SqliteConnection conexao = repetidor.Conectar();
 
 
-                
+
                 conexao.Open();
                 for (int i = 0; i < DB.sqlCriacao.Length; i++)
                 {

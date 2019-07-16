@@ -1,13 +1,13 @@
-﻿using Bot.DataBase.ConfigDB.Modelos;
-using Bot.DataBase.Constructor;
+﻿using ConfigurationControler.ConfigDB.Modelos;
+using ConfigurationControler.Factory;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 
-namespace Bot.DataBase.ConfigDB.DAO
+namespace ConfigurationControler.ConfigDB.DAO
 {
     public class StatusDAO
     {
-        private SqliteConnection conexao = new SQLiteConstrutor().Conectar();
+        private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
         public List<StatusConfig> getStatus()
         {

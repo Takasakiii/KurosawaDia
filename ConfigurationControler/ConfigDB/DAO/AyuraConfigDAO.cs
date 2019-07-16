@@ -1,12 +1,12 @@
-﻿using Bot.DataBase.ConfigDB.Modelos;
-using Bot.DataBase.Constructor;
+﻿using ConfigurationControler.ConfigDB.Modelos;
+using ConfigurationControler.Factory;
 using Microsoft.Data.Sqlite;
 
-namespace Bot.DataBase.ConfigDB.DAO
+namespace ConfigurationControler.ConfigDB.DAO
 {
     public class AyuraConfigDAO
     {
-        private SqliteConnection conexao = new SQLiteConstrutor().Conectar();
+        private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
         public AyuraConfig Carregar(AyuraConfig ayuraConfig)
         {

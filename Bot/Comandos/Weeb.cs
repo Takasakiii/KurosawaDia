@@ -1,5 +1,5 @@
-﻿using Bot.DataBase.ConfigDB.Modelos;
-using Bot.DataBase.ConfigDB.DAO;
+﻿using ConfigurationControler.ConfigDB.DAO;
+using ConfigurationControler.ConfigDB.Modelos;
 using Discord;
 using Discord.Commands;
 using System;

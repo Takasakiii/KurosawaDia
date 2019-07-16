@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot", "Bot\Bot.csproj", "{FB50B6AD-C54E-4EC4-8F62-101CA680EF4D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23} = {D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGUI", "LauncherGUI\WindowsGUI.csproj", "{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreGUI", "NetCoreGUI\NetCoreGUI.csproj", "{9E27EC92-BFDE-46DD-8AF9-F78ED8D3D426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationControler", "ConfigurationControler\ConfigurationControler.csproj", "{D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationControler", "ConfigurationControler\ConfigurationControler.csproj", "{D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

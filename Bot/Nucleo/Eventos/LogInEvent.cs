@@ -1,6 +1,6 @@
-﻿using Bot.DataBase.ConfigDB.DAO;
-using Bot.DataBase.ConfigDB.Modelos;
-using Bot.Singletons;
+﻿using Bot.Singletons;
+using ConfigurationControler.ConfigDB.DAO;
+using ConfigurationControler.ConfigDB.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
