@@ -43,20 +43,26 @@ namespace ConfigurationControler.DAO
 
         public Tuple<bool, List<Status>> CarregarStatus()
         {
-            const string sql = "select * from Status;";
-            conexao.Open();
-            SqliteCommand cmd = new SqliteCommand(sql, conexao);
-            SqliteDataReader rs = cmd.ExecuteReader();
-            bool estado = false;
-            List<Status> retorno = new List<Status>();
-            while (rs.Read())
+            try
             {
-                Status temp = new Status(Convert.ToUInt32(rs["status_id"]), (string)rs["status_jogo"], (Status.TiposDeStatus)Convert.ToInt32(rs["status_tipo"]), (string)rs["status_url"]);
-                retorno.Add(temp);
-                estado = true;
+                const string sql = "select * from Status;";
+                conexao.Open();
+                SqliteCommand cmd = new SqliteCommand(sql, conexao);
+                SqliteDataReader rs = cmd.ExecuteReader();
+                bool estado = false;
+                List<Status> retorno = new List<Status>();
+                while (rs.Read())
+                {
+                    Status temp = new Status(Convert.ToUInt32(rs["status_id"]), (string)rs["status_jogo"], (Status.TiposDeStatus)Convert.ToInt32(rs["status_tipo"]), (string)rs["status_url"]);
+                    retorno.Add(temp);
+                    estado = true;
+                }
+                conexao.Close();
+                return Tuple.Create(estado, retorno);
+            } catch (ArgumentOutOfRangeException)
+            {
+                return Tuple.Create(false, (List<Status>)null);
             }
-            conexao.Close();
-            return Tuple.Create(estado, retorno);
         }
     }
 }
