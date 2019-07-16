@@ -2,6 +2,7 @@
 using Bot.DataBase.ConfigDB.Modelos;
 using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Bot.Singletons;
 using Discord;
 using Discord.Commands;
@@ -50,7 +51,7 @@ namespace Bot.Nucleo.Eventos
                         ACRs acr = new ACRsDAO().ResponderAcr(acrTmp);
                         if (acr.resposta != null)
                         {
-                            commandContex.Channel.SendMessageAsync(acr.resposta);
+                            new EmbedControl().SendMessage(commandContex, acr.resposta);
                         }
                     }
 

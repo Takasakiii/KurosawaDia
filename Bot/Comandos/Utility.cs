@@ -158,10 +158,7 @@ namespace Bot.Comandos
                         context.Message.DeleteAsync().GetAwaiter().GetResult();
                     }
 
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(msg)
-                            .WithColor(Color.DarkPurple)
-                        .Build());
+                    new EmbedControl().SendMessage(context, msg);
                 }
                 else
                 {
