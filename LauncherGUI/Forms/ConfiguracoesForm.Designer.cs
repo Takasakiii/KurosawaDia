@@ -75,6 +75,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -516,7 +517,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(78, 19);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(293, 20);
             this.textBox1.TabIndex = 0;
             // 
             // label14
@@ -524,9 +525,18 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(6, 22);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(41, 13);
+            this.label14.Size = new System.Drawing.Size(68, 13);
             this.label14.TabIndex = 1;
-            this.label14.Text = "label14";
+            this.label14.Text = "Identificador:";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(820, 548);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(123, 13);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "Bot by Takasaki 2k19 ©";
             // 
             // ConfiguracoesForm
             // 
@@ -535,6 +545,7 @@
             this.BackgroundImage = global::Bot.Properties.Resources.kurosawa_dia_love_live_sunshine_minimalism_simple_wallpaper_49f0b8ed81aa4dabe6c7180fd02146cd;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(955, 573);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -563,6 +574,7 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -614,5 +626,6 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label15;
     }
 }
