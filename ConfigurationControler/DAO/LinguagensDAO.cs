@@ -31,5 +31,27 @@ namespace ConfigurationControler.DAO
             SqliteCommand cmd = new SqliteCommand(DB.sqlCriacao[4], conexao);
             cmd.ExecuteNonQuery();
         }
+
+        public Tuple<bool, List<Linguagens>> Listar(Linguagens linguagens)
+        {
+            conexao.Open();
+            AdicionarTabela();
+            const string sql = "select * from Linguagens where idiomaString=@idioma";
+            SqliteCommand cmd = new SqliteCommand(sql, conexao);
+            cmd.Parameters.AddWithValue("@idioma", (int)linguagens.idiomaString);
+            SqliteDataReader rs = cmd.ExecuteReader();
+            List<Linguagens> resul = new List<Linguagens>();
+            bool result = false;
+            while (rs.Read())
+            {
+                if(rs["idString"] != null)
+                {
+                    result = true;
+                    Linguagens temp = new Linguagens((Linguagens.Idiomas)Convert.ToInt32(rs["idiomaString"]), (string)rs["stringIdentifier"], (string)rs["String"], Convert.ToUInt32(rs["idString"]));
+                    resul.Add(temp);
+                }
+            }
+            return Tuple.Create(result, resul);
+        }
     }
 }

@@ -19,11 +19,17 @@ namespace ConfigurationControler.Modelos
             this.stringIdentifier = stringIdentifier;
         }
 
-        public Linguagens(Idiomas idiomaString, string stringIdentifier, string texto)
+        public Linguagens(Idiomas idiomaString, string stringIdentifier, string texto, uint idString = 0)
         {
             this.idiomaString = idiomaString;
             this.stringIdentifier = stringIdentifier;
             this.texto = texto;
+            this.idString = idString;
+        }
+
+        public Linguagens(Idiomas idiomaString)
+        {
+            this.idiomaString = idiomaString;
         }
 
         public void SetString (ulong idString, string texto)

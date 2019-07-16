@@ -82,6 +82,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.btIdiomasSalvar = new System.Windows.Forms.Button();
             this.IdiomasIdentificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdiomasID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasIdioma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasTexto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -527,6 +528,7 @@
             this.dgIdiomasLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgIdiomasLista.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdiomasIdentificador,
+            this.IdiomasID,
             this.IdiomasIdioma,
             this.IdiomasTexto,
             this.IdiomasIndex,
@@ -575,6 +577,7 @@
             this.cbIdiomasIdioma.Name = "cbIdiomasIdioma";
             this.cbIdiomasIdioma.Size = new System.Drawing.Size(132, 21);
             this.cbIdiomasIdioma.TabIndex = 2;
+            this.cbIdiomasIdioma.SelectedIndexChanged += new System.EventHandler(this.CbIdiomasIdioma_SelectedIndexChanged);
             // 
             // label16
             // 
@@ -618,6 +621,13 @@
             this.IdiomasIdentificador.HeaderText = "Identificador";
             this.IdiomasIdentificador.Name = "IdiomasIdentificador";
             this.IdiomasIdentificador.ReadOnly = true;
+            // 
+            // IdiomasID
+            // 
+            this.IdiomasID.HeaderText = "ID";
+            this.IdiomasID.Name = "IdiomasID";
+            this.IdiomasID.ReadOnly = true;
+            this.IdiomasID.Visible = false;
             // 
             // IdiomasIdioma
             // 
@@ -745,6 +755,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox cbIdiomasIdioma;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIdentificador;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasID;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIdioma;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasTexto;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIndex;

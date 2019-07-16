@@ -130,5 +130,22 @@ namespace Bot.Forms
 
             //pitas ponha as msg de erro aki <3
         }
+
+        private void CbIdiomasIdioma_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbIdiomasIdioma.SelectedIndex >= 0)
+            {
+                Linguagens linguagens = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex);
+                LinguagensDAO dao = new LinguagensDAO();
+                var retorno = dao.Listar(linguagens);
+                if (retorno.Item1)
+                {
+                    foreach(Linguagens lin in retorno.Item2)
+                    {
+                        dgIdiomasLista.Rows.Add(lin.stringIdentifier, lin.idString, lin.idiomaString.ToString(), lin.texto, (int)lin.idiomaString);
+                    }
+                }
+            }
+        }
     }
 }
