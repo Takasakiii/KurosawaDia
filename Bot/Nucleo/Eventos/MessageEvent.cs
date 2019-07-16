@@ -23,7 +23,7 @@ namespace Bot.Nucleo.Eventos
             this.config = config;
         }
 
-        public async Task MessageRecived(SocketMessage mensagem)
+        public Task MessageRecived(SocketMessage mensagem)
         {
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
             CommandContext commandContex = new CommandContext(SingletonClient.client, mensagemTratada);
@@ -120,6 +120,7 @@ namespace Bot.Nucleo.Eventos
                 }).Start();
                 
             }
+            return Task.CompletedTask;
         }
     }
 }

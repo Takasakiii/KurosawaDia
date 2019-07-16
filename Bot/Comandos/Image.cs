@@ -146,10 +146,5 @@ namespace Bot.Comandos
             context.Channel.SendMessageAsync(embed: embed.Build());
 
         }
-
-        public void holo(CommandContext context, object[] args)
-        {
-            getImg(context, "Holo ❤", links.holo);
-        }
     }
 }
