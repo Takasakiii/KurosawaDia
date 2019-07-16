@@ -130,11 +130,21 @@ namespace Bot.Comandos
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-                    string magikReturn = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
+                    try
+                    {
+                        string magikReturn = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
 
-                    embed.WithImageUrl(magikReturn);
-                    embed.WithDescription("");
-                    userMsg.DeleteAsync();
+                        embed.WithImageUrl(magikReturn);
+                        embed.WithDescription("");
+                        userMsg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        userMsg.DeleteAsync();
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                        embed.WithImageUrl(null);
+                    }
                 }
             }
             else
@@ -180,8 +190,9 @@ namespace Bot.Comandos
                 catch
                 {
                     userMsg.DeleteAsync();
-                    embed.WithDescription($"**{context.User}** essa não é uma imagem valida");
                     embed.WithColor(Color.Red);
+                    embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                    embed.WithImageUrl(null);
                 }
             }
             else
