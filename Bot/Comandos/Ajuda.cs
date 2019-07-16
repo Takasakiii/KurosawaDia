@@ -74,7 +74,7 @@ namespace Bot.Comandos
             int users = 0;
             foreach (SocketGuild servidor in client.Guilds)
             {
-                users = servidor.Users.Count;
+                users += servidor.Users.Count;
             }
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()

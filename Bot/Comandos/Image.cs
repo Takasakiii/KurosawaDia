@@ -146,5 +146,52 @@ namespace Bot.Comandos
             context.Channel.SendMessageAsync(embed: embed.Build());
 
         }
+
+        public void magik(CommandContext context, object[] args)
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string imgUrl = "";
+
+            if(msg != "")
+            {
+                imgUrl = msg;
+            }
+            else
+            {
+                imgUrl = context.Message.Attachments.First().Url;
+            }
+
+            if(imgUrl != "")
+            {
+                embed.WithDescription($"**{context.User}** estou fazendo magica com o avatar por-favor aguarde");
+                embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+
+                try
+                {
+                    string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
+                    userMsg.DeleteAsync();
+                    embed.WithImageUrl(retorno);
+                }
+                catch
+                {
+                    userMsg.DeleteAsync();
+                    embed.WithDescription($"**{context.User}** essa não é uma imagem valida");
+                    embed.WithColor(Color.Red);
+                }
+            }
+            else
+            {
+                embed.WithTitle("Você precisa me falar qual imagem você quer que eu faça magica");
+                embed.AddField("Uso do Comando:", $"`{(string)args[0]}magik <imagem>`");
+                embed.AddField("Exemplo: ", $"`{(string)args[0]}magik https://i.imgur.com/cZDlYXr.png`");
+                embed.WithColor(Color.Red);
+            }
+            context.Channel.SendMessageAsync(embed: embed.Build());
+        }
     }
 }
