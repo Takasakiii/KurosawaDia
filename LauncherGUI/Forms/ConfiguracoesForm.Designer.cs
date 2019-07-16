@@ -57,19 +57,22 @@
             this.btStatusRedefinir = new System.Windows.Forms.Button();
             this.btStatusSalvar = new System.Windows.Forms.Button();
             this.dtStatusEdit = new System.Windows.Forms.DataGridView();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btStatusAdicionar = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cbStatusTipo = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txStatusStatus = new System.Windows.Forms.TextBox();
-            this.txUrl = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Url = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CBIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txUrl = new System.Windows.Forms.TextBox();
+            this.btStatusAdicionar = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbStatusTipo = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txStatusStatus = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -79,12 +82,15 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtStatusEdit)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -359,6 +365,38 @@
             this.dtStatusEdit.TabIndex = 1;
             this.dtStatusEdit.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtStatusEdit_CellContentClick);
             // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status:";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
+            // Url
+            // 
+            this.Url.HeaderText = "Url:";
+            this.Url.Name = "Url";
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo:";
+            this.Tipo.Name = "Tipo";
+            this.Tipo.ReadOnly = true;
+            this.Tipo.Width = 70;
+            // 
+            // CBIndex
+            // 
+            this.CBIndex.HeaderText = "CBIndex";
+            this.CBIndex.Name = "CBIndex";
+            this.CBIndex.ReadOnly = true;
+            this.CBIndex.Visible = false;
+            this.CBIndex.Width = 50;
+            // 
+            // Remover
+            // 
+            this.Remover.HeaderText = "Remover:";
+            this.Remover.Name = "Remover";
+            this.Remover.Width = 64;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label13);
@@ -374,6 +412,22 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Adicionar Status:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 48);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(23, 13);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Url:";
+            // 
+            // txUrl
+            // 
+            this.txUrl.Location = new System.Drawing.Point(52, 45);
+            this.txUrl.Name = "txUrl";
+            this.txUrl.Size = new System.Drawing.Size(319, 20);
+            this.txUrl.TabIndex = 5;
             // 
             // btStatusAdicionar
             // 
@@ -424,53 +478,34 @@
             this.txStatusStatus.Size = new System.Drawing.Size(319, 20);
             this.txStatusStatus.TabIndex = 0;
             // 
-            // txUrl
+            // tabPage3
             // 
-            this.txUrl.Location = new System.Drawing.Point(52, 45);
-            this.txUrl.Name = "txUrl";
-            this.txUrl.Size = new System.Drawing.Size(319, 20);
-            this.txUrl.TabIndex = 5;
+            this.tabPage3.Controls.Add(this.dataGridView1);
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(389, 523);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Idiomas";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label13
+            // groupBox5
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 48);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(23, 13);
-            this.label13.TabIndex = 6;
-            this.label13.Text = "Url:";
+            this.groupBox5.Location = new System.Drawing.Point(6, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(377, 154);
+            this.groupBox5.TabIndex = 0;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Adicionar/Editar:";
             // 
-            // Status
+            // dataGridView1
             // 
-            this.Status.HeaderText = "Status:";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            // 
-            // Url
-            // 
-            this.Url.HeaderText = "Url:";
-            this.Url.Name = "Url";
-            // 
-            // Tipo
-            // 
-            this.Tipo.HeaderText = "Tipo:";
-            this.Tipo.Name = "Tipo";
-            this.Tipo.ReadOnly = true;
-            this.Tipo.Width = 70;
-            // 
-            // CBIndex
-            // 
-            this.CBIndex.HeaderText = "CBIndex";
-            this.CBIndex.Name = "CBIndex";
-            this.CBIndex.ReadOnly = true;
-            this.CBIndex.Visible = false;
-            this.CBIndex.Width = 50;
-            // 
-            // Remover
-            // 
-            this.Remover.HeaderText = "Remover:";
-            this.Remover.Name = "Remover";
-            this.Remover.Width = 64;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 166);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(377, 351);
+            this.dataGridView1.TabIndex = 1;
             // 
             // ConfiguracoesForm
             // 
@@ -502,6 +537,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtStatusEdit)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -549,5 +586,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Tipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn CBIndex;
         private System.Windows.Forms.DataGridViewButtonColumn Remover;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.GroupBox groupBox5;
     }
 }
