@@ -117,5 +117,18 @@ namespace Bot.Forms
                 MessageBox.Show("Dados atualizados com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void BtIdiomasSalvar_Click(object sender, EventArgs e)
+        {
+            if(cbIdiomasIdioma.SelectedIndex > 0 && txIdiomasIdentificador.Text != "" && txIdiomasTexto.Text != "")
+            {
+                Linguagens linguagem = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text);
+                LinguagensDAO dao = new LinguagensDAO();
+                dao.Adicionar(linguagem);
+                MessageBox.Show("Dados salvos com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            //pitas ponha as msg de erro aki <3
+        }
     }
 }

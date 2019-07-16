@@ -81,6 +81,12 @@
             this.txIdiomasTexto = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.btIdiomasSalvar = new System.Windows.Forms.Button();
+            this.IdiomasIdentificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdiomasIdioma = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdiomasTexto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdiomasIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdiomasEditar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.IdiomasRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -517,7 +523,15 @@
             // 
             // dgIdiomasLista
             // 
+            this.dgIdiomasLista.AllowUserToAddRows = false;
             this.dgIdiomasLista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgIdiomasLista.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IdiomasIdentificador,
+            this.IdiomasIdioma,
+            this.IdiomasTexto,
+            this.IdiomasIndex,
+            this.IdiomasEditar,
+            this.IdiomasRemover});
             this.dgIdiomasLista.Location = new System.Drawing.Point(6, 166);
             this.dgIdiomasLista.Name = "dgIdiomasLista";
             this.dgIdiomasLista.Size = new System.Drawing.Size(377, 351);
@@ -550,7 +564,13 @@
             // 
             // cbIdiomasIdioma
             // 
+            this.cbIdiomasIdioma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbIdiomasIdioma.FormattingEnabled = true;
+            this.cbIdiomasIdioma.Items.AddRange(new object[] {
+            "Portugues",
+            "Inglês",
+            "Espanhol",
+            "Russo"});
             this.cbIdiomasIdioma.Location = new System.Drawing.Point(239, 19);
             this.cbIdiomasIdioma.Name = "cbIdiomasIdioma";
             this.cbIdiomasIdioma.Size = new System.Drawing.Size(132, 21);
@@ -591,6 +611,44 @@
             this.btIdiomasSalvar.TabIndex = 6;
             this.btIdiomasSalvar.Text = "Salvar";
             this.btIdiomasSalvar.UseVisualStyleBackColor = true;
+            this.btIdiomasSalvar.Click += new System.EventHandler(this.BtIdiomasSalvar_Click);
+            // 
+            // IdiomasIdentificador
+            // 
+            this.IdiomasIdentificador.HeaderText = "Identificador";
+            this.IdiomasIdentificador.Name = "IdiomasIdentificador";
+            this.IdiomasIdentificador.ReadOnly = true;
+            // 
+            // IdiomasIdioma
+            // 
+            this.IdiomasIdioma.HeaderText = "Idioma";
+            this.IdiomasIdioma.Name = "IdiomasIdioma";
+            this.IdiomasIdioma.ReadOnly = true;
+            // 
+            // IdiomasTexto
+            // 
+            this.IdiomasTexto.HeaderText = "Texto";
+            this.IdiomasTexto.Name = "IdiomasTexto";
+            this.IdiomasTexto.ReadOnly = true;
+            // 
+            // IdiomasIndex
+            // 
+            this.IdiomasIndex.HeaderText = "Index";
+            this.IdiomasIndex.Name = "IdiomasIndex";
+            this.IdiomasIndex.ReadOnly = true;
+            this.IdiomasIndex.Visible = false;
+            // 
+            // IdiomasEditar
+            // 
+            this.IdiomasEditar.HeaderText = "Editar";
+            this.IdiomasEditar.Name = "IdiomasEditar";
+            this.IdiomasEditar.ReadOnly = true;
+            // 
+            // IdiomasRemover
+            // 
+            this.IdiomasRemover.HeaderText = "Remover";
+            this.IdiomasRemover.Name = "IdiomasRemover";
+            this.IdiomasRemover.ReadOnly = true;
             // 
             // ConfiguracoesForm
             // 
@@ -686,5 +744,11 @@
         private System.Windows.Forms.TextBox txIdiomasTexto;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox cbIdiomasIdioma;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIdentificador;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIdioma;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasTexto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIndex;
+        private System.Windows.Forms.DataGridViewButtonColumn IdiomasEditar;
+        private System.Windows.Forms.DataGridViewButtonColumn IdiomasRemover;
     }
 }
