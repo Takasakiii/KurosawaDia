@@ -76,5 +76,26 @@ namespace ConfigurationControler.DAO
             cmd.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public Tuple<bool, Linguagens> GetString(Linguagens linguagens)
+        {
+            conexao.Open();
+            const string sql = "select idString, String from Linguagens where idiomaString = @idioma and stringIdentifier = @id";
+            SqliteCommand cmd = new SqliteCommand(sql, conexao);
+            cmd.Parameters.AddWithValue("@idioma", linguagens.idiomaString);
+            cmd.Parameters.AddWithValue("@id", linguagens.stringIdentifier);
+            SqliteDataReader rs = cmd.ExecuteReader();
+            bool estado = false;
+            if (rs.Read())
+            {
+                if(rs["idString"] != null)
+                {
+                    estado = true;
+                    linguagens.SetString(Convert.ToUInt64(rs["idString"]), (string)rs["String"]);
+                }
+            }
+
+            return Tuple.Create(estado, linguagens);
+        }
     }
 }
