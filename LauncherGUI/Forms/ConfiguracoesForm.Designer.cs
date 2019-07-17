@@ -538,6 +538,7 @@
             this.dgIdiomasLista.Name = "dgIdiomasLista";
             this.dgIdiomasLista.Size = new System.Drawing.Size(377, 351);
             this.dgIdiomasLista.TabIndex = 1;
+            this.dgIdiomasLista.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgIdiomasLista_CellContentClick);
             // 
             // txIdiomasIdentificador
             // 
@@ -612,6 +613,7 @@
             this.btIdiomasSalvar.Name = "btIdiomasSalvar";
             this.btIdiomasSalvar.Size = new System.Drawing.Size(75, 23);
             this.btIdiomasSalvar.TabIndex = 6;
+            this.btIdiomasSalvar.Tag = "-1";
             this.btIdiomasSalvar.Text = "Salvar";
             this.btIdiomasSalvar.UseVisualStyleBackColor = true;
             this.btIdiomasSalvar.Click += new System.EventHandler(this.BtIdiomasSalvar_Click);

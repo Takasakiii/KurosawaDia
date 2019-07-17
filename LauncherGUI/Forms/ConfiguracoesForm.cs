@@ -120,15 +120,28 @@ namespace Bot.Forms
 
         private void BtIdiomasSalvar_Click(object sender, EventArgs e)
         {
-            if(cbIdiomasIdioma.SelectedIndex > 0 && txIdiomasIdentificador.Text != "" && txIdiomasTexto.Text != "")
+            if(btIdiomasSalvar.Tag.ToString() == "-1")
             {
-                Linguagens linguagem = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text);
-                LinguagensDAO dao = new LinguagensDAO();
-                dao.Adicionar(linguagem);
-                MessageBox.Show("Dados salvos com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (cbIdiomasIdioma.SelectedIndex >= 0 && txIdiomasIdentificador.Text != "" && txIdiomasTexto.Text != "")
+                {
+                    Linguagens linguagem = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text);
+                    LinguagensDAO dao = new LinguagensDAO();
+                    dao.Adicionar(linguagem);
+                    CbIdiomasIdioma_SelectedIndexChanged(null, null);
+                    Limpar();
+                }
             }
+            else
+            {
 
-            //pitas ponha as msg de erro aki <3
+            }
+        }
+
+        private void Limpar()
+        {
+            txIdiomasIdentificador.Clear();
+            txIdiomasTexto.Clear();
+            txIdiomasIdentificador.Focus();
         }
 
         private void CbIdiomasIdioma_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,6 +158,34 @@ namespace Bot.Forms
                         dgIdiomasLista.Rows.Add(lin.stringIdentifier, lin.idString, lin.idiomaString.ToString(), lin.texto, (int)lin.idiomaString);
                     }
                 }
+            }
+        }
+
+        private void DgIdiomasLista_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dg = (DataGridView)sender;
+            if (dg.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                DataGridViewButtonColumn botaoColuna = (DataGridViewButtonColumn)dg.Columns[e.ColumnIndex];
+                if(botaoColuna.Name == "IdiomasRemover")
+                {
+                    DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
+                    Linguagens linguagens = new Linguagens(idString: Convert.ToUInt64(row.Cells["IdiomasID"].Value.ToString()));
+                    LinguagensDAO dao = new LinguagensDAO();
+                    dao.Deletar(linguagens);
+                    dgIdiomasLista.Rows.Remove(row);
+                }
+                else
+                {
+                    if(botaoColuna.Name == "IdiomasEditar")
+                    {
+                        DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
+                        txIdiomasIdentificador.Text = row.Cells["IdiomasIdentificador"].Value.ToString();
+                        txIdiomasTexto.Text = row.Cells["IdiomasTexto"].Value.ToString();
+                    }
+                }
+
+                
             }
         }
     }

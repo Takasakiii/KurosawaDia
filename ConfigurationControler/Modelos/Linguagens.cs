@@ -32,6 +32,11 @@ namespace ConfigurationControler.Modelos
             this.idiomaString = idiomaString;
         }
 
+        public Linguagens (ulong idString)
+        {
+            this.idString = idString;
+        }
+
         public void SetString (ulong idString, string texto)
         {
             this.idString = idString;

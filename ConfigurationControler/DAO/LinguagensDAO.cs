@@ -53,5 +53,15 @@ namespace ConfigurationControler.DAO
             }
             return Tuple.Create(result, resul);
         }
+
+        public void Deletar(Linguagens linguagens)
+        {
+            conexao.Open();
+            const string sql = "delete from Linguagens where idString = @id";
+            SqliteCommand cmd = new SqliteCommand(sql, conexao);
+            cmd.Parameters.AddWithValue("@id", linguagens.idString);
+            cmd.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }
