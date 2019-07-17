@@ -194,7 +194,7 @@ namespace Bot.Comandos
                     .WithTitle("Modulo Imagem (🖼)")
                     .WithDescription("Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤")
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`, `{(string)args[0]}magikavatar`")
+                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`, `{(string)args[0]}magikavatar`, `{(string)args[0]}magik`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
                     .WithImageUrl("https://i.imgur.com/cQqTUl1.png")
                 .Build()).GetAwaiter().GetResult();

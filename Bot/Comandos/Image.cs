@@ -177,7 +177,7 @@ namespace Bot.Comandos
 
             if(imgUrl != "")
             {
-                embed.WithDescription($"**{context.User}** estou fazendo magica com o avatar por-favor aguarde");
+                embed.WithDescription($"**{context.User}** estou fazendo magica com a imagem por-favor aguarde");
                 embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
                 IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
@@ -185,6 +185,7 @@ namespace Bot.Comandos
                 {
                     string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
                     userMsg.DeleteAsync();
+                    embed.WithDescription("");
                     embed.WithImageUrl(retorno);
                 }
                 catch
