@@ -63,5 +63,18 @@ namespace ConfigurationControler.DAO
             cmd.ExecuteNonQuery();
             conexao.Close();
         }
+
+        public void Atualisar(Linguagens linguagens)
+        {
+            conexao.Open();
+            const string sql = "update Linguagens set idiomaString = @idioma, stringIdentifier = @id, String = @txt where idString = @cod";
+            SqliteCommand cmd = new SqliteCommand(sql, conexao);
+            cmd.Parameters.AddWithValue("@idioma", (int)linguagens.idiomaString);
+            cmd.Parameters.AddWithValue("@id", linguagens.stringIdentifier);
+            cmd.Parameters.AddWithValue("@txt", linguagens.texto);
+            cmd.Parameters.AddWithValue("@cod", linguagens.idString);
+            cmd.ExecuteNonQuery();
+            conexao.Close();
+        }
     }
 }

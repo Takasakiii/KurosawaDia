@@ -133,7 +133,13 @@ namespace Bot.Forms
             }
             else
             {
+                Linguagens linguagens = new Linguagens ((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text, Convert.ToUInt32(btIdiomasSalvar.Tag));
+                LinguagensDAO dao = new LinguagensDAO();
+                dao.Atualisar(linguagens);
 
+                btIdiomasSalvar.Tag = "-1";
+                CbIdiomasIdioma_SelectedIndexChanged(null, null);
+                Limpar();
             }
         }
 
@@ -148,6 +154,8 @@ namespace Bot.Forms
         {
             if(cbIdiomasIdioma.SelectedIndex >= 0)
             {
+                dgIdiomasLista.Rows.Clear();
+
                 Linguagens linguagens = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex);
                 LinguagensDAO dao = new LinguagensDAO();
                 var retorno = dao.Listar(linguagens);
@@ -170,7 +178,7 @@ namespace Bot.Forms
                 if(botaoColuna.Name == "IdiomasRemover")
                 {
                     DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
-                    Linguagens linguagens = new Linguagens(idString: Convert.ToUInt64(row.Cells["IdiomasID"].Value.ToString()));
+                    Linguagens linguagens = new Linguagens(idString: Convert.ToUInt64(row.Cells["IdiomasID"].Value));
                     LinguagensDAO dao = new LinguagensDAO();
                     dao.Deletar(linguagens);
                     dgIdiomasLista.Rows.Remove(row);
@@ -182,6 +190,8 @@ namespace Bot.Forms
                         DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
                         txIdiomasIdentificador.Text = row.Cells["IdiomasIdentificador"].Value.ToString();
                         txIdiomasTexto.Text = row.Cells["IdiomasTexto"].Value.ToString();
+                        cbIdiomasIdioma.SelectedIndex = Convert.ToInt32(row.Cells["IdiomasIndex"].Value);
+                        btIdiomasSalvar.Tag = Convert.ToInt32(row.Cells["IdiomasID"].Value);
                     }
                 }
 
