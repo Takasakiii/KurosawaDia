@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Bot.Forms
 {
-    public partial class LogForm : Form 
+    public partial class LogForm : Form
     {
         Form Launcher;
         public LogForm(Form Launcher)
@@ -17,7 +17,7 @@ namespace Bot.Forms
         {
             try
             {
-                if(Created)
+                if (Created)
                 {
                     txLog.Invoke((MethodInvoker)delegate
                     {
@@ -65,7 +65,7 @@ namespace Bot.Forms
 
         private void LogForm_Resize(object sender, EventArgs e)
         {
-            if(((Form)sender).WindowState != FormWindowState.Normal)
+            if (((Form)sender).WindowState != FormWindowState.Normal)
             {
                 WindowState = FormWindowState.Minimized;
                 ShowInTaskbar = false;

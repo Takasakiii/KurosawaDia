@@ -1,6 +1,6 @@
-﻿using Bot.DataBase.ConfigDB.DAO;
-using Bot.DataBase.ConfigDB.Modelos;
-using Bot.Singletons;
+﻿using Bot.Singletons;
+using ConfigurationControler.DAO;
+using ConfigurationControler.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,26 +15,26 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(async () =>
             {
-                List<StatusConfig> status = new StatusDAO().getStatus();
+                List<Status> status = new StatusDAO().CarregarStatus().Item2;
                 do
                 {
                     for (int i = 0; i < status.Count; i++)
                     {
                         try
                         {
-                            switch (status[i].tipo)
+                            switch (status[i].status_tipo)
                             {
-                                case 0:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Playing);
+                                case Status.TiposDeStatus.Jogando:
+                                    await SingletonClient.client.SetGameAsync(status[i].status_jogo, status[i].status_url, Discord.ActivityType.Playing);
                                     break;
-                                case 1:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Streaming);
+                                case Status.TiposDeStatus.Live:
+                                    await SingletonClient.client.SetGameAsync(status[i].status_jogo, status[i].status_url, Discord.ActivityType.Streaming);
                                     break;
-                                case 2:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Listening);
+                                case Status.TiposDeStatus.Ouvindo:
+                                    await SingletonClient.client.SetGameAsync(status[i].status_jogo, status[i].status_url, Discord.ActivityType.Listening);
                                     break;
-                                case 3:
-                                    await SingletonClient.client.SetGameAsync(status[i].status, status[i].url, Discord.ActivityType.Watching);
+                                case Status.TiposDeStatus.Assistindo:
+                                    await SingletonClient.client.SetGameAsync(status[i].status_jogo, status[i].status_url, Discord.ActivityType.Watching);
                                     break;
                             }
                         }

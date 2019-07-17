@@ -117,7 +117,7 @@ namespace Bot.Comandos
                         }
                         catch
                         {
-                            embed.WithDescription("onii-chan esse não é um numero valido");
+                            embed.WithDescription($"**{context.User}** esse não é um numero");
                             embed.WithColor(Color.Red);
                         }
                     }

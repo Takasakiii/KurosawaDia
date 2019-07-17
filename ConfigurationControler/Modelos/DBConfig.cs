@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConfigurationControler.Modelos
+﻿namespace ConfigurationControler.Modelos
 {
     public class DBConfig
     {

@@ -1,8 +1,9 @@
 ﻿using Bot.Comandos;
-using Bot.DataBase.ConfigDB.Modelos;
 using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Bot.Singletons;
+using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -16,14 +17,14 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        private readonly AyuraConfig config;
+        private readonly DiaConfig config;
 
-        public MessageEvent(AyuraConfig config)
+        public MessageEvent(DiaConfig config)
         {
             this.config = config;
         }
 
-        public async Task MessageRecived(SocketMessage mensagem)
+        public Task MessageRecived(SocketMessage mensagem)
         {
             SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
             CommandContext commandContex = new CommandContext(SingletonClient.client, mensagemTratada);
@@ -32,7 +33,7 @@ namespace Bot.Nucleo.Eventos
             {
                 new Thread(() =>
                 {
-                    char[] prefix = config.prefix;
+                    char[] prefix = config.prefix.ToCharArray();
 
                     if (!commandContex.IsPrivate)
                     {
@@ -50,7 +51,7 @@ namespace Bot.Nucleo.Eventos
                         ACRs acr = new ACRsDAO().ResponderAcr(acrTmp);
                         if (acr.resposta != null)
                         {
-                            commandContex.Channel.SendMessageAsync(acr.resposta);
+                            new EmbedControl().SendMessage(commandContex, acr.resposta);
                         }
                     }
 
@@ -120,6 +121,7 @@ namespace Bot.Nucleo.Eventos
                 }).Start();
                 
             }
+            return Task.CompletedTask;
         }
     }
 }

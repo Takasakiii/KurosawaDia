@@ -1,5 +1,5 @@
-﻿using Bot.DataBase.ConfigDB.Modelos;
-using Bot.DataBase.ConfigDB.DAO;
+﻿using ConfigurationControler.DAO;
+using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
 using System;
@@ -14,12 +14,10 @@ namespace Bot.Comandos
     {
         private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
         {
-            ApiConfig ApiConfig = new ApiConfig(1);
-            ApiConfigDAO ApiDao = new ApiConfigDAO();
-            ApiConfig = ApiDao.Carregar(ApiConfig);
+            ApiConfig apiConfig = new ApiConfigDAO().Carregar();
 
             WeebClient weebClient = new WeebClient();
-            weebClient.Authenticate(ApiConfig.weebToken, TokenType.Wolke).GetAwaiter().GetResult();
+            weebClient.Authenticate(apiConfig.WeebToken, TokenType.Wolke).GetAwaiter().GetResult();
             RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
 
             EmbedBuilder embed = new EmbedBuilder();

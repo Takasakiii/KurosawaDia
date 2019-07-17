@@ -130,11 +130,21 @@ namespace Bot.Comandos
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
-                    string magikReturn = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
+                    try
+                    {
+                        string magikReturn = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
 
-                    embed.WithImageUrl(magikReturn);
-                    embed.WithDescription("");
-                    userMsg.DeleteAsync();
+                        embed.WithImageUrl(magikReturn);
+                        embed.WithDescription("");
+                        userMsg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        userMsg.DeleteAsync();
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                        embed.WithImageUrl(null);
+                    }
                 }
             }
             else
@@ -147,9 +157,53 @@ namespace Bot.Comandos
 
         }
 
-        public void holo(CommandContext context, object[] args)
+        public void magik(CommandContext context, object[] args)
         {
-            getImg(context, "Holo ❤", links.holo);
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string imgUrl = "";
+
+            if(msg != "")
+            {
+                imgUrl = msg;
+            }
+            else
+            {
+                imgUrl = context.Message.Attachments.First().Url;
+            }
+
+            if(imgUrl != "")
+            {
+                embed.WithDescription($"**{context.User}** estou fazendo magica com a imagem por-favor aguarde");
+                embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+
+                try
+                {
+                    string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
+                    userMsg.DeleteAsync();
+                    embed.WithDescription("");
+                    embed.WithImageUrl(retorno);
+                }
+                catch
+                {
+                    userMsg.DeleteAsync();
+                    embed.WithColor(Color.Red);
+                    embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                    embed.WithImageUrl(null);
+                }
+            }
+            else
+            {
+                embed.WithTitle("Você precisa me falar qual imagem você quer que eu faça magica");
+                embed.AddField("Uso do Comando:", $"`{(string)args[0]}magik <imagem>`");
+                embed.AddField("Exemplo: ", $"`{(string)args[0]}magik https://i.imgur.com/cZDlYXr.png`");
+                embed.WithColor(Color.Red);
+            }
+            context.Channel.SendMessageAsync(embed: embed.Build());
         }
     }
 }

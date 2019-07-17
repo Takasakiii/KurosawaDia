@@ -12,7 +12,7 @@ namespace LauncherGUI
 {
     public partial class LauncherGUI : Form
     {
-        
+
         public LauncherGUI()
         {
             InitializeComponent();
@@ -25,14 +25,13 @@ namespace LauncherGUI
 
             CheckButton();
         }
-        
-        
+
+
 
         private void BtIniciar_Click(object sender, EventArgs e)
         {
             //isso aki eh uma gambiarra fudida, pls consertar pq se n fudeu no futuro Xis De
-            SingletonConfig.localConfig = DB.localDB;
-            
+
 
 
             LogForm log = new LogForm(this);
