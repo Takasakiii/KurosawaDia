@@ -2,6 +2,7 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using static ConfigurationControler.Modelos.Linguagens;
 
 namespace Bot.Comandos
 {

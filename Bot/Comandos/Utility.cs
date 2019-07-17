@@ -179,7 +179,6 @@ namespace Bot.Comandos
             }
         }
 
-        //nome bem top
         public void simg(CommandContext context, object[] args)
         {
             if (!context.IsPrivate)

@@ -7,7 +7,7 @@
     <ProjectGuid>{3C6D7A06-8F63-47DB-B6DD-6A96A3FECAE4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Bot</RootNamespace>
-    <AssemblyName>Ayura</AssemblyName>
+    <AssemblyName>Kurosawa Dia</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ico11.ico</ApplicationIcon>
+    <ApplicationIcon>tumblr_p49oafRlGj1ubcx5fo5_250.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -285,6 +285,7 @@
     <Content Include="html\video.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tumblr_p49oafRlGj1ubcx5fo5_250.ico" />
     <None Include="Resources\NxAxES4.jpg" />
     <None Include="Resources\LLSS_S2Ep12_321.png" />
     <None Include="Resources\Shiro.png" />

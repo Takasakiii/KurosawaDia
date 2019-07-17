@@ -54,14 +54,14 @@ namespace Bot.Comandos
                             resposta = resposta_pergunta[1].Trim();
                         }
 
-                        embed.WithDescription($"**{context.User}** a reação customizada foi criada com sucesso");
-                        embed.AddField("Trigger: ", pergunta);
-                        embed.AddField("Reposta: ", resposta);
-                        embed.AddField("Codigo: ", codigo);
+                        embed.WithDescription($"**{context.User}** {StringCatch.GetString("acrCriadaOk", "a reação customizada foi criada com sucesso")}");
+                        embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
+                        embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
+                        embed.AddField(StringCatch.GetString("codigo", "Codigo: "), codigo);
                     }
                     else
                     {
-                        embed.WithTitle("Para adicionaru ma acr você precisa me falar o trigger e a resposta da acr");
+                        embed.WithTitle(StringCatch.GetString("", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da acr"));
                         embed.AddField("Uso do comando: ", $"`{(string)args[0]}acr trigger | resposta`");
                         embed.AddField("Exemplo: ", $"`{(string)args[0]}acr upei | boa corno`");
                         embed.WithColor(Color.Red);

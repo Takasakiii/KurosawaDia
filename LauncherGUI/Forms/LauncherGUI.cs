@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace LauncherGUI
+namespace Bot.Forms
 {
     public partial class LauncherGUI : Form
     {
@@ -48,7 +48,8 @@ namespace LauncherGUI
 
         private void BtConfiguracoes_Click(object sender, EventArgs e)
         {
-            ConfiguracoesForm config = new ConfiguracoesForm();
+            ConfiguracoesForm config = new ConfiguracoesForm(this);
+            Hide();
             config.ShowDialog();
         }
 
