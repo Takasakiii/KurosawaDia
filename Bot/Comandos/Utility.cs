@@ -38,16 +38,16 @@ namespace Bot.Comandos
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithAuthor($"{user}")
-                        .WithDescription(StringCatch.GetString("avatarMsg", $"[Link Direto]({avatarUrl})"))
+                        .WithDescription(StringCatch.GetString("avatarMsg", "[Link Direto]({0})", avatarUrl))
                         .WithImageUrl(avatarUrl)
                     .Build());
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("avatarErro", $"**{context.User}** não encontrei essa pessoa"))
-                            .AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("avatarUso", $"`{(string)args[0]}avatar @pessoa`"))
-                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemloAvatar", $"`{(string)args[0]}avatar @Hikari#3172`"))
+                            .WithDescription(StringCatch.GetString("avatarErro", "**{0}** não encontrei essa pessoa", context.User.ToString()))
+                            .AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("avatarUso", "`{0}avatar @pessoa`", (string)args[0]))
+                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemloAvatar", "`{0}avatar @Hikari#3172`", (string)args[0]))
                             .WithColor(Color.Red)
                      .Build());
                 }
@@ -60,14 +60,14 @@ namespace Bot.Comandos
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithAuthor($"{context.User}")
-                        .WithDescription(StringCatch.GetString("avatarMsg", $"[Link Direto]({avatar})"))
+                        .WithDescription(StringCatch.GetString("avatarMsg", "[Link Direto]({0})", avatar))
                         .WithImageUrl(avatar)
                     .Build());
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("avatarDm", $"**{context.User}** desculpa mas eu não consigo pegar o avatar de outras pessoas no privado 😔"))
+                            .WithDescription(StringCatch.GetString("avatarDm", "**{0}** desculpa mas eu não consigo pegar o avatar de outras pessoas no privado 😔", context.User.ToString()))
                             .WithColor(Color.Red)
                      .Build());
                 }
@@ -82,7 +82,7 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription(StringCatch.GetString("videoChamada", $"Para acessar o compartilhamento de tela basta [Clicar Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) 😀"))
+                        .WithDescription(StringCatch.GetString("videoChamada", "Para acessar o compartilhamento de tela basta [Clicar Aqui]({0}) 😀", $"https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}"))
                 .Build());
             }
             else
@@ -109,7 +109,7 @@ namespace Bot.Comandos
                 {
 
                     embed.WithTitle(emote.Name);
-                    embed.WithDescription(StringCatch.GetString("emoteLink", $"[Link Direto]({emote.Url})"));
+                    embed.WithDescription(StringCatch.GetString("emoteLink", "[Link Direto]({0})", emote.Url));
                     embed.WithImageUrl(emote.Url);
                 }
                 else
@@ -128,15 +128,15 @@ namespace Bot.Comandos
                     string unicode = http.GetSite($"https://www.emojidex.com/api/v1/emoji/{shortName}", "unicode");
 
                     embed.WithTitle(shortName);
-                    embed.WithDescription(StringCatch.GetString("emoteLinkUnicode", $"[Link Direto](https://twemoji.maxcdn.com/2/72x72/{unicode}.png)"));
+                    embed.WithDescription(StringCatch.GetString("emoteLinkUnicode", "[Link Direto]({0})", $"https://twemoji.maxcdn.com/2/72x72/{unicode}.png"));
                     embed.WithImageUrl($"https://twemoji.maxcdn.com/2/72x72/{unicode}.png");
                 }
             }
             catch
             {
                 embed.WithTitle(StringCatch.GetString("emoteInvalido", "O emoji que você tentou usar é inválido"));
-                embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("emoteUso", $"`{(string)args[0]}emote emoji`"));
-                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("emoteExeemplo", $"`{(string)args[0]}emote :kanna:`"));
+                embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("emoteUso", "`{0}emote emoji`", (string)args[0]));
+                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("emoteExeemplo", "`{0}emote :kanna:`", (string)args[0]));
                 embed.WithColor(Color.Red);
             }
 
@@ -163,9 +163,9 @@ namespace Bot.Comandos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** você precisa de me falar uma mensagem")
-                            .AddField("Uso do comando:", $"`{(string)args[0]}say <mensagem>`")
-                            .AddField("Uso do comando:", $"`{(string)args[0]}say @Sora#5614 cade o wallpaper?`")
+                            .WithDescription(StringCatch.GetString("sayErro", "**{0}** você precisa de me falar uma mensagem", context.User.ToString()))
+                            .AddField(StringCatch.GetString("usoCmd", "Uso do comando:"), StringCatch.GetString("usoSay", "`{0}say <mensagem>`", (string)args[0]))
+                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("ExemploSay", "`{0}say @Sora#5614 cade o wallpaper?`", (string)args[0]))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -173,7 +173,7 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription("você so pode usar esse comando em servidores")
+                        .WithDescription(StringCatch.GetString("sayDm", "você so pode usar esse comando em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -188,7 +188,7 @@ namespace Bot.Comandos
                     string url = $"{context.Guild.IconUrl}?size=2048";
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithTitle(context.Guild.Name)
-                            .WithDescription($"[Link Direto]({url})")
+                            .WithDescription(StringCatch.GetString("simgTxt", "[Link Direto]({0})", url))
                             .WithImageUrl(url)
                             .WithColor(Color.DarkPurple)
                         .Build());
@@ -196,15 +196,15 @@ namespace Bot.Comandos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** o servidor não tem um icone")
+                        .WithDescription(StringCatch.GetString("simgIconErro", "**{0}** o servidor não tem um icone", context.User.ToString()))
                         .WithColor(Color.Red)
-                    .Build());
+                    .Build()); ;
                 }
             }
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** esse comando so pode ser usado em servidores")
+                        .WithDescription(StringCatch.GetString("simgDm", "**{0}** esse comando so pode ser usado em servidores", context.User.ToString()))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -237,16 +237,16 @@ namespace Bot.Comandos
                     .Build());
 
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** sua sugestão foi enviada a o meu servidor")
+                        .WithDescription(StringCatch.GetString("sugestaoEnviada", "**{0}** sua sugestão foi enviada a o meu servidor", context.User.ToString()))
                         .WithColor(Color.DarkPurple)
                     .Build());
             }
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{context.User}** você precisa me falara uma sugestão")
-                        .AddField("Uso: ", $"`{args[0]}sugestao <sugestão>`")
-                        .AddField("Exemplo: ", $"`{args[0]}sugestao fazer com que o bot ficasse mais tempo on`")
+                        .WithDescription(StringCatch.GetString("sugestaoFalar", "**{0}** você precisa me falara uma sugestão", context.User.ToString()))
+                        .AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoSugestao", "`{0}sugestao <sugestão>`", (string)args[0]))
+                        .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}sugestao fazer com que o bot ficasse mais tempo on`" ,(string)args[0]))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -262,8 +262,8 @@ namespace Bot.Comandos
                 if (msg != "")
                 {
                     IUserMessage message = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** você quer mudar o prefixo?")
-                            .WithFooter("se não apenas ignore essa mensagem")
+                            .WithDescription(StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", context.User))
+                            .WithFooter(StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
                             .WithColor(Color.DarkPurple)
                         .Build()).GetAwaiter().GetResult();
 
@@ -279,7 +279,7 @@ namespace Bot.Comandos
 
                         message.DeleteAsync();
                         context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{context.User}** o prefixo do servidor foi alterado de: `{args[0]}` para: `{new string(prefix)}`")
+                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(prefix)))
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }, context, args));
@@ -287,9 +287,9 @@ namespace Bot.Comandos
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** você precisa me falar um prefixo")
-                            .AddField("Uso: ", $"`{args[0]}setprefix <prefixo>`")
-                            .AddField("Exemplo: ", $"`{args[0]}setprefix !`")
+                            .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", context.User.ToString()))
+                            .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)args[0]))
+                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)args[0]))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -298,7 +298,7 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription("Esse comando so pode ser usado em servidores")
+                        .WithDescription(StringCatch.GetString("setprefixDm", "Esse comando so pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
