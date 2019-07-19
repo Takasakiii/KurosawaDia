@@ -54,28 +54,28 @@ namespace Bot.Comandos
                             resposta = resposta_pergunta[1].Trim();
                         }
 
-                        embed.WithDescription($"**{context.User}** {StringCatch.GetString("acrCriadaOk", "a reação customizada foi criada com sucesso")}");
+                        embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", context.User.ToString()));
                         embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
                         embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
                         embed.AddField(StringCatch.GetString("codigo", "Codigo: "), codigo);
                     }
                     else
                     {
-                        embed.WithTitle(StringCatch.GetString("", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da acr"));
-                        embed.AddField("Uso do comando: ", $"`{(string)args[0]}acr trigger | resposta`");
-                        embed.AddField("Exemplo: ", $"`{(string)args[0]}acr upei | boa corno`");
+                        embed.WithTitle(StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
+                        embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", (string)args[0]));
+                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", (string)args[0]));
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithDescription($"**{context.User}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕");
+                    embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", context.User.ToString()));
                     embed.WithColor(Color.Red);
                 }
             }
             else
             {
-                embed.WithDescription("Esse comando so pode ser usado em servidores");
+                embed.WithDescription(StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
             }
 
@@ -107,37 +107,37 @@ namespace Bot.Comandos
 
                             if (new ACRsDAO().DeletarAcr(acr))
                             {
-                                embed.WithDescription($"**{context.User}** a acr com o id: `{codigo}` foi deletada do servidor");
+                                embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", context.User.ToString(), codigo));
                             }
                             else
                             {
-                                embed.WithDescription($"**{context.User}** não foi encontrada nenhuma acr com esse id no servidor");
+                                embed.WithDescription(StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", context.User.ToString()));
                             }
 
                         }
                         catch
                         {
-                            embed.WithDescription($"**{context.User}** esse não é um numero");
+                            embed.WithDescription(StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", context.User.ToString()));
                             embed.WithColor(Color.Red);
                         }
                     }
                     else
                     {
-                        embed.WithTitle("Você me precisa falar o codigo da acr para que eu possa deletar ela");
-                        embed.AddField("Uso do Comando: ", $"`{(string)args[0]}dcr <codigo>`");
-                        embed.AddField("Exemplo: ", $"`{(string)args[0]}dcr 1`");
+                        embed.WithTitle(StringCatch.GetString("dcrSemCodio", "Você me precisa falar o codigo da reação customizada para que eu possa deletar ela"));
+                        embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoDcr", "`{0}dcr <codigo>`",(string)args[0]));
+                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploDcr", "`{0}dcr 1`", (string)args[0]));
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithDescription($"**{context.User}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕");
+                    embed.WithDescription(StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", context.User.ToString()));
                     embed.WithColor(Color.Red);
                 }
             }
             else
             {
-                embed.WithDescription("Esse comando so pode ser usado em servidores");
+                embed.WithDescription(StringCatch.GetString("dcrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
             }
 
@@ -173,14 +173,14 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription($"**{context.User}** o servidor não tem nenhuma acr");
+                    embed.WithDescription(StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", context.User.ToString()));
                     embed.WithColor(Color.Red);
                     context.Channel.SendMessageAsync(embed: embed.Build());
                 }
             }
             else
             {
-                embed.WithDescription("Esse comando so pode ser usado em servidores");
+                embed.WithDescription(StringCatch.GetString("lcrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
                 context.Channel.SendMessageAsync(embed: embed.Build());
             }
@@ -220,9 +220,9 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                  msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Reações Personalizadas")
-                    .AddField("Codigos: ", retornoStrings.Item1, true)
-                    .AddField("Triggers: ", retornoStrings.Item2, true)
+                    .WithTitle(StringCatch.GetString("lcrTxt", "Lista das Reações Customizadas:"))
+                    .AddField(StringCatch.GetString("lcrCods", "Codigos: "), retornoStrings.Item1, true)
+                    .AddField(StringCatch.GetString("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
                     .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
                     .WithColor(Color.DarkPurple)
                     .Build()).GetAwaiter().GetResult();
