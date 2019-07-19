@@ -22,19 +22,28 @@ namespace Bot.Extensions
         }
 
 
-        public static string GetString(string identificador, string respostaPadrao)
+        public static string GetString(string identificador, string respostaPadrao, params object[] addon)
         {
             Linguagens linguagens = new Linguagens(idiomaSelecionado, identificador);
             LinguagensDAO dao = new LinguagensDAO();
             var result = dao.GetString(linguagens);
+
+            string rest = "";
             if (result.Item1)
             {
-                return result.Item2.texto;
+                rest = result.Item2.texto;
             }
             else
             {
-                return respostaPadrao;
+                rest = respostaPadrao;
             }
+
+            if (addon.Length > 0)
+            {
+                rest = String.Format(rest, addon);
+            }
+
+            return rest;
         }
     }
 }
