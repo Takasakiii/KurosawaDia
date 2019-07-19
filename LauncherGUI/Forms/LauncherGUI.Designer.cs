@@ -1,4 +1,4 @@
-﻿namespace LauncherGUI
+﻿namespace Bot.Forms
 {
     partial class LauncherGUI
     {

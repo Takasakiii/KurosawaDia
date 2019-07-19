@@ -1,8 +1,5 @@
 ﻿using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static ConfigurationControler.Modelos.Linguagens;
 
 namespace Bot.Extensions

@@ -8,10 +8,11 @@ namespace Bot.Forms
 {
     public partial class ConfiguracoesForm : Form
     {
-
-        public ConfiguracoesForm()
+        Form gui = null;
+        public ConfiguracoesForm(Form gui)
         {
             InitializeComponent();
+            this.gui = gui;
         }
 
         private void BtPicInicializarSalvar_Click(object sender, EventArgs e)
@@ -197,6 +198,11 @@ namespace Bot.Forms
 
                 
             }
+        }
+
+        private void ConfiguracoesForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            gui.Show();
         }
     }
 }

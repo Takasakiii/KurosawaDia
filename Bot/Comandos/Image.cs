@@ -177,23 +177,31 @@ namespace Bot.Comandos
 
             if(imgUrl != "")
             {
-                embed.WithDescription($"**{context.User}** estou fazendo magica com a imagem por-favor aguarde");
-                embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
-                IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                if (!imgUrl.EndsWith(".gif"))
+                {
+                    embed.WithDescription($"**{context.User}** estou fazendo magica com a imagem por-favor aguarde");
+                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                    IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
-                try
-                {
-                    string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                    userMsg.DeleteAsync();
-                    embed.WithDescription("");
-                    embed.WithImageUrl(retorno);
+                    try
+                    {
+                        string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
+                        userMsg.DeleteAsync();
+                        embed.WithDescription("");
+                        embed.WithImageUrl(retorno);
+                    }
+                    catch
+                    {
+                        userMsg.DeleteAsync();
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                        embed.WithImageUrl(null);
+                    }
                 }
-                catch
+                else
                 {
-                    userMsg.DeleteAsync();
+                    embed.WithDescription(StringCatch.GetString("magikGif", $"**{context.User}** eu não posso fazer magica com gifs 😔"));
                     embed.WithColor(Color.Red);
-                    embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
-                    embed.WithImageUrl(null);
                 }
             }
             else

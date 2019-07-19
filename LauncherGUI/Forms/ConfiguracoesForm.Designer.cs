@@ -71,16 +71,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txStatusStatus = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.dgIdiomasLista = new System.Windows.Forms.DataGridView();
-            this.txIdiomasIdentificador = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.cbIdiomasIdioma = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txIdiomasTexto = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.btIdiomasSalvar = new System.Windows.Forms.Button();
             this.IdiomasIdentificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasIdioma = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,6 +79,15 @@
             this.IdiomasIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdiomasEditar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.IdiomasRemover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btIdiomasSalvar = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txIdiomasTexto = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cbIdiomasIdioma = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txIdiomasIdentificador = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -98,8 +98,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtStatusEdit)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgIdiomasLista)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -506,22 +506,6 @@
             this.tabPage3.Text = "Idiomas";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.btIdiomasSalvar);
-            this.groupBox5.Controls.Add(this.label17);
-            this.groupBox5.Controls.Add(this.txIdiomasTexto);
-            this.groupBox5.Controls.Add(this.label16);
-            this.groupBox5.Controls.Add(this.cbIdiomasIdioma);
-            this.groupBox5.Controls.Add(this.label14);
-            this.groupBox5.Controls.Add(this.txIdiomasIdentificador);
-            this.groupBox5.Location = new System.Drawing.Point(6, 6);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(377, 154);
-            this.groupBox5.TabIndex = 0;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Adicionar/Editar:";
-            // 
             // dgIdiomasLista
             // 
             this.dgIdiomasLista.AllowUserToAddRows = false;
@@ -539,84 +523,6 @@
             this.dgIdiomasLista.Size = new System.Drawing.Size(377, 351);
             this.dgIdiomasLista.TabIndex = 1;
             this.dgIdiomasLista.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgIdiomasLista_CellContentClick);
-            // 
-            // txIdiomasIdentificador
-            // 
-            this.txIdiomasIdentificador.Location = new System.Drawing.Point(78, 19);
-            this.txIdiomasIdentificador.Name = "txIdiomasIdentificador";
-            this.txIdiomasIdentificador.Size = new System.Drawing.Size(108, 20);
-            this.txIdiomasIdentificador.TabIndex = 0;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 22);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(68, 13);
-            this.label14.TabIndex = 1;
-            this.label14.Text = "Identificador:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(820, 548);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(123, 13);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "Bot by Takasaki 2k19 ©";
-            // 
-            // cbIdiomasIdioma
-            // 
-            this.cbIdiomasIdioma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbIdiomasIdioma.FormattingEnabled = true;
-            this.cbIdiomasIdioma.Items.AddRange(new object[] {
-            "Portugues",
-            "Inglês",
-            "Espanhol",
-            "Russo"});
-            this.cbIdiomasIdioma.Location = new System.Drawing.Point(239, 19);
-            this.cbIdiomasIdioma.Name = "cbIdiomasIdioma";
-            this.cbIdiomasIdioma.Size = new System.Drawing.Size(132, 21);
-            this.cbIdiomasIdioma.TabIndex = 2;
-            this.cbIdiomasIdioma.SelectedIndexChanged += new System.EventHandler(this.CbIdiomasIdioma_SelectedIndexChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(192, 22);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(41, 13);
-            this.label16.TabIndex = 3;
-            this.label16.Text = "Idioma:";
-            // 
-            // txIdiomasTexto
-            // 
-            this.txIdiomasTexto.Location = new System.Drawing.Point(9, 68);
-            this.txIdiomasTexto.Multiline = true;
-            this.txIdiomasTexto.Name = "txIdiomasTexto";
-            this.txIdiomasTexto.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txIdiomasTexto.Size = new System.Drawing.Size(362, 51);
-            this.txIdiomasTexto.TabIndex = 4;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 52);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(37, 13);
-            this.label17.TabIndex = 5;
-            this.label17.Text = "Texto:";
-            // 
-            // btIdiomasSalvar
-            // 
-            this.btIdiomasSalvar.Location = new System.Drawing.Point(296, 125);
-            this.btIdiomasSalvar.Name = "btIdiomasSalvar";
-            this.btIdiomasSalvar.Size = new System.Drawing.Size(75, 23);
-            this.btIdiomasSalvar.TabIndex = 6;
-            this.btIdiomasSalvar.Tag = "-1";
-            this.btIdiomasSalvar.Text = "Salvar";
-            this.btIdiomasSalvar.UseVisualStyleBackColor = true;
-            this.btIdiomasSalvar.Click += new System.EventHandler(this.BtIdiomasSalvar_Click);
             // 
             // IdiomasIdentificador
             // 
@@ -662,6 +568,100 @@
             this.IdiomasRemover.Name = "IdiomasRemover";
             this.IdiomasRemover.ReadOnly = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btIdiomasSalvar);
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Controls.Add(this.txIdiomasTexto);
+            this.groupBox5.Controls.Add(this.label16);
+            this.groupBox5.Controls.Add(this.cbIdiomasIdioma);
+            this.groupBox5.Controls.Add(this.label14);
+            this.groupBox5.Controls.Add(this.txIdiomasIdentificador);
+            this.groupBox5.Location = new System.Drawing.Point(6, 6);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(377, 154);
+            this.groupBox5.TabIndex = 0;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Adicionar/Editar:";
+            // 
+            // btIdiomasSalvar
+            // 
+            this.btIdiomasSalvar.Location = new System.Drawing.Point(296, 125);
+            this.btIdiomasSalvar.Name = "btIdiomasSalvar";
+            this.btIdiomasSalvar.Size = new System.Drawing.Size(75, 23);
+            this.btIdiomasSalvar.TabIndex = 6;
+            this.btIdiomasSalvar.Tag = "-1";
+            this.btIdiomasSalvar.Text = "Salvar";
+            this.btIdiomasSalvar.UseVisualStyleBackColor = true;
+            this.btIdiomasSalvar.Click += new System.EventHandler(this.BtIdiomasSalvar_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 52);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(37, 13);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "Texto:";
+            // 
+            // txIdiomasTexto
+            // 
+            this.txIdiomasTexto.Location = new System.Drawing.Point(9, 68);
+            this.txIdiomasTexto.Multiline = true;
+            this.txIdiomasTexto.Name = "txIdiomasTexto";
+            this.txIdiomasTexto.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txIdiomasTexto.Size = new System.Drawing.Size(362, 51);
+            this.txIdiomasTexto.TabIndex = 4;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(192, 22);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 13);
+            this.label16.TabIndex = 3;
+            this.label16.Text = "Idioma:";
+            // 
+            // cbIdiomasIdioma
+            // 
+            this.cbIdiomasIdioma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbIdiomasIdioma.FormattingEnabled = true;
+            this.cbIdiomasIdioma.Items.AddRange(new object[] {
+            "Portugues",
+            "Inglês",
+            "Espanhol",
+            "Russo"});
+            this.cbIdiomasIdioma.Location = new System.Drawing.Point(239, 19);
+            this.cbIdiomasIdioma.Name = "cbIdiomasIdioma";
+            this.cbIdiomasIdioma.Size = new System.Drawing.Size(132, 21);
+            this.cbIdiomasIdioma.TabIndex = 2;
+            this.cbIdiomasIdioma.SelectedIndexChanged += new System.EventHandler(this.CbIdiomasIdioma_SelectedIndexChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 22);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(68, 13);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Identificador:";
+            // 
+            // txIdiomasIdentificador
+            // 
+            this.txIdiomasIdentificador.Location = new System.Drawing.Point(78, 19);
+            this.txIdiomasIdentificador.Name = "txIdiomasIdentificador";
+            this.txIdiomasIdentificador.Size = new System.Drawing.Size(108, 20);
+            this.txIdiomasIdentificador.TabIndex = 0;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(820, 548);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(123, 13);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "Bot by Takasaki 2k19 ©";
+            // 
             // ConfiguracoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -678,6 +678,7 @@
             this.Name = "ConfiguracoesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kurosawa Dia - Configurações";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfiguracoesForm_FormClosed);
             this.Load += new System.EventHandler(this.ConfiguracoesForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -694,9 +695,9 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgIdiomasLista)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgIdiomasLista)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
