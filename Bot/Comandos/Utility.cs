@@ -38,16 +38,16 @@ namespace Bot.Comandos
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithAuthor($"{user}")
-                        .WithDescription($"[Link Direto]({avatarUrl})")
+                        .WithDescription(StringCatch.GetString("avatarMsg", $"[Link Direto]({avatarUrl})"))
                         .WithImageUrl(avatarUrl)
                     .Build());
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** não encontrei essa pessoa")
-                            .AddField("Uso do Comando: ", $"`{(string)args[0]}avatar @pessoa`")
-                            .AddField("Exemplo: ", $"`{(string)args[0]}avatar @Hikari#3172`")
+                            .WithDescription(StringCatch.GetString("avatarErro", $"**{context.User}** não encontrei essa pessoa"))
+                            .AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("avatarUso", $"`{(string)args[0]}avatar @pessoa`"))
+                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemloAvatar", $"`{(string)args[0]}avatar @Hikari#3172`"))
                             .WithColor(Color.Red)
                      .Build());
                 }
@@ -60,14 +60,14 @@ namespace Bot.Comandos
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithAuthor($"{context.User}")
-                        .WithDescription($"[Link Direto]({avatar})")
+                        .WithDescription(StringCatch.GetString("avatarMsg", $"[Link Direto]({avatar})"))
                         .WithImageUrl(avatar)
                     .Build());
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{context.User}** desculpa mas eu não consigo pegar o avatar de outras pessoas no privado 😔")
+                            .WithDescription(StringCatch.GetString("avatarDm", $"**{context.User}** desculpa mas eu não consigo pegar o avatar de outras pessoas no privado 😔"))
                             .WithColor(Color.Red)
                      .Build());
                 }
@@ -82,14 +82,14 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription($"Para acessar o compartilhamento de tela basta [Clicar Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) 😀")
+                        .WithDescription(StringCatch.GetString("videoChamada", $"Para acessar o compartilhamento de tela basta [Clicar Aqui](https://discordapp.com/channels/{context.Guild.Id}/{usr.VoiceChannel.Id}) 😀"))
                 .Build());
             }
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithDescription("você precisa estar em um canal de voz e em um servidor para usar esse comando")
+                        .WithDescription(StringCatch.GetString("videoChamadaDm", "você precisa estar em um canal de voz e em um servidor para usar esse comando"))
                 .Build());
             }
         }
@@ -109,7 +109,7 @@ namespace Bot.Comandos
                 {
 
                     embed.WithTitle(emote.Name);
-                    embed.WithDescription($"[Link Direto]({emote.Url})");
+                    embed.WithDescription(StringCatch.GetString("emoteLink", $"[Link Direto]({emote.Url})"));
                     embed.WithImageUrl(emote.Url);
                 }
                 else
@@ -128,15 +128,15 @@ namespace Bot.Comandos
                     string unicode = http.GetSite($"https://www.emojidex.com/api/v1/emoji/{shortName}", "unicode");
 
                     embed.WithTitle(shortName);
-                    embed.WithDescription($"[Link Direto](https://twemoji.maxcdn.com/2/72x72/{unicode}.png)");
+                    embed.WithDescription(StringCatch.GetString("emoteLinkUnicode", $"[Link Direto](https://twemoji.maxcdn.com/2/72x72/{unicode}.png)"));
                     embed.WithImageUrl($"https://twemoji.maxcdn.com/2/72x72/{unicode}.png");
                 }
             }
             catch
             {
-                embed.WithDescription($"**{context.User}** o emoji que você tentou usar é inválido");
-                embed.AddField("Uso do comando: ", $"`{(string)args[0]}emote emoji`");
-                embed.AddField("Exemplo: ", $"`{(string)args[0]}emote :kanna:`");
+                embed.WithTitle(StringCatch.GetString("emoteInvalido", "O emoji que você tentou usar é inválido"));
+                embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("emoteUso", $"`{(string)args[0]}emote emoji`"));
+                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("emoteExeemplo", $"`{(string)args[0]}emote :kanna:`"));
                 embed.WithColor(Color.Red);
             }
 
