@@ -69,11 +69,6 @@ namespace Bot.Comandos
             }).Start();
         }
 
-        public void neko(CommandContext context, object[] args)
-        {
-            getImg(context, "Um pouco de meninas gato (ou gatos com skin) sempre faz bem", links.neko);
-        }
-
         public void cat(CommandContext context, object[] args)
         {
             getImg(context, "Meow", links.cat);
@@ -81,12 +76,7 @@ namespace Bot.Comandos
 
         public void dog(CommandContext context, object[] args)
         {
-            getImg(context, "Meow", links.dog);
-        }
-
-        public void img(CommandContext context, object[] args)
-        {
-            getImg(context, "Uma simples imagem pra usar onde quiser", links.img);
+            getImg(context, img:links.dog);
         }
 
         public void magikavatar(CommandContext context, object[] args)

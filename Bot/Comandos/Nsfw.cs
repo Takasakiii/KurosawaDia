@@ -7,38 +7,13 @@ namespace Bot.Comandos
     {
         public void hentai(CommandContext context, object[] args)
         {
-            Tuple<string, string>[] tuple =
-            {
-                links.hentai,
-                links.nsfw_hentai_gif,
-                links.lewdk
-            };
-
-            getImg(context, imgs: tuple, nsfw: true);
+            getImg(context, img: links.hentai, nsfw: true);
         }
 
         public void hentaibomb(CommandContext context, object[] args)
         {
 
-            Tuple<string, string>[] tuple =
-            {
-                links.hentai,
-                links.nsfw_hentai_gif,
-                links.lewdk
-            };
-
-            getImg(context, imgs: tuple, nsfw: true, quantidade: 5);
-        }
-
-        public void hneko(CommandContext context, object[] args)
-        {
-            Tuple<string, string>[] tuple =
-            {
-                links.nsfw_hentai_gif,
-                links.lewdk
-            };
-
-            getImg(context, imgs: tuple, nsfw: true);
+            getImg(context, img: links.hentai, nsfw: true, quantidade: 5);
         }
 
         public void anal(CommandContext context, object[] args)
