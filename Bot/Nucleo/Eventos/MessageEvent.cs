@@ -123,5 +123,48 @@ namespace Bot.Nucleo.Eventos
             }
             return Task.CompletedTask;
         }
+
+        private void CriarSessaoComandos(SocketMessage message)
+        {
+            new Thread(() =>
+            {
+                SocketUserMessage socketUserMessage = message as SocketUserMessage;
+                CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
+                FiltrarMensagens(contexto);
+            }).Start();
+        }
+
+        private void FiltrarMensagens(CommandContext contexto)
+        {
+            if (!contexto.User.IsBot)
+            {
+                if (!contexto.IsPrivate)
+                {
+                    Servidores servidores = PegarPrefixo(contexto);
+                }
+            }
+        }
+
+        private Servidores PegarPrefixo(CommandContext contexto)
+        {
+            Servidores servFinal = new Servidores(contexto.Guild.Id);
+            servFinal.SetPrefix(config.prefix.ToCharArray());
+            Servidores servidores = servFinal;
+            servidores = new ServidoresDAO().GetPrefix(servidores);
+            if (servidores.prefix != null)
+            {
+                servFinal = servidores;
+            }
+
+            return servFinal;
+        }
+
+        private Tuple<bool, ACRs> GerirACR(CommandContext contexto, Servidores servidor)
+        {
+            bool retorno = false;
+            ACRs aCRs = new ACRs();
+            aCRs.SetTrigger(contexto.Message.Content, servidor);
+            aCRs = new ACRsDAO().ResponderAcr(aCRs);
+        }
     }
 }
