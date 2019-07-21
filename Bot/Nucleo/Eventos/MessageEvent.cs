@@ -51,7 +51,7 @@ namespace Bot.Nucleo.Eventos
         {
             if (!contexto.User.IsBot)
             {
-                if (!contexto.IsPrivate)
+                if (true)
                 {
                     CadastrarServidorUsuarioAsync(contexto);
                     Servidores servidores = PegarPrefixo(contexto);
@@ -119,7 +119,7 @@ namespace Bot.Nucleo.Eventos
             comando = stringComando[0];
             object[] args = new object[3];
             args[0] = new string(servidor.prefix);
-            args[1] = comando;
+            args[1] = stringComando;
             args[2] = new List<object>();
             return args;
         }
