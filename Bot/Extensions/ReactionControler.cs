@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Bot.Extensions
 {
@@ -25,15 +26,25 @@ namespace Bot.Extensions
             ThreadLife = false;
         }
 
-        public void GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod, int tempoAnalise = 60)
+        public void GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod, int tempoAnalise = 60, bool addEmoji = true)
         {
+            if (addEmoji)
+            {
+                RequestOptions request = new RequestOptions();
+                request.RetryMode = RetryMode.AlwaysRetry;
+                mensagem.AddReactionAsync(emoji, request);
+            }
+            
             Thread processo = new Thread(() =>
             {
                 bool gatilho = false;
+ 
+
                 do
                 {
                     try
                     {
+                        
                         List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
                         if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
                         {

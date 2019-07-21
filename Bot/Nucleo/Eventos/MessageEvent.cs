@@ -51,42 +51,49 @@ namespace Bot.Nucleo.Eventos
         {
             if (!contexto.User.IsBot)
             {
-                if (true)
+                CadastrarServidorUsuarioAsync(contexto);
+                Servidores servidores = PegarPrefixo(contexto);
+                string comandoSemPrefix = null;
+                if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
                 {
-                    CadastrarServidorUsuarioAsync(contexto);
-                    Servidores servidores = PegarPrefixo(contexto);
-                    string comandoSemPrefix = null;
-                    if(SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
+                    CallComando(comandoSemPrefix, servidores, contexto);
+                }
+                else
+                {
+                    if (IsMentionCall(contexto))
                     {
-                        CallComando(comandoSemPrefix, servidores, contexto);
+                        new Ajuda().MentionMessage(contexto, servidores);
                     }
                     else
                     {
-                        if (IsMentionCall(contexto))
-                        {
-                            new Ajuda().MentionMessage(contexto, servidores);
-                        }
-                        else
-                        {
-                            new CustomReactions().TriggerACR(contexto, servidores);
-                        }
-                        
+                        new CustomReactions().TriggerACR(contexto, servidores);
                     }
+
                 }
             }
         }
 
         private Servidores PegarPrefixo(CommandContext contexto)
         {
-            Servidores servFinal = new Servidores(contexto.Guild.Id);
-            servFinal.SetPrefix(config.prefix.ToCharArray());
-            Servidores servidores = servFinal;
-            if (new ServidoresDAO().GetPrefix(ref servidores))
+            if (!contexto.IsPrivate)
             {
-                servFinal = servidores;
+                Servidores servFinal = new Servidores(contexto.Guild.Id);
+                servFinal.SetPrefix(config.prefix.ToCharArray());
+                Servidores servidores = servFinal;
+                if (new ServidoresDAO().GetPrefix(ref servidores))
+                {
+                    servFinal = servidores;
+                }
+                return servFinal;
+            }
+            else
+            {
+                Servidores servidores = new Servidores(0);
+                servidores.SetPrefix(config.prefix.ToCharArray());
+                return servidores;
             }
 
-            return servFinal;
+            
         }
 
 
@@ -107,10 +114,13 @@ namespace Bot.Nucleo.Eventos
 
         private void CadastrarServidorUsuarioAsync(CommandContext context)
         {
-            new Thread(() =>
+            if (!context.IsPrivate)
             {
-                new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
-            }).Start();
+                new Thread(() =>
+                {
+                    new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+                }).Start();
+            }
         }
 
         private object[] CriadorDoArgs(string messagemSemPrefixo, ref string comando, Servidores servidor)

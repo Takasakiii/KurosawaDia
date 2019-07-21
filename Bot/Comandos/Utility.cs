@@ -8,8 +8,7 @@ using System;
 
 namespace Bot.Comandos
 {
-    //o jogo :D
-    //eu vo mata the corno q pos isso aqui
+
     public class Utility : Weeb
     {
         public void avatar(CommandContext context, object[] args)
@@ -268,7 +267,6 @@ namespace Bot.Comandos
                         .Build()).GetAwaiter().GetResult();
 
                     Emoji emoji = new Emoji("✅");
-                    message.AddReactionAsync(emoji);
 
                     ReactionControler reaction = new ReactionControler();
                     reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) => {
