@@ -14,21 +14,9 @@ namespace Bot.DataBase.MainDB.DAO
             conexao = new MySqlConstructor().Conectar();
         }
 
-        public void inserirServidorUsuario(Servidores servidor, Usuarios usuario)
-        {
-            const string sql = "call inserirServidor_Usuario(@sid, @snome, @uid, @unome)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+        
 
-            cmd.Parameters.AddWithValue("@sid", servidor.id);
-            cmd.Parameters.AddWithValue("@snome", servidor.nome);
-            cmd.Parameters.AddWithValue("@uid", usuario.id);
-            cmd.Parameters.AddWithValue("@unome", usuario.nome);
-
-            cmd.ExecuteNonQuery();
-            conexao.Close();            
-        }
-
-        public Servidores GetPrefix(Servidores servidor)
+        public bool GetPrefix(ref Servidores servidor)
         {
             const string sql = "call buscarPrefix(@id)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
@@ -42,16 +30,17 @@ namespace Bot.DataBase.MainDB.DAO
                 prefix = rs["prefix_servidor"].ToString();
             }
             char[] prefixChar = null;
-
+            bool returno = false;
             if(prefix != "" && prefix != null)
             {
                 prefixChar = prefix.ToCharArray();
+                servidor.SetPrefix(prefixChar);
+                returno = true;
             }
 
             rs.Close();
             conexao.Close();
-            servidor.SetPrefix(prefixChar);
-            return servidor;
+            return returno;
         }
 
         public Servidores SetServidorPrefix(Servidores servidor)

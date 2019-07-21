@@ -1,7 +1,11 @@
-﻿using Bot.Extensions;
+﻿using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
+using Bot.Singletons;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
+using System.Reflection;
 
 namespace Bot.Comandos
 {
@@ -225,7 +229,33 @@ namespace Bot.Comandos
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
+
+        public void MessageEventExceptions(Exception e, CommandContext contexto, Servidores servidor)
+        {
+            if(e is NullReferenceException || e is AmbiguousMatchException)
+            {
+                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.prefix)))
+                    .WithColor(Color.DarkPurple)
+                    .Build());
+            }
+            else
+            {
+                MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
+                object[] parms = new object[1];
+                parms[0] = e.ToString();
+                metodo.Invoke(SingletonLogs.instanced, parms);
+            }
+        }
+
+        public void MentionMessage(CommandContext context, Servidores servidores)
+        {
+            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", context.User.Username, new string(servidores.prefix)))
+                .WithColor(Color.DarkPurple)
+                .Build());
+        }
     }
 
-    //gay
+
 }

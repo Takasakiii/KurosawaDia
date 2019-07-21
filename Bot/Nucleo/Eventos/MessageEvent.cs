@@ -17,6 +17,13 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
+        //MessageEvent v2 by Takasaki Masoquista do krai
+
+        //configuracoes do MessageEvent
+        private readonly CustomReactions lastClassComands = new CustomReactions();
+        
+        
+        //Dependencia do MessagemEvent
         private readonly DiaConfig config;
 
         public MessageEvent(DiaConfig config)
@@ -26,102 +33,8 @@ namespace Bot.Nucleo.Eventos
 
         public Task MessageRecived(SocketMessage mensagem)
         {
-            SocketUserMessage mensagemTratada = mensagem as SocketUserMessage;
-            CommandContext commandContex = new CommandContext(SingletonClient.client, mensagemTratada);
-
-            if (!mensagem.Author.IsBot)
-            {
-                new Thread(() =>
-                {
-                    char[] prefix = config.prefix.ToCharArray();
-
-                    if (!commandContex.IsPrivate)
-                    {
-                        Servidores serv = new Servidores(commandContex.Guild.Id);
-                        char[] tmp = new ServidoresDAO().GetPrefix(serv);
-
-                        if (tmp != null)
-                        {
-                            prefix = tmp;
-                        }
-
-                        ACRs acrTmp = new ACRs();
-                        acrTmp.SetTrigger(commandContex.Message.Content, new Servidores(commandContex.Guild.Id));
-
-                        ACRs acr = new ACRsDAO().ResponderAcr(acrTmp);
-                        if (acr.resposta != null)
-                        {
-                            new EmbedControl().SendMessage(commandContex, acr.resposta);
-                        }
-                    }
-
-                    int argPos = 0;
-                    if (mensagemTratada.HasStringPrefix(new string(prefix), ref argPos))
-                    {
-                        string messageSemPrefix = mensagem.Content.Substring(prefix.Length);
-
-                        if (messageSemPrefix != "" && messageSemPrefix[0] != prefix[0])
-                        {
-                            try
-                            {
-                                if (!commandContex.IsPrivate)
-                                {
-                                    new Thread(() =>
-                                    {
-                                        Servidores servi = new Servidores(commandContex.Guild.Id, commandContex.Guild.Name);
-                                        Usuarios usuario = new Usuarios();
-                                        usuario.SetUsuario(commandContex.User.Id, commandContex.User.ToString());
-
-                                        new ServidoresDAO().inserirServidorUsuario(servi, usuario);
-                                    }).Start();
-                                }
-
-                                string[] comando = messageSemPrefix.Split(' ');
-                                var lastClassCommand = new CustomReactions();
-                                MethodInfo metodo = lastClassCommand.GetType().GetMethod(comando[0]);
-                                object instanced = lastClassCommand;
-                                object[] parametros = new object[2];
-                                parametros[0] = commandContex;
-                                object[] args = new object[3];
-                                args[0] = new string(prefix);
-                                args[1] = comando;
-                                args[2] = new List<object>(); //addons memory
-                                parametros[1] = args;
-
-                                metodo.Invoke(instanced, parametros);
-                            }
-                            catch (Exception e)
-                            {
-                                if (e is NullReferenceException || e is AmbiguousMatchException)
-                                {
-                                    commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"**{commandContex.User}** comando não encontrado use `{new string(prefix)}comandos` para ver os meus comandos")
-                                                .WithColor(Color.DarkPurple)
-                                         .Build());
-                                }
-                                else
-                                {
-                                    MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
-                                    object[] parms = new object[1];
-                                    parms[0] = e.ToString();
-                                    metodo.Invoke(SingletonLogs.instanced, parms);
-                                }
-                            }
-                        }
-                    }
-
-                    if (commandContex.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || commandContex.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
-                    {
-                        commandContex.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"Oii {commandContex.User.Username} meu prefixo é: `{new string(prefix)}` se quiser ver meus comando é so usar: `{new string(prefix)}comandos`")
-                                .WithColor(Color.DarkPurple)
-                            .Build());
-                    }
-
-                }).Start();
-                
-            }
-            return Task.CompletedTask;
+            CriarSessaoComandos(mensagem);
+            return null;
         }
 
         private void CriarSessaoComandos(SocketMessage message)
@@ -130,17 +43,35 @@ namespace Bot.Nucleo.Eventos
             {
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
                 CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
-                FiltrarMensagens(contexto);
+                ControlarMensagens(contexto);
             }).Start();
         }
 
-        private void FiltrarMensagens(CommandContext contexto)
+        private void ControlarMensagens(CommandContext contexto)
         {
             if (!contexto.User.IsBot)
             {
                 if (!contexto.IsPrivate)
                 {
+                    CadastrarServidorUsuarioAsync(contexto);
                     Servidores servidores = PegarPrefixo(contexto);
+                    string comandoSemPrefix = null;
+                    if(SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
+                    {
+                        CallComando(comandoSemPrefix, servidores, contexto);
+                    }
+                    else
+                    {
+                        if (IsMentionCall(contexto))
+                        {
+                            new Ajuda().MentionMessage(contexto, servidores);
+                        }
+                        else
+                        {
+                            new CustomReactions().TriggerACR(contexto, servidores);
+                        }
+                        
+                    }
                 }
             }
         }
@@ -150,8 +81,7 @@ namespace Bot.Nucleo.Eventos
             Servidores servFinal = new Servidores(contexto.Guild.Id);
             servFinal.SetPrefix(config.prefix.ToCharArray());
             Servidores servidores = servFinal;
-            servidores = new ServidoresDAO().GetPrefix(servidores);
-            if (servidores.prefix != null)
+            if (new ServidoresDAO().GetPrefix(ref servidores))
             {
                 servFinal = servidores;
             }
@@ -159,12 +89,70 @@ namespace Bot.Nucleo.Eventos
             return servFinal;
         }
 
-        private Tuple<bool, ACRs> GerirACR(CommandContext contexto, Servidores servidor)
+
+        private bool SepararComandoPrefix (CommandContext contexto, Servidores servidor, ref string comandoSemPrefix)
         {
-            bool retorno = false;
-            ACRs aCRs = new ACRs();
-            aCRs.SetTrigger(contexto.Message.Content, servidor);
-            aCRs = new ACRsDAO().ResponderAcr(aCRs);
+            int argPos = 0;
+            if(contexto.Message.HasStringPrefix(new string(servidor.prefix), ref argPos))
+            {
+                comandoSemPrefix = contexto.Message.Content.Substring(servidor.prefix.Length);
+                return !(comandoSemPrefix == "" || comandoSemPrefix[0] == servidor.prefix[0]);
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        private void CadastrarServidorUsuarioAsync(CommandContext context)
+        {
+            new Thread(() =>
+            {
+                new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+            }).Start();
+        }
+
+        private object[] CriadorDoArgs(string messagemSemPrefixo, ref string comando, Servidores servidor)
+        {
+            string[] stringComando = messagemSemPrefixo.Split(' ');
+            comando = stringComando[0];
+            object[] args = new object[3];
+            args[0] = new string(servidor.prefix);
+            args[1] = comando;
+            args[2] = new List<object>();
+            return args;
+        }
+
+        private void CallComando(string comando, Servidores servidor, CommandContext contexto)
+        {
+            string chamada = null;
+            object[] args = CriadorDoArgs(comando, ref chamada, servidor);
+            try
+            {
+                MethodInfo metodoAChamar = lastClassComands.GetType().GetMethod(chamada);
+                object[] parametros = new object[2];
+                parametros[0] = contexto;
+                parametros[1] = args;
+                metodoAChamar.Invoke(lastClassComands, parametros);
+            }
+            catch (Exception e)
+            {
+                new Ajuda().MessageEventExceptions(e, contexto, servidor);
+            }
+            
+        }
+
+        private bool IsMentionCall (CommandContext contexto)
+        {
+            if(contexto.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || contexto.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

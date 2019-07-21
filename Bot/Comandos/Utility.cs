@@ -275,11 +275,11 @@ namespace Bot.Comandos
                         Servidores servidor = new Servidores(context.Guild.Id);
                         servidor.SetPrefix(msg.ToCharArray());
 
-                        char[] prefix = new ServidoresDAO().SetServidorPrefix(servidor);
+                        servidor = new ServidoresDAO().SetServidorPrefix(servidor);
 
                         message.DeleteAsync();
                         context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(prefix)))
+                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(servidor.prefix)))
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }, context, args));

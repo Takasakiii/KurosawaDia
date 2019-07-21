@@ -10,7 +10,9 @@ namespace Bot.DataBase.MainDB.Modelos
         public string nome { get; private set; }
         public uint codigo { get; private set; }
 
-        public void SetUsuario(ulong id, string nome, uint codigo = 0)
+
+
+        public Usuarios(ulong id, string nome, uint codigo = 0)
         {
             this.id = id;
             this.nome = nome;

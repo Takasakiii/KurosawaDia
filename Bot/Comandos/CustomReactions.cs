@@ -300,5 +300,16 @@ namespace Bot.Comandos
             ((ReactionControler)((List<object>)args[2])[3]).DesligarReaction();
             Menu(contexto, args);
         }
+
+        public void TriggerACR (CommandContext contexto, Servidores servidor)
+        {
+            ACRs aCRs = new ACRs();
+            aCRs.SetTrigger(contexto.Message.Content, servidor);
+            aCRs = new ACRsDAO().ResponderAcr(aCRs);
+            if (aCRs.resposta != null)
+            {
+                contexto.Channel.SendMessageAsync(aCRs.resposta);
+            }      
+        }
     }
 }
