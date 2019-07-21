@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ConfigurationControler\ConfigurationControler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Nucleo\EventsAddons\" />
+  </ItemGroup>
+
 </Project>
