@@ -62,7 +62,7 @@ namespace Bot.Comandos
                     {
                         embed.WithImageUrl(null);
                         embed.WithColor(Color.Red);
-                        embed.WithDescription($"**{context.User}** esse comando só pode ser usado em canais NSFW");
+                        embed.WithDescription(StringCatch.GetString("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", context.User.ToString()));
                         context.Channel.SendMessageAsync(embed: embed.Build());
                     }
                 }
@@ -71,7 +71,7 @@ namespace Bot.Comandos
 
         public void cat(CommandContext context, object[] args)
         {
-            getImg(context, "Meow", links.cat);
+            getImg(context, StringCatch.GetString("catTxt", "Meow"), links.cat);
         }
 
         public void dog(CommandContext context, object[] args)
@@ -106,16 +106,16 @@ namespace Bot.Comandos
                     {
                         embed.WithColor(Color.Red);
                         embed.WithDescription("");
-                        embed.WithTitle("Eu não encontrei essa pessoa no servidor");
-                        embed.AddField("Uso do Comando: ", $"`{args[0]}magikavatar <pessoa>`");
-                        embed.AddField("Exemplo: ", $"`{args[0]}magikavatar @KingCerverus#2490`");
+                        embed.WithTitle(StringCatch.GetString("magikavatarPessoa", "Eu não encontrei essa pessoa no servidor"));
+                        embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoMagikavatar", "`{0}magikavatar <pessoa>`", (string)args[0]));
+                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploMagikavatar", "`{0}magikavatar @KingCerverus#2490`", (string)args[0]));
                     }
                 }
 
                 if(user != null)
                 {
-                    embed.WithDescription($"**{context.User}** estou fazendo magica com o avatar por-favor aguarde");
-                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                    embed.WithDescription(StringCatch.GetString("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", context.User.ToString());
+                    embed.WithImageUrl(StringCatch.GetString(" agikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                     IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
@@ -132,7 +132,7 @@ namespace Bot.Comandos
                     {
                         userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                        embed.WithDescription(StringCatch.GetString("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", context.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -140,7 +140,7 @@ namespace Bot.Comandos
             else
             {
                 embed.WithColor(Color.Red);
-                embed.WithDescription("Eu so posso pegar o avatar de outras pessoas em um servidor");
+                embed.WithDescription(StringCatch.GetString("magikavatarDm", "Eu so posso pegar o avatar de outras pessoas em um servidor"));
             }
 
             context.Channel.SendMessageAsync(embed: embed.Build());
@@ -169,8 +169,8 @@ namespace Bot.Comandos
             {
                 if (!imgUrl.EndsWith(".gif"))
                 {
-                    embed.WithDescription($"**{context.User}** estou fazendo magica com a imagem por-favor aguarde");
-                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                    embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", context.User.ToString()));
+                    embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                     IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     try
@@ -184,21 +184,21 @@ namespace Bot.Comandos
                     {
                         userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription($"**{context.User}** infelizmente a diretora mari roubou a minha magia");
+                        embed.WithDescription(StringCatch.GetString("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia", context.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("magikGif", $"**{context.User}** eu não posso fazer magica com gifs 😔"));
+                    embed.WithDescription(StringCatch.GetString("magikGif", "**{0}** eu não posso fazer magica com gifs 😔", context.User.ToString()));
                     embed.WithColor(Color.Red);
                 }
             }
             else
             {
-                embed.WithTitle("Você precisa me falar qual imagem você quer que eu faça magica");
-                embed.AddField("Uso do Comando:", $"`{(string)args[0]}magik <imagem>`");
-                embed.AddField("Exemplo: ", $"`{(string)args[0]}magik https://i.imgur.com/cZDlYXr.png`");
+                embed.WithTitle(StringCatch.GetString("magikSemImg", "Você precisa me falar qual imagem você quer que eu faça magica"));
+                embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoMagik", "`{0}magik <imagem>`", (string)args[0]));
+                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploMagik", "`{0}magik https://i.imgur.com/cZDlYXr.png`", (string)args[0]));
                 embed.WithColor(Color.Red);
             }
             context.Channel.SendMessageAsync(embed: embed.Build());
