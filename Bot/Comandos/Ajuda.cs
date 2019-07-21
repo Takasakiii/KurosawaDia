@@ -2,7 +2,6 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using System.Threading;
 
 namespace Bot.Comandos
 {
@@ -12,8 +11,8 @@ namespace Bot.Comandos
         {
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
-                .WithDescription($"Oii {context.User} você pode usar `{(string)args[0]}comandos` para ver os comandos que eu tenho <:hehe:555914678866280448>")
-                .WithFooter("Um projeto by Zuraaa!", "https://i.imgur.com/Cm8grM4.png")
+                .WithDescription(StringCatch.GetString("ajudaTxt", "Oii {0} você pode usar `{0}comandos` para ver os comandos que eu tenho <:hehe:555914678866280448>", context.User.ToString(), (string)args[0]))
+                .WithFooter(StringCatch.GetString("ajudaProjeto", "Um projeto by Zuraaa!"), StringCatch.GetString("ajudaImg", "https://i.imgur.com/Cm8grM4.png"))
                 .Build());
         }
 
@@ -28,10 +27,10 @@ namespace Bot.Comandos
                 ((IUserMessage)args[1]).DeleteAsync();
             }
             IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle("Comandos atacaaaaar 😁")
-                        .WithDescription("Use as reações para navegar pelos comandos 👍")
-                        .AddField("Modulos:", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas.")
-                        .WithImageUrl("https://i.imgur.com/mQVFSrP.gif")
+                        .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
+                        .WithDescription(StringCatch.GetString("cmdsNavegar", "Use as reações para navegar pelos comandos 👍"))
+                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas."))
+                        .WithImageUrl(StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
@@ -62,8 +61,8 @@ namespace Bot.Comandos
         public void convite(CommandContext context, object[] args)
         {
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Aqui estão meus convites: ")
-                    .WithDescription("[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)") //shrug
+                    .WithTitle(StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
+                    .WithDescription(StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
                     .WithColor(Color.DarkPurple)
              .Build());
         }
@@ -78,10 +77,10 @@ namespace Bot.Comandos
             }
 
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Minhas informações:")
-                    .AddField("Meus convites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")
-                    .AddField("Informações do bot", "**Criadores:** Yummi#1375, Takasaki#7072\n**Projeto:** Zuraaa!\n**Versão:** 1.2.0 (Falas customizadas edition)", true)
-                    .AddField("Outras Informações:", $"**Ping:** {client.Latency}ms\n**Servidores:** {client.Guilds.Count}\n**Usuarios:** {users}", true)
+                    .WithTitle(StringCatch.GetString("infoTxt", "Minhas informações:"))
+                    .AddField(StringCatch.GetString("infoConvites", "Meus convites"), StringCatch.GetString("infoConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)"))
+                    .AddField(StringCatch.GetString("infoBot", "Informações do bot"), StringCatch.GetString("infoInfos", "**Criadores:** Yummi#1375, Takasaki#7072\n**Projeto:** Zuraaa!\n**Versão:** 1.2.0 (Falas customizadas edition)"), true)
+                    .AddField(StringCatch.GetString("infoOutras", "Outras Informações:"), StringCatch.GetString("infoOutrasInfos", "**Ping:** {0}ms\n**Servidores:** {1}\n**Usuarios:** {2}", client.Latency, client.Guilds.Count, users), true)
                     .WithColor(Color.DarkPurple)
                 .Build());
         }
@@ -91,11 +90,11 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Ajuda (❓)")
-                    .WithDescription("Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉")
+                    .WithTitle(StringCatch.GetString("helpModulo", "Modulo Ajuda (❓)"))
+                    .WithDescription(StringCatch.GetString("helpInfo", "Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}ajuda`, `{(string)args[0]}comandos`, `{(string)args[0]}info`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
+                    .AddField(StringCatch.GetString("helpCmdsTxt", "Comandos:"), StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("helpVoltar", "Voltar"), StringCatch.GetString("voltarImg", "https://i.imgur.com/iAnGwW4.png"))
                     .WithImageUrl("https://i.imgur.com/XQTVJu9.jpg")
                 .Build()).GetAwaiter().GetResult();
 

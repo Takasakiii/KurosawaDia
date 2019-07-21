@@ -1,4 +1,5 @@
-﻿using ConfigurationControler.DAO;
+﻿using Bot.Extensions;
+using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
@@ -39,7 +40,7 @@ namespace Bot.Comandos
 
                     if (getUser.Item1 == null || getUser.Item1 == context.User)
                     {
-                        user = "ele(a) mesmo";
+                        user = StringCatch.GetString("weebSelf", "ele(a) mesmo");
                     }
                     else
                     {
@@ -50,7 +51,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription("Esse comando só pode ser usado em servidores");
+                    embed.WithDescription(StringCatch.GetString("weebDm", "Esse comando só pode ser usado em servidores"));
                     embed.WithColor(Color.Red);
                     embed.WithImageUrl(null);
                 }
@@ -65,47 +66,47 @@ namespace Bot.Comandos
 
         public void hug(CommandContext context, object[] args)
         {
-            weeb(context, args, "hug", "esta abraçando");
+            weeb(context, args, "hug", StringCatch.GetString("hugTxt", "esta abraçando"));
         }
 
         public void kiss(CommandContext context, object[] args)
         {
-            weeb(context, args, "kiss", "esta beijando");
+            weeb(context, args, "kiss", StringCatch.GetString("kissTxt", "esta beijando"));
         }
 
         public void slap(CommandContext context, object[] args)
         {
-            weeb(context, args, "slap", "esta dando um tapa no");
+            weeb(context, args, "slap", StringCatch.GetString("slapTxt", "esta dando um tapa no"));
         }
 
         public void punch(CommandContext context, object[] args)
         {
-            weeb(context, args, "punch", "esta dando um soco no");
+            weeb(context, args, "punch", StringCatch.GetString("punchTxt", "esta dando um soco no"));
         }
 
         public void lick(CommandContext context, object[] args)
         {
-            weeb(context, args, "lick", "esta lambendo o");
+            weeb(context, args, "lick", StringCatch.GetString("lickTxt", "esta lambendo o"));
         }
 
         public void cry(CommandContext context, object[] args)
         {
-            weeb(context, args, "cry", "esta chorando com");
+            weeb(context, args, "cry", StringCatch.GetString("cryTxt", "esta chorando com"));
         }
 
         public void megumin(CommandContext context, object[] args)
         {
-            weeb(context, args, "megumin", "Megumin ❤", false);
+            weeb(context, args, "megumin", StringCatch.GetString("meguminTxt", "Megumin ❤"), false);
         }
 
         public void rem(CommandContext context, object[] args)
         {
-            weeb(context, args, "rem", "rem ❤", false);
+            weeb(context, args, "rem", StringCatch.GetString("remTxt", "rem ❤"), false);
         }
 
         public void pat(CommandContext context, object[] args)
         {
-            weeb(context, args, "pat", "esta fazendo carinho no");
+            weeb(context, args, "pat", StringCatch.GetString("patTxt", "esta fazendo carinho no"));
 
         }
     }
