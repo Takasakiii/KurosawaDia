@@ -308,7 +308,7 @@ namespace Bot.Comandos
             aCRs = new ACRsDAO().ResponderAcr(aCRs);
             if (aCRs.resposta != null)
             {
-                contexto.Channel.SendMessageAsync(aCRs.resposta);
+                new EmbedControl().SendMessage(contexto, aCRs.resposta);
             }      
         }
     }
