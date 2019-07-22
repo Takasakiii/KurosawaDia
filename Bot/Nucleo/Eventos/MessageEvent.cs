@@ -20,7 +20,7 @@ namespace Bot.Nucleo.Eventos
         //MessageEvent v2 by Takasaki Masoquista do krai
 
         //configuracoes do MessageEvent
-        private readonly CustomReactions lastClassComands = new CustomReactions();
+        private readonly Configuracoes lastClassComands = new Configuracoes();
         
         
         //Dependencia do MessagemEvent
