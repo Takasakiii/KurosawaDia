@@ -34,7 +34,7 @@ namespace Bot.Nucleo.Eventos
         public Task MessageRecived(SocketMessage mensagem)
         {
             CriarSessaoComandos(mensagem);
-            return null;
+            return Task.CompletedTask;
         }
 
         private void CriarSessaoComandos(SocketMessage message)
