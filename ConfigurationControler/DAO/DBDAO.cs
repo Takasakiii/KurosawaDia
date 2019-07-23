@@ -23,13 +23,14 @@ namespace ConfigurationControler.DAO
                 cmd.ExecuteNonQuery();
             }
 
-            sqls[0] = "insert into ApiConfig values (1, @weebToken, @dblToken);";
+            sqls[0] = "insert into ApiConfig values (1, @weebToken, @dblToken, @atualizarDbl);";
             sqls[1] = "insert into DbConfig values (1, @ip, @database, @login, @senha);";
             sqls[2] = "insert into DiaConfig values (1, @tk, @pr, @id);";
 
             SqliteCommand cmda = new SqliteCommand(sqls[0], conexao);
             cmda.Parameters.AddWithValue("@weebToken", apiConfig.WeebToken);
             cmda.Parameters.AddWithValue("@dblToken", apiConfig.dblToken);
+            cmda.Parameters.AddWithValue("@atualizarDbl", apiConfig.atualizarDbl);
             cmda.ExecuteNonQuery();
             cmda = new SqliteCommand(sqls[1], conexao);
             cmda.Parameters.AddWithValue("@ip", dBConfig.ip);
@@ -60,7 +61,7 @@ namespace ConfigurationControler.DAO
             SqliteDataReader rs = cmd.ExecuteReader();
             if (rs.Read())
             {
-                api = new ApiConfig((string)rs["WeebToken"], (string)rs["dblToken"]);
+                api = new ApiConfig((string)rs["WeebToken"], (string)rs["dblToken"], Convert.ToBoolean(rs["atualizarDbl"]));
                 estado++;
             }
 

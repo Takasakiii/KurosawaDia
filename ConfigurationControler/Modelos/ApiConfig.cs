@@ -7,10 +7,13 @@
 
         public string dblToken { private set; get; }
 
-        public ApiConfig(string WeebToken, string dblToken)
+        public bool atualizarDbl { private set; get; }
+
+        public ApiConfig(string WeebToken, string dblToken, bool atualizarDbl)
         {
             this.WeebToken = WeebToken;
             this.dblToken = dblToken;
+            this.atualizarDbl = atualizarDbl;
         }
     }
 }
