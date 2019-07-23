@@ -107,7 +107,11 @@ namespace Bot.Comandos
         public void pat(CommandContext context, object[] args)
         {
             weeb(context, args, "pat", StringCatch.GetString("patTxt", "esta fazendo carinho no"));
+        }
 
+        public void dance(CommandContext context, object[] args)
+        {
+            weeb(context, args, "dance", StringCatch.GetString("danceTx", "{0} começou a dançar", new UserExtensions().GetNickname(context.User, !context.IsPrivate)), false);
         }
     }
 }
