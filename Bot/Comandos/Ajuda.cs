@@ -154,7 +154,7 @@ namespace Bot.Comandos
                     .WithTitle("Modulo NSFW (🔞)")
                     .WithDescription("Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa 😣")
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb` `{(string)args[0]}anal`")
+                    .AddField("Comandos:", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`, `{(string)args[0]}hneko`, `{(string)args[0]}anal`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
                     .WithImageUrl("https://i.imgur.com/iGQ3SI8.png")
                 .Build()).GetAwaiter().GetResult();
@@ -192,7 +192,7 @@ namespace Bot.Comandos
                     .WithTitle("Modulo Imagem (🖼)")
                     .WithDescription("Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤")
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}dog`, `{(string)args[0]}cat`, `{(string)args[0]}magikavatar`, `{(string)args[0]}magik`")
+                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`, `{(string)args[0]}magikavatar`, `{(string)args[0]}magik`")
                     .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
                     .WithImageUrl("https://i.imgur.com/cQqTUl1.png")
                 .Build()).GetAwaiter().GetResult();
