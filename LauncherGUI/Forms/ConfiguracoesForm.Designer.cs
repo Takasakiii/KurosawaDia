@@ -88,6 +88,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.txIdiomasIdentificador = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txDblApiToken = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPicInicializarSalvar)).BeginInit();
@@ -100,6 +103,7 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgIdiomasLista)).BeginInit();
             this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -115,8 +119,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.btPicInicializarSalvar);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -141,7 +145,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(231, 277);
+            this.label9.Location = new System.Drawing.Point(791, 489);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(152, 52);
             this.label9.TabIndex = 4;
@@ -150,9 +154,9 @@
             // btPicInicializarSalvar
             // 
             this.btPicInicializarSalvar.Image = global::Bot.Properties.Resources.Shiro;
-            this.btPicInicializarSalvar.Location = new System.Drawing.Point(6, 237);
+            this.btPicInicializarSalvar.Location = new System.Drawing.Point(6, 282);
             this.btPicInicializarSalvar.Name = "btPicInicializarSalvar";
-            this.btPicInicializarSalvar.Size = new System.Drawing.Size(371, 280);
+            this.btPicInicializarSalvar.Size = new System.Drawing.Size(371, 235);
             this.btPicInicializarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btPicInicializarSalvar.TabIndex = 3;
             this.btPicInicializarSalvar.TabStop = false;
@@ -662,6 +666,33 @@
             this.label15.TabIndex = 1;
             this.label15.Text = "Bot by Takasaki 2k19 ©";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label18);
+            this.groupBox6.Controls.Add(this.txDblApiToken);
+            this.groupBox6.Location = new System.Drawing.Point(6, 228);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(377, 48);
+            this.groupBox6.TabIndex = 3;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "DBL API:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 22);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(41, 13);
+            this.label18.TabIndex = 1;
+            this.label18.Text = "Token:";
+            // 
+            // txDblApiToken
+            // 
+            this.txDblApiToken.Location = new System.Drawing.Point(53, 19);
+            this.txDblApiToken.Name = "txDblApiToken";
+            this.txDblApiToken.Size = new System.Drawing.Size(318, 20);
+            this.txDblApiToken.TabIndex = 0;
+            // 
             // ConfiguracoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,6 +702,7 @@
             this.ClientSize = new System.Drawing.Size(955, 573);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.label9);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -698,6 +730,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgIdiomasLista)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -764,5 +798,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IdiomasIndex;
         private System.Windows.Forms.DataGridViewButtonColumn IdiomasEditar;
         private System.Windows.Forms.DataGridViewButtonColumn IdiomasRemover;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox txDblApiToken;
     }
 }

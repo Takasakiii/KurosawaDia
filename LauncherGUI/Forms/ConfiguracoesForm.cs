@@ -21,7 +21,7 @@ namespace Bot.Forms
             {
                 DiaConfig diaConfig = new DiaConfig(txBotToken.Text, txBotPrefix.Text, Convert.ToUInt64(txBotIDDono.Text));
                 DBConfig dBConfig = new DBConfig(txDBIP.Text, txDBDatabase.Text, txDBLogin.Text, txDBSenha.Text);
-                ApiConfig apiConfig = new ApiConfig(txWeebAPIToken.Text);
+                ApiConfig apiConfig = new ApiConfig(txWeebAPIToken.Text, txDblApiToken.Text);
 
                 DBDAO dao = new DBDAO();
                 dao.AdicionarAtualizar(apiConfig, dBConfig, diaConfig);

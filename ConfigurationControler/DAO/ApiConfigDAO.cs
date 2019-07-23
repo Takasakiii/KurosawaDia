@@ -19,7 +19,7 @@ namespace ConfigurationControler.DAO
                 ApiConfig apiConfig = null;
                 if (reader.Read())
                 {
-                    apiConfig = new ApiConfig(reader.GetString(reader.GetOrdinal("WeebToken")));
+                    apiConfig = new ApiConfig((string)reader["WeebToken"], (string)reader["dblToken"]);
                 }
                 reader.Close();
                 conexao.Close();
