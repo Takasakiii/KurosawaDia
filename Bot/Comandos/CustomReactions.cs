@@ -259,13 +259,13 @@ namespace Bot.Comandos
             {
                 Emoji emoji = new Emoji("⬅");
                 msg.AddReactionAsync(emoji);
-                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(AnteriorPagina, contexto, args), addEmoji: false);
+                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(AnteriorPagina, contexto, args));
             }
             if (pProximo)
             {
                 Emoji emoji = new Emoji("➡");
                 msg.AddReactionAsync(emoji);
-                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(ProximaPagina, contexto, args), addEmoji: false);
+                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(ProximaPagina, contexto, args));
             }
         }
 

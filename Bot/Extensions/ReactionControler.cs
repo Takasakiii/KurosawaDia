@@ -26,14 +26,9 @@ namespace Bot.Extensions
             ThreadLife = false;
         }
 
-        public void GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod, int tempoAnalise = 60, bool addEmoji = true)
+        public void GetReaction(IUserMessage mensagem, Emoji emoji, IUser usuarioComparado, ReturnMethod returnMethod, int tempoAnalise = 60)
         {
-            if (addEmoji)
-            {
-                //RequestOptions request = new RequestOptions();
-                //request.RetryMode = RetryMode.AlwaysRetry;
-                mensagem.AddReactionAsync(emoji);
-            }
+            
             
             Thread processo = new Thread(() =>
             {
@@ -50,11 +45,11 @@ namespace Bot.Extensions
                         {
                             gatilho = true;
                         }
-                        Thread.Sleep(100);
+                        Thread.Sleep(235);
                     }
                     catch
                     {
-                        Thread.Sleep(134);
+                        Thread.Sleep(234);
                     }
                 } while (!gatilho && ThreadLife);
                 if (ThreadLife)

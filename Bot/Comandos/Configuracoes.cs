@@ -27,6 +27,7 @@ namespace Bot.Comandos
                         .Build()).GetAwaiter().GetResult();
 
                     Emoji emoji = new Emoji("✅");
+                    message.AddReactionAsync(emoji);
 
                     ReactionControler reaction = new ReactionControler();
                     reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) => {

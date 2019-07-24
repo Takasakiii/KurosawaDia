@@ -29,8 +29,8 @@ namespace ConfigurationControler.DAO
 
             SqliteCommand cmda = new SqliteCommand(sqls[0], conexao);
             cmda.Parameters.AddWithValue("@weebToken", apiConfig.WeebToken);
-            cmda.Parameters.AddWithValue("@dblToken", apiConfig.dblToken);
-            cmda.Parameters.AddWithValue("@atualizarDbl", apiConfig.atualizarDbl);
+            //cmda.Parameters.AddWithValue("@dblToken", apiConfig.dblToken);
+            //cmda.Parameters.AddWithValue("@atualizarDbl", apiConfig.atualizarDbl);
             cmda.ExecuteNonQuery();
             cmda = new SqliteCommand(sqls[1], conexao);
             cmda.Parameters.AddWithValue("@ip", dBConfig.ip);
@@ -61,7 +61,7 @@ namespace ConfigurationControler.DAO
             SqliteDataReader rs = cmd.ExecuteReader();
             if (rs.Read())
             {
-                api = new ApiConfig((string)rs["WeebToken"], (string)rs["dblToken"], Convert.ToBoolean(rs["atualizarDbl"]));
+                api = new ApiConfig((string)rs["WeebToken"]);
                 estado++;
             }
 

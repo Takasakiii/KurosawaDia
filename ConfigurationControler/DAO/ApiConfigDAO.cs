@@ -20,7 +20,7 @@ namespace ConfigurationControler.DAO
                 ApiConfig apiConfig = null;
                 if (reader.Read())
                 {
-                    apiConfig = new ApiConfig((string)reader["WeebToken"], (string)reader["dblToken"], Convert.ToBoolean(reader["atualizarDbl"]));
+                    apiConfig = new ApiConfig((string)reader["WeebToken"]);
                 }
                 reader.Close();
                 conexao.Close();

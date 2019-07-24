@@ -56,7 +56,10 @@ namespace Bot.Comandos
             menu[5] = new Emoji("🖼");
             menu[6] = new Emoji("💬");
 
-            
+            RequestOptions opc = new RequestOptions();
+            opc.RetryMode = RetryMode.RetryTimeouts;
+            opc.Timeout = 129;
+            msg.AddReactionsAsync(menu, opc);
 
             args[1] = msg;
             ReactionControler reaction = new ReactionControler();
@@ -112,7 +115,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -131,7 +134,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -150,7 +153,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -169,7 +172,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -188,7 +191,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -207,7 +210,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
@@ -226,7 +229,7 @@ namespace Bot.Comandos
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
-
+            cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));

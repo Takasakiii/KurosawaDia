@@ -21,7 +21,7 @@ namespace Bot.Forms
             {
                 DiaConfig diaConfig = new DiaConfig(txBotToken.Text, txBotPrefix.Text, Convert.ToUInt64(txBotIDDono.Text));
                 DBConfig dBConfig = new DBConfig(txDBIP.Text, txDBDatabase.Text, txDBLogin.Text, txDBSenha.Text);
-                ApiConfig apiConfig = new ApiConfig(txWeebAPIToken.Text, txDblApiToken.Text, checkAtualizarDbl.Checked);
+                ApiConfig apiConfig = new ApiConfig(txWeebAPIToken.Text);
 
                 DBDAO dao = new DBDAO();
                 dao.AdicionarAtualizar(apiConfig, dBConfig, diaConfig);
@@ -58,8 +58,8 @@ namespace Bot.Forms
                 txDBSenha.Text = retorno.Item3.senha;
 
                 txWeebAPIToken.Text = retorno.Item2.WeebToken;
-                txDblApiToken.Text = retorno.Item2.dblToken;
-                checkAtualizarDbl.Checked = retorno.Item2.atualizarDbl;
+                //txDblApiToken.Text = retorno.Item2.dblToken;
+                //checkAtualizarDbl.Checked = retorno.Item2.atualizarDbl;
             }
 
 
