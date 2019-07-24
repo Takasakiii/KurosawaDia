@@ -1,6 +1,7 @@
 ﻿using ConfigurationControler.Factory;
 using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
+using System;
 
 namespace ConfigurationControler.DAO
 {
@@ -19,7 +20,7 @@ namespace ConfigurationControler.DAO
                 ApiConfig apiConfig = null;
                 if (reader.Read())
                 {
-                    apiConfig = new ApiConfig(reader.GetString(reader.GetOrdinal("WeebToken")));
+                    apiConfig = new ApiConfig((string)reader["WeebToken"], (string)reader["dblToken"], Convert.ToBoolean(reader["atualizarDbl"]));
                 }
                 reader.Close();
                 conexao.Close();
