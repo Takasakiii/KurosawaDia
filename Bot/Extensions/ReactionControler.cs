@@ -30,9 +30,9 @@ namespace Bot.Extensions
         {
             if (addEmoji)
             {
-                RequestOptions request = new RequestOptions();
-                request.RetryMode = RetryMode.AlwaysRetry;
-                mensagem.AddReactionAsync(emoji, request);
+                //RequestOptions request = new RequestOptions();
+                //request.RetryMode = RetryMode.AlwaysRetry;
+                mensagem.AddReactionAsync(emoji);
             }
             
             Thread processo = new Thread(() =>

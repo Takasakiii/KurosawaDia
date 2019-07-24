@@ -15,9 +15,18 @@ namespace Bot.Comandos
         {
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
-                .WithDescription(StringCatch.GetString("ajudaTxt", "Oii {0} você pode usar `{0}comandos` para ver os comandos que eu tenho <:hehe:555914678866280448>", context.User.ToString(), (string)args[0]))
-                .WithFooter(StringCatch.GetString("ajudaProjeto", "Um projeto by Zuraaa!"), StringCatch.GetString("ajudaImg", "https://i.imgur.com/Cm8grM4.png"))
-                .Build());
+                .WithTitle(StringCatch.GetString("ajudaTitle", "Sera um enorme prazer te ajudar 😋"))
+                .WithDescription(StringCatch.GetString("ajudaDesctiption", "Eu me chamo Kurosawa Dia, sou presidente do conselho de classe, idol e tambem ajudo as pessoas com algumas coisinhas no discord 😉\n"
+                + "Se você usar `{0}comandos` no chat vai aparecer tudo que eu posso fazer atualmente (isso não é demais 😁)\n"
+                + "Serio estou muito ansiosa para passar um tempo com você e tambem te ajudar XD\n"
+                + "Se você tem ideias de mais coisas que possa fazer por favor mande uma sugestao com o `{0}sugestao`\n\n"
+                + "E como a Mari fala Let's Go!!", (string)args[0]))
+                .WithFooter(StringCatch.GetString("ajudaProjeto", "Kurosawa Dia é um projeto feito com amor e carinho financiado pelo Zuraaa!"), StringCatch.GetString("ajudaImg", "https://i.imgur.com/Cm8grM4.png"))
+                .WithImageUrl("https://i.imgur.com/PC5QDiX.png")
+
+                .Build()
+                );
+
         }
 
         public void comandos(CommandContext context, object[] args)

@@ -51,7 +51,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("weebDm", "Esse comando só pode ser usado em servidores"));
+                    embed.WithDescription(StringCatch.GetString("weebDm", "Desculpe, mas so posso execultar esse comando em um servidor 😔"));
                     embed.WithColor(Color.Red);
                     embed.WithImageUrl(null);
                 }

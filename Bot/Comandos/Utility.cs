@@ -11,6 +11,19 @@ namespace Bot.Comandos
 
     public class Utility : Weeb
     {
+        private struct PossiveisMsg
+        {
+            public string identifier { get; private set; }
+            public string msgDefault { get; private set; }
+
+            public PossiveisMsg(string _identifier, string _msgDefault)
+            {
+                identifier = _identifier;
+                msgDefault = _msgDefault;
+
+            }
+        }
+
         public void avatar(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
@@ -34,10 +47,15 @@ namespace Bot.Comandos
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
+                    PossiveisMsg[] msgs = { new PossiveisMsg("avatarMsgNice", "Nossa que avatar bonito, agora sei porque você queria ve-lo"), new PossiveisMsg("avatarMsgJoy", "Vocês são realmente criativos para avatares 😂"), new PossiveisMsg("avatarMsgIdol", "Com avatar assim seria um disperdicio não se tornar idol 😃") };
+                    int rnd = new Random().Next(0, msgs.Length);
+
+                    string msgfinal = StringCatch.GetString(msgs[rnd].identifier, msgs[rnd].msgDefault);
+
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithAuthor($"{user}")
-                        .WithDescription(StringCatch.GetString("avatarMsg", "[Link Direto]({0})", avatarUrl))
+                        .WithTitle(msgfinal)
+                        .WithDescription(StringCatch.GetString("avatarMsg", "\n\n{0}\n[Link Direto]({1})", user, avatarUrl))
                         .WithImageUrl(avatarUrl)
                     .Build());
                 }
@@ -133,7 +151,7 @@ namespace Bot.Comandos
             }
             catch
             {
-                embed.WithTitle(StringCatch.GetString("emoteInvalido", "O emoji que você tentou usar é inválido"));
+                embed.WithTitle(StringCatch.GetString("emoteInvalido", "Desculpe mas o emoji que você digitou é invalido"));
                 embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("emoteUso", "`{0}emote emoji`", (string)args[0]));
                 embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("emoteExeemplo", "`{0}emote :kanna:`", (string)args[0]));
                 embed.WithColor(Color.Red);
@@ -236,7 +254,7 @@ namespace Bot.Comandos
                     .Build());
 
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(StringCatch.GetString("sugestaoEnviada", "**{0}** sua sugestão foi enviada a o meu servidor", context.User.ToString()))
+                        .WithDescription(StringCatch.GetString("sugestaoEnviada", "**{0}** eu sou muito grata por você me dar essa sugestão, vou usa-la para melhorar e te atender melhor ❤", context.User.ToString()))
                         .WithColor(Color.DarkPurple)
                     .Build());
             }
