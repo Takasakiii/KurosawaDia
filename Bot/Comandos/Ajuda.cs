@@ -92,13 +92,19 @@ namespace Bot.Comandos
                 users += servidor.Users.Count;
             }
 
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(StringCatch.GetString("infoTxt", "Minhas informações:"))
-                    .AddField(StringCatch.GetString("infoConvites", "Meus convites"), StringCatch.GetString("infoConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)"))
-                    .AddField(StringCatch.GetString("infoBot", "Informações do bot"), StringCatch.GetString("infoInfos", "**Criadores:** Yummi#1375, Takasaki#7072\n**Projeto:** Zuraaa!\n**Versão:** 1.2.0 (Falas customizadas edition)"), true)
-                    .AddField(StringCatch.GetString("infoOutras", "Outras Informações:"), StringCatch.GetString("infoOutrasInfos", "**Ping:** {0}ms\n**Servidores:** {1}\n**Usuarios:** {2}", client.Latency, client.Guilds.Count, users), true)
+
+            _ = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(StringCatch.GetString("infoTxt", "Dia's Book:"))
+                    .WithDescription(StringCatch.GetString("infoDescription", "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk 😝"))
+                    .AddField(StringCatch.GetString("infoBot", "**Sobre mim:**"), StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
+                    .AddField(StringCatch.GetString("infoDeveloperTitle", "**As pessoas/grupos que fazem tudo isso ser possivel:**"), StringCatch.GetString("infoDeveloperDesc", "Zuraaa!\nTakasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
+                    .AddField(StringCatch.GetString("infoConvites", "**Quer me ajudar????**"), StringCatch.GetString("infoConvites", "[Adicione-me em seu Servidor](https://ayura.com.br/links/bot)\n[Entre em meu servidor para dar suporte ao projeto](https://ayura.com.br/dia)"))
+                    .AddField(StringCatch.GetString("infoOutras", "**Informações chatas:**"), StringCatch.GetString("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuarios:__ {2}", client.Latency, client.Guilds.Count, users), false)
+                    .WithThumbnailUrl("https://i.imgur.com/ppXRHTi.jpg")
+                    .WithImageUrl("https://i.imgur.com/qGb6xtG.jpg")
                     .WithColor(Color.DarkPurple)
-                .Build());
+                .Build()); ;
+
         }
 
         private void help(CommandContext contexto, object[] args)
