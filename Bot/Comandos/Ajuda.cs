@@ -42,12 +42,12 @@ namespace Bot.Comandos
             IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
                         .WithDescription(StringCatch.GetString("cmdsNavegar", "Use as reações para navegar pelos comandos 👍"))
-                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas."))
+                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações."))
                         .WithImageUrl(StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
-            Emoji[] menu = new Emoji[7];
+            Emoji[] menu = new Emoji[8];
             menu[0] = new Emoji("❓");
             menu[1] = new Emoji("🛠");
             menu[2] = new Emoji("⚖");
@@ -55,9 +55,10 @@ namespace Bot.Comandos
             menu[4] = new Emoji("❤");
             menu[5] = new Emoji("🖼");
             menu[6] = new Emoji("💬");
+            menu[7] = new Emoji("⚙");
 
             RequestOptions opc = new RequestOptions();
-            opc.RetryMode = RetryMode.RetryTimeouts;
+            opc.RetryMode = RetryMode.AlwaysRetry;
             opc.Timeout = 129;
             msg.AddReactionsAsync(menu, opc);
 
@@ -71,6 +72,7 @@ namespace Bot.Comandos
             reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
             reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
             reaction.GetReaction(msg, menu[6], context.User, new ReturnMethod(customReaction, context, args));
+            reaction.GetReaction(msg, menu[7], context.User, new ReturnMethod(configuracoes, context, args));
 
         }
 
@@ -116,8 +118,8 @@ namespace Bot.Comandos
                     .WithDescription(StringCatch.GetString("helpInfo", "Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉"))
                     .WithColor(Color.DarkPurple)
                     .AddField(StringCatch.GetString("helpCmdsTxt", "Comandos:"), StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`", (string)args[0]))
-                    .WithFooter(StringCatch.GetString("helpVoltar", "Voltar"), StringCatch.GetString("voltarImg", "https://i.imgur.com/iAnGwW4.png"))
-                    .WithImageUrl("https://i.imgur.com/XQTVJu9.jpg")
+                    .WithFooter(StringCatch.GetString("helpVoltar", "Voltar"), StringCatch.GetString("helpVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("helpImg", "https://i.imgur.com/XQTVJu9.jpg"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -131,12 +133,12 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Ultilidades (🛠)")
-                    .WithDescription("Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺")
+                    .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Ultilidades (🛠)"))
+                    .WithDescription(StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}videochamada`, `{(string)args[0]}avatar`, `{(string)args[0]}emote`, `{(string)args[0]}say`, `{(string)args[0]}simg`, `{(string)args[0]}setprefix`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/TK7zmb8.jpg")
+                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emote`, `{0}say`, `{0}simg`, `{0}setprefix`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("utilidadeVoltar", "Voltar"), StringCatch.GetString("utilidadeVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -150,12 +152,12 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Moderação (⚖)")
-                    .WithDescription("Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣")
+                    .WithTitle(StringCatch.GetString("moderacaoModulo", "Modulo Moderação (⚖)"))
+                    .WithDescription(StringCatch.GetString("moderacaoInfo", "Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}kick`, `{(string)args[0]}ban`, `{(string)args[0]}softban`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/hiu0Vh0.jpg")
+                    .AddField(StringCatch.GetString("moderacaoCmdsTxt", "Comandos:"), StringCatch.GetString("modercaoCmds", "`{0}kick`, `{0}ban`, `{0}softban`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("moderacaoVoltar", "Voltar"), StringCatch.GetString("moderacaoVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("moderacaoImg", "https://i.imgur.com/hiu0Vh0.jpg"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -169,12 +171,12 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo NSFW (🔞)")
-                    .WithDescription("Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa 😣")
+                    .WithTitle(StringCatch.GetString("nsfwModulo", "Modulo NSFW (🔞)"))
+                    .WithDescription(StringCatch.GetString("nsfwInfo", "Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa 😣"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}hentai`, `{(string)args[0]}hentaibomb`, `{(string)args[0]}hneko`, `{(string)args[0]}anal`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/iGQ3SI8.png")
+                    .AddField(StringCatch.GetString("nsfwCmdsTxt", "Comandos:"), StringCatch.GetString("nsfwCmds", "`{0}hentai`, `{0}hentaibomb`, `{0}anal`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("nsfwVoltar", "Voltar"), StringCatch.GetString("nsfwVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("nsfwImg", "https://i.imgur.com/iGQ3SI8.png"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -188,12 +190,12 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Weeb (❤)")
-                    .WithDescription("Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤")
+                    .WithTitle(StringCatch.GetString("weebModulo", "Modulo Weeb (❤)"))
+                    .WithDescription(StringCatch.GetString("weebInfo", "Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}hug`, `{(string)args[0]}slap`, `{(string)args[0]}kiss`, `{(string)args[0]}punch`, `{(string)args[0]}lick`, `{(string)args[0]}cry`, `{(string)args[0]}megumin`, `{(string)args[0]}rem`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/FmCmErd.png")
+                    .AddField(StringCatch.GetString("weebCmdsTxt", "Comandos:"), StringCatch.GetString("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("weebVoltar", "Voltar"), StringCatch.GetString("weebVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -207,12 +209,12 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Imagem (🖼)")
-                    .WithDescription("Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤")
+                    .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
+                    .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}neko`, `{(string)args[0]}cat`, `{(string)args[0]}img`, `{(string)args[0]}magikavatar`, `{(string)args[0]}magik`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/cQqTUl1.png")
+                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}magikavatar`, `{0}magik`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("imgVoltar", "Voltar"), StringCatch.GetString("imgsVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("imgsImg", "https://i.imgur.com/cQqTUl1.png"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
@@ -226,12 +228,31 @@ namespace Bot.Comandos
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
             IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle("Modulo Reações Customizadas (💬)")
-                    .WithDescription("Esse modulo possui comandos para você controlar as minhas Reações Customizadas. \n\nEu adoro usar elas para me divertir com vocês 😂")
+                    .WithTitle(StringCatch.GetString("acrModulo", "Modulo Reações Customizadas (💬)"))
+                    .WithDescription(StringCatch.GetString("acrInfo", "Esse modulo possui comandos para você controlar as minhas Reações Customizadas. \n\nEu adoro usar elas para me divertir com vocês 😂"))
                     .WithColor(Color.DarkPurple)
-                    .AddField("Comandos:", $"`{(string)args[0]}acr`, `{(string)args[0]}dcr`, `{(string)args[0]}lcr`")
-                    .WithFooter("Voltar", "https://i.imgur.com/iAnGwW4.png")
-                    .WithImageUrl("https://i.imgur.com/AUpMkBP.jpg")
+                    .AddField(StringCatch.GetString("acrCmdsTxt", "Comandos:"), StringCatch.GetString("acrCmds", "`{0}acr`, `{0}dcr`, `{0}lcr`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("acrVoltarTxt", "Voltar"), StringCatch.GetString("acrVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("acrImg", "https://i.imgur.com/AUpMkBP.jpg"))
+                .Build()).GetAwaiter().GetResult();
+
+            Emoji emoji = new Emoji("⬅");
+            cmds.AddReactionAsync(emoji);
+            ReactionControler reaction = new ReactionControler();
+            args[1] = cmds;
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+        }
+        private void configuracoes(CommandContext contexto, object[] args)
+        {
+            ((IUserMessage)args[1]).DeleteAsync();
+            ((ReactionControler)args[2]).DesligarReaction();
+            IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(StringCatch.GetString("configsModulo", "Modulo Configurações (⚙)"))
+                    .WithDescription(StringCatch.GetString("ConfigsInfo", "Em configurações você define preferencias de como agirei em seu servidor. \n\nTenho certeza que podemos ficar mais intimos assim 😄"))
+                    .WithColor(Color.DarkPurple)
+                    .AddField(StringCatch.GetString("configsCmdsTxt", "Comandos:"), StringCatch.GetString("configsCmds", "`{0}setprefix`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("configsVoltarTxt", "Voltar"), StringCatch.GetString("configsVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("configsImg", "https://i.imgur.com/vVBOIB2.gif"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
