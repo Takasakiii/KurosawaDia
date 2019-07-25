@@ -49,16 +49,22 @@ namespace Bot.Forms
             DBDAO dao = new DBDAO();
             var retorno = dao.PegarDadosBot();
 
-            if (retorno.Item1 > 0)
             {
-                txBotToken.Text = retorno.Item4.token;
-                txBotPrefix.Text = retorno.Item4.prefix;
-                txBotIDDono.Text = retorno.Item4.idDono.ToString();
+                if (retorno.Item4 != null)
+                {
+                    txBotToken.Text = retorno.Item4.token;
+                    txBotPrefix.Text = retorno.Item4.prefix;
+                    txBotIDDono.Text = retorno.Item4.idDono.ToString();
+                }
 
-                txDBIP.Text = retorno.Item3.ip;
-                txDBDatabase.Text = retorno.Item3.database;
-                txDBLogin.Text = retorno.Item3.login;
-                txDBSenha.Text = retorno.Item3.senha;
+                
+                if (retorno.Item3 != null)
+                {
+                    txDBIP.Text = retorno.Item3.ip;
+                    txDBDatabase.Text = retorno.Item3.database;
+                    txDBLogin.Text = retorno.Item3.login;
+                    txDBSenha.Text = retorno.Item3.senha;
+                }
 
                 
                 if(retorno.Item2 != null)
@@ -67,8 +73,6 @@ namespace Bot.Forms
                     txDblApiToken.Text = retorno.Item2[1].Token;
                     checkAtualizarDbl.Checked = retorno.Item2[1].Ativada;
                 }
-            }
-
 
             StatusDAO sdao = new StatusDAO();
             var retorno2 = sdao.CarregarStatus();
