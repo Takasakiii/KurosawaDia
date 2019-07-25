@@ -1,8 +1,10 @@
-﻿using Bot.Extensions;
+﻿using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using static ConfigurationControler.Modelos.Linguagens;
+using static Bot.DataBase.MainDB.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -20,16 +22,24 @@ namespace Bot.Comandos
 
         //public void teste(CommandContext context, object[] args)
         //{
-
-        //    EmbedBuilder embedo = new EmbedBuilder();
-        //    embedo.WithColor(Color.DarkPurple);
-
-        //    embedo.WithTitle("msgs maneiras");
-
-        //    embedo.WithDescription("msg 1");
-        //    context.Channel.SendMessageAsync(embed: embedo.Build());
-        //    embedo.WithDescription("msg 2");
-        //    context.Channel.SendMessageAsync(embed: embedo.Build());
+        //    Servidores servidor = new Servidores(context.Guild.Id);
+        //    string perms = "";
+        //    if (new ServidoresDAO().GetPermissoes(ref servidor))
+        //    {
+        //        switch (servidor.permissoes)
+        //        {
+        //            case Permissoes.Normal:
+        //                perms = "normal";
+        //                break;
+        //            case Permissoes.ServidorBot:
+        //                perms = "servidor com pika de 30km";
+        //                break;
+        //            case Permissoes.LolisEdition:
+        //                perms = "olha os hentai bando de fudido";
+        //                break;
+        //        }
+        //        context.Channel.SendMessageAsync(perms);
+        //    }
         //}
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Bot.DataBase.Constructors;
 using Bot.DataBase.MainDB.Modelos;
 using MySql.Data.MySqlClient;
-using System;
+using static Bot.DataBase.MainDB.Modelos.Servidores;
 
 namespace Bot.DataBase.MainDB.DAO
 {
@@ -13,8 +13,6 @@ namespace Bot.DataBase.MainDB.DAO
         {
             conexao = new MySqlConstructor().Conectar();
         }
-
-        
 
         public bool GetPrefix(ref Servidores servidor)
         {
@@ -31,7 +29,7 @@ namespace Bot.DataBase.MainDB.DAO
             }
             char[] prefixChar = null;
             bool returno = false;
-            if(prefix != "" && prefix != null)
+            if (prefix != "" && prefix != null)
             {
                 prefixChar = prefix.ToCharArray();
                 servidor.SetPrefix(prefixChar);
@@ -61,6 +59,26 @@ namespace Bot.DataBase.MainDB.DAO
             conexao.Close();
             servidor.SetPrefix(prefix);
             return servidor;
+        }
+
+        public bool GetPermissoes(ref Servidores servidor)
+        {
+            const string sql = "call GetPermissoes(@id)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", servidor.id);
+
+            MySqlDataReader rs = cmd.ExecuteReader();
+            bool retorno = false;
+            if (rs.Read())
+            {
+                servidor.SetPermissao((Permissoes)rs["especial_servidor"]);
+                retorno = true;
+
+            }
+            rs.Close();
+            conexao.Close();
+            return retorno;
         }
     }
 }
