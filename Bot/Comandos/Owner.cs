@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using static Bot.DataBase.MainDB.Modelos.Adms;
 using static Bot.DataBase.MainDB.Modelos.Servidores;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
@@ -49,5 +50,26 @@ namespace Bot.Comandos
                 }
             }
         }
+
+        //public void teste(CommandContext context, object[] args)
+        //{
+        //    string aa = "";
+        //    Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
+        //    Adms adm = new Adms(usuario);
+
+        //    if(new AdmsDAO().GetAdm(ref adm))
+        //    {
+        //        if(adm.permissoes == PermissoesAdm.Donas)
+        //        {
+        //            aa = "meu amigo tu eh o dono";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        aa = "tu eh um bosta";
+        //    }
+
+        //    context.Channel.SendMessageAsync(aa);
+        //}
     }
 }

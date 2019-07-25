@@ -1,9 +1,6 @@
 ﻿using Bot.DataBase.Constructors;
 using Bot.DataBase.MainDB.Modelos;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bot.DataBase.MainDB.DAO
 {
