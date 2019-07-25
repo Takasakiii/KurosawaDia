@@ -3,9 +3,6 @@ using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bot.Comandos
 {
@@ -30,7 +27,8 @@ namespace Bot.Comandos
                     message.AddReactionAsync(emoji);
 
                     ReactionControler reaction = new ReactionControler();
-                    reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) => {
+                    reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
+                    {
                         Servidores servidor = new Servidores(context.Guild.Id);
                         servidor.SetPrefix(msg.ToCharArray());
 

@@ -42,12 +42,12 @@ namespace Bot.Comandos
             IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
                         .WithDescription(StringCatch.GetString("cmdsNavegar", "Use as reações para navegar pelos comandos 👍"))
-                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas."))
+                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações."))
                         .WithImageUrl(StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
-            Emoji[] menu = new Emoji[7];
+            Emoji[] menu = new Emoji[8];
             menu[0] = new Emoji("❓");
             menu[1] = new Emoji("🛠");
             menu[2] = new Emoji("⚖");
@@ -55,9 +55,10 @@ namespace Bot.Comandos
             menu[4] = new Emoji("❤");
             menu[5] = new Emoji("🖼");
             menu[6] = new Emoji("💬");
+            menu[7] = new Emoji("⚙");
 
             RequestOptions opc = new RequestOptions();
-            opc.RetryMode = RetryMode.RetryTimeouts;
+            opc.RetryMode = RetryMode.AlwaysRetry;
             opc.Timeout = 129;
             msg.AddReactionsAsync(menu, opc);
 
@@ -71,6 +72,7 @@ namespace Bot.Comandos
             reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
             reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
             reaction.GetReaction(msg, menu[6], context.User, new ReturnMethod(customReaction, context, args));
+            reaction.GetReaction(msg, menu[7], context.User, new ReturnMethod(configuracoes, context, args));
 
         }
 
@@ -232,6 +234,25 @@ namespace Bot.Comandos
                     .AddField(StringCatch.GetString("acrCmdsTxt", "Comandos:"), StringCatch.GetString("acrCmds", "`{0}acr`, `{0}dcr`, `{0}lcr`", (string)args[0]))
                     .WithFooter(StringCatch.GetString("acrVoltarTxt", "Voltar"), StringCatch.GetString("acrVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
                     .WithImageUrl(StringCatch.GetString("acrImg", "https://i.imgur.com/AUpMkBP.jpg"))
+                .Build()).GetAwaiter().GetResult();
+
+            Emoji emoji = new Emoji("⬅");
+            cmds.AddReactionAsync(emoji);
+            ReactionControler reaction = new ReactionControler();
+            args[1] = cmds;
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+        }
+        private void configuracoes(CommandContext contexto, object[] args)
+        {
+            ((IUserMessage)args[1]).DeleteAsync();
+            ((ReactionControler)args[2]).DesligarReaction();
+            IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(StringCatch.GetString("configsModulo", "Modulo Configurações (⚙)"))
+                    .WithDescription(StringCatch.GetString("ConfigsInfo", "Em configurações você define preferencias de como agirei em seu servidor. \n\nTenho certeza que podemos ficar mais intimos assim 😄"))
+                    .WithColor(Color.DarkPurple)
+                    .AddField(StringCatch.GetString("configsCmdsTxt", "Comandos:"), StringCatch.GetString("configsCmds", "`{0}setprefix`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("configsVoltarTxt", "Voltar"), StringCatch.GetString("configsVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("configsImg", "https://i.imgur.com/vVBOIB2.gif"))
                 .Build()).GetAwaiter().GetResult();
 
             Emoji emoji = new Emoji("⬅");
