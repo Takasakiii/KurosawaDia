@@ -42,8 +42,11 @@ namespace Bot.Nucleo.Eventos
             new Thread(() =>
             {
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
-                CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
-                ControlarMensagens(contexto);
+                if(socketUserMessage != null)
+                {
+                    CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
+                    ControlarMensagens(contexto);
+                }
             }).Start();
         }
 

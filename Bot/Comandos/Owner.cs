@@ -1,8 +1,12 @@
-﻿using Bot.Extensions;
+﻿using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using static ConfigurationControler.Modelos.Linguagens;
+using System;
+using static Bot.DataBase.MainDB.Modelos.Servidores;
+using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
@@ -18,18 +22,32 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        //public void teste(CommandContext context, object[] args)
-        //{
+        public void insult(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                Servidores servidor = new Servidores(context.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if (servidor.permissoes == Permissoes.ServidorPika)
+                    {
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-        //    EmbedBuilder embedo = new EmbedBuilder();
-        //    embedo.WithColor(Color.DarkPurple);
+                        context.Message.DeleteAsync();
+                        Tuple<IUser, string> user = new UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
 
-        //    embedo.WithTitle("msgs maneiras");
+                        string[] insultos = {
+                        "você eh mais gordo q a mãe do gordo",
+                        "você eh mais depresso q o th"
+                    };
+                        Random rand = new Random();
+                        int i = rand.Next(insultos.Length);
 
-        //    embedo.WithDescription("msg 1");
-        //    context.Channel.SendMessageAsync(embed: embedo.Build());
-        //    embedo.WithDescription("msg 2");
-        //    context.Channel.SendMessageAsync(embed: embedo.Build());
-        //}
+                        context.Channel.SendMessageAsync($"{user.Item1.Mention} {insultos[i]}");
+                    }
+                }
+            }
+        }
     }
 }
