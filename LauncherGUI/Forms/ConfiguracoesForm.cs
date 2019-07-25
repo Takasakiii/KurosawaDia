@@ -49,7 +49,7 @@ namespace Bot.Forms
             DBDAO dao = new DBDAO();
             var retorno = dao.PegarDadosBot();
 
-            {
+            
                 if (retorno.Item4 != null)
                 {
                     txBotToken.Text = retorno.Item4.token;
