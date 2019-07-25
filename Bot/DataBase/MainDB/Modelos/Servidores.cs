@@ -2,7 +2,7 @@
 {
     public class Servidores
     {
-        public enum Permissoes { Normal, ServidorBot, LolisEdition}
+        public enum Permissoes { Normal, ServidorPika, LolisEdition }
         public ulong codigo { get; private set; }
         public ulong id { get; private set; }
         public string nome { get; private set; }

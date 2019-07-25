@@ -4,7 +4,9 @@ using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
 using static Bot.DataBase.MainDB.Modelos.Servidores;
+using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
@@ -20,26 +22,32 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        //public void teste(CommandContext context, object[] args)
-        //{
-        //    Servidores servidor = new Servidores(context.Guild.Id);
-        //    string perms = "";
-        //    if (new ServidoresDAO().GetPermissoes(ref servidor))
-        //    {
-        //        switch (servidor.permissoes)
-        //        {
-        //            case Permissoes.Normal:
-        //                perms = "normal";
-        //                break;
-        //            case Permissoes.ServidorBot:
-        //                perms = "servidor com pika de 30km";
-        //                break;
-        //            case Permissoes.LolisEdition:
-        //                perms = "olha os hentai bando de fudido";
-        //                break;
-        //        }
-        //        context.Channel.SendMessageAsync(perms);
-        //    }
-        //}
+        public void insult(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                Servidores servidor = new Servidores(context.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if (servidor.permissoes == Permissoes.ServidorPika)
+                    {
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                        context.Message.DeleteAsync();
+                        Tuple<IUser, string> user = new UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+
+                        string[] insultos = {
+                        "você eh mais gordo q a mãe do gordo",
+                        "você eh mais depresso q o th"
+                    };
+                        Random rand = new Random();
+                        int i = rand.Next(insultos.Length);
+
+                        context.Channel.SendMessageAsync($"{user.Item1.Mention} {insultos[i]}");
+                    }
+                }
+            }
+        }
     }
 }
