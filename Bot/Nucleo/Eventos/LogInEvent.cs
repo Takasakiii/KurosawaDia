@@ -49,7 +49,6 @@ namespace Bot.Nucleo.Eventos
                     }
                 } while (true);
             }).Start();
-
             return Task.CompletedTask;
         }
     }
