@@ -4,6 +4,7 @@ using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
 using System;
+using System.Collections.Generic;
 using Weeb.net;
 using Weeb.net.Data;
 using TokenType = Weeb.net.TokenType;
@@ -15,10 +16,10 @@ namespace Bot.Comandos
     {
         private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
         {
-            ApiConfig apiConfig = new ApiConfigDAO().Carregar();
+            var apiConfig = new ApisConfigDAO().Carregar();
 
             WeebClient weebClient = new WeebClient();
-            weebClient.Authenticate(apiConfig.WeebToken, TokenType.Wolke).GetAwaiter().GetResult();
+            weebClient.Authenticate(apiConfig.Item2[0].Token, TokenType.Wolke).GetAwaiter().GetResult();
             RandomData img = weebClient.GetRandomAsync(tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
 
             EmbedBuilder embed = new EmbedBuilder();

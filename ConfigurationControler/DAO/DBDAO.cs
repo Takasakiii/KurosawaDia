@@ -3,6 +3,7 @@ using ConfigurationControler.Modelos;
 using ConfigurationControler.Singletons;
 using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 
 namespace ConfigurationControler.DAO
 {
@@ -10,9 +11,9 @@ namespace ConfigurationControler.DAO
     {
         private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
-        public void AdicionarAtualizar(ApiConfig apiConfig, DBConfig dBConfig, DiaConfig diaConfig)
+        public void AdicionarAtualizar(ApisConfig[] apiConfig, DBConfig dBConfig, DiaConfig diaConfig)
         {
-            string[] sqls = { "drop TABLE if EXISTS ApiConfig;", "drop TABLE if EXISTS DiaConfig;", "drop TABLE if EXISTS DbConfig;" };
+            string[] sqls = { "drop TABLE if EXISTS ApisConfig;", "drop TABLE if EXISTS DiaConfig;", "drop TABLE if EXISTS DbConfig;" };
 
             conexao.Open();
             for (int i = 0; i < sqls.Length; i++)
@@ -23,12 +24,19 @@ namespace ConfigurationControler.DAO
                 cmd.ExecuteNonQuery();
             }
 
-            sqls[0] = "insert into ApiConfig values (1, @weebToken, @dblToken, @atualizarDbl);";
+            sqls[0] = "insert into ApisConfig values (@idapi, @ApiIdentifier, @Token, @Ativada), (@idapi2, @ApiIdentifier2, @Token2, @Ativada2);";
             sqls[1] = "insert into DbConfig values (1, @ip, @database, @login, @senha);";
             sqls[2] = "insert into DiaConfig values (1, @tk, @pr, @id);";
 
             SqliteCommand cmda = new SqliteCommand(sqls[0], conexao);
-            cmda.Parameters.AddWithValue("@weebToken", apiConfig.WeebToken);
+            cmda.Parameters.AddWithValue("@idapi", apiConfig[0].id);
+            cmda.Parameters.AddWithValue("@ApiIdentifier", apiConfig[0].ApiIdentifier);
+            cmda.Parameters.AddWithValue("@Token", apiConfig[0].Token);
+            cmda.Parameters.AddWithValue("@Ativada", apiConfig[0].Ativada);
+            cmda.Parameters.AddWithValue("@idapi2", apiConfig[1].id);
+            cmda.Parameters.AddWithValue("@ApiIdentifier2", apiConfig[1].ApiIdentifier);
+            cmda.Parameters.AddWithValue("@Token2", apiConfig[1].Token);
+            cmda.Parameters.AddWithValue("@Ativada2", apiConfig[1].Ativada);
             //cmda.Parameters.AddWithValue("@dblToken", apiConfig.dblToken);
             //cmda.Parameters.AddWithValue("@atualizarDbl", apiConfig.atualizarDbl);
             cmda.ExecuteNonQuery();
@@ -47,41 +55,48 @@ namespace ConfigurationControler.DAO
 
         }
 
-        public Tuple<int, ApiConfig, DBConfig, DiaConfig> PegarDadosBot()
+        public Tuple<int, List<ApisConfig>, DBConfig, DiaConfig> PegarDadosBot()
         {
-            string[] sqls = { "select * from ApiConfig", "select * from DbConfig", "select * from DiaConfig" };
+            string[] sqls = { "select * from ApisConfig", "select * from DbConfig", "select * from DiaConfig" };
             conexao.Open();
 
             int estado = 0;
-            ApiConfig api = null;
+            List<ApisConfig> apis = new List<ApisConfig>();
             DBConfig db = null;
             DiaConfig dia = null;
 
-            SqliteCommand cmd = new SqliteCommand(sqls[0], conexao);
-            SqliteDataReader rs = cmd.ExecuteReader();
-            if (rs.Read())
+            try
             {
-                api = new ApiConfig((string)rs["WeebToken"]);
+                SqliteCommand cmd = new SqliteCommand(sqls[0], conexao);
+                SqliteDataReader rs = cmd.ExecuteReader();
+                while (rs.Read())
+                {
+                    ApisConfig temp = new ApisConfig((string)rs["ApiIdentifier"], (string)rs["Token"], Convert.ToBoolean(rs["Ativada"]), Convert.ToUInt32(rs["id"]));
+                    apis.Add(temp);
+                    
+                }
                 estado++;
-            }
+                cmd = new SqliteCommand(sqls[1], conexao);
+                rs = cmd.ExecuteReader();
+                if (rs.Read())
+                {
+                    db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"]);
+                    estado++;
+                }
+                cmd = new SqliteCommand(sqls[2], conexao);
+                rs = cmd.ExecuteReader();
+                if (rs.Read())
+                {
+                    dia = new DiaConfig((string)rs["token"], (string)rs["prefix"], Convert.ToUInt64(rs["idDono"]));
+                    estado++;
+                }
 
-            cmd = new SqliteCommand(sqls[1], conexao);
-            rs = cmd.ExecuteReader();
-            if (rs.Read())
+            } catch
             {
-                db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"]);
-                estado++;
+                estado = 0;
             }
-            cmd = new SqliteCommand(sqls[2], conexao);
-            rs = cmd.ExecuteReader();
-            if (rs.Read())
-            {
-                dia = new DiaConfig((string)rs["token"], (string)rs["prefix"], Convert.ToUInt64(rs["idDono"]));
-                estado++;
-            }
-
             conexao.Close();
-            return Tuple.Create(estado, api, db, dia);
+            return Tuple.Create(estado, apis, db, dia);
         }
 
     }

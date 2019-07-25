@@ -21,10 +21,13 @@ namespace Bot.Forms
             {
                 DiaConfig diaConfig = new DiaConfig(txBotToken.Text, txBotPrefix.Text, Convert.ToUInt64(txBotIDDono.Text));
                 DBConfig dBConfig = new DBConfig(txDBIP.Text, txDBDatabase.Text, txDBLogin.Text, txDBSenha.Text);
-                ApiConfig apiConfig = new ApiConfig(txWeebAPIToken.Text);
-
+                ApisConfig weebApi = new ApisConfig("Weeb", txWeebAPIToken.Text, true, 0);
+                ApisConfig dblApi = new ApisConfig("Discord Bot List", txDblApiToken.Text, checkAtualizarDbl.Checked, 1);
+                ApisConfig[] apis = new ApisConfig[2];
+                apis[0] = weebApi;
+                apis[1] = dblApi;
                 DBDAO dao = new DBDAO();
-                dao.AdicionarAtualizar(apiConfig, dBConfig, diaConfig);
+                dao.AdicionarAtualizar(apis, dBConfig, diaConfig);
                 MessageBox.Show("Dados atualizados com sucesso", "Kurosawa Dia - Tarefa Completa Senpai :D", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (FormatException)
@@ -46,7 +49,7 @@ namespace Bot.Forms
             DBDAO dao = new DBDAO();
             var retorno = dao.PegarDadosBot();
 
-            if (retorno.Item1 == 3)
+            if (retorno.Item1 > 0)
             {
                 txBotToken.Text = retorno.Item4.token;
                 txBotPrefix.Text = retorno.Item4.prefix;
@@ -57,9 +60,13 @@ namespace Bot.Forms
                 txDBLogin.Text = retorno.Item3.login;
                 txDBSenha.Text = retorno.Item3.senha;
 
-                txWeebAPIToken.Text = retorno.Item2.WeebToken;
-                //txDblApiToken.Text = retorno.Item2.dblToken;
-                //checkAtualizarDbl.Checked = retorno.Item2.atualizarDbl;
+                
+                if(retorno.Item2 != null)
+                {
+                    txWeebAPIToken.Text = retorno.Item2[0].Token;
+                    txDblApiToken.Text = retorno.Item2[1].Token;
+                    checkAtualizarDbl.Checked = retorno.Item2[1].Ativada;
+                }
             }
 
 
