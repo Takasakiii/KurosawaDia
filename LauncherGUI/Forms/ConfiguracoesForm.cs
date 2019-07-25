@@ -67,7 +67,7 @@ namespace Bot.Forms
                 }
 
                 
-                if(retorno.Item2 != null)
+                if(retorno.Item2.Count > 0)
                 {
                     txWeebAPIToken.Text = retorno.Item2[0].Token;
                     txDblApiToken.Text = retorno.Item2[1].Token;
