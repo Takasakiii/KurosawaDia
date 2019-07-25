@@ -47,11 +47,19 @@ insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
 create table Cargos(
 	cod bigint not null auto_increment,
     cod_Tipos_Cargos bigint not null,
-    cargo varchar (255),
+    cargo varchar (255) not null,
     id bigint not null,
     codigo_Servidores int not null,
     foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
     foreign key (codigo_Servidores) references Servidores (codigo_Servidor),
+    primary key (cod)
+);
+
+create table AdmsBot(
+	cod bigint not null auto_increment,
+    codigo_Usuario int not null,
+    permissao int not null,
+    foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
     primary key (cod)
 );
 
@@ -161,6 +169,32 @@ begin
 	select Servidores.nome_servidor, Usuarios.nome_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario;
 end$$
 
+create procedure AdicionarAdm(
+	in _id_Usuario bigint,
+    in _permissao int
+) begin
+	declare result int;
+    set result = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
+	if(select count(cod) from AdmsBot where codigo_Usuario = result) = 0 then
+		insert into AdmsBot(codigo_Usuario, permissao) values (result, _permissao);
+        select true as Result;
+	else
+		select false as Result;
+	end if;
+end$$
+
+create procedure GetAdm (
+	in _id_Usuario bigint
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
+    if(select count(cod) from AdmsBot where codigo_Usuario = _codUsuario) = 1 then
+		select true as Result, permissao from AdmsBot where codigo_Usuario = _codUsuario;
+	else
+		select false as Result;
+	end if;
+end$$
+
 delimiter ;
 call atualizarPrefix(556580866198077451, "!");
 
@@ -174,3 +208,5 @@ select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = "oi" and 54906411265
 select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1;
 call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
+call AdicionarAdm(274289097689006080, 0);
+call GetAdm(274289097689006080);
