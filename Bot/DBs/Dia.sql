@@ -9,6 +9,7 @@ create table Servidores (
     prefix_servidor varchar(25),
     primary key (codigo_servidor)
 );
+alter table Servidores modify column  especial_servidor int not null default 0;
 
 create table ACRS (
 	codigo_acr bigint not null auto_increment,
