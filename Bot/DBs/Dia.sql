@@ -27,6 +27,14 @@ create table Usuarios (
     primary key (codigo_usuario)
 );
 
+create table Insultos(
+	cod bigint not null auto_increment,
+    codigo_usuario int not null,
+    insulto text,
+    foreign key (codigo_usuario) references Usuarios(codigo_usuario),
+    primary key (cod)
+);
+
 create table Servidores_Usuarios (
 	Servidores_codigo_servidor int not null,
     Usuarios_codigo_usuario int not null,
@@ -195,6 +203,20 @@ create procedure GetAdm (
 	end if;
 end$$
 
+create procedure AdicionarInsulto(
+	in _idUsuario bigint,
+    in _insulto text
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
+	insert into Insultos (codigo_usuario, insulto) values (_codUsuario, _insulto); 
+end$$
+
+create procedure PegarInsulto()
+begin
+	select insulto from Insultos order by rand() limit 1;
+end$$
+
 delimiter ;
 call atualizarPrefix(556580866198077451, "!");
 
@@ -210,3 +232,5 @@ call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
 call AdicionarAdm(274289097689006080, 0);
 call GetAdm(274289097689006080);
+call AdicionarInsulto(274289097689006080, "você é mais virgem que o Pitas");
+call PegarInsulto();
