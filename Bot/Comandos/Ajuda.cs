@@ -1,11 +1,14 @@
-﻿using Bot.DataBase.MainDB.Modelos;
+﻿using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Bot.Singletons;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using static Bot.DataBase.MainDB.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -39,28 +42,43 @@ namespace Bot.Comandos
             {
                 ((IUserMessage)args[1]).DeleteAsync();
             }
+
+            string modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
+            List<Emoji> menu = new List<Emoji>();
+            menu.Add(new Emoji("❓"));
+            menu.Add(new Emoji("🛠"));
+            menu.Add(new Emoji("⚖"));
+            menu.Add(new Emoji("🔞"));
+            menu.Add(new Emoji("❤"));
+            menu.Add(new Emoji("🖼"));
+            menu.Add(new Emoji("💬"));
+            menu.Add(new Emoji("⚙"));
+
+            if (!context.IsPrivate)
+            {
+                Servidores servidor = new Servidores(context.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if (servidor.permissoes == Permissoes.ServidorPika)
+                    {
+                        menu.Add(new Emoji("🌟"));
+                        modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
+                    }
+                }
+            }
+
             IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
                         .WithDescription(StringCatch.GetString("cmdsNavegar", "Use as reações para navegar pelos comandos 👍"))
-                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações."))
+                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", modulos))
                         .WithImageUrl(StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
-            Emoji[] menu = new Emoji[8];
-            menu[0] = new Emoji("❓");
-            menu[1] = new Emoji("🛠");
-            menu[2] = new Emoji("⚖");
-            menu[3] = new Emoji("🔞");
-            menu[4] = new Emoji("❤");
-            menu[5] = new Emoji("🖼");
-            menu[6] = new Emoji("💬");
-            menu[7] = new Emoji("⚙");
-
             RequestOptions opc = new RequestOptions();
             opc.RetryMode = RetryMode.AlwaysRetry;
             opc.Timeout = 129;
-            msg.AddReactionsAsync(menu, opc);
+            msg.AddReactionsAsync(menu.ToArray(), opc);
 
             args[1] = msg;
             ReactionControler reaction = new ReactionControler();
@@ -73,6 +91,10 @@ namespace Bot.Comandos
             reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
             reaction.GetReaction(msg, menu[6], context.User, new ReturnMethod(customReaction, context, args));
             reaction.GetReaction(msg, menu[7], context.User, new ReturnMethod(configuracoes, context, args));
+            if (menu.Count == 9)
+            {
+                reaction.GetReaction(msg, menu[8], context.User, new ReturnMethod(especial, context, args));
+            }
 
         }
 
@@ -261,10 +283,29 @@ namespace Bot.Comandos
             args[1] = cmds;
             reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
         }
+        private void especial(CommandContext contexto, object[] args)
+        {
+            ((IUserMessage)args[1]).DeleteAsync();
+            ((ReactionControler)args[2]).DesligarReaction();
+            IUserMessage cmds = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(StringCatch.GetString("especialModulo", "Modulo Especiais (🌟)"))
+                    .WithDescription(StringCatch.GetString("especialInfo", "Só falo uma coisa, isso é exclusivo, e você pode ter o prazer de acessar, não é todo mundo que tem essa chance então aproveite."))
+                    .WithColor(Color.DarkPurple)
+                    .AddField(StringCatch.GetString("ewspecialCmdsTxt", "Comandos:"), StringCatch.GetString("especialCmds", "`{0}insult`", (string)args[0]))
+                    .WithFooter(StringCatch.GetString("especialVoltarTxt", "Voltar"), StringCatch.GetString("especialVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
+                    .WithImageUrl(StringCatch.GetString("especialImg", "https://i.imgur.com/bQGUGbB.gif"))
+                .Build()).GetAwaiter().GetResult();
+
+            Emoji emoji = new Emoji("⬅");
+            cmds.AddReactionAsync(emoji);
+            ReactionControler reaction = new ReactionControler();
+            args[1] = cmds;
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+        }
 
         public void MessageEventExceptions(Exception e, CommandContext contexto, Servidores servidor)
         {
-            if(e is NullReferenceException || e is AmbiguousMatchException)
+            if (e is NullReferenceException || e is AmbiguousMatchException)
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.prefix)))
