@@ -1,10 +1,8 @@
 ﻿using Bot.Comandos;
 using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
 using Bot.Singletons;
 using ConfigurationControler.Modelos;
-using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -20,9 +18,9 @@ namespace Bot.Nucleo.Eventos
         //MessageEvent v2 by Takasaki Masoquista do krai
 
         //configuracoes do MessageEvent
-        private readonly Configuracoes lastClassComands = new Configuracoes();
-        
-        
+        private readonly Especiais lastClassComands = new Especiais();
+
+
         //Dependencia do MessagemEvent
         private readonly DiaConfig config;
 
@@ -42,7 +40,7 @@ namespace Bot.Nucleo.Eventos
             new Thread(() =>
             {
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
-                if(socketUserMessage != null)
+                if (socketUserMessage != null)
                 {
                     CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
                     ControlarMensagens(contexto);
@@ -96,14 +94,14 @@ namespace Bot.Nucleo.Eventos
                 return servidores;
             }
 
-            
+
         }
 
 
-        private bool SepararComandoPrefix (CommandContext contexto, Servidores servidor, ref string comandoSemPrefix)
+        private bool SepararComandoPrefix(CommandContext contexto, Servidores servidor, ref string comandoSemPrefix)
         {
             int argPos = 0;
-            if(contexto.Message.HasStringPrefix(new string(servidor.prefix), ref argPos))
+            if (contexto.Message.HasStringPrefix(new string(servidor.prefix), ref argPos))
             {
                 comandoSemPrefix = contexto.Message.Content.Substring(servidor.prefix.Length);
                 return !(comandoSemPrefix == "" || comandoSemPrefix[0] == servidor.prefix[0]);
@@ -112,7 +110,7 @@ namespace Bot.Nucleo.Eventos
             {
                 return false;
             }
-            
+
         }
 
         private void CadastrarServidorUsuarioAsync(CommandContext context)
@@ -153,12 +151,12 @@ namespace Bot.Nucleo.Eventos
             {
                 new Ajuda().MessageEventExceptions(e, contexto, servidor);
             }
-            
+
         }
 
-        private bool IsMentionCall (CommandContext contexto)
+        private bool IsMentionCall(CommandContext contexto)
         {
-            if(contexto.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || contexto.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
+            if (contexto.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || contexto.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
             {
                 return true;
             }
