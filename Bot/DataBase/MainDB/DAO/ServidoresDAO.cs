@@ -1,6 +1,7 @@
 ﻿using Bot.DataBase.Constructors;
 using Bot.DataBase.MainDB.Modelos;
 using MySql.Data.MySqlClient;
+using System;
 using static Bot.DataBase.MainDB.Modelos.Servidores;
 
 namespace Bot.DataBase.MainDB.DAO
@@ -75,6 +76,25 @@ namespace Bot.DataBase.MainDB.DAO
                 servidor.SetPermissao((Permissoes)rs["especial_servidor"]);
                 retorno = true;
 
+            }
+            rs.Close();
+            conexao.Close();
+            return retorno;
+        }
+
+        public bool SetEspecial(Servidores servidor)
+        {
+            const string sql = "call DefinirTipoServidor(@id, @tipo)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", servidor.id);
+            cmd.Parameters.AddWithValue("@tipo", servidor.permissoes);
+
+            MySqlDataReader rs = cmd.ExecuteReader();
+            bool retorno = false;
+            if (rs.Read())
+            {
+                retorno = Convert.ToBoolean(rs["Result"]);
             }
             rs.Close();
             conexao.Close();
