@@ -223,6 +223,14 @@ create procedure GetPermissoes(
 	select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id_servidor;
 end$$
 
+create procedure DefinirTipoServidor(
+	in _id bigint,
+    in _tipoServidor int
+) begin
+	update Servidores set especial_servidor = _tipoServidor where id_servidor = _id;
+end $$
+
+
 delimiter ;
 call atualizarPrefix(556580866198077451, "!");
 
@@ -240,3 +248,4 @@ call AdicionarAdm(274289097689006080, 0);
 call GetAdm(274289097689006080);
 call AdicionarInsulto(274289097689006080, "você é mais virgem que o Pitas");
 call PegarInsulto();
+call DefinirTipoServidor(556580866198077451, 1);
