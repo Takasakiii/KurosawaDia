@@ -28,5 +28,19 @@ namespace Bot.Comandos
                 }
             }
         }
+
+        public void setespecial(CommandContext context, object[] args)
+        {
+            Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
+            Adms adm = new Adms(usuario);
+
+            if (new AdmsDAO().GetAdm(ref adm))
+            {
+                if (adm.permissoes == PermissoesAdm.Donas)
+                {
+                   
+                }
+            }
+        }
     }
 }
