@@ -232,14 +232,27 @@ namespace Bot.Comandos
 
                         UserExtensions userExtensions = new UserExtensions();
                         Tuple<IUser, string> user = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
-                        string userNick = userExtensions.GetNickname(user.Item1, !context.IsPrivate);
-                        string authorNick = userExtensions.GetNickname(context.User, !context.IsPrivate);
+                        
+                        if(user.Item1 != null)
+                        {
+                            string userNick = userExtensions.GetNickname(user.Item1, !context.IsPrivate);
+                            string authorNick = userExtensions.GetNickname(context.User, !context.IsPrivate);
 
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
-                                .WithImageUrl(fuck.img)
-                                .WithColor(Color.DarkPurple)
+                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
+                                    .WithImageUrl(fuck.img)
+                                    .WithColor(Color.DarkPurple)
+                                .Build());
+                        }
+                        else
+                        {
+                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                 .WithTitle(StringCatch.GetString("fuckSemPessoa", "{0} você não me disse quem você quer fuder", context.User.ToString()))
+                                 .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoFuck", "{0}fuck <pessoa>", (string)args[0]))
+                                 .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploFuck", "{0}fuck @José Gabriel#2282", (string)args[0]))
+                                 .WithColor(Color.Red)
                             .Build());
+                        }
                     }
                 }
             }
