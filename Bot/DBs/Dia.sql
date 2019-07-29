@@ -30,7 +30,7 @@ create table Usuarios (
 create table Insultos(
 	cod bigint not null auto_increment,
     codigo_usuario int not null,
-    insulto text,
+    insulto text not null,
     foreign key (codigo_usuario) references Usuarios(codigo_usuario),
     primary key (cod)
 );
@@ -70,6 +70,17 @@ create table AdmsBot(
     foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
     primary key (cod)
 );
+
+CREATE TABLE Fuck (
+  cod bigint NOT NULL AUTO_INCREMENT,
+  codigo_usuario int NOT NULL,
+  urlImage varchar(255) NOT NULL,
+  explicitImage bool NOT NULL,
+  PRIMARY KEY (cod),
+  KEY codigo_usuario (codigo_usuario),
+  FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
+);
+
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
@@ -217,6 +228,22 @@ begin
 	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
 end$$
 
+create procedure AdicionarImgFuck(
+	in _idUsuario bigint,
+    in _img text,
+    in _explicit bool
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select Usuarios.codigo_usuario from Usuarios where Usuarios.id_usuario = _idUsuario);
+    insert into Fuck (Fuck.codigo_usuario, Fuck.urlImage, Fuck.explicitImage) values (_codUsuario, _img, _explicit);
+end$$
+
+create procedure GetFuckImg (
+	in _explicit bool
+) begin 
+	select Fuck.cod, Fuck.urlImage, Fuck.explicitImage, Usuarios.id_usuario, Usuarios.nome_usuario from Fuck join Usuarios on Usuarios.codigo_usuario = Fuck.codigo_usuario where Fuck.explicitImage = _explicit order by rand() limit 1;
+end$$
+
 create procedure GetPermissoes(
 	in _id_servidor bigint
 ) begin 
@@ -235,9 +262,13 @@ create procedure DefinirTipoServidor(
 	end if;
 end $$
 
-
 delimiter ;
+call AdicionarImgFuck(368280970102833153, "https://i.imgur.com/rtG8cwh.gif", true);
+call GetFuckImg(true);
+
 call atualizarPrefix(556580866198077451, "!");
+
+call DefinirTipoServidor(556580866198077451, 1);
 
 call criarAcr("gado", "thhhrag", 518069575896793109);
 call AdcAjudanteIdol("pitas viado", 32, 556580866198077451);
@@ -249,8 +280,3 @@ select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = "oi" and 54906411265
 select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1;
 call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
-call AdicionarAdm(274289097689006080, 0);
-call GetAdm(274289097689006080);
-call AdicionarInsulto(274289097689006080, "você é mais virgem que o Pitas");
-call PegarInsulto();
-call DefinirTipoServidor(556580866198077451, 1);
