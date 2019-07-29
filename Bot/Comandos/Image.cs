@@ -1,10 +1,14 @@
 ﻿using Bot.Constantes;
+using Bot.DataBase.MainDB.DAO;
+using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using System;
 using System.Linq;
 using System.Threading;
+using static Bot.DataBase.MainDB.Modelos.Servidores;
+using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
@@ -202,6 +206,43 @@ namespace Bot.Comandos
                 embed.WithColor(Color.Red);
             }
             context.Channel.SendMessageAsync(embed: embed.Build());
+        }
+
+        public void fuck(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                Servidores servidor = new Servidores(context.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    bool explicitImg = false;
+                    if (servidor.permissoes == Permissoes.ServidorPika || servidor.permissoes == Permissoes.LolisEdition)
+                    {
+                        explicitImg = true;
+                    }
+
+                    Fuck fuck = new Fuck();
+                    fuck.SetImg(explicitImg);
+                    
+                    if(new FuckDAO().GetImg(ref fuck))
+                    {
+
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                        UserExtensions userExtensions = new UserExtensions();
+                        Tuple<IUser, string> user = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                        string userNick = userExtensions.GetNickname(user.Item1, !context.IsPrivate);
+                        string authorNick = userExtensions.GetNickname(context.User, !context.IsPrivate);
+
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
+                                .WithImageUrl(fuck.img)
+                                .WithColor(Color.DarkPurple)
+                            .Build());
+                    }
+                }
+            }
         }
     }
 }
