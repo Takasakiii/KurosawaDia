@@ -8,6 +8,7 @@ using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using static Bot.DataBase.MainDB.Modelos.Servidores;
 
 namespace Bot.Comandos
@@ -75,10 +76,13 @@ namespace Bot.Comandos
                         .WithColor(Color.DarkPurple)
                 .Build()).GetAwaiter().GetResult();
 
-            RequestOptions opc = new RequestOptions();
-            opc.RetryMode = RetryMode.AlwaysRetry;
-            opc.Timeout = 129;
-            msg.AddReactionsAsync(menu.ToArray(), opc);
+
+            foreach (Emoji emojo in menu)
+            {
+                msg.AddReactionAsync(emojo);
+                Thread.Sleep(123);
+            }
+
 
             args[1] = msg;
             ReactionControler reaction = new ReactionControler();
