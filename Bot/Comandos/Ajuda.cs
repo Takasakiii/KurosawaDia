@@ -80,7 +80,7 @@ namespace Bot.Comandos
             foreach (Emoji emojo in menu)
             {
                 msg.AddReactionAsync(emojo);
-                Thread.Sleep(123);
+                Thread.Sleep(425);
             }
 
 
