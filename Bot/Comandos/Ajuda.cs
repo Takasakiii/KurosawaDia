@@ -291,7 +291,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("especialModulo", "Modulo Especiais (🌟)"))
                     .WithDescription(StringCatch.GetString("especialInfo", "Só falo uma coisa, isso é exclusivo, e você pode ter o prazer de acessar, não é todo mundo que tem essa chance então aproveite."))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("ewspecialCmdsTxt", "Comandos:"), StringCatch.GetString("especialCmds", "`{0}insult`, `{0}criarinsulto`", (string)args[0]))
+                    .AddField(StringCatch.GetString("especialCmdsTxt", "Comandos:"), StringCatch.GetString("especialCmds", "`{0}insult`, `{0}criarinsulto`, `{0}fuckadd`", (string)args[0]))
                     .WithFooter(StringCatch.GetString("especialVoltarTxt", "Voltar"), StringCatch.GetString("especialVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
                     .WithImageUrl(StringCatch.GetString("especialImg", "https://i.imgur.com/bQGUGbB.gif"))
                 .Build()).GetAwaiter().GetResult();

@@ -1,10 +1,8 @@
 ﻿using Bot.Extensions;
 using ConfigurationControler.DAO;
-using ConfigurationControler.Modelos;
 using Discord;
 using Discord.Commands;
 using System;
-using System.Collections.Generic;
 using Weeb.net;
 using Weeb.net.Data;
 using TokenType = Weeb.net.TokenType;
