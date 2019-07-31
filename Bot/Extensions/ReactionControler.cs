@@ -45,11 +45,11 @@ namespace Bot.Extensions
                         {
                             gatilho = true;
                         }
-                        Thread.Sleep(235);
+                        Thread.Sleep(135);
                     }
                     catch
                     {
-                        Thread.Sleep(234);
+                        Thread.Sleep(134);
                     }
                 } while (!gatilho && ThreadLife);
                 if (ThreadLife)
