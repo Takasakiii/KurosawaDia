@@ -17,7 +17,8 @@ namespace Bot.Extensions
                 construtor.WithTitle(embed.title);
             if (!string.IsNullOrWhiteSpace(embed.description))
                 construtor.WithDescription(embed.description);
-            if (embed.author != null && string.IsNullOrWhiteSpace(embed.author.name))
+            if (embed.author != null && !string.IsNullOrWhiteSpace(embed.author.name))
+            {
                 construtor.WithAuthor(autor =>
                 {
                     if (Uri.IsWellFormedUriString(embed.author.icon_url, UriKind.Absolute))
@@ -26,6 +27,7 @@ namespace Bot.Extensions
                         autor.WithUrl(embed.author.url);
                     autor.WithName(embed.author.name);
                 });
+            }
             construtor.WithColor(new Color(embed.color));
             if (embed.footer != null)
                 construtor.WithFooter(embedfooter =>
