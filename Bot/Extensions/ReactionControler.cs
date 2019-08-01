@@ -40,12 +40,16 @@ namespace Bot.Extensions
                     try
                     {
                         
-                        List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
+                        List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 2).FlattenAsync().GetAwaiter().GetResult().ToList();
                         if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
                         {
                             gatilho = true;
                         }
-                        Thread.Sleep(135);
+                        else
+                        {
+                            Thread.Sleep(135);
+                        }
+                        
                     }
                     catch
                     {
