@@ -51,6 +51,7 @@ create table Tipos_Cargos(
 
 #Setup Tipos_Cargos
 insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
+insert into Tipos_Cargos values (2, "Cargos por XP (XpRole)");
 
 create table Cargos(
 	cod bigint not null auto_increment,
@@ -62,6 +63,7 @@ create table Cargos(
     foreign key (codigo_Servidores) references Servidores (codigo_Servidor),
     primary key (cod)
 );
+alter table Cargos add column requesito bigint not null default 0;
 
 create table AdmsBot(
 	cod bigint not null auto_increment,
@@ -79,6 +81,16 @@ CREATE TABLE Fuck (
   PRIMARY KEY (cod),
   KEY codigo_usuario (codigo_usuario),
   FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
+);
+
+create table PontosInterativos (
+	cod bigint not null auto_increment,
+    servidores_usuarios_servidor int not null,
+    servidores_usuarios_usuario int not null,
+    PI bigint not null,
+    fragmentosPI bigint not null,
+    foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
+    primary key (cod)
 );
 
 
