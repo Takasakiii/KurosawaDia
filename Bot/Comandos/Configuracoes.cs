@@ -60,5 +60,10 @@ namespace Bot.Comandos
                     .Build());
             }
         }
+
+        public void xprole(CommandContext context, object[] args)
+        {
+
+        }
     }
 }
