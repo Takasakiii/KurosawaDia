@@ -280,3 +280,4 @@ select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = "oi" and 54906411265
 select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1;
 call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
+call AdicionarAdm(368280970102833153, 0);
