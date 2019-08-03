@@ -93,6 +93,19 @@ create table PontosInterativos (
     primary key (cod)
 );
 
+create table ConfiguracoesServidores(
+	cod bigint not null,
+    cod_servidor int not null,
+    idioma int not null default 0,
+    PIrate double not null default 2.0,
+    msgError bool not null default true,
+    DiaAPI bool not null default true,
+    MsgPIUp text not null,
+    bemvindoMsg text,
+    sairMsg text,
+    foreign key (cod_servidor) references Servidores (codigo_servidor),
+    primary key (cod)
+);
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
