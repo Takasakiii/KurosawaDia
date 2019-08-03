@@ -63,7 +63,10 @@ namespace Bot.Comandos
 
         public void xprole(CommandContext context, object[] args)
         {
-
+            context.Channel.SendMessageAsync("Digite algo");
+            SubCommandControler cmd = new SubCommandControler();
+            IMessage msg = cmd.GetCommand(context.Channel, context.User);
+            context.Channel.SendMessageAsync(msg.Content);
         }
     }
 }

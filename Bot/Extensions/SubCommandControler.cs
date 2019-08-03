@@ -21,7 +21,7 @@ namespace Bot.Extensions
             ThreadLife = false;
         }
 
-        public IMessage GetCommand(IMessageChannel canal, IUser usuario, int tempoAnalise = 60)
+        public IMessage GetCommand(IMessageChannel msgPrincipal, IUser usuario, int tempoAnalise = 60)
         {
             IMessage retorno = null;
             new Thread(() =>
@@ -33,7 +33,7 @@ namespace Bot.Extensions
             {
                 try
                 {
-                    List<IMessage> messages = canal.GetMessagesAsync(10).FlattenAsync().GetAwaiter().GetResult().ToList();
+                    List<IMessage> messages = msgPrincipal.GetMessagesAsync(1).FlattenAsync().GetAwaiter().GetResult().ToList();
                     IMessage msg = messages.Find(x => x.Author.Id == usuario.Id);
                     if (msg != null)
                     {
