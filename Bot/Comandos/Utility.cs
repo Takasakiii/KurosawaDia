@@ -175,7 +175,7 @@ namespace Bot.Comandos
                         context.Message.DeleteAsync().GetAwaiter().GetResult();
                     }
 
-                    new EmbedControl().SendMessage(context, msg);
+                    new EmbedControl().SendMessage(context.Channel, msg);
                 }
                 else
                 {
