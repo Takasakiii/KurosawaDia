@@ -1,6 +1,8 @@
 create database Pitas_Kurosawa;
 use Pitas_Kurosawa;
 
+SET GLOBAL max_connections = 1000;
+
 create table Servidores (
 	codigo_servidor int not null auto_increment,
 	id_servidor bigint not null unique key,
