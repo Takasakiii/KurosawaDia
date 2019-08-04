@@ -14,7 +14,6 @@ namespace Bot.Comandos
 {
     public class Image : Moderacao
     {
-        public Links links = new Links();
         public void getImg(CommandContext context, string txt = "", Tuple<string, string> img = null, Tuple<string, string>[] imgs = null, bool nsfw = false, int quantidade = 1)
         {
             new Thread(() =>
@@ -75,11 +74,13 @@ namespace Bot.Comandos
 
         public void cat(CommandContext context, object[] args)
         {
+            Links links = new Links();
             getImg(context, StringCatch.GetString("catTxt", "Meow"), links.cat);
         }
 
         public void dog(CommandContext context, object[] args)
         {
+            Links links = new Links();
             getImg(context, img:links.dog);
         }
 

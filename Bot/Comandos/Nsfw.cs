@@ -1,4 +1,5 @@
-﻿using Bot.DataBase.MainDB.DAO;
+﻿using Bot.Constantes;
+using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
 using Discord.Commands;
 using System;
@@ -10,6 +11,8 @@ namespace Bot.Comandos
     {
         public void hentai(CommandContext context, object[] args)
         {
+            Links links = new Links();
+
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
             if (!context.IsPrivate)
@@ -29,6 +32,8 @@ namespace Bot.Comandos
 
         public void hentaibomb(CommandContext context, object[] args)
         {
+            Links links = new Links();
+
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
             if (!context.IsPrivate)
@@ -48,6 +53,8 @@ namespace Bot.Comandos
 
         public void anal(CommandContext context, object[] args)
         {
+            Links links = new Links();
+
             getImg(context, img: links.anal, nsfw: true);
 
         }
