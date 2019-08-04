@@ -63,7 +63,10 @@ namespace Bot.Comandos
 
         public void xprole(CommandContext context, object[] args)
         {
-            
+            context.Channel.SendMessageAsync("Digita algo ai tio");
+            SubCommandControler controler = new SubCommandControler();
+            IMessage rt = controler.GetCommand(context.Channel, context.User);
+            context.Channel.SendMessageAsync(rt.Content);
         }
     }
 }
