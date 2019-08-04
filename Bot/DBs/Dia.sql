@@ -304,24 +304,22 @@ create procedure criarConfig(
 	end if;
 end$$
     
-create procedure configurePIRate(
-	in _idServidor bigint,
-    in _pirate double
-) begin
-	declare _cod int;
-    set _cod = (select codigo_servidor from Servidores where id_servidor = _idServidor);
-    call criarConfig(_cod);
-    update configuracoesservidores set PIrate = _pirate where cod_servidor = _cod;
-end$$
 
-create procedure configurePIConf(
+
+create procedure configurePI(
 	in _idServidor bigint,
-    in _piconf bool
+    in _piconf bool,
+    in _pirate double,
+    in _msgPiup text
 ) begin
 	declare _cod int;
     set _cod = (select codigo_servidor from Servidores where id_servidor = _idServidor);
     call criarConfig(_cod);
     update configuracoesservidores set PIConf = _piconf where cod_servidor = _cod;
+    update configuracoesservidores set PIrate = _pirate where cod_servidor = _cod;
+    if (_msgPiup <> "") then
+		update configuracoesservidores set MsgPIUp = _msgPiup where cod_servidor = _cod;
+	end if;
 end$$
 
 delimiter ;
