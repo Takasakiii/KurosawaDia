@@ -28,7 +28,7 @@ namespace Bot.Comandos
                     string msg = string.Join(" ", comando, 1, (comando.Length - 1));
                     string[] resposta_pergunta = msg.Split('|');
 
-                    if (resposta_pergunta.Length == 2)
+                    if (resposta_pergunta.Length > 2)
                     {
                         ACRs acr = new ACRs();
                         acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);

@@ -3,6 +3,7 @@ using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using static Bot.DataBase.MainDB.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Comandos
 {
@@ -63,10 +64,75 @@ namespace Bot.Comandos
 
         public void xprole(CommandContext context, object[] args)
         {
-            context.Channel.SendMessageAsync("Digita algo ai tio");
-            SubCommandControler controler = new SubCommandControler();
-            IMessage rt = controler.GetCommand(context.Channel, context.User);
-            context.Channel.SendMessageAsync(rt.Content);
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+
+            if (!context.IsPrivate)
+            {
+                string[] comando = (string[])args[1];
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                string[] parms = msg.Split('|');
+
+                if(parms.Length > 3 || parms[0] == "n" || parms[0] == "não")
+                {
+                    bool ativado = false;
+                    if (parms[0] == "s" || parms[0] == "sim")
+                    {
+                        ativado = true;
+                    }
+
+                    if (ativado)
+                    {
+                        double rate = 0;
+                        if (double.TryParse(parms[1], out rate))
+                        {
+                            ConfiguracoesServidor configs = new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), new PI(ativado, rate, parms[2]));
+                            if(new ConfiguracoesServidorDAO().SalvarPIConfig(configs))
+                            {
+                                embed.WithDescription(StringCatch.GetString("xproleSetado", "**{0}** setado yay", context.User.ToString()));
+                                embed.WithColor(Color.DarkPurple);
+                            }
+                            else
+                            {
+                                embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** deu merda na hr de seta", context.User.ToString()));
+                                embed.WithColor(Color.Red);
+                            }
+                        }
+                        else
+                        {
+                            embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** tem um erro na paryte do rate yay", context.User.ToString()));
+                            embed.WithColor(Color.Red);
+                        }
+                    }
+                    else
+                    {
+                        ConfiguracoesServidor configs = new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), new PI(false));
+                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(configs))
+                        {
+                            embed.WithDescription(StringCatch.GetString("xproleSetado", "**{0}** setado yay", context.User.ToString()));
+                            embed.WithColor(Color.DarkPurple);
+                        }
+                        else
+                        {
+                            embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** deu merda na hr de seta", context.User.ToString()));
+                            embed.WithColor(Color.Red);
+                        }
+                    }
+                }
+                else
+                {
+                    embed.WithTitle(StringCatch.GetString("xproleErro", "Você precisa me falar qm caralhas eu tenho q colocar na bosta das config dessa porra de server"));
+                    embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoXprole", "`{0}xprole ativado <s/n> | rate | msg`", (string)args[0]));
+                    embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploXprole", "`{0}xprole s | 1.2 | parabens você subiu de nivel`", (string)args[0]));
+                    embed.WithColor(Color.Red);
+                }
+            }
+            else
+            {
+                embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
+                embed.WithColor(Color.Red);
+            }
+            context.Channel.SendMessageAsync(embed: embed.Build());
         }
     }
 }

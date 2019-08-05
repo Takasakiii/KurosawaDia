@@ -24,7 +24,7 @@ namespace Bot.Comandos
                     if (servidor.permissoes == Permissoes.ServidorPika || (adm.permissoes == Adms.PermissoesAdm.Donas && certo))
                     {
                         Insultos insulto = new Insultos();
-                        if(new InsultosDAO().GetInsulto(ref insulto))
+                        if (new InsultosDAO().GetInsulto(ref insulto))
                         {
                             string[] comando = (string[])args[1];
                             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
@@ -87,15 +87,27 @@ namespace Bot.Comandos
                         string[] comando = (string[])args[1];
                         string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                        Insultos insulto = new Insultos();
-                        insulto.SetInsulto(msg, usuario);
+                        if (msg != "")
+                        {
+                            Insultos insulto = new Insultos();
+                            insulto.SetInsulto(msg, usuario);
 
-                        if(new InsultosDAO().InserirInsulto(insulto))
+                            if (new InsultosDAO().InserirInsulto(insulto))
+                            {
+                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("createinsultCriado", "**{0}** o insulto foi adicinado", context.User.ToString()))
+                                        .WithColor(Color.DarkPurple)
+                                    .Build());
+                            }
+                        }
+                        else
                         {
                             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("createinsultCriado", "**{0}** o insulto foi adicinado", context.User.ToString()))
-                                    .WithColor(Color.DarkPurple)
-                                .Build());
+                                .WithTitle(StringCatch.GetString("criarinsultoErro", "Você precisa me falar um insulto"))
+                                .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoCriarinsulto", "`{0}criarinsulto insulto`", (string)args[0]))
+                                .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploCirarinsulto", "`{0}criarinsulto joguei uma pedra em você e ela entrou em orbita`", (string)args[0]))
+                                .WithColor(Color.Red)
+                               .Build());
                         }
                     }
                     else
@@ -122,7 +134,7 @@ namespace Bot.Comandos
                         string[] comando = (string[])args[1];
                         try
                         {
-                            if(new HttpExtensions().IsImageUrl(comando[1]))
+                            if (new HttpExtensions().IsImageUrl(comando[1]))
                             {
                                 bool _explicit = Convert.ToBoolean(comando[2]);
                                 Fuck fuck = new Fuck();
@@ -152,7 +164,7 @@ namespace Bot.Comandos
                                     .WithColor(Color.Red)
                                 .Build());
                         }
-                        
+
                     }
                 }
             }
