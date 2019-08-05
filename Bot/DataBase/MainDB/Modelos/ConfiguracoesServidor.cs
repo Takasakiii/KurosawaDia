@@ -50,6 +50,16 @@ namespace Bot.DataBase.MainDB.Modelos
 
         }
 
+        public struct ErroMsg
+        {
+            public bool erroMsg { private set; get; }
+
+            public ErroMsg(bool erroMsg)
+            {
+                this.erroMsg = erroMsg;
+            }
+        }
+
         public struct DiaApi
         {
             public bool diaApi { private set; get; }
@@ -66,6 +76,7 @@ namespace Bot.DataBase.MainDB.Modelos
         public Idioma idioma { private set; get; }
         public PI pI { private set; get; }
         public DiaApi diaApi { private set; get; }
+        public ErroMsg erroMsg { private set; get; }
 
         public ConfiguracoesServidor(Servidores servidor, BemVindoGoodByeMsg bemvindo, ulong cod = 0)
         {
@@ -92,6 +103,13 @@ namespace Bot.DataBase.MainDB.Modelos
         {
             this.servidor = servidor;
             this.diaApi = diaApi;
+            this.cod = cod;
+        }
+
+        public ConfiguracoesServidor (Servidores servidor, ErroMsg erroMsg, ulong cod = 0)
+        {
+            this.servidor = servidor;
+            this.erroMsg = erroMsg;
             this.cod = cod;
         }
         
