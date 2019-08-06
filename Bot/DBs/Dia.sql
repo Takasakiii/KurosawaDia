@@ -96,14 +96,14 @@ create table PontosInterativos (
 );
 
 create table ConfiguracoesServidores(
-	cod bigint not null,
+	cod bigint not null auto_increment,
     cod_servidor int not null,
     idioma int not null default 0,
     PIConf bool not null default false,
     PIrate double not null default 2.0,
     msgError bool not null default true,
     DiaAPI bool not null default true,
-    MsgPIUp text not null,
+    MsgPIUp text,
     bemvindoMsg text,
     sairMsg text,
     foreign key (cod_servidor) references Servidores (codigo_servidor),
@@ -319,12 +319,14 @@ create procedure configurePI(
     call criarConfig(_cod);
     update configuracoesservidores set PIConf = _piconf where cod_servidor = _cod;
     update configuracoesservidores set PIrate = _pirate where cod_servidor = _cod;
-    if (_msgPiup <> "") then
+    if (_msgPiup <> NULL) then
 		update configuracoesservidores set MsgPIUp = _msgPiup where cod_servidor = _cod;
 	end if;
 end$$
 
+
 delimiter ;
+
 call AdicionarImgFuck(368280970102833153, "https://i.imgur.com/rtG8cwh.gif", true);
 call GetFuckImg(true);
 

@@ -27,7 +27,7 @@ namespace Bot.DataBase.MainDB.DAO
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("@msg", "");
+                    cmd.Parameters.AddWithValue("@msg", DBNull.Value);
                 }
 
                 cmd.ExecuteNonQuery();
@@ -35,6 +35,7 @@ namespace Bot.DataBase.MainDB.DAO
             catch
             {
                 retorno = false;
+                throw;
             }
             finally
             {
