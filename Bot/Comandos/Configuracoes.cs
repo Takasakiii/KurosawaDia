@@ -134,5 +134,10 @@ namespace Bot.Comandos
             }
             context.Channel.SendMessageAsync(embed: embed.Build());
         }
+
+        public void setwelcome(CommandContext context, object[] args)
+        {
+
+        }
     }
 }

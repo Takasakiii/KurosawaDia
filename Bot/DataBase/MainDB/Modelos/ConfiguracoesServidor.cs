@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static ConfigurationControler.Modelos.Linguagens;
+﻿using static ConfigurationControler.Modelos.Linguagens;
 
 namespace Bot.DataBase.MainDB.Modelos
 {
@@ -13,7 +10,7 @@ namespace Bot.DataBase.MainDB.Modelos
             public string bemvindoMsg { private set; get; }
             public string sairMsg { private set; get; }
 
-            public void setBemvindo (string bemvindoMsg)
+            public void setBemvindo(string bemvindoMsg)
             {
                 this.bemvindoMsg = bemvindoMsg;
             }
@@ -106,12 +103,12 @@ namespace Bot.DataBase.MainDB.Modelos
             this.cod = cod;
         }
 
-        public ConfiguracoesServidor (Servidores servidor, ErroMsg erroMsg, ulong cod = 0)
+        public ConfiguracoesServidor(Servidores servidor, ErroMsg erroMsg, ulong cod = 0)
         {
             this.servidor = servidor;
             this.erroMsg = erroMsg;
             this.cod = cod;
         }
-        
+
     }
 }
