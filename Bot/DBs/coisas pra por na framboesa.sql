@@ -4,7 +4,7 @@ create table PontosInterativos (
 	cod bigint not null auto_increment,
     servidores_usuarios_servidor int not null,
     servidores_usuarios_usuario int not null,
-    PI bigint not null default 0,
+    PI bigint not null default 1,
     fragmentosPI bigint not null default 0,
     foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
     primary key (cod)
@@ -77,6 +77,21 @@ create procedure CriarPI(
 end$$
 	
     
+create procedure LevelUP(
+	in _codServidor int,
+    in _codUsuario int
+)begin
+	declare _multi double;
+    declare _fragmento bigint;
+    declare _levelAtual int;
+    set _multi = (select PIrate from configuracoesservidores where cod_servidor = _codServidor);
+    set _fragmento = (select fragmentosPI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
+    set _levelAtual = (select pontosinterativos.PI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
+    if(_fragmento >= (_levelAtual * (_multi * 10))) then
+		update pontosinterativos set pontosinterativos.PI = (pontosinterativos.PI + 1), fragmentosPI = 0 where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+	end if;
+end$$
+    
 create procedure AddPI(
 	in _idServidor bigint,
     in _idUsuario bigint
@@ -88,5 +103,7 @@ create procedure AddPI(
 		set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
 		call CriarPI(_codServidor, _codUsuario);
         update pontosinterativos set fragmentosPI = (fragmentosPI + 1) where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+        call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
+
