@@ -3,6 +3,7 @@ using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using static Bot.DataBase.MainDB.Modelos.Canais;
 using static Bot.DataBase.MainDB.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Comandos
@@ -210,7 +211,17 @@ namespace Bot.Comandos
 
         public void setwelcome(CommandContext context, object[] args)
         {
+            Servidores servidor = new Servidores(context.Guild.Id);
+            Canais canal = new Canais(TiposCanais.bemvindoCh, context.Channel.Id, servidor, context.Channel.Name);
 
+            if(new CanaisDAO().AdcCh(canal))
+            {
+                context.Channel.SendMessageAsync("o canal foi addcionado yay");
+            }
+            else
+            {
+                context.Channel.SendMessageAsync("meu amigo deu merda na hr de adiciona o canal");
+            }
         }
     }
 }
