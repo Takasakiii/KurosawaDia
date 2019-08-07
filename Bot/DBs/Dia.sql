@@ -85,15 +85,7 @@ CREATE TABLE Fuck (
   FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
 );
 
-create table PontosInterativos (
-	cod bigint not null auto_increment,
-    servidores_usuarios_servidor int not null,
-    servidores_usuarios_usuario int not null,
-    PI bigint not null,
-    fragmentosPI bigint not null,
-    foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
-    primary key (cod)
-);
+
 
 create table ConfiguracoesServidores(
 	cod bigint not null auto_increment,
@@ -324,8 +316,42 @@ create procedure configurePI(
 	end if;
 end$$
 
+create function verificarPI(
+	_codServidor int,
+    _codUsuario int
+) returns int begin
+	declare _return int;
+    set _return = (select count(cod) from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
+    return _return;
+end$$
+
+create procedure CriarPI(
+	in _codServidor int,
+	in _codUsuario int
+) begin
+	if((select verificarPI(_codServidor, _codUsuario)) = 0) then
+		insert into pontosinterativos (servidores_usuarios_servidor, servidores_usuarios_usuario) values (_codServidor, _codUsuario);
+	end if;
+end$$
+	
+    
+create procedure AddPI(
+	in _idServidor bigint,
+    in _idUsuario bigint
+) begin
+	declare _codServidor int;
+    declare _codUsuario int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+    if((select verificarConfig (_codServidor)) > 0 and (select PIConf from configuracoesservidores where cod_servidor = _codServidor)) then
+		set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
+		call CriarPI(_codServidor, _codUsuario);
+        update pontosinterativos set fragmentosPI = (fragmentosPI + 1) where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+	end if;
+end$$
 
 delimiter ;
+
+call AddPI(556580866198077451, 274289097689006080);
 
 call AdicionarImgFuck(368280970102833153, "https://i.imgur.com/rtG8cwh.gif", true);
 call GetFuckImg(true);
