@@ -1,6 +1,7 @@
 ﻿using Bot.Comandos;
 using Bot.DataBase.MainDB.DAO;
 using Bot.DataBase.MainDB.Modelos;
+using Bot.Extensions;
 using Bot.Singletons;
 using ConfigurationControler.Modelos;
 using Discord.Commands;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using static Bot.DataBase.MainDB.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -53,6 +55,7 @@ namespace Bot.Nucleo.Eventos
             if (!contexto.User.IsBot)
             {
                 CadastrarServidorUsuarioAsync(contexto);
+                PIEvent(contexto);
                 Servidores servidores = PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
@@ -164,6 +167,23 @@ namespace Bot.Nucleo.Eventos
             {
                 return false;
             }
+        }
+
+        private void PIEvent(CommandContext contexto)
+        {
+            new Thread(() =>
+            {
+                Servidores server = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
+                Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
+                Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
+                PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
+                PI pI = new PI();
+                PontosInterativosDAO dao = new PontosInterativosDAO();
+                if (dao.AdicionarPonto(pontos, ref pI))
+                {
+                    new EmbedControl().SendMessage(contexto.Channel, pI.MsgPIUp);
+                }
+            }).Start();
         }
     }
 }

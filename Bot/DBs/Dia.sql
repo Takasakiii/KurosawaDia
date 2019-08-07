@@ -319,8 +319,10 @@ create procedure configurePI(
     call criarConfig(_cod);
     update configuracoesservidores set PIConf = _piconf where cod_servidor = _cod;
     update configuracoesservidores set PIrate = _pirate where cod_servidor = _cod;
-    if (_msgPiup <> NULL) then
+    if (_msgPiup <> "") then
 		update configuracoesservidores set MsgPIUp = _msgPiup where cod_servidor = _cod;
+	else
+		update configuracoesservidores set MsgPIUp = NULL where cod_servidor = _cod;
 	end if;
 end$$
 

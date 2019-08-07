@@ -26,7 +26,7 @@ namespace Bot.DataBase.MainDB.DAO
             {
                 if (Convert.ToBoolean(rs["Upou"]))
                 {
-                    if(rs["MsgPIUp"] != null)
+                    if(rs["MsgPIUp"] != DBNull.Value)
                     {
                         piSaida = new PI(true, MsgPIUp: (string)rs["MsgPIUp"]);
                         retorno = true;
