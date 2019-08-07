@@ -182,6 +182,21 @@ namespace Bot.Comandos
                             {
                                 ativado = false;
                             }
+                            PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
+                            if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), pimodel)))
+                            {
+                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Green)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                    .Build());
+                            }
+                            else
+                            {
+                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Red)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                    .Build());
+                            }
                         }
                         else
                         {
