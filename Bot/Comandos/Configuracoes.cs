@@ -102,7 +102,8 @@ namespace Bot.Comandos
                             }
                             else
                             {
-                                rate = 2;
+                                embed.WithDescription(StringCatch.GetString("xproleratefail", "O valor de rate está incorreto, verifique se ele é maior que 1,0 😔"));
+                                embed.WithColor(Color.Red);
                             }
                         }
                         else
@@ -124,7 +125,7 @@ namespace Bot.Comandos
                     {
                         embed.WithTitle(StringCatch.GetString("xproleErro", "Desculpe, mas o formato do comando está incorreta 😓"));
                         embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoXprole", "`{0}xprole ativado <s/n> | rate | msg`", (string)args[0]));
-                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploXprole", "`{0}xprole s | 1.2 | parabens você subiu de nivel`", (string)args[0]));
+                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploXprole", "`{0}xprole s | 1,2 | parabens você subiu de nivel`", (string)args[0]));
                         embed.WithColor(Color.Red);
                     }
                     context.Channel.SendMessageAsync(embed: embed.Build());
