@@ -74,10 +74,10 @@ namespace Bot.Comandos
                 {
                     string msg = string.Join(" ", comando, 1, (comando.Length - 1));
                     string[] parms = msg.Split('|');
-                    if (parms.Length > 3 || parms[0] == "n" || parms[0] == "não")
+                    if (parms.Length >= 3 || parms[0] == "n")
                     {
                         bool ativado = false;
-                        if (parms[0] == "s" || parms[0] == "sim")
+                        if (parms[0] == "s")
                         {
                             ativado = true;
                         }
@@ -85,24 +85,23 @@ namespace Bot.Comandos
                         if (ativado)
                         {
                             double rate = 0;
-                            if (double.TryParse(parms[1], out rate))
+                            if (double.TryParse(parms[1], out rate) && rate >= 1)
                             {
                                 ConfiguracoesServidor configs = new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), new PI(ativado, rate, parms[2]));
                                 if (new ConfiguracoesServidorDAO().SalvarPIConfig(configs))
                                 {
-                                    embed.WithDescription(StringCatch.GetString("xproleSetado", "**{0}** setado yay", context.User.ToString()));
+                                    embed.WithDescription(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"));
                                     embed.WithColor(Color.DarkPurple);
                                 }
                                 else
                                 {
-                                    embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** deu merda na hr de seta", context.User.ToString()));
+                                    embed.WithDescription(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"));
                                     embed.WithColor(Color.Red);
                                 }
                             }
                             else
                             {
-                                embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** tem um erro na paryte do rate yay", context.User.ToString()));
-                                embed.WithColor(Color.Red);
+                                rate = 2;
                             }
                         }
                         else
@@ -110,19 +109,19 @@ namespace Bot.Comandos
                             ConfiguracoesServidor configs = new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), new PI(false));
                             if (new ConfiguracoesServidorDAO().SalvarPIConfig(configs))
                             {
-                                embed.WithDescription(StringCatch.GetString("xproleSetado", "**{0}** setado yay", context.User.ToString()));
+                                embed.WithDescription(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"));
                                 embed.WithColor(Color.DarkPurple);
                             }
                             else
                             {
-                                embed.WithDescription(StringCatch.GetString("xproleRateErro", "**{0}** deu merda na hr de seta", context.User.ToString()));
+                                embed.WithDescription(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"));
                                 embed.WithColor(Color.Red);
                             }
                         }
                     }
                     else
                     {
-                        embed.WithTitle(StringCatch.GetString("xproleErro", "Você precisa me falar qm caralhas eu tenho q colocar na bosta das config dessa porra de server"));
+                        embed.WithTitle(StringCatch.GetString("xproleErro", "Desculpe, mas o formato do comando está incorreta 😓"));
                         embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoXprole", "`{0}xprole ativado <s/n> | rate | msg`", (string)args[0]));
                         embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploXprole", "`{0}xprole s | 1.2 | parabens você subiu de nivel`", (string)args[0]));
                         embed.WithColor(Color.Red);
