@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigurationControler\ConfigurationControler.csproj" />
+    <ProjectReference Include="..\MainDatabaseControler\MainDatabaseControler.csproj" />
   </ItemGroup>
 
 </Project>

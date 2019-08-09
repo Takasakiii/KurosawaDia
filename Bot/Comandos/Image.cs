@@ -1,13 +1,13 @@
 ﻿using Bot.Constantes;
-using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Linq;
 using System.Threading;
-using static Bot.DataBase.MainDB.Modelos.Servidores;
+using static MainDatabaseControler.Modelos.Servidores;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
@@ -217,13 +217,12 @@ namespace Bot.Comandos
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
                     bool explicitImg = false;
-                    if (servidor.permissoes == Permissoes.ServidorPika || servidor.permissoes == Permissoes.LolisEdition)
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition)
                     {
                         explicitImg = true;
                     }
 
-                    Fuck fuck = new Fuck();
-                    fuck.SetImg(explicitImg);
+                    Fuck fuck = new Fuck(explicitImg);
                     
                     if(new FuckDAO().GetImg(ref fuck))
                     {
@@ -241,7 +240,7 @@ namespace Bot.Comandos
 
                             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
-                                    .WithImageUrl(fuck.img)
+                                    .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
                         }

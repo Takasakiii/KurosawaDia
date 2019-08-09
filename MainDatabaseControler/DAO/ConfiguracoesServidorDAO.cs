@@ -1,24 +1,27 @@
-﻿using Bot.DataBase.Constructors;
-using Bot.DataBase.MainDB.Modelos;
+﻿using MainDatabaseControler.Factory;
+using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Bot.DataBase.MainDB.DAO
+namespace MainDatabaseControler.DAO
 {
     public class ConfiguracoesServidorDAO
     {
-        private MySqlConnection conexao = new MySqlConstructor().Conectar();
+        private MySqlConnection conexao = null;
 
-        public bool SalvarPIConfig (ConfiguracoesServidor config)
+        public ConfiguracoesServidorDAO()
+        {
+            conexao = new ConnectionFactory().Conectar();
+        }
+
+        public bool SalvarPIConfig(ConfiguracoesServidor config)
         {
             bool retorno = true;
             const string sql = "call configurePI(@id, @enable, @pirate, @msg)";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, conexao);
-                cmd.Parameters.AddWithValue("@id", config.servidor.id);
+                cmd.Parameters.AddWithValue("@id", config.servidor.Id);
                 cmd.Parameters.AddWithValue("@enable", config.pI.PIConf);
                 cmd.Parameters.AddWithValue("@pirate", config.pI.PIRate);
                 if (!string.IsNullOrEmpty(config.pI.MsgPIUp))

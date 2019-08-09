@@ -1,36 +1,35 @@
-﻿using Bot.DataBase.Constructors;
-using Bot.DataBase.MainDB.Modelos;
+﻿using MainDatabaseControler.Factory;
+using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
-using static Bot.DataBase.MainDB.Modelos.Adms;
+using static MainDatabaseControler.Modelos.Adms;
 
-namespace Bot.DataBase.MainDB.DAO
+namespace MainDatabaseControler.DAO
 {
     public class AdmsDAO
     {
-        private MySqlConnection conexao;
+        private MySqlConnection conexao = null;
 
         public AdmsDAO()
         {
-            conexao = new MySqlConstructor().Conectar();
+            conexao = new ConnectionFactory().Conectar();
         }
 
         public bool GetAdm(ref Adms adms)
         {
-            //privatizando aguarde
             const string sql = "call GetAdm(@id)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", adms.usuario.id);
+            cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
 
             MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;
             if (rs.Read())
             {
                 bool result = Convert.ToBoolean(rs["result"]);
-                if(result)
+                if (result)
                 {
-                    adms.SetPerms((PermissoesAdm)rs["permissao"]);
+                    adms.SetPerms((PermissoesAdms)rs["permissao"]);
                     retorno = true;
                 }
             }

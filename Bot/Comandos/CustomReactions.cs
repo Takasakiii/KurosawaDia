@@ -1,9 +1,9 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +30,8 @@ namespace Bot.Comandos
 
                     if (resposta_pergunta.Length > 2)
                     {
-                        ACRs acr = new ACRs();
-                        acr.SetAcr(trigger: resposta_pergunta[0].Trim(), resposta: resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
-                        ulong codigo = new ACRsDAO().CriarAcr(acr);
+                        ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
+                        new ReacoesCustomizadasDAO().CriarAcr(ref cr);
 
                         string resposta = "", pergunta = "";
 
@@ -57,7 +56,7 @@ namespace Bot.Comandos
                         embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", context.User.ToString()));
                         embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
                         embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
-                        embed.AddField(StringCatch.GetString("codigo", "Codigo: "), codigo);
+                        embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
                     }
                     else
                     {
@@ -102,10 +101,10 @@ namespace Bot.Comandos
                         try
                         {
                             ulong codigo = Convert.ToUInt64(msg);
-                            ACRs acr = new ACRs();
-                            acr.SetCod(codigo, new Servidores(context.Guild.Id));
+                            ReacoesCustomizadas acr = new ReacoesCustomizadas(codigo);
+                            acr.SetServidor(new Servidores(context.Guild.Id));
 
-                            if (new ACRsDAO().DeletarAcr(acr))
+                            if (new ReacoesCustomizadasDAO().DeletarAcr(acr))
                             {
                                 embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", context.User.ToString(), codigo));
                             }
@@ -151,10 +150,10 @@ namespace Bot.Comandos
 
             if (!context.IsPrivate)
             {
-                ACRs acr = new ACRs();
+                ReacoesCustomizadas acr = new ReacoesCustomizadas();
                 acr.SetServidor(new Servidores(context.Guild.Id));
-                ACRsDAO dao = new ACRsDAO();
-                List<ACRs> listaRetorno = dao.ListarAcr(acr);
+                ReacoesCustomizadasDAO dao = new ReacoesCustomizadasDAO();
+                List<ReacoesCustomizadas> listaRetorno = dao.ListarAcr(acr);
                 
                 if(listaRetorno.Count != 0)
                 {
@@ -186,26 +185,26 @@ namespace Bot.Comandos
             }
         }
 
-        private Tuple<string, string> CriarPagina(List<ACRs> listaRetorno, int paginaAtual)
+        private Tuple<string, string> CriarPagina(List<ReacoesCustomizadas> listaRetorno, int paginaAtual)
         {
             string respIds = "";
             string respTriggers = "";
             for (int i = paginaAtual * 10; i < listaRetorno.Count && i < ((paginaAtual* 10) + 10); i++)
             {
-                ACRs temp = listaRetorno[i];
+                ReacoesCustomizadas temp = listaRetorno[i];
 
                 string trigger = "";
 
-                if(temp.trigger.Length > 25)
+                if(temp.Trigger.Length > 25)
                 {
-                    trigger = $"{temp.trigger.Substring(0, 25)}...";
+                    trigger = $"{temp.Trigger.Substring(0, 25)}...";
                 }
                 else
                 {
-                    trigger = temp.trigger;
+                    trigger = temp.Trigger;
                 }
 
-                respIds += $"`#{temp.codigo}`\n";
+                respIds += $"`#{temp.Cod}`\n";
                 respTriggers += $"{trigger}\n";
             }
 
@@ -215,7 +214,7 @@ namespace Bot.Comandos
         private void Menu (CommandContext contexto, object[] args)
         {
             int[] restricoes = (int[])((List<object>)args[2])[0];
-            var retornoStrings = CriarPagina((List<ACRs>)((List<object>)args[2])[1], restricoes[0]);
+            var retornoStrings = CriarPagina((List<ReacoesCustomizadas>)((List<object>)args[2])[1], restricoes[0]);
             IUserMessage msg = null;
             if (retornoStrings.Item1 != "")
             {
@@ -303,12 +302,12 @@ namespace Bot.Comandos
 
         public void TriggerACR (CommandContext contexto, Servidores servidor)
         {
-            ACRs aCRs = new ACRs();
+            ReacoesCustomizadas aCRs = new ReacoesCustomizadas();
             aCRs.SetTrigger(contexto.Message.Content, servidor);
-            aCRs = new ACRsDAO().ResponderAcr(aCRs);
-            if (aCRs.resposta != null)
+            new ReacoesCustomizadasDAO().ResponderAcr(ref aCRs);
+            if (aCRs.Resposta != null)
             {
-                new EmbedControl().SendMessage(contexto.Channel, aCRs.resposta);
+                new EmbedControl().SendMessage(contexto.Channel, aCRs.Resposta);
             }      
         }
     }

@@ -1,6 +1,4 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;

@@ -2,9 +2,9 @@
 using ConfigurationControler.Modelos;
 using MySql.Data.MySqlClient;
 
-namespace Bot.DataBase.Constructors
+namespace MainDatabaseControler.Factory
 {
-    public class MySqlConstructor
+    public class ConnectionFactory
     {
         public MySqlConnection Conectar()
         {

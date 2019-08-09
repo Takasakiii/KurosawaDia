@@ -1,10 +1,10 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
-using static Bot.DataBase.MainDB.Modelos.Canais;
-using static Bot.DataBase.MainDB.Modelos.ConfiguracoesServidor;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
+using static MainDatabaseControler.Modelos.Canais;
+using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Comandos
 {
@@ -31,14 +31,13 @@ namespace Bot.Comandos
                     ReactionControler reaction = new ReactionControler();
                     reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
                     {
-                        Servidores servidor = new Servidores(context.Guild.Id);
-                        servidor.SetPrefix(msg.ToCharArray());
+                        Servidores servidor = new Servidores(context.Guild.Id, msg.ToCharArray());
 
-                        servidor = new ServidoresDAO().SetServidorPrefix(servidor);
+                        new ServidoresDAO().SetServidorPrefix(ref servidor);
 
                         message.DeleteAsync();
                         context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(servidor.prefix)))
+                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(servidor.Prefix)))
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }, context, args));
@@ -122,7 +121,7 @@ namespace Bot.Comandos
                             ativado = false;
                         }
                         PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
-                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(context.Guild.Id, context.Guild.Name), pimodel)))
+                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(context.Guild.Id), pimodel)))
                         {
                             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithColor(Color.Green)
@@ -163,17 +162,7 @@ namespace Bot.Comandos
 
         public void setwelcome(CommandContext context, object[] args)
         {
-            Servidores servidor = new Servidores(context.Guild.Id);
-            Canais canal = new Canais(TiposCanais.bemvindoCh, context.Channel.Id, servidor, context.Channel.Name);
 
-            if(new CanaisDAO().AdcCh(canal))
-            {
-                context.Channel.SendMessageAsync("o canal foi addcionado yay");
-            }
-            else
-            {
-                context.Channel.SendMessageAsync("meu amigo deu merda na hr de adiciona o canal");
-            }
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using static Bot.DataBase.MainDB.Modelos.Adms;
-using static Bot.DataBase.MainDB.Modelos.Servidores;
 using System.Linq;
 using System.Collections.Generic;
+using MainDatabaseControler.Modelos;
+using MainDatabaseControler.DAO;
+using static MainDatabaseControler.Modelos.Adms;
+using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -21,7 +21,7 @@ namespace Bot.Comandos
 
             if (new AdmsDAO().GetAdm(ref adm))
             {
-                if (adm.permissoes == PermissoesAdm.Donas)
+                if (adm.Permissoes == PermissoesAdms.Donas)
                 {
                     DiscordSocketClient client = context.Client as DiscordSocketClient;
 
@@ -40,13 +40,12 @@ namespace Bot.Comandos
 
             if (new AdmsDAO().GetAdm(ref adm))
             {
-                if (adm.permissoes == PermissoesAdm.Donas)
+                if (adm.Permissoes == PermissoesAdms.Donas)
                 {
                     try
                     {
                         string[] comando = (string[])args[1];
-                        Servidores servidor = new Servidores(Convert.ToUInt64(comando[1]));
-                        servidor.SetPermissao((Permissoes)Convert.ToInt32(comando[2]));
+                        Servidores servidor = new Servidores(Convert.ToUInt64(comando[1]), (PermissoesServidores)Convert.ToInt32(comando[2]));
 
                         if (new ServidoresDAO().SetEspecial(servidor))
                         {
@@ -81,7 +80,7 @@ namespace Bot.Comandos
 
             if (new AdmsDAO().GetAdm(ref adm))
             {
-                if (adm.permissoes == PermissoesAdm.Donas)
+                if (adm.Permissoes == PermissoesAdms.Donas)
                 {
                     string[] comando = (string[])args[1];
                     string msg = string.Join(" ", comando, 1, (comando.Length - 1));

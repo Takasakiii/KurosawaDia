@@ -1,10 +1,11 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
-using static Bot.DataBase.MainDB.Modelos.Servidores;
+using static MainDatabaseControler.Modelos.Adms;
+using static MainDatabaseControler.Modelos.Servidores;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
@@ -21,7 +22,7 @@ namespace Bot.Comandos
                     Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
                     Adms adm = new Adms(usuario);
                     bool certo = new AdmsDAO().GetAdm(ref adm);
-                    if (servidor.permissoes == Permissoes.ServidorPika || (adm.permissoes == Adms.PermissoesAdm.Donas && certo))
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == PermissoesAdms.Donas && certo))
                     {
                         Insultos insulto = new Insultos();
                         if (new InsultosDAO().GetInsulto(ref insulto))
@@ -37,17 +38,17 @@ namespace Bot.Comandos
                                 string icon = "";
                                 try
                                 {
-                                    IUser authorUser = context.Client.GetUserAsync(insulto.usuario.id).GetAwaiter().GetResult();
+                                    IUser authorUser = context.Client.GetUserAsync(insulto.Usuario.Id).GetAwaiter().GetResult();
                                     author = authorUser.ToString();
                                     icon = authorUser.GetAvatarUrl();
                                 }
                                 catch
                                 {
-                                    author = insulto.usuario.nome;
+                                    author = insulto.Usuario.Nome;
                                 }
 
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription($"{user.Item1.Mention} {insulto.insulto}")
+                                        .WithDescription($"{user.Item1.Mention} {insulto.Insulto}")
                                         .WithColor(Color.DarkPurple)
                                         .WithFooter(StringCatch.GetString("insultCriado", "Insulto criado por: {0}", author), icon)
                                     .Build());
@@ -82,16 +83,14 @@ namespace Bot.Comandos
                     Adms adm = new Adms(usuario);
                     bool certo = new AdmsDAO().GetAdm(ref adm);
 
-                    if (servidor.permissoes == Permissoes.ServidorPika || (adm.permissoes == Adms.PermissoesAdm.Donas && certo))
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
                     {
                         string[] comando = (string[])args[1];
                         string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
                         if (msg != "")
                         {
-                            Insultos insulto = new Insultos();
-                            insulto.SetInsulto(msg, usuario);
-
+                            Insultos insulto = new Insultos(msg, usuario);
                             if (new InsultosDAO().InserirInsulto(insulto))
                             {
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -129,7 +128,7 @@ namespace Bot.Comandos
                     Adms adm = new Adms(usuario);
                     bool certo = new AdmsDAO().GetAdm(ref adm);
 
-                    if (servidor.permissoes == Permissoes.ServidorPika || (adm.permissoes == Adms.PermissoesAdm.Donas && certo))
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
                     {
                         string[] comando = (string[])args[1];
                         try
@@ -137,8 +136,7 @@ namespace Bot.Comandos
                             if (new HttpExtensions().IsImageUrl(comando[1]))
                             {
                                 bool _explicit = Convert.ToBoolean(comando[2]);
-                                Fuck fuck = new Fuck();
-                                fuck.SetImg(_explicit, comando[1], usuario);
+                                Fuck fuck = new Fuck(_explicit, comando[1], usuario);
                                 new FuckDAO().AddImg(fuck);
 
                                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()

@@ -1,15 +1,15 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
-using Bot.Extensions;
+﻿using Bot.Extensions;
 using Bot.Singletons;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using static Bot.DataBase.MainDB.Modelos.Servidores;
+using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -60,7 +60,7 @@ namespace Bot.Comandos
                 Servidores servidor = new Servidores(context.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    if (servidor.permissoes == Permissoes.ServidorPika)
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         menu.Add(new Emoji("🌟"));
                         modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
@@ -311,7 +311,7 @@ namespace Bot.Comandos
             if (e is NullReferenceException || e is AmbiguousMatchException)
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.prefix)))
+                    .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.Prefix)))
                     .WithColor(Color.DarkPurple)
                     .Build());
             }
@@ -327,7 +327,7 @@ namespace Bot.Comandos
         public void MentionMessage(CommandContext context, Servidores servidores)
         {
             context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", context.User.Username, new string(servidores.prefix)))
+                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", context.User.Username, new string(servidores.Prefix)))
                 .WithColor(Color.DarkPurple)
                 .Build());
         }

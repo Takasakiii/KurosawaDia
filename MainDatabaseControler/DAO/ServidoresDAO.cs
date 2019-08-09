@@ -1,18 +1,18 @@
-﻿using Bot.DataBase.Constructors;
-using Bot.DataBase.MainDB.Modelos;
+﻿using MainDatabaseControler.Factory;
+using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
-using static Bot.DataBase.MainDB.Modelos.Servidores;
+using static MainDatabaseControler.Modelos.Servidores;
 
-namespace Bot.DataBase.MainDB.DAO
+namespace MainDatabaseControler.DAO
 {
     public class ServidoresDAO
     {
-        private MySqlConnection conexao;
+        private MySqlConnection conexao = null;
 
         public ServidoresDAO()
         {
-            conexao = new MySqlConstructor().Conectar();
+            conexao = new ConnectionFactory().Conectar();
         }
 
         public bool GetPrefix(ref Servidores servidor)
@@ -20,7 +20,7 @@ namespace Bot.DataBase.MainDB.DAO
             const string sql = "call buscarPrefix(@id)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", servidor.id);
+            cmd.Parameters.AddWithValue("@id", servidor.Id);
 
             MySqlDataReader rs = cmd.ExecuteReader();
             string prefix = null;
@@ -28,38 +28,37 @@ namespace Bot.DataBase.MainDB.DAO
             {
                 prefix = rs["prefix_servidor"].ToString();
             }
-            char[] prefixChar = null;
-            bool returno = false;
-            if (prefix != "" && prefix != null)
+
+            bool retorno = false;
+            if (!string.IsNullOrEmpty(prefix))
             {
-                prefixChar = prefix.ToCharArray();
-                servidor.SetPrefix(prefixChar);
-                returno = true;
+                servidor = new Servidores(servidor.Id, prefix.ToCharArray());
+                retorno = true;
             }
 
             rs.Close();
             conexao.Close();
-            return returno;
+            return retorno;
         }
 
-        public Servidores SetServidorPrefix(Servidores servidor)
+        public bool SetServidorPrefix(ref Servidores servidor)
         {
             const string sql = "call atualizarPrefix(@id, @prefix)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", servidor.id);
-            cmd.Parameters.AddWithValue("@prefix", new string(servidor.prefix));
+            cmd.Parameters.AddWithValue("@id", servidor.Id);
+            cmd.Parameters.AddWithValue("@prefix", new string(servidor.Prefix));
 
             MySqlDataReader rs = cmd.ExecuteReader();
-            char[] prefix = null;
+            bool retono = false;
             if (rs.Read())
             {
-                prefix = rs["prefix_servidor"].ToString().ToCharArray();
+                servidor = new Servidores(servidor.Id, ((string)rs["prefix_servidor"]).ToCharArray());
+                retono = true;
             }
             rs.Close();
             conexao.Close();
-            servidor.SetPrefix(prefix);
-            return servidor;
+            return retono;
         }
 
         public bool GetPermissoes(ref Servidores servidor)
@@ -67,15 +66,14 @@ namespace Bot.DataBase.MainDB.DAO
             const string sql = "call GetPermissoes(@id)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", servidor.id);
+            cmd.Parameters.AddWithValue("@id", servidor.Id);
 
             MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;
             if (rs.Read())
             {
-                servidor.SetPermissao((Permissoes)rs["especial_servidor"]);
+                servidor = new Servidores(servidor.Id, (PermissoesServidores)rs["especial_servidor"]);
                 retorno = true;
-
             }
             rs.Close();
             conexao.Close();
@@ -87,8 +85,8 @@ namespace Bot.DataBase.MainDB.DAO
             const string sql = "call DefinirTipoServidor(@id, @tipo)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", servidor.id);
-            cmd.Parameters.AddWithValue("@tipo", servidor.permissoes);
+            cmd.Parameters.AddWithValue("@id", servidor.Id);
+            cmd.Parameters.AddWithValue("@tipo", (int)servidor.Permissoes);
 
             MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;

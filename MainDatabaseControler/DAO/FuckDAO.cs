@@ -1,16 +1,17 @@
-﻿using Bot.DataBase.Constructors;
-using Bot.DataBase.MainDB.Modelos;
+﻿using MainDatabaseControler.Factory;
+using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
 
-namespace Bot.DataBase.MainDB.DAO
+namespace MainDatabaseControler.DAO
 {
     public class FuckDAO
     {
+
         private MySqlConnection conexao = null;
         public FuckDAO()
         {
-            conexao = new MySqlConstructor().Conectar();
+            conexao = new ConnectionFactory().Conectar();
         }
 
         public bool GetImg(ref Fuck fuck)
@@ -18,7 +19,7 @@ namespace Bot.DataBase.MainDB.DAO
             const string sql = "call GetFuckImg(@explicit)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@explicit", fuck.explicitImg);
+            cmd.Parameters.AddWithValue("@explicit", fuck.ExplicitImg);
 
             bool retorno = false;
 
@@ -26,7 +27,7 @@ namespace Bot.DataBase.MainDB.DAO
             if (rs.Read())
             {
                 Usuarios usuario = new Usuarios(Convert.ToUInt64(rs["id_usuario"]), (string)rs["nome_usuario"]);
-                fuck.SetImg(Convert.ToBoolean(rs["explicitImage"]), (string)rs["urlImage"], usuario, Convert.ToUInt32(rs["cod"]));
+                fuck = new Fuck(Convert.ToBoolean(rs["explicitImage"]), (string)rs["urlImage"], usuario, Convert.ToUInt32(rs["cod"]));
                 retorno = true;
             }
             rs.Close();
@@ -39,12 +40,13 @@ namespace Bot.DataBase.MainDB.DAO
             const string sql = "call AdicionarImgFuck(@id, @img, @explicit)";
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", fuck.usuario.id);
-            cmd.Parameters.AddWithValue("@img", fuck.img);
-            cmd.Parameters.AddWithValue("@explicit", fuck.explicitImg);
+            cmd.Parameters.AddWithValue("@id", fuck.Usuario.Id);
+            cmd.Parameters.AddWithValue("@img", fuck.Img);
+            cmd.Parameters.AddWithValue("@explicit", fuck.ExplicitImg);
 
             cmd.ExecuteNonQuery();
             conexao.Close();
         }
+
     }
 }

@@ -1,16 +1,18 @@
-﻿using Bot.DataBase.Constructors;
-using Bot.DataBase.MainDB.Modelos;
+﻿using MainDatabaseControler.Factory;
+using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Bot.DataBase.MainDB.DAO
+namespace MainDatabaseControler.DAO
 {
     public class InsultosDAO
     {
         private MySqlConnection conexao = null;
         public InsultosDAO()
         {
-            conexao = new MySqlConstructor().Conectar();
+            conexao = new ConnectionFactory().Conectar();
         }
 
         public bool InserirInsulto(Insultos insulto)
@@ -20,8 +22,8 @@ namespace Bot.DataBase.MainDB.DAO
                 const string sql = "call AdicionarInsulto(@id, @insulto)";
                 MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-                cmd.Parameters.AddWithValue("@id", insulto.usuario.id);
-                cmd.Parameters.AddWithValue("@insulto", insulto.insulto);
+                cmd.Parameters.AddWithValue("@id", insulto.Usuario.Id);
+                cmd.Parameters.AddWithValue("@insulto", insulto.Insulto);
 
                 cmd.ExecuteNonQuery();
                 conexao.Close();
@@ -44,7 +46,7 @@ namespace Bot.DataBase.MainDB.DAO
             if (rs.Read())
             {
                 Usuarios usuario = new Usuarios(Convert.ToUInt64(rs["id_usuario"]), (string)rs["nome_usuario"]);
-                insulto.SetInsulto((string)rs["insulto"], usuario, Convert.ToUInt32(rs["cod"]));
+                insulto = new Insultos((string)rs["insulto"], usuario, Convert.ToUInt32(rs["cod"]));
                 retorno = true;
             }
             rs.Close();

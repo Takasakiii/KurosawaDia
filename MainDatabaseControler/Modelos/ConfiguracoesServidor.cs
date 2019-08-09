@@ -1,10 +1,9 @@
 ﻿using static ConfigurationControler.Modelos.Linguagens;
 
-namespace Bot.DataBase.MainDB.Modelos
+namespace MainDatabaseControler.Modelos
 {
     public class ConfiguracoesServidor
     {
-
         public struct BemVindoGoodByeMsg
         {
             public string bemvindoMsg { private set; get; }
@@ -109,6 +108,5 @@ namespace Bot.DataBase.MainDB.Modelos
             this.erroMsg = erroMsg;
             this.cod = cod;
         }
-
     }
 }

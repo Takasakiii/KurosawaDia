@@ -1,17 +1,17 @@
 ﻿using Bot.Comandos;
-using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
 using Bot.Extensions;
 using Bot.Singletons;
 using ConfigurationControler.Modelos;
 using Discord.Commands;
 using Discord.WebSocket;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using static Bot.DataBase.MainDB.Modelos.ConfiguracoesServidor;
+using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -81,8 +81,7 @@ namespace Bot.Nucleo.Eventos
         {
             if (!contexto.IsPrivate)
             {
-                Servidores servFinal = new Servidores(contexto.Guild.Id);
-                servFinal.SetPrefix(config.prefix.ToCharArray());
+                Servidores servFinal = new Servidores(contexto.Guild.Id, config.prefix.ToCharArray());
                 Servidores servidores = servFinal;
                 if (new ServidoresDAO().GetPrefix(ref servidores))
                 {
@@ -92,8 +91,7 @@ namespace Bot.Nucleo.Eventos
             }
             else
             {
-                Servidores servidores = new Servidores(0);
-                servidores.SetPrefix(config.prefix.ToCharArray());
+                Servidores servidores = new Servidores(0, config.prefix.ToCharArray());
                 return servidores;
             }
 
@@ -104,10 +102,10 @@ namespace Bot.Nucleo.Eventos
         private bool SepararComandoPrefix(CommandContext contexto, Servidores servidor, ref string comandoSemPrefix)
         {
             int argPos = 0;
-            if (contexto.Message.HasStringPrefix(new string(servidor.prefix), ref argPos))
+            if (contexto.Message.HasStringPrefix(new string(servidor.Prefix), ref argPos))
             {
-                comandoSemPrefix = contexto.Message.Content.Substring(servidor.prefix.Length);
-                return !(comandoSemPrefix == "" || comandoSemPrefix[0] == servidor.prefix[0]);
+                comandoSemPrefix = contexto.Message.Content.Substring(servidor.Prefix.Length);
+                return !(comandoSemPrefix == "" || comandoSemPrefix[0] == servidor.Prefix[0]);
             }
             else
             {
@@ -132,7 +130,7 @@ namespace Bot.Nucleo.Eventos
             string[] stringComando = messagemSemPrefixo.Split(' ');
             comando = stringComando[0];
             object[] args = new object[3];
-            args[0] = new string(servidor.prefix);
+            args[0] = new string(servidor.Prefix);
             args[1] = stringComando;
             args[2] = new List<object>();
             return args;

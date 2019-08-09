@@ -1,9 +1,10 @@
 ﻿using Bot.Constantes;
-using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
+using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -20,7 +21,7 @@ namespace Bot.Comandos
                 Servidores servidor = new Servidores(context.Guild.Id);
                 if(new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    if(servidor.permissoes == Servidores.Permissoes.LolisEdition || servidor.permissoes == Servidores.Permissoes.ServidorPika)
+                    if(servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
@@ -41,7 +42,7 @@ namespace Bot.Comandos
                 Servidores servidor = new Servidores(context.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    if (servidor.permissoes == Servidores.Permissoes.LolisEdition || servidor.permissoes == Servidores.Permissoes.ServidorPika)
+                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
