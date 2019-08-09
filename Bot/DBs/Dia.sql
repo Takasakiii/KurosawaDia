@@ -442,6 +442,8 @@ select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand
 call listarAcr(556580866198077451);
 call procurarAcr("aaaaa");
 call AdicionarAdm(368280970102833153, 0);
+call AdicionarAdm(368280970102833153, 0);
+call DefinirTipoServidor(556580866198077451, 1);
 call AdcCh(0, "aaaaa", 556854984264646675, 556580866198077451);
 select verificarConfig(556580866198077451);
 call GetCh(0, 556580866198077451);
