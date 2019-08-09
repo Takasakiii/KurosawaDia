@@ -12,7 +12,7 @@ namespace Bot.DataBase.MainDB.DAO
     {
         private MySqlConnection conexao = new MySqlConstructor().Conectar();
 
-        public bool AdicionarPonto (PontosInterativos pontosInterativos, ref PI piSaida)
+        public bool AdicionarPonto (ref PontosInterativos pontosInterativos, ref PI piSaida)
         {
             bool retorno = false;
             const string sql = "call AddPI(@servidor, @usuario)";
@@ -26,6 +26,7 @@ namespace Bot.DataBase.MainDB.DAO
             {
                 if (Convert.ToBoolean(rs["Upou"]))
                 {
+                    pontosInterativos.addPIInfo(0, Convert.ToUInt64(rs["LevelAtual"]), 0);
                     if(rs["MsgPIUp"] != DBNull.Value)
                     {
                         piSaida = new PI(true, MsgPIUp: (string)rs["MsgPIUp"]);

@@ -179,9 +179,11 @@ namespace Bot.Nucleo.Eventos
                 PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
                 PI pI = new PI();
                 PontosInterativosDAO dao = new PontosInterativosDAO();
-                if (dao.AdicionarPonto(pontos, ref pI))
+                if (dao.AdicionarPonto(ref pontos, ref pI))
                 {
-                    new EmbedControl().SendMessage(contexto.Channel, pI.MsgPIUp);
+                    StringVarsControler varsControler = new StringVarsControler(contexto);
+                    varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
+                    new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
                 }
             }).Start();
         }

@@ -92,6 +92,10 @@ create procedure LevelUP(
     set _levelAtual = (select pontosinterativos.PI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
     if(_fragmento >= (_levelAtual * (_multi * 10))) then
 		update pontosinterativos set pontosinterativos.PI = (pontosinterativos.PI + 1), fragmentosPI = 0 where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+        
+        select true as Upou, _levelAtual as LevelAtual, MsgPIUp from configuracoesservidores where cod_servidor = _codServidor;
+	else
+		select false as Upou;
 	end if;
 end$$
     
@@ -109,6 +113,7 @@ create procedure AddPI(
         call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
+
 
 #pitas
 
