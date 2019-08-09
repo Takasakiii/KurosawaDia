@@ -73,7 +73,6 @@ namespace Bot.Comandos
                 embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
                 embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
                 embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
-                embed.AddField(StringCatch.GetString("xproleSetF2", "Dicas:"), StringCatch.GetString("xproleSetF2Desc", "Você pode desativar facilmente usando o `{0}xprole n`\nOutras ações tambem poderão ser realizadas rapidamente somente com um comando", (string)args[0]));
                 IMessage pergunta = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 SubCommandControler sub = new SubCommandControler();
                 IMessage msgresposta = sub.GetCommand(pergunta, context.User);
