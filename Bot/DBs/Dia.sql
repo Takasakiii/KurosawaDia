@@ -239,6 +239,7 @@ create table Canais (
 	cod bigint not null auto_increment,
     cod_Tipos_Canais bigint not null,
     canal varchar(255) not null,
+    unico bool not null,
     id bigint not null,
     codigo_servidor int not null,
     foreign key (cod_Tipos_Canais) references Tipos_Canais (cod),
