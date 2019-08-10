@@ -3,7 +3,6 @@ using Discord;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
-using static MainDatabaseControler.Modelos.Canais;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Comandos
@@ -12,143 +11,148 @@ namespace Bot.Comandos
     {
         public void setprefix(CommandContext context, object[] args)
         {
-            if (!context.IsPrivate)
+            new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                if (msg != "")
+                if (!cmdContext.IsPrivate)
                 {
-                    IUserMessage message = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", context.User))
-                            .WithFooter(StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
-                            .WithColor(Color.DarkPurple)
-                        .Build()).GetAwaiter().GetResult();
+                    string[] comando = (string[])cmdArgs[1];
+                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                    Emoji emoji = new Emoji("✅");
-                    message.AddReactionAsync(emoji);
-
-                    ReactionControler reaction = new ReactionControler();
-                    reaction.GetReaction(message, emoji, context.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
+                    if (msg != "")
                     {
-                        Servidores servidor = new Servidores(context.Guild.Id, msg.ToCharArray());
-
-                        new ServidoresDAO().SetServidorPrefix(ref servidor);
-
-                        message.DeleteAsync();
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", context.User.ToString(), (string)args[0], new string(servidor.Prefix)))
+                        IUserMessage message = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", cmdContext.User))
+                                .WithFooter(StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
                                 .WithColor(Color.DarkPurple)
+                            .Build()).GetAwaiter().GetResult();
+
+                        Emoji emoji = new Emoji("✅");
+                        message.AddReactionAsync(emoji);
+
+                        ReactionControler reaction = new ReactionControler();
+                        reaction.GetReaction(message, emoji, cmdContext.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
+                        {
+                            Servidores servidor = new Servidores(cmdContext.Guild.Id, msg.ToCharArray());
+
+                            new ServidoresDAO().SetServidorPrefix(ref servidor);
+
+                            message.DeleteAsync();
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", cmdContext.User.ToString(), (string)cmdArgs[0], new string(servidor.Prefix)))
+                                    .WithColor(Color.DarkPurple)
+                                .Build());
+                        }, cmdContext, cmdArgs));
+                    }
+                    else
+                    {
+                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", cmdContext.User.ToString()))
+                                .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)cmdArgs[0]))
+                                .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)cmdArgs[0]))
+                                .WithColor(Color.Red)
                             .Build());
-                    }, context, args));
+                    }
+
                 }
                 else
                 {
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", context.User.ToString()))
-                            .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)args[0]))
-                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)args[0]))
+                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("setprefixDm", "Esse comando so pode ser usado em servidores"))
                             .WithColor(Color.Red)
                         .Build());
                 }
-
-            }
-            else
-            {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(StringCatch.GetString("setprefixDm", "Esse comando so pode ser usado em servidores"))
-                        .WithColor(Color.Red)
-                    .Build());
-            }
+            }, context, args).EsperarOkDb();
         }
 
         public void xprole(CommandContext context, object[] args)
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-
-            if (!context.IsPrivate)
+            new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
-                embed.WithColor(Color.Purple);
-                embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
-                embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
-                embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
-                IMessage pergunta = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                SubCommandControler sub = new SubCommandControler();
-                IMessage msgresposta = sub.GetCommand(pergunta, context.User);
-                if (msgresposta != null)
-                {
-                    bool ativado;
-                    double rate = 2;
-                    string msg = "";
-                    if (msgresposta.Content == "s" || msgresposta.Content == "n")
-                    {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkPurple);
 
-                        if (msgresposta.Content == "s")
+                if (!cmdContext.IsPrivate)
+                {
+                    embed.WithColor(Color.Purple);
+                    embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
+                    embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
+                    embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
+                    IMessage pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                    SubCommandControler sub = new SubCommandControler();
+                    IMessage msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                    if (msgresposta != null)
+                    {
+                        bool ativado;
+                        double rate = 2;
+                        string msg = "";
+                        if (msgresposta.Content == "s" || msgresposta.Content == "n")
                         {
-                            ativado = true;
-                            embed.WithDescription(StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
-                            embed.Fields.Clear();
-                            embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1,0"));
-                            pergunta = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                            sub = new SubCommandControler();
-                            msgresposta = sub.GetCommand(pergunta, context.User);
-                            if (double.TryParse(msgresposta.Content, out rate))
+
+                            if (msgresposta.Content == "s")
                             {
-                                if (rate >= 1)
+                                ativado = true;
+                                embed.WithDescription(StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
+                                embed.Fields.Clear();
+                                embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1,0"));
+                                pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                                sub = new SubCommandControler();
+                                msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                                if (double.TryParse(msgresposta.Content, out rate))
                                 {
-                                    embed.WithDescription(StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
-                                    embed.Fields.Clear();
-                                    embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
-                                    pergunta = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                                    sub = new SubCommandControler();
-                                    msgresposta = sub.GetCommand(pergunta, context.User);
-                                    msg = msgresposta.Content;
+                                    if (rate >= 1)
+                                    {
+                                        embed.WithDescription(StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
+                                        embed.Fields.Clear();
+                                        embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
+                                        pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                                        sub = new SubCommandControler();
+                                        msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                                        msg = msgresposta.Content;
+                                    }
+                                    else
+                                    {
+                                        RotaFail(cmdContext);
+                                    }
                                 }
                                 else
                                 {
-                                    RotaFail(context);
+                                    RotaFail(cmdContext);
                                 }
                             }
                             else
                             {
-                                RotaFail(context);
+                                ativado = false;
+                            }
+                            PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
+                            if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), pimodel)))
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Green)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                    .Build());
+                            }
+                            else
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Red)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                    .Build());
                             }
                         }
                         else
                         {
-                            ativado = false;
+                            RotaFail(cmdContext);
                         }
-                        PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
-                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(context.Guild.Id), pimodel)))
-                        {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithColor(Color.Green)
-                                .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
-                                .Build());
-                        }
-                        else
-                        {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithColor(Color.Red)
-                                .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
-                                .Build());
-                        }
-                    }
-                    else
-                    {
-                        RotaFail(context);
-                    }
 
+                    }
                 }
-            }
-            else
-            {
-                embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
-                embed.WithColor(Color.Red);
-                context.Channel.SendMessageAsync(embed: embed.Build());
-            }
-            
+                else
+                {
+                    embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
+                    embed.WithColor(Color.Red);
+                    cmdContext.Channel.SendMessageAsync(embed: embed.Build());
+                }
+            }, context, args).EsperarOkDb();
         }
 
         private void RotaFail(CommandContext contexto)

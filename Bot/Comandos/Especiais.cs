@@ -74,98 +74,104 @@ namespace Bot.Comandos
 
         public void criarinsulto(CommandContext context, object[] args)
         {
-            if (!context.IsPrivate)
+            new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
-                Servidores servidor = new Servidores(context.Guild.Id);
-                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                if (!cmdContext.IsPrivate)
                 {
-                    Usuarios usuario = new Usuarios(context.User.Id, context.User.ToString());
-                    Adms adm = new Adms(usuario);
-                    bool certo = new AdmsDAO().GetAdm(ref adm);
-
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
+                    Servidores servidor = new Servidores(context.Guild.Id);
+                    if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
-                        string[] comando = (string[])args[1];
-                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        Usuarios usuario = new Usuarios(context.User.Id, context.User.ToString());
+                        Adms adm = new Adms(usuario);
+                        bool certo = new AdmsDAO().GetAdm(ref adm);
 
-                        if (msg != "")
+                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
                         {
-                            Insultos insulto = new Insultos(msg, usuario);
-                            if (new InsultosDAO().InserirInsulto(insulto))
+                            string[] comando = (string[])cmdArgs[1];
+                            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                            if (msg != "")
                             {
-                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("createinsultCriado", "**{0}** o insulto foi adicinado", context.User.ToString()))
-                                        .WithColor(Color.DarkPurple)
-                                    .Build());
+                                Insultos insulto = new Insultos(msg, usuario);
+                                if (new InsultosDAO().InserirInsulto(insulto))
+                                {
+                                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithDescription(StringCatch.GetString("createinsultCriado", "**{0}** o insulto foi adicinado", cmdContext.User.ToString()))
+                                            .WithColor(Color.DarkPurple)
+                                        .Build());
+                                }
+                            }
+                            else
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithTitle(StringCatch.GetString("criarinsultoErro", "Você precisa me falar um insulto"))
+                                    .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoCriarinsulto", "`{0}criarinsulto insulto`", (string)cmdArgs[0]))
+                                    .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploCirarinsulto", "`{0}criarinsulto joguei uma pedra em você e ela entrou em orbita`", (string)cmdArgs[0]))
+                                    .WithColor(Color.Red)
+                                   .Build());
                             }
                         }
                         else
                         {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithTitle(StringCatch.GetString("criarinsultoErro", "Você precisa me falar um insulto"))
-                                .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoCriarinsulto", "`{0}criarinsulto insulto`", (string)args[0]))
-                                .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploCirarinsulto", "`{0}criarinsulto joguei uma pedra em você e ela entrou em orbita`", (string)args[0]))
-                                .WithColor(Color.Red)
-                               .Build());
+                            new Ajuda().MessageEventExceptions(new NullReferenceException(), context, servidor);
                         }
                     }
-                    else
-                    {
-                        new Ajuda().MessageEventExceptions(new NullReferenceException(), context, servidor);
-                    }
                 }
-            }
+            }, context, args).EsperarOkDb();
         }
 
         public void fuckadd(CommandContext context, object[] args)
         {
-            if (!context.IsPrivate)
+            new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
-                Servidores servidor = new Servidores(context.Guild.Id);
-                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                if (!cmdContext.IsPrivate)
                 {
-                    Usuarios usuario = new Usuarios(context.User.Id, context.User.ToString());
-                    Adms adm = new Adms(usuario);
-                    bool certo = new AdmsDAO().GetAdm(ref adm);
-
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
+                    Servidores servidor = new Servidores(cmdContext.Guild.Id);
+                    if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
-                        string[] comando = (string[])args[1];
-                        try
-                        {
-                            if (new HttpExtensions().IsImageUrl(comando[1]))
-                            {
-                                bool _explicit = Convert.ToBoolean(comando[2]);
-                                Fuck fuck = new Fuck(_explicit, comando[1], usuario);
-                                new FuckDAO().AddImg(fuck);
+                        Usuarios usuario = new Usuarios(cmdContext.User.Id, cmdContext.User.ToString());
+                        Adms adm = new Adms(usuario);
+                        bool certo = new AdmsDAO().GetAdm(ref adm);
 
-                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("addFuckCriado", "**{0}** a imagem foi adicionada", context.User.ToString()))
-                                        .WithColor(Color.DarkPurple)
-                                    .Build());
-                            }
-                            else
+                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
+                        {
+                            string[] comando = (string[])cmdArgs[1];
+                            try
                             {
-                                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("addFucknEhImg", "**{0}** isso n eh uma imagem meu caro", context.User.ToString()))
+                                if (new HttpExtensions().IsImageUrl(comando[1]))
+                                {
+                                    bool _explicit = Convert.ToBoolean(comando[2]);
+                                    Fuck fuck = new Fuck(_explicit, comando[1], usuario);
+                                    new FuckDAO().AddImg(fuck);
+
+                                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithDescription(StringCatch.GetString("addFuckCriado", "**{0}** a imagem foi adicionada", cmdContext.User.ToString()))
+                                            .WithColor(Color.DarkPurple)
+                                        .Build());
+                                }
+                                else
+                                {
+                                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithDescription(StringCatch.GetString("addFucknEhImg", "**{0}** isso n eh uma imagem meu caro", cmdContext.User.ToString()))
+                                            .WithColor(Color.Red)
+                                        .Build());
+                                }
+
+                            }
+                            catch
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithTitle(StringCatch.GetString("fuckAddErro", "{0} Eh meu caro teve um erro na hora de adicionar a img", cmdContext.User.ToString()))
+                                        .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoFuckAdd", "`{0}fuckadd <Url Img> <Explicit>`", (string)cmdArgs[0]))
+                                        .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("usoFuckAdd", "`{0}fuckadd https://i.imgur.com/JDlJzBC.gif false`", (string)cmdArgs[0]))
                                         .WithColor(Color.Red)
                                     .Build());
                             }
 
                         }
-                        catch
-                        {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(StringCatch.GetString("fuckAddErro", "{0} Eh meu caro teve um erro na hora de adicionar a img", context.User.ToString()))
-                                    .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoFuckAdd", "`{0}fuckadd <Url Img> <Explicit>`", (string)args[0]))
-                                    .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("usoFuckAdd", "`{0}fuckadd https://i.imgur.com/JDlJzBC.gif false`", (string)args[0]))
-                                    .WithColor(Color.Red)
-                                .Build());
-                        }
-
                     }
                 }
-            }
+            }, context, args).EsperarOkDb();
         }
 
 
