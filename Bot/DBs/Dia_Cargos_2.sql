@@ -1,3 +1,4 @@
+delimiter ;
 create table Tipos_Cargos(
 	cod bigint not null,
     Descricao varchar (255) not null unique, 
@@ -31,3 +32,4 @@ create procedure AdcAjudanteIdol (
 		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores) values (1, _cargo, _id_Cargo, (select codigo_Servidor from Servidores where id_servidor = _id_Servidor));
 	end if;
 end$$
+

@@ -1,3 +1,4 @@
+delimiter ;
 create table AdmsBot(
 	cod bigint not null auto_increment,
     codigo_Usuario int not null,

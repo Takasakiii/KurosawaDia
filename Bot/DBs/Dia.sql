@@ -1,5 +1,4 @@
-#DiaBaseTables
-
+delimiter ;
 create database Pitas_Kurosawa;
 use Pitas_Kurosawa;
 
@@ -105,11 +104,7 @@ create procedure GetPermissoes(
 ) begin 
 	select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id_servidor;
 end$$
-
 delimiter ;
-
-#DiaAcr
-
 create table ACRS (
 	codigo_acr bigint not null auto_increment,
     trigger_acr text not null,
@@ -154,77 +149,43 @@ create procedure listarAcr(
 ) begin
 	select * from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where id_servidor = _id_servidor);
 end$$
-
 delimiter ;
-
-#DiaInsultos
-
-create table Insultos(
+create table AdmsBot(
 	cod bigint not null auto_increment,
-    codigo_usuario int not null,
-    insulto text not null,
-    foreign key (codigo_usuario) references Usuarios(codigo_usuario),
+    codigo_Usuario int not null,
+    permissao int not null,
+    foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
     primary key (cod)
 );
 
 delimiter $$
 
-create procedure AdicionarInsulto(
-	in _idUsuario bigint,
-    in _insulto text
+create procedure AdicionarAdm(
+	in _id_Usuario bigint,
+    in _permissao int
 ) begin
-	declare _codUsuario int;
-    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
-	insert into Insultos (codigo_usuario, insulto) values (_codUsuario, _insulto); 
-end$$
-
-create procedure PegarInsulto()
-begin
-	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
-end$$
-
-delimiter ;
-
-#DiaCargos
-
-create table Tipos_Cargos(
-	cod bigint not null,
-    Descricao varchar (255) not null unique, 
-    primary key (cod)
-);
-
-#Setup Tipos_Cargos
-insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
-insert into Tipos_Cargos values (2, "Cargos por XP (XpRole)");
-
-create table Cargos(
-	cod bigint not null auto_increment,
-    cod_Tipos_Cargos bigint not null,
-    cargo varchar (255) not null,
-    id bigint not null,
-    codigo_Servidores int not null,
-    foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
-    foreign key (codigo_Servidores) references Servidores (codigo_servidor),
-    primary key (cod)
-);
-alter table Cargos add column requesito bigint not null default 0;
-
-delimiter $$
-
-create procedure AdcAjudanteIdol (
-	in _cargo varchar (255),
-    in _id_Cargo bigint,
-    in _id_Servidor bigint
-) begin
-	if(select count(Cargos.cod) from Cargos where Cargos.id = _id_Cargo and Cargos.cod_Tipos_Cargos = (select Servidores.codigo_Servidor from Servidores where servidores.id_servidor = _id_Servidor)) = 0 then
-		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores) values (1, _cargo, _id_Cargo, (select codigo_Servidor from Servidores where id_servidor = _id_Servidor));
+	declare result int;
+    set result = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
+	if(select count(cod) from AdmsBot where codigo_Usuario = result) = 0 then
+		insert into AdmsBot(codigo_Usuario, permissao) values (result, _permissao);
+        select true as Result;
+	else
+		select false as Result;
 	end if;
 end$$
 
+create procedure GetAdm (
+	in _id_Usuario bigint
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
+    if(select count(cod) from AdmsBot where codigo_Usuario = _codUsuario) = 1 then
+		select true as Result, permissao from AdmsBot where codigo_Usuario = _codUsuario;
+	else
+		select false as Result;
+	end if;
+end$$
 delimiter ;
-
-#DiaCanais
-
 create table Tipos_Canais (
 	cod bigint not null,
     Descricao varchar (255) not null unique,
@@ -268,81 +229,41 @@ create procedure GetCh (
 end$$
 
 delimiter ;
-
-#DiaADMS
-
-create table AdmsBot(
-	cod bigint not null auto_increment,
-    codigo_Usuario int not null,
-    permissao int not null,
-    foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
+create table Tipos_Cargos(
+	cod bigint not null,
+    Descricao varchar (255) not null unique, 
     primary key (cod)
 );
 
-delimiter $$
+#Setup Tipos_Cargos
+insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
+insert into Tipos_Cargos values (2, "Cargos por XP (XpRole)");
 
-create procedure AdicionarAdm(
-	in _id_Usuario bigint,
-    in _permissao int
-) begin
-	declare result int;
-    set result = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
-	if(select count(cod) from AdmsBot where codigo_Usuario = result) = 0 then
-		insert into AdmsBot(codigo_Usuario, permissao) values (result, _permissao);
-        select true as Result;
-	else
-		select false as Result;
-	end if;
-end$$
-
-create procedure GetAdm (
-	in _id_Usuario bigint
-) begin
-	declare _codUsuario int;
-    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
-    if(select count(cod) from AdmsBot where codigo_Usuario = _codUsuario) = 1 then
-		select true as Result, permissao from AdmsBot where codigo_Usuario = _codUsuario;
-	else
-		select false as Result;
-	end if;
-end$$
-
-delimiter ;
-
-#DiaFuck
-
-CREATE TABLE Fuck (
-  cod bigint NOT NULL AUTO_INCREMENT,
-  codigo_usuario int NOT NULL,
-  urlImage varchar(255) NOT NULL,
-  explicitImage bool NOT NULL,
-  PRIMARY KEY (cod),
-  KEY codigo_usuario (codigo_usuario),
-  FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
+create table Cargos(
+	cod bigint not null auto_increment,
+    cod_Tipos_Cargos bigint not null,
+    cargo varchar (255) not null,
+    id bigint not null,
+    codigo_Servidores int not null,
+    foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
+    foreign key (codigo_Servidores) references Servidores (codigo_servidor),
+    primary key (cod)
 );
+alter table Cargos add column requesito bigint not null default 0;
 
 delimiter $$
 
-create procedure AdicionarImgFuck(
-	in _idUsuario bigint,
-    in _img text,
-    in _explicit bool
+create procedure AdcAjudanteIdol (
+	in _cargo varchar (255),
+    in _id_Cargo bigint,
+    in _id_Servidor bigint
 ) begin
-	declare _codUsuario int;
-    set _codUsuario = (select Usuarios.codigo_usuario from Usuarios where Usuarios.id_usuario = _idUsuario);
-    insert into Fuck (Fuck.codigo_usuario, Fuck.urlImage, Fuck.explicitImage) values (_codUsuario, _img, _explicit);
-end$$
-
-create procedure GetFuckImg (
-	in _explicit bool
-) begin 
-select Fuck.cod, Fuck.urlImage, Fuck.explicitImage, Usuarios.id_usuario, Usuarios.nome_usuario from Fuck join Usuarios on Usuarios.codigo_usuario = Fuck.codigo_usuario where Fuck.explicitImage = _explicit or Fuck.explicitImage = false order by rand() limit 1;
+	if(select count(Cargos.cod) from Cargos where Cargos.id = _id_Cargo and Cargos.cod_Tipos_Cargos = (select Servidores.codigo_Servidor from Servidores where servidores.id_servidor = _id_Servidor)) = 0 then
+		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores) values (1, _cargo, _id_Cargo, (select codigo_Servidor from Servidores where id_servidor = _id_Servidor));
+	end if;
 end$$
 
 delimiter ;
-
-#DiaConfigServer
-
 create table ConfiguracoesServidores(
 	cod bigint not null auto_increment,
     cod_servidor int not null,
@@ -377,9 +298,72 @@ create procedure criarConfig(
 end$$
 
 delimiter ;
+CREATE TABLE Fuck (
+  cod bigint NOT NULL AUTO_INCREMENT,
+  codigo_usuario int NOT NULL,
+  urlImage varchar(255) NOT NULL,
+  explicitImage bool NOT NULL,
+  PRIMARY KEY (cod),
+  KEY codigo_usuario (codigo_usuario),
+  FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
+);
 
-#DiaPI
+delimiter $$
 
+create procedure AdicionarImgFuck(
+	in _idUsuario bigint,
+    in _img text,
+    in _explicit bool
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select Usuarios.codigo_usuario from Usuarios where Usuarios.id_usuario = _idUsuario);
+    insert into Fuck (Fuck.codigo_usuario, Fuck.urlImage, Fuck.explicitImage) values (_codUsuario, _img, _explicit);
+end$$
+
+create procedure GetFuckImg (
+	in _explicit bool
+) begin 
+select Fuck.cod, Fuck.urlImage, Fuck.explicitImage, Usuarios.id_usuario, Usuarios.nome_usuario from Fuck join Usuarios on Usuarios.codigo_usuario = Fuck.codigo_usuario where Fuck.explicitImage = _explicit or Fuck.explicitImage = false order by rand() limit 1;
+end$$
+
+delimiter ;
+create table Insultos(
+	cod bigint not null auto_increment,
+    codigo_usuario int not null,
+    insulto text not null,
+    foreign key (codigo_usuario) references Usuarios(codigo_usuario),
+    primary key (cod)
+);
+
+delimiter $$
+
+create procedure AdicionarInsulto(
+	in _idUsuario bigint,
+    in _insulto text
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
+	insert into Insultos (codigo_usuario, insulto) values (_codUsuario, _insulto); 
+end$$
+
+create procedure PegarInsulto()
+begin
+	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
+end$$
+
+delimiter $$
+create procedure MostrarAsTetas()
+begin
+	select Servidores.nome_servidor, Usuarios.nome_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario;
+end$$
+
+create procedure MandaOsNude (
+    in _codigo_usuario bigint
+) begin 
+    select Servidores.codigo_servidor, Servidores.nome_servidor, Servidores.id_servidor, " " as separador, Usuarios.codigo_usuario, Usuarios.nome_usuario, Usuarios.id_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario where Usuarios.codigo_usuario = _codigo_usuario;
+end$$
+
+delimiter ;
 create table PontosInterativos (
 	cod bigint not null auto_increment,
     servidores_usuarios_servidor int not null,
@@ -460,17 +444,3 @@ create procedure AddPI(
         call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
-
-#MonitoringProcedures
-delimiter $$
-create procedure MostrarAsTetas()
-begin
-	select Servidores.nome_servidor, Usuarios.nome_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario;
-end$$
-
-create procedure MandaOsNude (
-    in _codigo_usuario bigint
-) begin 
-    select Servidores.codigo_servidor, Servidores.nome_servidor, Servidores.id_servidor, " " as separador, Usuarios.codigo_usuario, Usuarios.nome_usuario, Usuarios.id_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario where Usuarios.codigo_usuario = _codigo_usuario;
-end$$
-

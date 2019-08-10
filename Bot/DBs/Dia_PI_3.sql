@@ -1,3 +1,4 @@
+delimiter ;
 create table PontosInterativos (
 	cod bigint not null auto_increment,
     servidores_usuarios_servidor int not null,

@@ -1,3 +1,4 @@
+delimiter ;
 create table ConfiguracoesServidores(
 	cod bigint not null auto_increment,
     cod_servidor int not null,
@@ -30,4 +31,4 @@ create procedure criarConfig(
 		insert into configuracoesservidores (cod_servidor) values (_codServidor);
 	end if;
 end$$
-    
+
