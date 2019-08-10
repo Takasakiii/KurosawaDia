@@ -116,13 +116,7 @@ namespace Bot.Nucleo.Eventos
 
         private void CadastrarServidorUsuarioAsync(CommandContext context)
         {
-            if (!context.IsPrivate)
-            {
-                new Thread(() =>
-                {
-                    new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
-                }).Start();
-            }
+            BotCadastro.AdicionarCadastro(context);
         }
 
         private object[] CriadorDoArgs(string messagemSemPrefixo, ref string comando, Servidores servidor)

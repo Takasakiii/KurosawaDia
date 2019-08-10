@@ -14,71 +14,74 @@ namespace Bot.Comandos
     {
         public void acr(CommandContext context, object[] args)
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(color: Color.DarkPurple);
-
-            if (!context.IsPrivate)
+            new BotCadastro((CommandContext context1, object[] args1) =>
             {
-                SocketGuildUser usuario = context.User as SocketGuildUser;
-                IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(color: Color.DarkPurple);
 
-                if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
+                if (!context.IsPrivate)
                 {
-                    string[] comando = (string[])args[1];
-                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-                    string[] resposta_pergunta = msg.Split('|');
+                    SocketGuildUser usuario = context.User as SocketGuildUser;
+                    IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
-                    if (resposta_pergunta.Length > 2)
+                    if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
                     {
-                        ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
-                        new ReacoesCustomizadasDAO().CriarAcr(ref cr);
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        string[] resposta_pergunta = msg.Split('|');
 
-                        string resposta = "", pergunta = "";
-
-                        if(resposta_pergunta[0].Trim().Length > 1024)
+                        if (resposta_pergunta.Length >= 2)
                         {
-                            pergunta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                            ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(context.Guild.Id), context.Guild.Id);
+                            new ReacoesCustomizadasDAO().CriarAcr(ref cr);
+
+                            string resposta = "", pergunta = "";
+
+                            if (resposta_pergunta[0].Trim().Length > 1024)
+                            {
+                                pergunta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                            }
+                            else
+                            {
+                                pergunta = resposta_pergunta[0].Trim();
+                            }
+
+                            if (resposta_pergunta[1].Trim().Length > 1024)
+                            {
+                                resposta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                            }
+                            else
+                            {
+                                resposta = resposta_pergunta[1].Trim();
+                            }
+
+                            embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", context.User.ToString()));
+                            embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
+                            embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
+                            embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
                         }
                         else
                         {
-                            pergunta = resposta_pergunta[0].Trim();
+                            embed.WithTitle(StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
+                            embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", (string)args[0]));
+                            embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", (string)args[0]));
+                            embed.WithColor(Color.Red);
                         }
-
-                        if (resposta_pergunta[1].Trim().Length > 1024)
-                        {
-                            resposta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
-                        }
-                        else
-                        {
-                            resposta = resposta_pergunta[1].Trim();
-                        }
-
-                        embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", context.User.ToString()));
-                        embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
-                        embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
-                        embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
                     }
                     else
                     {
-                        embed.WithTitle(StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
-                        embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", (string)args[0]));
-                        embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", (string)args[0]));
+                        embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", context.User.ToString()));
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", context.User.ToString()));
+                    embed.WithDescription(StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
                     embed.WithColor(Color.Red);
                 }
-            }
-            else
-            {
-                embed.WithDescription(StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
-                embed.WithColor(Color.Red);
-            }
 
-            context.Channel.SendMessageAsync(embed: embed.Build());
+                context.Channel.SendMessageAsync(embed: embed.Build());
+            }, context, args).EsperarOkDb();
         }
 
         public void dcr(CommandContext context, object[] args)
