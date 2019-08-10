@@ -1,3 +1,4 @@
+delimiter ;
 create database Pitas_Kurosawa;
 use Pitas_Kurosawa;
 

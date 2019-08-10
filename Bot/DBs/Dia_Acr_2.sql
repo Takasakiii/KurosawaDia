@@ -1,3 +1,4 @@
+delimiter ;
 create table ACRS (
 	codigo_acr bigint not null auto_increment,
     trigger_acr text not null,

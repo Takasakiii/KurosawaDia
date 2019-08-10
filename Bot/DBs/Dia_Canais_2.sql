@@ -1,3 +1,4 @@
+delimiter ;
 create table Tipos_Canais (
 	cod bigint not null,
     Descricao varchar (255) not null unique,

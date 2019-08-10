@@ -1,3 +1,4 @@
+delimiter ;
 create table Insultos(
 	cod bigint not null auto_increment,
     codigo_usuario int not null,
@@ -21,3 +22,4 @@ create procedure PegarInsulto()
 begin
 	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
 end$$
+
