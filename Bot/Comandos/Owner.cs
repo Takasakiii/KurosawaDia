@@ -35,42 +35,45 @@ namespace Bot.Comandos
 
         public void setespecial(CommandContext context, object[] args)
         {
-            Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
-            Adms adm = new Adms(usuario);
-
-            if (new AdmsDAO().GetAdm(ref adm))
+            new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
-                if (adm.Permissoes == PermissoesAdms.Donas)
-                {
-                    try
-                    {
-                        string[] comando = (string[])args[1];
-                        Servidores servidor = new Servidores(Convert.ToUInt64(comando[1]), (PermissoesServidores)Convert.ToInt32(comando[2]));
+                Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
+                Adms adm = new Adms(usuario);
 
-                        if (new ServidoresDAO().SetEspecial(servidor))
+                if (new AdmsDAO().GetAdm(ref adm))
+                {
+                    if (adm.Permissoes == PermissoesAdms.Donas)
+                    {
+                        try
                         {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("setEspecialSetado", "A permissão do seridor foi setada yay"))
+                            string[] comando = (string[])cmdArgs[1];
+                            Servidores servidor = new Servidores(Convert.ToUInt64(comando[1]), (PermissoesServidores)Convert.ToInt32(comando[2]));
+
+                            if (new ServidoresDAO().SetEspecial(servidor))
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("setEspecialSetado", "A permissão do seridor foi setada yay"))
+                                        .WithColor(Color.DarkPurple)
+                                    .Build());
+                            }
+                            else
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("setEspecialNaoFoi", "Não foi possivel atualizar as permmissões do servidor"))
                                     .WithColor(Color.DarkPurple)
-                                .Build());
+                                 .Build());
+                            }
                         }
-                        else
+                        catch
                         {
-                            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setEspecialNaoFoi", "Não foi possivel atualizar as permmissões do servidor"))
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("setEspecialErro", "Meu caro vc n digitou o cmd do jeito certo"))
                                 .WithColor(Color.DarkPurple)
                              .Build());
                         }
                     }
-                    catch
-                    {
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("setEspecialErro", "Meu caro vc n digitou o cmd do jeito certo"))
-                            .WithColor(Color.DarkPurple)
-                         .Build());
-                    }
                 }
-            }
+            }, context, args).EsperarOkDb();
         }
 
         public void send(CommandContext context, object[] args)
