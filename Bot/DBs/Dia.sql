@@ -1,3 +1,5 @@
+#DiaBaseTables
+
 create database Pitas_Kurosawa;
 use Pitas_Kurosawa;
 
@@ -13,28 +15,11 @@ create table Servidores (
 );
 alter table Servidores modify column  especial_servidor int not null default 0;
 
-create table ACRS (
-	codigo_acr bigint not null auto_increment,
-    trigger_acr text not null,
-    resposta_acr text not null,
-    codigo_servidor int not null,
-    foreign key (codigo_servidor) references Servidores (codigo_servidor),
-    primary key (codigo_acr)
-);
-
 create table Usuarios (
 	codigo_usuario int not null auto_increment,
 	id_usuario bigint not null unique key,
     nome_usuario varchar(255) not null,
     primary key (codigo_usuario)
-);
-
-create table Insultos(
-	cod bigint not null auto_increment,
-    codigo_usuario int not null,
-    insulto text not null,
-    foreign key (codigo_usuario) references Usuarios(codigo_usuario),
-    primary key (cod)
 );
 
 create table Servidores_Usuarios (
@@ -45,95 +30,10 @@ create table Servidores_Usuarios (
     primary key (Servidores_codigo_servidor, Usuarios_codigo_usuario)
 );
 
-create table Tipos_Cargos(
-	cod bigint not null,
-    Descricao varchar (255) not null unique, 
-    primary key (cod)
-);
-
-#Setup Tipos_Cargos
-insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
-insert into Tipos_Cargos values (2, "Cargos por XP (XpRole)");
-
-create table Cargos(
-	cod bigint not null auto_increment,
-    cod_Tipos_Cargos bigint not null,
-    cargo varchar (255) not null,
-    id bigint not null,
-    codigo_Servidores int not null,
-    foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
-    foreign key (codigo_Servidores) references Servidores (codigo_servidor),
-    primary key (cod)
-);
-alter table Cargos add column requesito bigint not null default 0;
-
-create table Tipos_Canais (
-	cod bigint not null,
-    Descricao varchar (255) not null unique,
-    primary key (cod)
-);
-
-#Set dos canais yay
-insert into Tipos_Canais values (0, "Bem Vindo (bemvindoCh)");
-insert into Tipos_Canais values (1, "Sair (sairCh)");
-
-create table Canais (
-	cod bigint not null auto_increment,
-    cod_Tipos_Canais bigint not null,
-    canal varchar(255) not null,
-    id bigint not null,
-    codigo_servidor int not null,
-    foreign key (cod_Tipos_Canais) references Tipos_Canais (cod),
-    foreign key (codigo_servidor) references Servidores (codigo_servidor),
-    primary key (cod)
-);
-
-create table AdmsBot(
-	cod bigint not null auto_increment,
-    codigo_Usuario int not null,
-    permissao int not null,
-    foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
-    primary key (cod)
-);
-
-CREATE TABLE Fuck (
-  cod bigint NOT NULL AUTO_INCREMENT,
-  codigo_usuario int NOT NULL,
-  urlImage varchar(255) NOT NULL,
-  explicitImage bool NOT NULL,
-  PRIMARY KEY (cod),
-  KEY codigo_usuario (codigo_usuario),
-  FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
-);
-
-create table PontosInterativos (
-	cod bigint not null auto_increment,
-    servidores_usuarios_servidor int not null,
-    servidores_usuarios_usuario int not null,
-    PI bigint not null default 1,
-    fragmentosPI bigint not null default 0,
-    foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
-    primary key (cod)
-);
-
-create table ConfiguracoesServidores(
-	cod bigint not null auto_increment,
-    cod_servidor int not null,
-    idioma int not null default 0,
-    PIConf bool not null default false,
-    PIrate double not null default 2.0,
-    msgError bool not null default true,
-    DiaAPI bool not null default true,
-    MsgPIUp text,
-    bemvindoMsg text,
-    sairMsg text,
-    foreign key (cod_servidor) references Servidores (codigo_servidor),
-    primary key (cod)
-);
 
 SET GLOBAL log_bin_trust_function_creators = 1;
-
 delimiter $$
+
 create function verificarCadastro (
 		_id_servidor bigint,
 		_id_usuario bigint
@@ -188,6 +88,39 @@ create procedure atualizarPrefix (
     select Servidores.prefix_servidor from Servidores where Servidores.id_servidor = _id_servidor;
 end$$
 
+create procedure DefinirTipoServidor(
+	in _id bigint,
+    in _tipoServidor int
+) begin
+	update Servidores set especial_servidor = _tipoServidor where id_servidor = _id;
+    if((select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id) != 0) then
+		select true as Result;
+	else
+		select false as Result;
+	end if;
+end $$
+
+create procedure GetPermissoes(
+	in _id_servidor bigint
+) begin 
+	select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id_servidor;
+end$$
+
+delimiter ;
+
+#DiaAcr
+
+create table ACRS (
+	codigo_acr bigint not null auto_increment,
+    trigger_acr text not null,
+    resposta_acr text not null,
+    codigo_servidor int not null,
+    foreign key (codigo_servidor) references Servidores (codigo_servidor),
+    primary key (codigo_acr)
+);
+
+delimiter $$
+
 create procedure criarAcr(
 	in _trigger_acr text,
     in _resposta_acr text,
@@ -222,6 +155,62 @@ create procedure listarAcr(
 	select * from ACRS where ACRS.codigo_servidor = (select Servidores.codigo_servidor from Servidores where id_servidor = _id_servidor);
 end$$
 
+delimiter ;
+
+#DiaInsultos
+
+create table Insultos(
+	cod bigint not null auto_increment,
+    codigo_usuario int not null,
+    insulto text not null,
+    foreign key (codigo_usuario) references Usuarios(codigo_usuario),
+    primary key (cod)
+);
+
+delimiter $$
+
+create procedure AdicionarInsulto(
+	in _idUsuario bigint,
+    in _insulto text
+) begin
+	declare _codUsuario int;
+    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
+	insert into Insultos (codigo_usuario, insulto) values (_codUsuario, _insulto); 
+end$$
+
+create procedure PegarInsulto()
+begin
+	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
+end$$
+
+delimiter ;
+
+#DiaCargos
+
+create table Tipos_Cargos(
+	cod bigint not null,
+    Descricao varchar (255) not null unique, 
+    primary key (cod)
+);
+
+#Setup Tipos_Cargos
+insert into Tipos_Cargos values (1, "Permissao Extendida (Ajudante de Idol)");
+insert into Tipos_Cargos values (2, "Cargos por XP (XpRole)");
+
+create table Cargos(
+	cod bigint not null auto_increment,
+    cod_Tipos_Cargos bigint not null,
+    cargo varchar (255) not null,
+    id bigint not null,
+    codigo_Servidores int not null,
+    foreign key (cod_Tipos_Cargos) references Tipos_Cargos (cod),
+    foreign key (codigo_Servidores) references Servidores (codigo_servidor),
+    primary key (cod)
+);
+alter table Cargos add column requesito bigint not null default 0;
+
+delimiter $$
+
 create procedure AdcAjudanteIdol (
 	in _cargo varchar (255),
     in _id_Cargo bigint,
@@ -231,6 +220,34 @@ create procedure AdcAjudanteIdol (
 		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores) values (1, _cargo, _id_Cargo, (select codigo_Servidor from Servidores where id_servidor = _id_Servidor));
 	end if;
 end$$
+
+delimiter ;
+
+#DiaCanais
+
+create table Tipos_Canais (
+	cod bigint not null,
+    Descricao varchar (255) not null unique,
+    primary key (cod)
+);
+
+#Set dos canais yay
+insert into Tipos_Canais values (0, "Bem Vindo (bemvindoCh)");
+insert into Tipos_Canais values (1, "Sair (sairCh)");
+
+create table Canais (
+	cod bigint not null auto_increment,
+    cod_Tipos_Canais bigint not null,
+    canal varchar(255) not null,
+    id bigint not null,
+    codigo_servidor int not null,
+    foreign key (cod_Tipos_Canais) references Tipos_Canais (cod),
+    foreign key (codigo_servidor) references Servidores (codigo_servidor),
+    primary key (cod)
+);
+
+
+delimiter $$
 
 create procedure AdcCh (
 	in _tipo_canal int,
@@ -243,10 +260,26 @@ create procedure AdcCh (
     end if;
 end $$
 
-create procedure MostrarAsTetas()
-begin
-	select Servidores.nome_servidor, Usuarios.nome_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario;
+create procedure GetCh (
+	in _tipo_canal bigint,
+    in _id_servidor bigint
+) begin 
+	select Canais.cod, Canais.cod_Tipos_Canais, canal, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$
+
+delimiter ;
+
+#DiaADMS
+
+create table AdmsBot(
+	cod bigint not null auto_increment,
+    codigo_Usuario int not null,
+    permissao int not null,
+    foreign key (codigo_Usuario) references Usuarios (codigo_usuario),
+    primary key (cod)
+);
+
+delimiter $$
 
 create procedure AdicionarAdm(
 	in _id_Usuario bigint,
@@ -274,19 +307,21 @@ create procedure GetAdm (
 	end if;
 end$$
 
-create procedure AdicionarInsulto(
-	in _idUsuario bigint,
-    in _insulto text
-) begin
-	declare _codUsuario int;
-    set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
-	insert into Insultos (codigo_usuario, insulto) values (_codUsuario, _insulto); 
-end$$
+delimiter ;
 
-create procedure PegarInsulto()
-begin
-	select Insultos.insulto, Insultos.cod ,Usuarios.id_usuario, Usuarios.nome_usuario from Insultos join Usuarios on Usuarios.codigo_usuario = Insultos.codigo_usuario order by rand() limit 1;
-end$$
+#DiaFuck
+
+CREATE TABLE Fuck (
+  cod bigint NOT NULL AUTO_INCREMENT,
+  codigo_usuario int NOT NULL,
+  urlImage varchar(255) NOT NULL,
+  explicitImage bool NOT NULL,
+  PRIMARY KEY (cod),
+  KEY codigo_usuario (codigo_usuario),
+  FOREIGN KEY (codigo_usuario) REFERENCES Usuarios (codigo_usuario)
+);
+
+delimiter $$
 
 create procedure AdicionarImgFuck(
 	in _idUsuario bigint,
@@ -304,30 +339,26 @@ create procedure GetFuckImg (
 select Fuck.cod, Fuck.urlImage, Fuck.explicitImage, Usuarios.id_usuario, Usuarios.nome_usuario from Fuck join Usuarios on Usuarios.codigo_usuario = Fuck.codigo_usuario where Fuck.explicitImage = _explicit or Fuck.explicitImage = false order by rand() limit 1;
 end$$
 
-create procedure GetCh (
-	in _tipo_canal bigint,
-    in _id_servidor bigint
-) begin 
-	select Canais.cod, Canais.cod_Tipos_Canais, canal, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
-end$$
+delimiter ;
 
-create procedure GetPermissoes(
-	in _id_servidor bigint
-) begin 
-	select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id_servidor;
-end$$
+#DiaConfigServer
 
-create procedure DefinirTipoServidor(
-	in _id bigint,
-    in _tipoServidor int
-) begin
-	update Servidores set especial_servidor = _tipoServidor where id_servidor = _id;
-    if((select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id) != 0) then
-		select true as Result;
-	else
-		select false as Result;
-	end if;
-end $$
+create table ConfiguracoesServidores(
+	cod bigint not null auto_increment,
+    cod_servidor int not null,
+    idioma int not null default 0,
+    PIConf bool not null default false,
+    PIrate double not null default 2.0,
+    msgError bool not null default true,
+    DiaAPI bool not null default true,
+    MsgPIUp text,
+    bemvindoMsg text,
+    sairMsg text,
+    foreign key (cod_servidor) references Servidores (codigo_servidor),
+    primary key (cod)
+);
+
+delimiter $$
 
 create function verificarConfig(
 		_codServidor int
@@ -344,9 +375,22 @@ create procedure criarConfig(
 		insert into configuracoesservidores (cod_servidor) values (_codServidor);
 	end if;
 end$$
-    
 
+delimiter ;
 
+#DiaPI
+
+create table PontosInterativos (
+	cod bigint not null auto_increment,
+    servidores_usuarios_servidor int not null,
+    servidores_usuarios_usuario int not null,
+    PI bigint not null default 1,
+    fragmentosPI bigint not null default 0,
+    foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
+    primary key (cod)
+);
+
+delimiter $$
 create procedure configurePI(
 	in _idServidor bigint,
     in _piconf bool,
@@ -417,34 +461,16 @@ create procedure AddPI(
 	end if;
 end$$
 
+#MonitoringProcedures
+delimiter $$
+create procedure MostrarAsTetas()
+begin
+	select Servidores.nome_servidor, Usuarios.nome_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario;
+end$$
 
+create procedure MandaOsNude (
+    in _codigo_usuario bigint
+) begin 
+    select Servidores.codigo_servidor, Servidores.nome_servidor, Servidores.id_servidor, " " as separador, Usuarios.codigo_usuario, Usuarios.nome_usuario, Usuarios.id_usuario from Servidores_Usuarios join Servidores on Servidores.codigo_servidor = Servidores_Usuarios.Servidores_codigo_servidor join Usuarios on Usuarios.codigo_usuario = Servidores_Usuarios.Usuarios_codigo_usuario where Usuarios.codigo_usuario = _codigo_usuario;
+end$$
 
-delimiter ;
-
-
-call AddPI(556580866198077451, 274289097689006080);
-
-call AdicionarImgFuck(368280970102833153, "https://i.imgur.com/rtG8cwh.gif", true);
-call GetFuckImg(true);
-
-call atualizarPrefix(556580866198077451, "!");
-
-call DefinirTipoServidor(556580866198077451, 1);
-
-call criarAcr("gado", "thhhrag", 518069575896793109);
-call AdcAjudanteIdol("pitas viado", 32, 556580866198077451);
-select count(Cargos.cod) from Cargos where Cargos.cargo = "oi" and Cargos.cod_Tipos_Cargos = (select Servidores.codigo_Servidor from Servidores where servidores.id_servidor = 91);
-((select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = 518069575896793109));
-call deletarAcr(10, 518069575896793109);
-call responderAcr("oi", 549064112651370506);
-select ACRS.resposta_acr from ACRS where ACRS.trigger_acr = "oi" and 549064112651370506 = (select Servidores.id_servidor from Servidores where Servidores.codigo_servidor = (select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1)) order by rand() limit 1;
-select ACRS.codigo_servidor from ACRS where ACRS.trigger_acr ="oi" order by rand() limit 1;
-call listarAcr(556580866198077451);
-call procurarAcr("aaaaa");
-call AdicionarAdm(368280970102833153, 0);
-call AdicionarAdm(368280970102833153, 0);
-call DefinirTipoServidor(556580866198077451, 1);
-call AdcCh(0, "aaaaa", 556854984264646675, 556580866198077451);
-select verificarConfig(556580866198077451);
-call GetCh(0, 556580866198077451);
-select count(Canais.cod) from Canais where Canais.id  = 584442921642885159 and Canais.codigo_servidor = (select Servidores.codigo_Servidor from Servidores where Servidores.id_servidor = 556580866198077451)
