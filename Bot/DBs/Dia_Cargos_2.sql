@@ -33,3 +33,14 @@ create procedure AdcAjudanteIdol (
 	end if;
 end$$
 
+create procedure AdicionarCargoIP(
+	in _cargo varchar(255),
+    in _idCargo bigint,
+    in _idServidor bigint,
+    in _IPLevel bigint
+) begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+end$$
+    
+
