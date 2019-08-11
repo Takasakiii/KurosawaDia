@@ -124,6 +124,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConfigurationControler\ConfigurationControler.csproj">
+      <Project>{D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23}</Project>
+      <Name>ConfigurationControler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MainDatabaseControler\MainDatabaseControler.csproj">
       <Project>{870B3D6C-1FF6-4401-A02B-F001F9560501}</Project>
       <Name>MainDatabaseControler</Name>

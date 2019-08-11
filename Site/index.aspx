@@ -15,6 +15,7 @@
         <asp:TextBox ID="txId" runat="server"></asp:TextBox>
         <asp:Button ID="btOk" runat="server" Text="OK" OnClick="btOk_Click1" />
         <br />
+        <br />
         <asp:Label ID="lbPrefix" runat="server" Text=""></asp:Label>
     </form>
 </body>

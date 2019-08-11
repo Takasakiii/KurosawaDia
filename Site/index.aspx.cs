@@ -1,4 +1,6 @@
-﻿using MainDatabaseControler.DAO;
+﻿using ConfigurationControler.DAO;
+using ConfigurationControler.Modelos;
+using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
 
@@ -13,15 +15,14 @@ namespace Site
 
         protected void btOk_Click1(object sender, EventArgs e)
         {
-            Servidores servidor = new Servidores(Convert.ToUInt64(txId.Text));
-            if (new ServidoresDAO().GetPrefix(ref servidor))
+            DiaConfig config = new DiaConfigDAO().Carregar();
+            Servidores servFinal = new Servidores(Convert.ToUInt64(txId.Text), config.prefix.ToCharArray());
+            Servidores servidores = servFinal;
+            if (new ServidoresDAO().GetPrefix(ref servidores))
             {
-                lbPrefix.Text += new string(servidor.Prefix);
+                servFinal = servidores;
             }
-            else
-            {
-                lbPrefix.Text = "não encontrei o prefixo desse servidor";
-            }
+            lbPrefix.Text = $"O prefixo do servidor eh: {new string(servFinal.Prefix)}";
         }
     }
 }
