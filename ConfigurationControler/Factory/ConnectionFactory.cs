@@ -1,5 +1,6 @@
 ﻿using ConfigurationControler.Singletons;
 using Microsoft.Data.Sqlite;
+using System;
 using System.IO;
 
 namespace ConfigurationControler.Factory
@@ -13,7 +14,8 @@ namespace ConfigurationControler.Factory
             {
                 CriarDB();
             }
-            SqliteConnection conexao = new SqliteConnection($"Data Source={DB.localDB}");
+
+            SqliteConnection conexao = new SqliteConnection($"Data Source={AppDomain.CurrentDomain.BaseDirectory}\\{DB.localDB}");
             conexao.Open();
             return conexao;
         }
