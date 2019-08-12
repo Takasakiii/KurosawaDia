@@ -11,6 +11,7 @@ namespace Bot.Comandos
 {
     public class Configuracoes : CustomReactions
     {
+        //verificar se eh adm
         public void setprefix(CommandContext context, object[] args)
         {
             new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
@@ -66,6 +67,7 @@ namespace Bot.Comandos
             }, context, args).EsperarOkDb();
         }
 
+        //verificar se eh adm
         public void xprole(CommandContext context, object[] args)
         {
             new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
@@ -165,43 +167,54 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        public void setwelcomech(CommandContext context, object[] args)
+        //vericar se eh adm
+        public void welcomech(CommandContext context, object[] args)
         {
-            string id = "";
-            string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-            foreach(char letra in msg)
+            if (!context.IsPrivate)
             {
-                if(ulong.TryParse(letra.ToString(), out ulong result))
+                string id = "";
+                string[] comando = (string[])args[1];
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                foreach (char letra in msg)
                 {
-                    id += result;
+                    if (ulong.TryParse(letra.ToString(), out ulong result))
+                    {
+                        id += result;
+                    }
                 }
-            }
-            IChannel canal = null;
-            try
-            {
-                canal = context.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
-            }
-            catch
-            {
-                canal = context.Channel;
-            }
-
-            if(canal != null)
-            {
-                Canais canalModel = new Canais(canal.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
-                if(new CanaisDAO().AddCh(canalModel))
+                IChannel canal = null;
+                try
                 {
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("setwelcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", context.User.ToString(), canalModel.NomeCanal))
-                            .WithColor(Color.DarkPurple)
-                         .Build());
+                    canal = context.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                }
+                catch
+                {
+                    canal = context.Channel;
+                }
+
+                if (canal != null)
+                {
+                    Canais canalModel = new Canais(canal.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
+                    if (new CanaisDAO().AddCh(canalModel))
+                    {
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", context.User.ToString(), canalModel.NomeCanal))
+                                .WithColor(Color.DarkPurple)
+                             .Build());
+                    }
+                    else
+                    {
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", context.User.ToString()))
+                                .WithColor(Color.Red)
+                            .Build());
+                    }
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("setwelcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", context.User.ToString()))
+                            .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", context.User.ToString()))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -209,10 +222,15 @@ namespace Bot.Comandos
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(StringCatch.GetString("setwelcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", context.User.ToString()))
+                        .WithDescription(StringCatch.GetString("welcomechDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
+        }
+
+        //verificar se eh adm
+        public void welcomemsg(CommandContext context, object[] args)
+        {
 
         }
     }

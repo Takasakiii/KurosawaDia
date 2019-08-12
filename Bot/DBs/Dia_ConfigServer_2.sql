@@ -32,3 +32,8 @@ create procedure criarConfig(
 	end if;
 end$$
 
+create procedure getErrorMessage (
+	in _id_servidor bigint
+) begin 
+	select ConfiguracoesServidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = (select Servidores.codigo_servidor from servidores where Servidores.id_servidor = _id_servidor);
+end$$
