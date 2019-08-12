@@ -13,6 +13,7 @@ namespace Bot.Comandos
 {
     public class Configuracoes : CustomReactions
     {
+        //setar as perm
         public void setprefix(CommandContext context, object[] args)
         {
             new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
@@ -68,7 +69,8 @@ namespace Bot.Comandos
             }, context, args).EsperarOkDb();
         }
 
-        public void iprole(CommandContext context, object[] args)
+        //setar as perm
+        public void pirole(CommandContext context, object[] args)
         {
             new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
@@ -167,20 +169,68 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        public void setwelcome(CommandContext context, object[] args)
+        //setar as perm
+        public void welcomech(CommandContext context, object[] args)
         {
-            Canais canal = new Canais(context.Channel.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, context.Channel.Name);
-
-            if(new CanaisDAO().AddCh(canal))
+            if (!context.IsPrivate)
             {
-                context.Channel.SendMessageAsync("o canal foi adicionado");
+                string id = "";
+                string[] comando = (string[])args[1];
+                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                foreach (char letra in msg)
+                {
+                    if (ulong.TryParse(letra.ToString(), out ulong result))
+                    {
+                        id += result;
+                    }
+                }
+                IChannel canal = null;
+                try
+                {
+                    canal = context.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                }
+                catch
+                {
+                    canal = context.Channel;
+                }
+
+                if (canal != null)
+                {
+                    Canais canalModel = new Canais(canal.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
+                    if (new CanaisDAO().AddCh(canalModel))
+                    {
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", context.User.ToString(), canalModel.NomeCanal))
+                                .WithColor(Color.DarkPurple)
+                             .Build());
+                    }
+                    else
+                    {
+                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", context.User.ToString()))
+                                .WithColor(Color.Red)
+                            .Build());
+                    }
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", context.User.ToString()))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
             }
             else
             {
-                context.Channel.SendMessageAsync("n deu pra adiciona o canal yay");
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("welcomechDm", "Esse comando só pode ser usado em servidores"))
+                        .WithColor(Color.Red)
+                    .Build());
             }
         }
 
+        //setar as perm
         public void addPICargo (CommandContext contexto, object[] args)
         {
             string[] comandoargs = (string[])args[1];
