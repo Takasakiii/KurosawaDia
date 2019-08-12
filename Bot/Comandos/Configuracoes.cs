@@ -5,6 +5,9 @@ using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using static MainDatabaseControler.Modelos.Canais;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Bot.Comandos
 {
@@ -65,7 +68,7 @@ namespace Bot.Comandos
             }, context, args).EsperarOkDb();
         }
 
-        public void xprole(CommandContext context, object[] args)
+        public void iprole(CommandContext context, object[] args)
         {
             new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
             {
@@ -177,5 +180,72 @@ namespace Bot.Comandos
                 context.Channel.SendMessageAsync("n deu pra adiciona o canal yay");
             }
         }
+
+        public void addPICargo (CommandContext contexto, object[] args)
+        {
+            string[] comandoargs = (string[])args[1];
+            string prefix = (string)args[0];
+            EmbedBuilder msgErro = new EmbedBuilder()
+                .WithColor(Color.Red)
+                .AddField(StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}addPICargo QuantidadeDePIRequerido NomeCargo`", prefix))
+                .AddField(StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}addPICargo 3 Membros`", prefix));
+
+            if(comandoargs.Length > 2)
+            {
+                string nomerole = string.Join(" ", comandoargs, 2, comandoargs.Length - 2);
+                List<IRole> cargos = contexto.Guild.Roles.ToList();
+                ulong id;
+                IRole cargoSelecionado = null;
+                if (ulong.TryParse(nomerole, out id))
+                {
+                    cargoSelecionado = cargos.Find(x => x.Id == id);
+                }
+                else
+                {
+                    cargoSelecionado = cargos.Find(x => x.Name == nomerole);
+                }
+
+                if(cargoSelecionado == null)
+                {
+                    msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado, por favor verifique se você digitou o nome/id do cargo corretamente.", contexto.User.Username));
+                    contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                }
+                else
+                {
+                    long requesito;
+                    if (long.TryParse(comandoargs[1], out requesito) && requesito > 0)
+                    {
+                        Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
+                        Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
+                        CargosDAO dao = new CargosDAO();
+                        CargosDAO.Operacao operacaoRetorno = dao.AdicionarAtualizarCargo(cargoCadastro);
+                        if(operacaoRetorno != CargosDAO.Operacao.Incompleta)
+                        {
+                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithColor(Color.Green)
+                                .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : StringCatch.GetString("addpicargoAtualizado", "atualizado")))
+                                .Build());
+                        }
+                        else
+                        {
+                            msgErro.WithTitle(StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", contexto.User.Username));
+                            msgErro.Fields.Clear();
+                            contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                        }
+                    }
+                    else
+                    {
+                        msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros e maior que 0.", contexto.User.Username));
+                        contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                    }
+                }
+            }
+            else
+            {
+                msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleLess2", "**{0}**, você precisa adicionar enviar os parametros do comando.", contexto.User.Username));
+                contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+            }
+        }
+
     }
 }

@@ -132,7 +132,7 @@ create procedure AdicionarAtualizarCargoIP(
 ) begin
 	declare _codServidor int;
     set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
-	if((select verificarCargos(_idCargo, _codServidor)) = 0 ) then
+	if((select verificarCargo(_idCargo, _codServidor)) = 0 ) then
 		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores, requesito) values (2, _cargo, _idCargo, _codServidor, _IPLevel);
         select 1 as tipoOperacao;
 	else
@@ -140,8 +140,6 @@ create procedure AdicionarAtualizarCargoIP(
         select 2 as tipoOperacao;
 	end if;
 end$$
-
-
 
 
 #pitas
