@@ -114,6 +114,35 @@ create procedure AddPI(
 	end if;
 end$$
 
+create function verificarCargo(
+	_idCargo bigint,
+    _codServidor bigint
+) returns int begin
+	declare _retorno int;
+    set _retorno = (select count(cod) from Cargos where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor);
+    return _retorno;
+end$$
+
+
+create procedure AdicionarAtualizarCargoIP(
+	in _cargo varchar(255),
+    in _idCargo bigint,
+    in _idServidor bigint,
+    in _IPLevel bigint
+) begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+	if((select verificarCargos(_idCargo, _codServidor)) = 0 ) then
+		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores, requesito) values (2, _cargo, _idCargo, _codServidor, _IPLevel);
+        select 1 as tipoOperacao;
+	else
+		update Cargos set requesito = _IPLevel where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
+        select 2 as tipoOperacao;
+	end if;
+end$$
+
+
+
 
 #pitas
 
