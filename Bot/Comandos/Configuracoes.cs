@@ -3,6 +3,7 @@ using Discord;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
+using System;
 using static MainDatabaseControler.Modelos.Canais;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
@@ -164,18 +165,55 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        public void setwelcome(CommandContext context, object[] args)
+        public void setwelcomech(CommandContext context, object[] args)
         {
-            Canais canal = new Canais(context.Channel.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, context.Channel.Name);
+            string id = "";
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            if(new CanaisDAO().AddCh(canal))
+            foreach(char letra in msg)
             {
-                context.Channel.SendMessageAsync("o canal foi adicionado");
+                if(ulong.TryParse(letra.ToString(), out ulong result))
+                {
+                    id += result;
+                }
+            }
+            IChannel canal = null;
+            try
+            {
+                canal = context.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                canal = context.Channel;
+            }
+
+            if(canal != null)
+            {
+                Canais canalModel = new Canais(canal.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
+                if(new CanaisDAO().AddCh(canalModel))
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("setwelcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", context.User.ToString(), canalModel.NomeCanal))
+                            .WithColor(Color.DarkPurple)
+                         .Build());
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("setwelcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", context.User.ToString()))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
             }
             else
             {
-                context.Channel.SendMessageAsync("n deu pra adiciona o canal yay");
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("setwelcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", context.User.ToString()))
+                        .WithColor(Color.Red)
+                    .Build());
             }
+
         }
     }
 }

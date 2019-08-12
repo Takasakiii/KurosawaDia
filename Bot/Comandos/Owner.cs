@@ -51,8 +51,9 @@ namespace Bot.Comandos
 
                             if (new ServidoresDAO().SetEspecial(servidor))
                             {
+                                IGuild servi = context.Client.GetGuildAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
                                 cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("setEspecialSetado", "A permissão do seridor foi setada yay"))
+                                        .WithDescription(StringCatch.GetString("setEspecialSetado", "O servidor: `{0}` ganhou a permissão: `{1}`", servi.Name, (PermissoesServidores)Convert.ToInt32(comando[2])))
                                         .WithColor(Color.DarkPurple)
                                     .Build());
                             }
