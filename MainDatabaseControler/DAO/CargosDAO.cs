@@ -2,8 +2,6 @@
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MainDatabaseControler.DAO
 {
@@ -18,7 +16,7 @@ namespace MainDatabaseControler.DAO
 
         private MySqlConnection conexao = new ConnectionFactory().Conectar();
 
-        public Operacao AdicionarAtualizarCargo (Cargos cargos)
+        public Operacao AdicionarAtualizarCargo(Cargos cargos)
         {
             Operacao retorno = Operacao.Incompleta;
             const string sql = "call AdicionarAtualizarCargoIP(@cargo, @idC, @idS, @IP)";

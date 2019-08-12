@@ -130,7 +130,7 @@ namespace Bot.Comandos
                     .WithThumbnailUrl("https://i.imgur.com/ppXRHTi.jpg")
                     .WithImageUrl("https://i.imgur.com/qGb6xtG.jpg")
                     .WithColor(Color.DarkPurple)
-                .Build()); ;
+                .Build());
 
         }
 
