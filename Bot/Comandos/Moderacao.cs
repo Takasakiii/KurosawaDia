@@ -30,7 +30,7 @@ namespace Bot.Comandos
           * (essa eh minha filosofia não en nada você que cria o significado de tudo)
           * 
           */
-        private void moderacao(int tipo, CommandContext context, object[] args) // piuwiiiiii
+        private void moderacao(int tipo, CommandContext context, object[] args) 
         {
             if (!context.IsPrivate)
             {
