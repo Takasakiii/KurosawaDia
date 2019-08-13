@@ -21,42 +21,53 @@ namespace Bot.Comandos
             {
                 if (!cmdContext.IsPrivate)
                 {
-                    string[] comando = (string[])cmdArgs[1];
-                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                    if (msg != "")
+                    SocketGuildUser userGuild = context.User as SocketGuildUser;
+                    if(userGuild.GuildPermissions.ManageGuild)
                     {
-                        IUserMessage message = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", cmdContext.User))
-                                .WithFooter(StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
-                                .WithColor(Color.DarkPurple)
-                            .Build()).GetAwaiter().GetResult();
+                        string[] comando = (string[])cmdArgs[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                        Emoji emoji = new Emoji("✅");
-                        message.AddReactionAsync(emoji);
-
-                        ReactionControler reaction = new ReactionControler();
-                        reaction.GetReaction(message, emoji, cmdContext.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
+                        if (msg != "")
                         {
-                            Servidores servidor = new Servidores(cmdContext.Guild.Id, msg.ToCharArray());
-
-                            new ServidoresDAO().SetServidorPrefix(ref servidor);
-
-                            message.DeleteAsync();
-                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", cmdContext.User.ToString(), (string)cmdArgs[0], new string(servidor.Prefix)))
+                            IUserMessage message = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", cmdContext.User))
+                                    .WithFooter(StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
                                     .WithColor(Color.DarkPurple)
+                                .Build()).GetAwaiter().GetResult();
+
+                            Emoji emoji = new Emoji("✅");
+                            message.AddReactionAsync(emoji);
+
+                            ReactionControler reaction = new ReactionControler();
+                            reaction.GetReaction(message, emoji, cmdContext.User, new ReturnMethod((CommandContext contexto, object[] argumentos) =>
+                            {
+                                Servidores servidor = new Servidores(cmdContext.Guild.Id, msg.ToCharArray());
+
+                                new ServidoresDAO().SetServidorPrefix(ref servidor);
+
+                                message.DeleteAsync();
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", cmdContext.User.ToString(), (string)cmdArgs[0], new string(servidor.Prefix)))
+                                        .WithColor(Color.DarkPurple)
+                                    .Build());
+                            }, cmdContext, cmdArgs));
+                        }
+                        else
+                        {
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", cmdContext.User.ToString()))
+                                    .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)cmdArgs[0]))
+                                    .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)cmdArgs[0]))
+                                    .WithColor(Color.Red)
                                 .Build());
-                        }, cmdContext, cmdArgs));
+                        }
                     }
                     else
                     {
                         cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", cmdContext.User.ToString()))
-                                .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)cmdArgs[0]))
-                                .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)cmdArgs[0]))
+                                .WithDescription(StringCatch.GetString("setprefixSemPerm", "**{0}** você precisa da permissão ``Gerenciar Servidor`` para usar esse comando", cmdContext.User.ToString()))
                                 .WithColor(Color.Red)
-                            .Build());
+                            .Build());;
                     }
 
                 }
@@ -183,52 +194,65 @@ namespace Bot.Comandos
         //setar as perm
         public void welcomech(CommandContext context, object[] args)
         {
-
             if (!context.IsPrivate)
             {
-                string id = "";
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                if (guildUser.GuildPermissions.Administrator)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        string id = "";
+                        string[] comando = (string[])cmdArgs[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                foreach (char letra in msg)
-                {
-                    if (ulong.TryParse(letra.ToString(), out ulong result))
-                    {
-                        id += result;
-                    }
-                }
-                IChannel canal = null;
-                try
-                {
-                    canal = context.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
-                }
-                catch
-                {
-                    canal = context.Channel;
-                }
+                        foreach (char letra in msg)
+                        {
+                            if (ulong.TryParse(letra.ToString(), out ulong result))
+                            {
+                                id += result;
+                            }
+                        }
+                        IChannel canal = null;
+                        try
+                        {
+                            canal = cmdContext.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                        }
+                        catch
+                        {
+                            canal = cmdContext.Channel;
+                        }
 
-                if (canal != null)
-                {
-                    Canais canalModel = new Canais(canal.Id, new Servidores(context.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
-                    if (new CanaisDAO().AddCh(canalModel))
-                    {
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", context.User.ToString(), canalModel.NomeCanal))
-                                .WithColor(Color.DarkPurple)
-                             .Build());
-                    }
-                    else
-                    {
-                        context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", context.User.ToString()))
-                                .WithColor(Color.Red)
-                            .Build());
-                    }
+                        if (canal != null)
+                        {
+                            Canais canalModel = new Canais(canal.Id, new Servidores(cmdContext.Guild.Id), TiposCanais.bemvindoCh, canal.Name);
+                            if (new CanaisDAO().AddCh(canalModel))
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", cmdContext.User.ToString(), canalModel.NomeCanal))
+                                        .WithColor(Color.DarkPurple)
+                                     .Build());
+                            }
+                            else
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", cmdContext.User.ToString()))
+                                        .WithColor(Color.Red)
+                                    .Build());
+                            }
+                        }
+                        else
+                        {
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", cmdContext.User.ToString()))
+                                    .WithColor(Color.Red)
+                                .Build());
+                        }
+                    }, context, args).EsperarOkDb();
                 }
                 else
                 {
                     context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", context.User.ToString()))
+                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
                             .WithColor(Color.Red)
                         .Build());
                 }
