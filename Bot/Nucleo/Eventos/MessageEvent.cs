@@ -2,12 +2,14 @@
 using Bot.Extensions;
 using Bot.Singletons;
 using ConfigurationControler.Modelos;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -165,17 +167,33 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(() =>
             {
-                Servidores server = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
-                Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
-                Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
-                PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
-                PI pI = new PI();
-                PontosInterativosDAO dao = new PontosInterativosDAO();
-                if (dao.AdicionarPonto(ref pontos, ref pI))
+                SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
+                if (botRepresentacao.GuildPermissions.ManageRoles)
                 {
-                    StringVarsControler varsControler = new StringVarsControler(contexto);
-                    varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
-                    new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
+                    new BotCadastro((CommandContext Contexto, object[] Args) =>
+                    {
+                        Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
+                        Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
+                        Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
+                        PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
+                        PI pI;
+                        Cargos cargos;
+                        PontosInterativosDAO dao = new PontosInterativosDAO();
+                        if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
+                        {
+                            StringVarsControler varsControler = new StringVarsControler(contexto);
+                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
+                            new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
+                            if(cargos != null)
+                            {
+                                IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
+                                if (cargoganho != null)
+                                {
+                                    ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
+                                }
+                            }
+                        }
+                    }, contexto, null).EsperarOkDb();
                 }
             }).Start();
         }

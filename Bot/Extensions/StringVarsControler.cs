@@ -54,24 +54,16 @@ namespace Bot.Extensions
         public string SubstituirVariaveis(string stringReplace)
         {
             string replacedString = "";
-            if (stringReplace.Contains(" "))
+            string[] parts = stringReplace.Split(' ');
+            for (int i = 0; i < parts.Length; i++)
             {
-                string[] parts = stringReplace.Split(' ');
-                for (int i = 0; i < parts.Length; i++)
+                VarTypes findVar = variaveis.Find(x => x.VarName == parts[i]);
+                if (findVar.Replace != null)
                 {
-                    VarTypes findVar = variaveis.Find(x => x.VarName == parts[i]);
-                    if (findVar.Replace != null)
-                    {
-                        parts[i] = findVar.Replace;
-                    }
+                    parts[i] = findVar.Replace;
                 }
-                replacedString = string.Join(" ", parts);
             }
-            else
-            {
-                replacedString = stringReplace;
-            }
-
+            replacedString = string.Join(" ", parts);
             return replacedString;
         }
     }

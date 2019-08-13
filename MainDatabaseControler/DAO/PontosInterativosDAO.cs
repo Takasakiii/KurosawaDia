@@ -15,11 +15,12 @@ namespace MainDatabaseControler.DAO
             conexao = new ConnectionFactory().Conectar();
         }
 
-        public bool AdicionarPonto(ref PontosInterativos pontosInterativos, ref PI piSaida)
+        public bool AdicionarPonto(ref PontosInterativos pontosInterativos, out PI piSaida, out Cargos cargoSaida)
         {
             bool retorno = false;
             const string sql = "call AddPI(@servidor, @usuario)";
-
+            cargoSaida = null;
+            piSaida = new PI();
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
             cmd.Parameters.AddWithValue("@servidor", pontosInterativos.Servidores_Usuarios.Servidor.Id);
             cmd.Parameters.AddWithValue("@usuario", pontosInterativos.Servidores_Usuarios.Usuario.Id);
@@ -30,6 +31,10 @@ namespace MainDatabaseControler.DAO
                 if (Convert.ToBoolean(rs["Upou"]))
                 {
                     pontosInterativos.AddPIInfo(0, Convert.ToUInt64(rs["LevelAtual"]), 0);
+                    if (rs["CargoID"] != DBNull.Value)
+                    {
+                        cargoSaida = new Cargos(tipos_Cargos: Cargos.Tipos_Cargos.XpRole, id: Convert.ToUInt64(rs["CargoID"]), cargo: "", requesito: Convert.ToInt64(pontosInterativos.PI), pontosInterativos.Servidores_Usuarios.Servidor);
+                    }
                     if (rs["MsgPIUp"] != DBNull.Value)
                     {
                         piSaida = new PI(true, MsgPIUp: (string)rs["MsgPIUp"]);

@@ -70,53 +70,61 @@ namespace Bot.Comandos
             }, context, args).EsperarOkDb();
         }
 
-        public void pirole(CommandContext context, object[] args)
+        public void piconf(CommandContext context, object[] args)
         {
             SocketGuildUser usuarioinGuild = context.User as SocketGuildUser;
             if (usuarioinGuild.GuildPermissions.Administrator)
             {
-                new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                SocketGuildUser botRepresentacao = context.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
+                if (botRepresentacao.GuildPermissions.ManageRoles)
                 {
-                    EmbedBuilder embed = new EmbedBuilder();
-                    embed.WithColor(Color.DarkPurple);
-
-                    if (!cmdContext.IsPrivate)
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
                     {
-                        embed.WithColor(Color.Purple);
-                        embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
-                        embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
-                        embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
-                        IMessage pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                        SubCommandControler sub = new SubCommandControler();
-                        IMessage msgresposta = sub.GetCommand(pergunta, cmdContext.User);
-                        if (msgresposta != null)
-                        {
-                            bool ativado;
-                            double rate = 2;
-                            string msg = "";
-                            if (msgresposta.Content == "s" || msgresposta.Content == "n")
-                            {
+                        EmbedBuilder embed = new EmbedBuilder();
+                        embed.WithColor(Color.DarkPurple);
 
-                                if (msgresposta.Content == "s")
+                        if (!cmdContext.IsPrivate)
+                        {
+                            embed.WithColor(Color.Purple);
+                            embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
+                            embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
+                            embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
+                            IMessage pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                            SubCommandControler sub = new SubCommandControler();
+                            IMessage msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                            if (msgresposta != null)
+                            {
+                                bool ativado;
+                                double rate = 2;
+                                string msg = "";
+                                if (msgresposta.Content == "s" || msgresposta.Content == "n")
                                 {
-                                    ativado = true;
-                                    embed.WithDescription(StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
-                                    embed.Fields.Clear();
-                                    embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1,0"));
-                                    pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                                    sub = new SubCommandControler();
-                                    msgresposta = sub.GetCommand(pergunta, cmdContext.User);
-                                    if (double.TryParse(msgresposta.Content, out rate))
+
+                                    if (msgresposta.Content == "s")
                                     {
-                                        if (rate >= 1)
+                                        ativado = true;
+                                        embed.WithDescription(StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
+                                        embed.Fields.Clear();
+                                        embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1,0"));
+                                        pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                                        sub = new SubCommandControler();
+                                        msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                                        if (double.TryParse(msgresposta.Content, out rate))
                                         {
-                                            embed.WithDescription(StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
-                                            embed.Fields.Clear();
-                                            embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
-                                            pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-                                            sub = new SubCommandControler();
-                                            msgresposta = sub.GetCommand(pergunta, cmdContext.User);
-                                            msg = msgresposta.Content;
+                                            if (rate >= 1)
+                                            {
+                                                embed.WithDescription(StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
+                                                embed.Fields.Clear();
+                                                embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
+                                                pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                                                sub = new SubCommandControler();
+                                                msgresposta = sub.GetCommand(pergunta, cmdContext.User);
+                                                msg = msgresposta.Content;
+                                            }
+                                            else
+                                            {
+                                                RotaFail(cmdContext);
+                                            }
                                         }
                                         else
                                         {
@@ -125,49 +133,52 @@ namespace Bot.Comandos
                                     }
                                     else
                                     {
-                                        RotaFail(cmdContext);
+                                        ativado = false;
+                                    }
+                                    PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
+                                    if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), pimodel)))
+                                    {
+                                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithColor(Color.Green)
+                                            .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                            .Build());
+                                    }
+                                    else
+                                    {
+                                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithColor(Color.Red)
+                                            .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                            .Build());
                                     }
                                 }
                                 else
                                 {
-                                    ativado = false;
+                                    RotaFail(cmdContext);
                                 }
-                                PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
-                                if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), pimodel)))
-                                {
-                                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithColor(Color.Green)
-                                        .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
-                                        .Build());
-                                }
-                                else
-                                {
-                                    cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithColor(Color.Red)
-                                        .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
-                                        .Build());
-                                }
-                            }
-                            else
-                            {
-                                RotaFail(cmdContext);
-                            }
 
+                            }
                         }
-                    }
-                    else
-                    {
-                        embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
-                        embed.WithColor(Color.Red);
-                        cmdContext.Channel.SendMessageAsync(embed: embed.Build());
-                    }
-                }, context, args).EsperarOkDb();
+                        else
+                        {
+                            embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
+                            embed.WithColor(Color.Red);
+                            cmdContext.Channel.SendMessageAsync(embed: embed.Build());
+                        }
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.Red)
+                        .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", context.User.Username))
+                        .Build());
+                }
             }
             else
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder execultar esse comando 😔"))
+                    .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
                     .Build());
             }
         }
@@ -244,81 +255,91 @@ namespace Bot.Comandos
 
         public void picargo (CommandContext contexto, object[] args)
         {
-            SocketGuildUser userGuild = contexto.User as SocketGuildUser;
-            if (userGuild.GuildPermissions.Administrator)
+            if (!contexto.IsPrivate)
             {
-                string[] comandoargs = (string[])args[1];
-                string prefix = (string)args[0];
-                EmbedBuilder msgErro = new EmbedBuilder()
-                    .WithColor(Color.Red)
-                    .AddField(StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}picargo [QuantidadeDePIRequerido ou 0 para remover o cargo da lista de PI] NomeCargo`", prefix))
-                    .AddField(StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}piCargo 3 Membros`", prefix));
-
-                if (comandoargs.Length > 2)
+                SocketGuildUser userGuild = contexto.User as SocketGuildUser;
+                if (userGuild.GuildPermissions.Administrator)
                 {
-                    string nomerole = string.Join(" ", comandoargs, 2, comandoargs.Length - 2);
-                    List<IRole> cargos = contexto.Guild.Roles.ToList();
-                    ulong id;
-                    IRole cargoSelecionado = null;
-                    if (ulong.TryParse(nomerole, out id))
-                    {
-                        cargoSelecionado = cargos.Find(x => x.Id == id);
-                    }
-                    else
-                    {
-                        cargoSelecionado = cargos.Find(x => x.Name == nomerole);
-                    }
+                    string[] comandoargs = (string[])args[1];
+                    string prefix = (string)args[0];
+                    EmbedBuilder msgErro = new EmbedBuilder()
+                        .WithColor(Color.Red)
+                        .AddField(StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}picargo [QuantidadeDePIRequerido se o valor for menor ou igual a 0 o mesmo será removido] NomeCargo`", prefix))
+                        .AddField(StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}piCargo 3 Membros`", prefix));
 
-                    if (cargoSelecionado == null)
+                    if (comandoargs.Length > 2)
                     {
-                        msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado, por favor verifique se você digitou o nome/id do cargo corretamente.", contexto.User.Username));
-                        contexto.Channel.SendMessageAsync(embed: msgErro.Build());
-                    }
-                    else
-                    {
-                        long requesito;
-                        if (long.TryParse(comandoargs[1], out requesito))
+                        string nomerole = string.Join(" ", comandoargs, 2, comandoargs.Length - 2);
+                        List<IRole> cargos = contexto.Guild.Roles.ToList();
+                        ulong id;
+                        IRole cargoSelecionado = null;
+                        if (ulong.TryParse(nomerole, out id))
                         {
-                            new BotCadastro((CommandContext Contexto, object[] Args) =>
-                            {
-                                Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
-                                Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
-                                CargosDAO dao = new CargosDAO();
-                                CargosDAO.Operacao operacaoRetorno = dao.AdicionarAtualizarCargo(cargoCadastro);
-                                if (operacaoRetorno != CargosDAO.Operacao.Incompleta)
-                                {
-                                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithColor(Color.Green)
-                                        .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
-                                        .Build());
-                                }
-                                else
-                                {
-                                    msgErro.WithTitle(StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", contexto.User.Username));
-                                    msgErro.Fields.Clear();
-                                    contexto.Channel.SendMessageAsync(embed: msgErro.Build());
-                                }
-                            }, contexto, args).EsperarOkDb();
+                            cargoSelecionado = cargos.Find(x => x.Id == id);
                         }
                         else
                         {
-                            msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros.", contexto.User.Username));
+                            cargoSelecionado = cargos.Find(x => x.Name == nomerole);
+                        }
+
+                        if (cargoSelecionado == null)
+                        {
+                            msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado, por favor verifique se você digitou o nome/id do cargo corretamente.", contexto.User.Username));
                             contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                         }
+                        else
+                        {
+                            long requesito;
+                            if (long.TryParse(comandoargs[1], out requesito))
+                            {
+                                new BotCadastro((CommandContext Contexto, object[] Args) =>
+                                {
+                                    Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
+                                    Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
+                                    CargosDAO dao = new CargosDAO();
+                                    CargosDAO.Operacao operacaoRetorno = dao.AdicionarAtualizarCargo(cargoCadastro);
+                                    if (operacaoRetorno != CargosDAO.Operacao.Incompleta)
+                                    {
+                                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithColor(Color.Green)
+                                            .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
+                                            .Build());
+                                    }
+                                    else
+                                    {
+                                        msgErro.WithTitle(StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", contexto.User.Username));
+                                        msgErro.Fields.Clear();
+                                        contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                                    }
+                                }, contexto, args).EsperarOkDb();
+                            }
+                            else
+                            {
+                                msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros.", contexto.User.Username));
+                                contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleLess2", "**{0}**, você precisa adicionar enviar os parametros do comando.", contexto.User.Username));
+                        contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                     }
                 }
                 else
                 {
-                    msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitleLess2", "**{0}**, você precisa adicionar enviar os parametros do comando.", contexto.User.Username));
-                    contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.Red)
+                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder execultar esse comando 😔"))
+                        .Build());
                 }
             }
             else
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithColor(Color.Red)
-                    .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder execultar esse comando 😔"))
-                    .Build());
+                        .WithColor(Color.Red)
+                        .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "Esse comando so pode ser execultado em Servidores"))
+                        .Build());
             }
 
             
