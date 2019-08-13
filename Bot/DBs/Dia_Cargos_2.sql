@@ -51,12 +51,17 @@ create procedure AdicionarAtualizarCargoIP(
 ) begin
 	declare _codServidor int;
     set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
-	if((select verificarCargo(_idCargo, _codServidor)) = 0 ) then
-		insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores, requesito) values (2, _cargo, _idCargo, _codServidor, _IPLevel);
-        select 1 as tipoOperacao;
+	if (_IPLevel > 0)then
+		if((select verificarCargo(_idCargo, _codServidor)) = 0 ) then
+			insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores, requesito) values (2, _cargo, _idCargo, _codServidor, _IPLevel);
+			select 1 as tipoOperacao;
+		else
+			update Cargos set requesito = _IPLevel where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
+			select 2 as tipoOperacao;
+		end if;
 	else
-		update Cargos set requesito = _IPLevel where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
-        select 2 as tipoOperacao;
+		delete from Cargos where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
+        select 3 as tipoOperacao;
 	end if;
 end$$
 

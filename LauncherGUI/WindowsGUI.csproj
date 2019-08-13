@@ -305,7 +305,6 @@
     <Content Include="html\saporra.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ico11.ico" />
     <Content Include="html\video.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

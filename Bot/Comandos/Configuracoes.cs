@@ -266,17 +266,17 @@ namespace Bot.Comandos
             }
         }
 
-        public void PICargo (CommandContext contexto, object[] args)
+        public void picargo (CommandContext contexto, object[] args)
         {
-            SocketGuildUser userGuild = contexto.Guild as SocketGuildUser;
+            SocketGuildUser userGuild = contexto.User as SocketGuildUser;
             if (userGuild.GuildPermissions.Administrator)
             {
                 string[] comandoargs = (string[])args[1];
                 string prefix = (string)args[0];
                 EmbedBuilder msgErro = new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .AddField(StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}addPICargo QuantidadeDePIRequerido NomeCargo`", prefix))
-                    .AddField(StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}addPICargo 3 Membros`", prefix));
+                    .AddField(StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}picargo [QuantidadeDePIRequerido ou 0 para remover o cargo da lista de PI] NomeCargo`", prefix))
+                    .AddField(StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}piCargo 3 Membros`", prefix));
 
                 if (comandoargs.Length > 2)
                 {
@@ -301,7 +301,7 @@ namespace Bot.Comandos
                     else
                     {
                         long requesito;
-                        if (long.TryParse(comandoargs[1], out requesito) && requesito > 0)
+                        if (long.TryParse(comandoargs[1], out requesito))
                         {
                             Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
                             Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
@@ -311,7 +311,7 @@ namespace Bot.Comandos
                             {
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithColor(Color.Green)
-                                    .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : StringCatch.GetString("addpicargoAtualizado", "atualizado")))
+                                    .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
                                     .Build());
                             }
                             else
@@ -323,7 +323,7 @@ namespace Bot.Comandos
                         }
                         else
                         {
-                            msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros e maior que 0.", contexto.User.Username));
+                            msgErro.WithTitle(StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros.", contexto.User.Username));
                             contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                         }
                     }
