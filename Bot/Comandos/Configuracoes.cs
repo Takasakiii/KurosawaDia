@@ -303,23 +303,26 @@ namespace Bot.Comandos
                         long requesito;
                         if (long.TryParse(comandoargs[1], out requesito))
                         {
-                            Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
-                            Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
-                            CargosDAO dao = new CargosDAO();
-                            CargosDAO.Operacao operacaoRetorno = dao.AdicionarAtualizarCargo(cargoCadastro);
-                            if (operacaoRetorno != CargosDAO.Operacao.Incompleta)
+                            new BotCadastro((CommandContext Contexto, object[] Args) =>
                             {
-                                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithColor(Color.Green)
-                                    .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
-                                    .Build());
-                            }
-                            else
-                            {
-                                msgErro.WithTitle(StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", contexto.User.Username));
-                                msgErro.Fields.Clear();
-                                contexto.Channel.SendMessageAsync(embed: msgErro.Build());
-                            }
+                                Servidores servidor = new Servidores(contexto.Guild.Id, contexto.Guild.Name);
+                                Cargos cargoCadastro = new Cargos(Cargos.Tipos_Cargos.XpRole, Convert.ToUInt64(cargoSelecionado.Id), cargoSelecionado.Name, requesito, servidor);
+                                CargosDAO dao = new CargosDAO();
+                                CargosDAO.Operacao operacaoRetorno = dao.AdicionarAtualizarCargo(cargoCadastro);
+                                if (operacaoRetorno != CargosDAO.Operacao.Incompleta)
+                                {
+                                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithColor(Color.Green)
+                                        .WithTitle(StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
+                                        .Build());
+                                }
+                                else
+                                {
+                                    msgErro.WithTitle(StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", contexto.User.Username));
+                                    msgErro.Fields.Clear();
+                                    contexto.Channel.SendMessageAsync(embed: msgErro.Build());
+                                }
+                            }, contexto, args).EsperarOkDb();
                         }
                         else
                         {
