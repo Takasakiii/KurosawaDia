@@ -38,6 +38,13 @@
             this.Cod = Cod;
         }
 
+        public Canais(Servidores Servidor, TiposCanais TipoCanal, ulong Cod = 0)
+        {
+            this.Servidor = Servidor;
+            this.TipoCanal = TipoCanal;
+            this.Cod = Cod;
+        }
+
         public Canais(ulong Id, Servidores Servidor, TiposCanais TipoCanal, string NomeCanal, ulong Cod = 0)
         {
             this.Id = Id;

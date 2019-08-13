@@ -21,7 +21,8 @@ namespace Bot
             SingletonClient.client.Ready += new ReadyEvent().Ready;
             SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
             SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;
-
+            SingletonClient.client.UserJoined += new UserJoinedEvent().UserJoined;
+            //SingletonClient.client.UserLeft
 
             Iniciar(config).GetAwaiter().GetResult();
         }
