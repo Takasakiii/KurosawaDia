@@ -242,7 +242,7 @@ namespace Bot.Comandos
             }
         }
 
-        public void addPICargo (CommandContext contexto, object[] args)
+        public void PICargo (CommandContext contexto, object[] args)
         {
             SocketGuildUser userGuild = contexto.Guild as SocketGuildUser;
             if (userGuild.GuildPermissions.Administrator)
