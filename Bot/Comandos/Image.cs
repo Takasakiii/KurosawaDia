@@ -165,7 +165,7 @@ namespace Bot.Comandos
             {
                 imgUrl = msg;
             }
-            else
+            else if (context.Message.Attachments.Count != 0)
             {
                 imgUrl = context.Message.Attachments.First().Url;
             }
