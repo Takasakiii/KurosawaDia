@@ -46,6 +46,7 @@ create procedure CriarPI(
 	end if;
 end$$
 	
+    
 create procedure LevelUP(
 	in _codServidor int,
     in _codUsuario int
@@ -53,13 +54,14 @@ create procedure LevelUP(
 	declare _multi double;
     declare _fragmento bigint;
     declare _levelAtual int;
+    declare _cargoID bigint;
     set _multi = (select PIrate from configuracoesservidores where cod_servidor = _codServidor);
     set _fragmento = (select fragmentosPI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
     set _levelAtual = (select pontosinterativos.PI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
     if(_fragmento >= (_levelAtual * (_multi * 10))) then
 		update pontosinterativos set pontosinterativos.PI = (pontosinterativos.PI + 1), fragmentosPI = 0 where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
-        
-        select true as Upou, _levelAtual as LevelAtual, MsgPIUp from configuracoesservidores where cod_servidor = _codServidor;
+        set _cargoID = (select id from Cargos where cod_Tipos_Cargos = 2 and codigo_Servidores = _codServidor and requesito = _levelAtual);
+        select true as Upou, _levelAtual as LevelAtual, MsgPIUp, _cargoID as CargoID from configuracoesservidores where cod_servidor = _codServidor;
 	else
 		select false as Upou;
 	end if;
@@ -79,3 +81,5 @@ create procedure AddPI(
         call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
+
+

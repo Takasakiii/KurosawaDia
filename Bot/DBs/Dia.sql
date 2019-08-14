@@ -199,27 +199,57 @@ insert into Tipos_Canais values (1, "Sair (sairCh)");
 create table Canais (
 	cod bigint not null auto_increment,
     cod_Tipos_Canais bigint not null,
-    canal varchar(255) not null,
+    nome varchar(255) not null,
     id bigint not null,
     codigo_servidor int not null,
     foreign key (cod_Tipos_Canais) references Tipos_Canais (cod),
     foreign key (codigo_servidor) references Servidores (codigo_servidor),
     primary key (cod)
 );
+delimiter ;
+ 
+select count(Canais.cod_Tipos_Canais) from Canais where Canais.codigo_servidor = 5 and Canais.cod_Tipos_Canais = 0;
 
 
 delimiter $$
 
+create function verificarCh(
+	 _tipo_canal int,
+     _cod_servidor int
+) returns int begin
+	declare _return int;
+    set _return = (select count(Canais.cod) from Canais where Canais.codigo_servidor = _cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal);
+    return _return;
+end$$
+
 create procedure AdcCh (
 	in _tipo_canal int,
-	in _canal varchar (255),
+	in _nome varchar (255),
     in _id_canal bigint,
-    in _id_servidor bigint
-    ) begin
-	if(select count(Canais.cod) from Canais where Canais.id  = _id_canal and Canais.codigo_servidor = (select Servidores.codigo_Servidor from Servidores where Servidores.id_servidor = _id_servidor) ) = 0 then
-		insert into Canais (cod_Tipos_Canais, canal, id, codigo_servidor) values (_tipo_canal, _canal, _id_canal, (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor));
+    in _cod_servidor bigint
+) begin
+	if((select verificarCh(_tipo_canal, _cod_servidor) = 0)) then 
+		insert into Canais (cod_tipos_Canais, nome, id, codigo_servidor) values (_tipo_canal, _nome, _id_canal, _cod_servidor);
     end if;
 end $$
+
+create procedure setCh(
+	in _tipo_canal int,
+    in _nome varchar (255),
+    in _id_canal bigint,
+    in _id_servidor bigint
+) begin 
+	declare cod_servidor int;
+    set cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	call AdcCh(_tipo_canal, _nome, _id_canal, cod_servidor);
+    update Canais set id = _id_canal, nome = _nome where Canais.codigo_servidor = cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal;
+    
+    if((select Canais.id from Canais where Canais.codigo_servidor = cod_servidor) = _id_canal) then
+		select true as result;
+    else
+		select false as result;
+    end if;
+end$$
 
 create procedure GetCh (
 	in _tipo_canal bigint,
@@ -264,6 +294,40 @@ create procedure AdcAjudanteIdol (
 	end if;
 end$$
 
+create function verificarCargo(
+	_idCargo bigint,
+    _codServidor bigint
+) returns int begin
+	declare _retorno int;
+    set _retorno = (select count(cod) from Cargos where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor);
+    return _retorno;
+end$$
+
+drop procedure if exists AdicionarAtualizarCargoIP;
+create procedure AdicionarAtualizarCargoIP(
+	in _cargo varchar(255),
+    in _idCargo bigint,
+    in _idServidor bigint,
+    in _IPLevel bigint
+) begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+	if (_IPLevel > 0)then
+		if((select verificarCargo(_idCargo, _codServidor)) = 0 ) then
+			insert into Cargos (cod_Tipos_Cargos, cargo, id, codigo_Servidores, requesito) values (2, _cargo, _idCargo, _codServidor, _IPLevel);
+			select 1 as tipoOperacao;
+		else
+			update Cargos set requesito = _IPLevel where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
+			select 2 as tipoOperacao;
+		end if;
+	else
+		delete from Cargos where cod_Tipos_Cargos = 2 and id = _idCargo and codigo_Servidores = _codServidor;
+        select 3 as tipoOperacao;
+	end if;
+end$$
+
+
+
 delimiter ;
 create table ConfiguracoesServidores(
 	cod bigint not null auto_increment,
@@ -298,6 +362,11 @@ create procedure criarConfig(
 	end if;
 end$$
 
+create procedure getErrorMessage (
+	in _id_servidor bigint
+) begin 
+	select ConfiguracoesServidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = (select Servidores.codigo_servidor from servidores where Servidores.id_servidor = _id_servidor);
+end$$
 delimiter ;
 CREATE TABLE Fuck (
   cod bigint NOT NULL AUTO_INCREMENT,
@@ -412,6 +481,7 @@ create procedure CriarPI(
 	end if;
 end$$
 	
+drop procedure if exists LevelUP;
 create procedure LevelUP(
 	in _codServidor int,
     in _codUsuario int
@@ -419,13 +489,14 @@ create procedure LevelUP(
 	declare _multi double;
     declare _fragmento bigint;
     declare _levelAtual int;
+    declare _cargoID bigint;
     set _multi = (select PIrate from configuracoesservidores where cod_servidor = _codServidor);
     set _fragmento = (select fragmentosPI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
     set _levelAtual = (select pontosinterativos.PI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
     if(_fragmento >= (_levelAtual * (_multi * 10))) then
 		update pontosinterativos set pontosinterativos.PI = (pontosinterativos.PI + 1), fragmentosPI = 0 where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
-        
-        select true as Upou, _levelAtual as LevelAtual, MsgPIUp from configuracoesservidores where cod_servidor = _codServidor;
+        set _cargoID = (select id from Cargos where cod_Tipos_Cargos = 2 and codigo_Servidores = _codServidor and requesito = _levelAtual);
+        select true as Upou, _levelAtual as LevelAtual, MsgPIUp, _cargoID as CargoID from configuracoesservidores where cod_servidor = _codServidor;
 	else
 		select false as Upou;
 	end if;
@@ -446,5 +517,4 @@ create procedure AddPI(
 	end if;
 end$$
 
-delimiter ;
-call AdcCh(0, "yay", 123, 556580866198077451, true);
+
