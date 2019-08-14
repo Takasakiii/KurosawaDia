@@ -22,7 +22,7 @@ namespace Bot
             SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
             SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;
             SingletonClient.client.UserJoined += new UserJoinedEvent().UserJoined;
-            //SingletonClient.client.UserLeft
+            SingletonClient.client.UserLeft += new UserLeftEvent().UserLeft;
 
             Iniciar(config).GetAwaiter().GetResult();
         }

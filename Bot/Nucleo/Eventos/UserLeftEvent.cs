@@ -7,17 +7,16 @@ using static MainDatabaseControler.Modelos.Canais;
 
 namespace Bot.Nucleo.Eventos
 {
-    public class UserJoinedEvent
+    public class UserLeftEvent
     {
-        public Task UserJoined(SocketGuildUser user)
+        public Task UserLeft(SocketGuildUser user)
         {
-            Canais canal = new Canais(new Servidores(user.Guild.Id), TiposCanais.bemvindoCh);
+            Canais canal = new Canais(new Servidores(user.Guild.Id), TiposCanais.sairCh);
             if (new CanaisDAO().GetCh(ref canal))
             {
                 IMessageChannel channel = user.Guild.GetChannel(canal.Id) as IMessageChannel;
-                channel.SendMessageAsync($"grande dia {user.Mention}");
+                channel.SendMessageAsync($"bye {user.Mention}");
             }
-
             return Task.CompletedTask;
         }
     }

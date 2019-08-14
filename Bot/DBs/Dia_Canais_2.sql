@@ -57,7 +57,7 @@ create procedure setCh(
 	call AdcCh(_tipo_canal, _nome, _id_canal, cod_servidor);
     update Canais set id = _id_canal, nome = _nome where Canais.codigo_servidor = cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal;
     
-    if((select Canais.id from Canais where Canais.codigo_servidor = cod_servidor) = _id_canal) then
+    if((select Canais.id from Canais where Canais.codigo_servidor = cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal) = _id_canal) then
 		select true as result;
     else
 		select false as result;
@@ -68,8 +68,5 @@ create procedure GetCh (
 	in _tipo_canal bigint,
     in _id_servidor bigint
 ) begin 
-	select Canais.cod, Canais.cod_Tipos_Canais, canal, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$
-
-call GetCh(0, 556580866198077451)$$
-
