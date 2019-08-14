@@ -147,6 +147,27 @@ create procedure AdicionarAtualizarCargoIP(
 	end if;
 end$$
 
+create procedure SetMsgChannel(
+	in _idServidor bigint,
+    in _bemvindoMsg text
+)begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+    call criarConfig(_codServidor);
+    update configuracoesservidores set bemvindoMsg = _bemvindoMsg where cod_servidor = _codServidor;
+end$$
+
+create procedure SetGoodBye(
+	in _idServidor bigint,
+    in _msg text
+)begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+    call criarConfig(_codServidor);
+    update configuracoesservidores set sairMsg = _msg where cod_servidor = _codServidor;
+end$$
+    
+
 
 #pitas
 
