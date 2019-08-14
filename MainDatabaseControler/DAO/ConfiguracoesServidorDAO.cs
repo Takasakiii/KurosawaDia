@@ -46,5 +46,34 @@ namespace MainDatabaseControler.DAO
             }
             return retorno;
         }
+
+        public void SetWelcomeMsg(ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call SetWelcomeMsg(@id, @msg)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            cmd.Parameters.AddWithValue("@msg", configuracoes.bemvindo.bemvindoMsg);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public bool GetWelcomeMsg(ref ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call GetWelcomeMsg(@id)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            bool retorno = false;
+            MySqlDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ConfiguracoesServidor.BemVindoGoodByeMsg().setBemvindo((string)rs["bemvindoMsg"]));
+                retorno = true;
+            }
+            rs.Close();
+            conexao.Close();
+            return retorno;
+        }
     }
 }

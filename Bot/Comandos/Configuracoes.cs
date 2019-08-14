@@ -443,5 +443,12 @@ namespace Bot.Comandos
             
         }
 
+        public void welcomemsg(CommandContext context, object[] args)
+        {
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            new ConfiguracoesServidorDAO().SetWelcomeMsg(new ConfiguracoesServidor(new Servidores(context.Guild.Id), new BemVindoGoodByeMsg().setBemvindo(msg)));
+        }
+
     }
 }

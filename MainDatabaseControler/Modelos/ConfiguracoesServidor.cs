@@ -9,14 +9,16 @@ namespace MainDatabaseControler.Modelos
             public string bemvindoMsg { private set; get; }
             public string sairMsg { private set; get; }
 
-            public void setBemvindo(string bemvindoMsg)
+            public BemVindoGoodByeMsg setBemvindo(string bemvindoMsg)
             {
                 this.bemvindoMsg = bemvindoMsg;
+                return this;
             }
 
-            public void setSair(string sairMsg)
+            public BemVindoGoodByeMsg setSair(string sairMsg)
             {
                 this.sairMsg = sairMsg;
+                return this;
             }
         }
 

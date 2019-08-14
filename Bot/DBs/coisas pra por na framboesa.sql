@@ -147,7 +147,7 @@ create procedure AdicionarAtualizarCargoIP(
 	end if;
 end$$
 
-create procedure SetMsgChannel(
+create procedure SetWelcomeMsg(
 	in _idServidor bigint,
     in _bemvindoMsg text
 )begin
@@ -188,6 +188,18 @@ create procedure AdcCh (
 		insert into Canais (cod_Tipos_Canais, canal, id, codigo_servidor) values (_tipo_canal, _canal, _id_canal, (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor));
     end if;
 end $$
+
+create procedure GetWelcomeMsg(
+	in _idServidor bigint
+) begin
+	select bemvindoMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+end$$
+
+create procedure GetByeMsg(
+	in _idServidor bigint
+) begin
+	select sairMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+end$$
 
 delimiter ;
 

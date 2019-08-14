@@ -38,7 +38,7 @@ create procedure getErrorMessage (
 	select ConfiguracoesServidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = (select Servidores.codigo_servidor from servidores where Servidores.id_servidor = _id_servidor);
 end$$
 
-create procedure SetMsgChannel(
+create procedure SetWelcomeMsg(
 	in _idServidor bigint,
     in _bemvindoMsg text
 )begin
@@ -58,3 +58,14 @@ create procedure SetGoodBye(
     update configuracoesservidores set sairMsg = _msg where cod_servidor = _codServidor;
 end$$
     
+create procedure GetWelcomeMsg(
+	in _idServidor bigint
+) begin
+	select bemvindoMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+end$$
+
+create procedure GetByeMsg(
+	in _idServidor bigint
+) begin
+	select sairMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+end$$
