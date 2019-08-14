@@ -277,6 +277,80 @@ namespace Bot.Comandos
             }
         }
 
+        public void byech(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                if (guildUser.GuildPermissions.Administrator)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        string id = "";
+                        string[] comando = (string[])cmdArgs[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                        foreach (char letra in msg)
+                        {
+                            if (ulong.TryParse(letra.ToString(), out ulong result))
+                            {
+                                id += result;
+                            }
+                        }
+                        IChannel canal = null;
+                        try
+                        {
+                            canal = cmdContext.Guild.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                        }
+                        catch
+                        {
+                            canal = cmdContext.Channel;
+                        }
+
+                        if (canal != null)
+                        {
+                            Canais canalModel = new Canais(canal.Id, new Servidores(cmdContext.Guild.Id), TiposCanais.sairCh, canal.Name);
+                            if (new CanaisDAO().AddCh(canalModel))
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de saida serão enviadas no canal: `#{1}`", cmdContext.User.ToString(), canalModel.NomeCanal))
+                                        .WithColor(Color.DarkPurple)
+                                     .Build());
+                            }
+                            else
+                            {
+                                cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as mensagens de saida", cmdContext.User.ToString()))
+                                        .WithColor(Color.Red)
+                                    .Build());
+                            }
+                        }
+                        else
+                        {
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", cmdContext.User.ToString()))
+                                    .WithColor(Color.Red)
+                                .Build());
+                        }
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("welcomechDm", "Esse comando só pode ser usado em servidores"))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
         public void picargo (CommandContext contexto, object[] args)
         {
             if (!contexto.IsPrivate)
