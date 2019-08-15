@@ -19,10 +19,6 @@ create table Canais (
     foreign key (codigo_servidor) references Servidores (codigo_servidor),
     primary key (cod)
 );
-delimiter ;
- 
-select count(Canais.cod_Tipos_Canais) from Canais where Canais.codigo_servidor = 5 and Canais.cod_Tipos_Canais = 0;
-
 
 delimiter $$
 

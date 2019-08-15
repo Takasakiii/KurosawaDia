@@ -1,14 +1,14 @@
 ﻿using Bot.Extensions;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static MainDatabaseControler.Modelos.Canais;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
-using System.Linq;
-using System.Collections.Generic;
-using System;
-using Discord.WebSocket;
 
 namespace Bot.Comandos
 {
@@ -22,7 +22,7 @@ namespace Bot.Comandos
                 if (!cmdContext.IsPrivate)
                 {
                     SocketGuildUser userGuild = context.User as SocketGuildUser;
-                    if(userGuild.GuildPermissions.ManageGuild)
+                    if (userGuild.GuildPermissions.ManageGuild)
                     {
                         string[] comando = (string[])cmdArgs[1];
                         string msg = string.Join(" ", comando, 1, (comando.Length - 1));
@@ -67,7 +67,7 @@ namespace Bot.Comandos
                         cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithDescription(StringCatch.GetString("setprefixSemPerm", "**{0}** você precisa da permissão ``Gerenciar Servidor`` para usar esse comando", cmdContext.User.ToString()))
                                 .WithColor(Color.Red)
-                            .Build());;
+                            .Build()); ;
                     }
 
                 }
@@ -351,7 +351,7 @@ namespace Bot.Comandos
             }
         }
 
-        public void picargo (CommandContext contexto, object[] args)
+        public void picargo(CommandContext contexto, object[] args)
         {
             if (!contexto.IsPrivate)
             {
@@ -440,14 +440,80 @@ namespace Bot.Comandos
                         .Build());
             }
 
-            
+
         }
 
         public void welcomemsg(CommandContext context, object[] args)
         {
-            string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-            new ConfiguracoesServidorDAO().SetWelcomeMsg(new ConfiguracoesServidor(new Servidores(context.Guild.Id), new BemVindoGoodByeMsg().setBemvindo(msg)));
+            if (!context.IsPrivate)
+            {
+                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                if (guildUser.GuildPermissions.Administrator)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        IMessage embed = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithTitle(StringCatch.GetString("welcomemsgTitle1", "Configurar a mensagem de boas-vindas"))
+                                .WithDescription(StringCatch.GetString("welcomemsgDesc1", "Você quer ligar a mensagem de boas vindas no seu servidor?"))
+                                .AddField(StringCatch.GetString("welcomemmsgOpcsValidasTitle1", "Opções Validas:"), StringCatch.GetString("welcomemmsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                                .WithColor(Color.DarkPurple)
+                            .Build()).GetAwaiter().GetResult();
+
+                        SubCommandControler sub = new SubCommandControler();
+                        IMessage msgresposta = sub.GetCommand(embed, cmdContext.User);
+
+                        if(msgresposta.Content == "s" || msgresposta.Content == "n")
+                        {
+                            string msg = "";
+                            if(msgresposta.Content == "s")
+                            {
+                                embed = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithTitle(StringCatch.GetString("welcomemsgTitle2", "Configurar a mensagem de boas-vindas"))
+                                        .WithDescription(StringCatch.GetString("welcomemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem entrar no servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
+                                        .AddField(StringCatch.GetString("welcomemmsgOpcValidasTitle2", "Opções Validas:"), StringCatch.GetString("welcomemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
+                                        .WithColor(Color.DarkPurple)
+                                    .Build()).GetAwaiter().GetResult();
+
+                                sub = new SubCommandControler();
+                                msgresposta = sub.GetCommand(embed, context.User);
+
+                                msg = msgresposta.Content;
+                            }
+                            else
+                            {
+                                msg = "%desativar%";
+                            }
+                            BemVindoGoodByeMsg vindoGoodByeMsg = new BemVindoGoodByeMsg().setBemvindo((msg == "%desativar%") ? "" : msg);
+                            new ConfiguracoesServidorDAO().SetWelcomeMsg(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), vindoGoodByeMsg));
+
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Green)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                .Build());
+
+                        }
+                        else
+                        {
+                            RotaFail(cmdContext);
+                        }
+
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
         }
 
     }

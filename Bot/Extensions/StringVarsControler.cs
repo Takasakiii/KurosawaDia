@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,15 @@ namespace Bot.Extensions
 
             variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
             variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
+        }
+
+        public StringVarsControler(SocketGuildUser user)
+        {
+
+            variaveis = new List<VarTypes>();
+
+            variaveis.Add(new VarTypes("%user%", user.ToString()));
+            variaveis.Add(new VarTypes("%server%", user.Guild.Name));
         }
 
         public void AdicionarComplemento (VarTypes complemento)

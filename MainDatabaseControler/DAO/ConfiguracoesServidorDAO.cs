@@ -53,7 +53,14 @@ namespace MainDatabaseControler.DAO
             MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
             cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
-            cmd.Parameters.AddWithValue("@msg", configuracoes.bemvindo.bemvindoMsg);
+            if (!string.IsNullOrEmpty(configuracoes.bemvindo.bemvindoMsg))
+            {
+                cmd.Parameters.AddWithValue("@msg", configuracoes.bemvindo.bemvindoMsg);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@msg", DBNull.Value);
+            }
 
             cmd.ExecuteNonQuery();
         }
@@ -70,6 +77,27 @@ namespace MainDatabaseControler.DAO
             {
                 configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ConfiguracoesServidor.BemVindoGoodByeMsg().setBemvindo((string)rs["bemvindoMsg"]));
                 retorno = true;
+            }
+            rs.Close();
+            conexao.Close();
+            return retorno;
+        }
+
+        public bool GetByeMsg(ref ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call GetByeMsg(@id)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            bool retorno = false;
+            MySqlDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                if(rs["sairMsg"].GetType() != typeof(DBNull))
+                {
+                    configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ConfiguracoesServidor.BemVindoGoodByeMsg().setSair((string)rs["sairMsg"]));
+                    retorno = true;
+                }
             }
             rs.Close();
             conexao.Close();
