@@ -75,8 +75,11 @@ namespace MainDatabaseControler.DAO
             MySqlDataReader rs = cmd.ExecuteReader();
             if (rs.Read())
             {
-                configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ConfiguracoesServidor.BemVindoGoodByeMsg().setBemvindo((string)rs["bemvindoMsg"]));
-                retorno = true;
+                if (rs["bemvindoMsg"].GetType() != typeof(DBNull))
+                {
+                    configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ConfiguracoesServidor.BemVindoGoodByeMsg().setBemvindo((string)rs["bemvindoMsg"]));
+                    retorno = true;
+                }
             }
             rs.Close();
             conexao.Close();
@@ -102,6 +105,24 @@ namespace MainDatabaseControler.DAO
             rs.Close();
             conexao.Close();
             return retorno;
+        }
+
+        public void SetByeMsg(ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call SetGoodBye(@id, @msg)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            if (!string.IsNullOrEmpty(configuracoes.bemvindo.sairMsg))
+            {
+                cmd.Parameters.AddWithValue("@msg", configuracoes.bemvindo.sairMsg);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@msg", DBNull.Value);
+            }
+
+            cmd.ExecuteNonQuery();
         }
     }
 }

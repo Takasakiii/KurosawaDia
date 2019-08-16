@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.Extensions;
+using Discord;
 using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
@@ -19,7 +20,8 @@ namespace Bot.Nucleo.Eventos
                 if (new ConfiguracoesServidorDAO().GetByeMsg(ref configuracoes))
                 {
                     IMessageChannel channel = user.Guild.GetChannel(canal.Id) as IMessageChannel;
-                    channel.SendMessageAsync(configuracoes.bemvindo.sairMsg);
+                    StringVarsControler varsControler = new StringVarsControler(user);
+                    new EmbedControl().SendMessage(channel, varsControler.SubstituirVariaveis(configuracoes.bemvindo.sairMsg));
                 }
             }
             return Task.CompletedTask;

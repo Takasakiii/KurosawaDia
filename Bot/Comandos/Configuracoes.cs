@@ -202,7 +202,6 @@ namespace Bot.Comandos
                 .Build());
         }
 
-        //setar as perm
         public void welcomech(CommandContext context, object[] args)
         {
             if (!context.IsPrivate)
@@ -485,6 +484,79 @@ namespace Bot.Comandos
                             }
                             BemVindoGoodByeMsg vindoGoodByeMsg = new BemVindoGoodByeMsg().setBemvindo((msg == "%desativar%") ? "" : msg);
                             new ConfiguracoesServidorDAO().SetWelcomeMsg(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), vindoGoodByeMsg));
+
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Green)
+                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                .Build());
+
+                        }
+                        else
+                        {
+                            RotaFail(cmdContext);
+                        }
+
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
+        public void byemsg(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                if (guildUser.GuildPermissions.Administrator)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        IMessage embed = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithTitle(StringCatch.GetString("byemsgTitle1", "Configurar a mensagem de saida"))
+                                .WithDescription(StringCatch.GetString("byemsgDesc1", "Você quer ligar a mensagem de quando alguem sai do servidor?"))
+                                .AddField(StringCatch.GetString("byeMsgOpcsValidasTitle1", "Opções Validas:"), StringCatch.GetString("byemsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                                .WithColor(Color.DarkPurple)
+                            .Build()).GetAwaiter().GetResult();
+
+                        SubCommandControler sub = new SubCommandControler();
+                        IMessage msgresposta = sub.GetCommand(embed, cmdContext.User);
+
+                        if (msgresposta.Content == "s" || msgresposta.Content == "n")
+                        {
+                            string msg = "";
+                            if (msgresposta.Content == "s")
+                            {
+                                embed = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithTitle(StringCatch.GetString("byemsgTitle2", "Configurar a mensagem de saida"))
+                                        .WithDescription(StringCatch.GetString("byemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem sai do servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
+                                        .AddField(StringCatch.GetString("byeMsgOpcsValidasTitle2", "Opções Validas:"), StringCatch.GetString("byemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
+                                        .WithColor(Color.DarkPurple)
+                                    .Build()).GetAwaiter().GetResult();
+
+                                sub = new SubCommandControler();
+                                msgresposta = sub.GetCommand(embed, context.User);
+
+                                msg = msgresposta.Content;
+                            }
+                            else
+                            {
+                                msg = "%desativar%";
+                            }
+                            BemVindoGoodByeMsg vindoGoodByeMsg = new BemVindoGoodByeMsg().setSair((msg == "%desativar%") ? "" : msg);
+                            new ConfiguracoesServidorDAO().SetByeMsg(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), vindoGoodByeMsg));
 
                             cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithColor(Color.Green)
