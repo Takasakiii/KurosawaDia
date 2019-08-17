@@ -312,14 +312,14 @@ namespace Bot.Comandos
             Menu(contexto, args);
         }
 
-        public void TriggerACR(CommandContext contexto, Servidores servidor)
+        public void TriggerACR(CommandContext context, Servidores servidor)
         {
             ReacoesCustomizadas aCRs = new ReacoesCustomizadas();
-            aCRs.SetTrigger(contexto.Message.Content, servidor);
+            aCRs.SetTrigger(context.Message.Content, servidor);
             new ReacoesCustomizadasDAO().ResponderAcr(ref aCRs);
             if (aCRs.Resposta != null)
             {
-                new EmbedControl().SendMessage(contexto.Channel, aCRs.Resposta);
+                new EmbedControl().SendMessage(context.Channel, aCRs.Resposta);
             }
         }
     }

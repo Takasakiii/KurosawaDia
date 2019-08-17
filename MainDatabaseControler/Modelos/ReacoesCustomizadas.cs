@@ -15,9 +15,9 @@
             return this;
         }
 
-        public ReacoesCustomizadas SetResposta(string Trigger, Servidores Servidor = null)
+        public ReacoesCustomizadas SetResposta(string Resposta, Servidores Servidor = null)
         {
-            this.Trigger = Trigger;
+            this.Resposta = Resposta;
             this.Servidor = Servidor;
 
             return this;
