@@ -206,10 +206,6 @@ create table Canais (
     foreign key (codigo_servidor) references Servidores (codigo_servidor),
     primary key (cod)
 );
-delimiter ;
- 
-select count(Canais.cod_Tipos_Canais) from Canais where Canais.codigo_servidor = 5 and Canais.cod_Tipos_Canais = 0;
-
 
 delimiter $$
 
@@ -244,7 +240,7 @@ create procedure setCh(
 	call AdcCh(_tipo_canal, _nome, _id_canal, cod_servidor);
     update Canais set id = _id_canal, nome = _nome where Canais.codigo_servidor = cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal;
     
-    if((select Canais.id from Canais where Canais.codigo_servidor = cod_servidor) = _id_canal) then
+    if((select Canais.id from Canais where Canais.codigo_servidor = cod_servidor and Canais.cod_Tipos_Canais = _tipo_canal) = _id_canal) then
 		select true as result;
     else
 		select false as result;
@@ -255,10 +251,8 @@ create procedure GetCh (
 	in _tipo_canal bigint,
     in _id_servidor bigint
 ) begin 
-	select Canais.cod, Canais.cod_Tipos_Canais, canal, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$
-
-
 delimiter ;
 create table Tipos_Cargos(
 	cod bigint not null,
@@ -303,7 +297,7 @@ create function verificarCargo(
     return _retorno;
 end$$
 
-drop procedure if exists AdicionarAtualizarCargoIP;
+
 create procedure AdicionarAtualizarCargoIP(
 	in _cargo varchar(255),
     in _idCargo bigint,
@@ -365,7 +359,56 @@ end$$
 create procedure getErrorMessage (
 	in _id_servidor bigint
 ) begin 
-	select ConfiguracoesServidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = (select Servidores.codigo_servidor from servidores where Servidores.id_servidor = _id_servidor);
+	declare _cod_servidor int;
+    set _cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+    
+    if((select verificarConfig(_cod_servidor)) <> 0) then
+		select configuracoesservidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = _cod_servidor;
+    else
+		select true as msgError;
+    end if;
+end$$
+
+create procedure SetErroMsg (
+	in _idServidor bigint,
+    in _erroMsg bool
+) begin
+	declare _codServidor int;
+	set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+	call criarConfig(_codServidor);
+    update configuracoesservidores set msgError = _erroMsg where cod_servidor = _codServidor;
+end$$
+
+create procedure SetWelcomeMsg(
+	in _idServidor bigint,
+    in _bemvindoMsg text
+)begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+    call criarConfig(_codServidor);
+    update configuracoesservidores set bemvindoMsg = _bemvindoMsg where cod_servidor = _codServidor;
+end$$
+
+create procedure SetGoodBye(
+	in _idServidor bigint,
+    in _msg text
+)begin
+	declare _codServidor int;
+    set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
+    call criarConfig(_codServidor);
+    update configuracoesservidores set sairMsg = _msg where cod_servidor = _codServidor;
+end$$
+    
+create procedure GetWelcomeMsg(
+	in _idServidor bigint
+) begin
+	select bemvindoMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+end$$
+
+create procedure GetByeMsg(
+	in _idServidor bigint
+) begin
+	select sairMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
 end$$
 delimiter ;
 CREATE TABLE Fuck (
@@ -481,7 +524,7 @@ create procedure CriarPI(
 	end if;
 end$$
 	
-drop procedure if exists LevelUP;
+    
 create procedure LevelUP(
 	in _codServidor int,
     in _codUsuario int
@@ -516,5 +559,3 @@ create procedure AddPI(
         call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
-
-

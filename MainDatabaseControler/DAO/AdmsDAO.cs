@@ -1,4 +1,6 @@
-﻿using MainDatabaseControler.Factory;
+﻿using ConfigurationControler.DAO;
+using ConfigurationControler.Modelos;
+using MainDatabaseControler.Factory;
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
@@ -36,6 +38,18 @@ namespace MainDatabaseControler.DAO
             rs.Close();
             conexao.Close();
             return retorno;
+        }
+
+        public void SetAdm(Adms adms)
+        {
+            const string sql = "call AdicionarAdm(@id, @perm)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
+            cmd.Parameters.AddWithValue("@perm", (int)adms.Permissoes);
+
+            cmd.ExecuteNonQuery();
+            conexao.Close();
         }
     }
 }
