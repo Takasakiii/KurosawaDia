@@ -45,5 +45,27 @@ namespace MainDatabaseControler.DAO
             conexao.Close();
             return retorno;
         }
+        public Tuple<bool, ulong> GetPiInfo(ref PontosInterativos pi)
+        {
+            const string sql = "call GetPiInfo(@idUsuario, @idServidor)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@idUsuario", pi.Servidores_Usuarios.Usuario.Id);
+            cmd.Parameters.AddWithValue("@idServidor", pi.Servidores_Usuarios.Servidor.Id);
+
+            bool retorno = false;
+            ulong total = 0;
+
+            MySqlDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                pi = new PontosInterativos(pi.Servidores_Usuarios).AddPIInfo(Convert.ToUInt64(rs["cod"]), Convert.ToUInt64(rs["PI"]), Convert.ToUInt64(rs["fragmentosPI"]));
+                total = Convert.ToUInt64(rs["total"]);
+                retorno = true;
+            }
+            rs.Close();
+            conexao.Close();
+            return Tuple.Create(retorno, total);
+        }
     }
 }

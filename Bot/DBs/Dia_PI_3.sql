@@ -94,8 +94,8 @@ create procedure GetPiInfo (
     
     if((select verificarConfig(_codServidor)) > 0 and (select PIconf from configuracoesservidores where cod_servidor = _codServidor)) then
         set _pontos = ((select pontosinterativos.PI from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario) * 10 * (select configuracoesservidores.PIrate from configuracoesservidores where configuracoesservidores.cod_servidor =  (select servidores_usuarios_servidor from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario)));
-		select pontosinterativos.PI, pontosinterativos.fragmentosPI, _pontos as Total from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario;
+		select pontosinterativos.PI, pontosinterativos.fragmentosPI, _pontos as Total, cod from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario;
     end if;
 end$$
 
-
+call GetPiInfo(368280970102833153, 556580866198077451)$$
