@@ -70,7 +70,7 @@ namespace Bot.Nucleo.Eventos
                     }
                     else
                     {
-                        new CustomReactions().TriggerACR(contexto, servidores);
+                        new CustomReactions(contexto, null).TriggerACR(contexto, servidores);
                     }
 
                 }

@@ -74,11 +74,18 @@ namespace Bot.Extensions
 
         public void EsperarOkDb()
         {
-            int sessaoIndex = sessoes.FindIndex(x => x.contextoReferencia == contextoObj);
-            if(sessaoIndex >= 0)
+            try
             {
-                Task threadCadastrando = sessoes[sessaoIndex].processo;
-                threadCadastrando.Wait();
+                int sessaoIndex = sessoes.FindIndex(x => x.contextoReferencia == contextoObj);
+                if (sessaoIndex >= 0)
+                {
+                    Task threadCadastrando = sessoes[sessaoIndex].processo;
+                    threadCadastrando.Wait();
+                }
+            }
+            catch
+            {
+                return;
             }
             processoFinalizar.Invoke();
         }        
