@@ -37,7 +37,7 @@ namespace Bot.Extensions
                 {
                     new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(contexto.Guild.Id, contexto.Guild.Name), new Usuarios(contexto.User.Id, contexto.User.ToString())));
 
-                    new BotCadastro(null, null, null).GarbageColectorSessao();
+                    new BotCadastro(null, null).GarbageColectorSessao();
                 });
 
                 Sessao.Start();
@@ -49,9 +49,8 @@ namespace Bot.Extensions
         
         //object Class
 
-        private Action<CommandContext, object[]> processoFinalizar;
+        private Action processoFinalizar;
         private CommandContext contextoObj;
-        private object[] args;
 
 
         private void GarbageColectorSessao()
@@ -67,11 +66,10 @@ namespace Bot.Extensions
                 }
             }).Start();
         }
-        public BotCadastro(Action<CommandContext, object[]> readyFunction, CommandContext contexto, object[] args)
+        public BotCadastro(Action readyFunction, CommandContext contexto)
         {
             processoFinalizar = readyFunction;
             contextoObj = contexto;
-            this.args = args;
         }
 
         public void EsperarOkDb()
@@ -82,7 +80,7 @@ namespace Bot.Extensions
                 Task threadCadastrando = sessoes[sessaoIndex].processo;
                 threadCadastrando.Wait();
             }
-            processoFinalizar.Invoke(contextoObj, args);
+            processoFinalizar.Invoke();
         }        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Bot.Extensions;
+using Bot.GenericTypes;
 using Bot.Singletons;
 using Discord;
 using Discord.Commands;
@@ -12,11 +13,18 @@ using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
-    public class Ajuda
+    public class Ajuda : GenericModule
     {
-        public void ajuda(CommandContext context, object[] args)
+        public Ajuda (CommandContext contexto, object[] args) : base (contexto, args)
         {
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+
+        }
+
+        
+
+        public void ajuda()
+        {
+            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
                 .WithTitle(StringCatch.GetString("ajudaTitle", "Sera um enorme prazer te ajudar 😋"))
                 .WithDescription(StringCatch.GetString("ajudaDesctiption", "Eu me chamo Kurosawa Dia, sou presidente do conselho de classe, idol e tambem ajudo as pessoas com algumas coisinhas no discord 😉\n"
@@ -32,7 +40,7 @@ namespace Bot.Comandos
 
         }
 
-        public void comandos(CommandContext context, object[] args)
+        public void comandos()
         {
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
@@ -45,9 +53,9 @@ namespace Bot.Comandos
             {
                 string modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
 
-                if (!context.IsPrivate)
+                if (!contexto.IsPrivate)
                 {
-                    Servidores servidor = new Servidores(context.Guild.Id);
+                    Servidores servidor = new Servidores(contexto.Guild.Id);
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
                         if (servidor.Permissoes == PermissoesServidores.ServidorPika)
@@ -57,7 +65,7 @@ namespace Bot.Comandos
                     }
                 }
 
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle(StringCatch.GetString("comandosListaModulosTitle", "Lista dos Modulos:"))
                         .WithDescription(StringCatch.GetString("comandosListaModulos", modulos))
                         .WithColor(Color.DarkPurple)
@@ -65,18 +73,18 @@ namespace Bot.Comandos
             }
         }
 
-        public void convite(CommandContext context, object[] args)
+        public void convite()
         {
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
                     .WithDescription(StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
                     .WithColor(Color.DarkPurple)
              .Build());
         }
 
-        public void info(CommandContext context, object[] args)
+        public void info()
         {
-            DiscordSocketClient client = context.Client as DiscordSocketClient;
+            DiscordSocketClient client = contexto.Client as DiscordSocketClient;
             int users = 0;
             foreach (SocketGuild servidor in client.Guilds)
             {
@@ -84,7 +92,7 @@ namespace Bot.Comandos
             }
 
 
-            _ = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            _ = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("infoTxt", "Dia's Book:"))
                     .WithDescription(StringCatch.GetString("infoDescription", "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk 😝"))
                     .AddField(StringCatch.GetString("infoBot", "**Sobre mim:**"), StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
@@ -98,7 +106,7 @@ namespace Bot.Comandos
 
         }
 
-        private void help(CommandContext contexto, object[] args)
+        private void help()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -115,9 +123,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void utilidade(CommandContext contexto, object[] args)
+        private void utilidade()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -134,9 +142,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void moderacao(CommandContext contexto, object[] args)
+        private void moderacao()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -153,9 +161,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void nsfw(CommandContext contexto, object[] args)
+        private void nsfw()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -172,9 +180,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void weeb(CommandContext contexto, object[] args)
+        private void weeb()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -191,9 +199,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void img(CommandContext contexto, object[] args)
+        private void img()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -210,9 +218,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void customReaction(CommandContext contexto, object[] args)
+        private void customReaction()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -229,9 +237,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void configuracoes(CommandContext contexto, object[] args)
+        private void configuracoes()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -248,9 +256,9 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
-        private void especial(CommandContext contexto, object[] args)
+        private void especial()
         {
             ((IUserMessage)args[1]).DeleteAsync();
             ((ReactionControler)args[2]).DesligarReaction();
@@ -267,12 +275,12 @@ namespace Bot.Comandos
             cmds.AddReactionAsync(emoji);
             ReactionControler reaction = new ReactionControler();
             args[1] = cmds;
-            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos, contexto, args));
+            reaction.GetReaction(cmds, emoji, contexto.User, new ReturnMethod(comandos));
         }
 
-        public void MessageEventExceptions(Exception e, CommandContext contexto, Servidores servidor)
+        public void MessageEventExceptions(Exception e, Servidores servidor)
         {
-            if (e is NullReferenceException || e is AmbiguousMatchException)
+            if (e is ArgumentOutOfRangeException)
             {
                 bool erroMsg = true;
                 if (!contexto.IsPrivate)
@@ -301,10 +309,10 @@ namespace Bot.Comandos
             }
         }
 
-        public void MentionMessage(CommandContext context, Servidores servidores)
+        public void MentionMessage(Servidores servidores)
         {
-            context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", context.User.Username, new string(servidores.Prefix)))
+            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", contexto.User.Username, new string(servidores.Prefix)))
                 .WithColor(Color.DarkPurple)
                 .Build());
         }

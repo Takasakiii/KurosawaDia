@@ -10,7 +10,7 @@ using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
-    public class Weeb : Ajuda
+    public class Weeb
     {
         private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
         {

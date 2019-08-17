@@ -1,5 +1,6 @@
 ﻿using Bot.Comandos;
 using Bot.Extensions;
+using Bot.GenericTypes;
 using Bot.Singletons;
 using ConfigurationControler.Modelos;
 using Discord;
@@ -19,18 +20,15 @@ namespace Bot.Nucleo.Eventos
 {
     public class MessageEvent
     {
-        //MessageEvent v2 by Takasaki Masoquista do krai
-
-        //configuracoes do MessageEvent
-        private readonly Especiais lastClassComands = new Especiais();
-
-
+        //MessageEvent and CommandHandler v3.5 by Takasaki
         //Dependencia do MessagemEvent
         private readonly DiaConfig config;
+        private readonly ModulesConcat<GenericModule> modulesConcat;
 
-        public MessageEvent(DiaConfig config)
+        public MessageEvent(DiaConfig config, ModulesConcat<GenericModule> modulesConcat)
         {
             this.config = config;
+            this.modulesConcat = modulesConcat;
         }
 
         public Task MessageRecived(SocketMessage mensagem)
@@ -68,7 +66,7 @@ namespace Bot.Nucleo.Eventos
                 {
                     if (IsMentionCall(contexto))
                     {
-                        new Ajuda().MentionMessage(contexto, servidores);
+                        new Ajuda(contexto, null).MentionMessage(servidores);
                     }
                     else
                     {
@@ -138,15 +136,12 @@ namespace Bot.Nucleo.Eventos
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
-                MethodInfo metodoAChamar = lastClassComands.GetType().GetMethod(chamada);
-                object[] parametros = new object[2];
-                parametros[0] = contexto;
-                parametros[1] = args;
-                metodoAChamar.Invoke(lastClassComands, parametros);
+                modulesConcat.AddArgs(contexto, args);
+                modulesConcat.InvokeMethod(chamada);
             }
             catch (Exception e)
             {
-                new Ajuda().MessageEventExceptions(e, contexto, servidor);
+                new Ajuda(contexto, args).MessageEventExceptions(e, servidor);
             }
 
         }
@@ -170,32 +165,34 @@ namespace Bot.Nucleo.Eventos
                 SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
                 if (botRepresentacao.GuildPermissions.ManageRoles)
                 {
-                    new BotCadastro((CommandContext Contexto, object[] Args) =>
-                    {
-                        Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
-                        Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
-                        Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
-                        PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
-                        PI pI;
-                        Cargos cargos;
-                        PontosInterativosDAO dao = new PontosInterativosDAO();
-                        if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
-                        {
-                            StringVarsControler varsControler = new StringVarsControler(contexto);
-                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
-                            new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
-                            if(cargos != null)
-                            {
-                                IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
-                                if (cargoganho != null)
-                                {
-                                    ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
-                                }
-                            }
-                        }
-                    }, contexto, null).EsperarOkDb();
+                    //new BotCadastro((CommandContext Contexto, object[] Args) =>
+                    //{
+                    //    Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
+                    //    Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
+                    //    Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
+                    //    PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
+                    //    PI pI;
+                    //    Cargos cargos;
+                    //    PontosInterativosDAO dao = new PontosInterativosDAO();
+                    //    if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
+                    //    {
+                    //        StringVarsControler varsControler = new StringVarsControler(contexto);
+                    //        varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
+                    //        new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
+                    //        if(cargos != null)
+                    //        {
+                    //            IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
+                    //            if (cargoganho != null)
+                    //            {
+                    //                ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
+                    //            }
+                    //        }
+                    //    }
+                    //}, contexto, null).EsperarOkDb();
                 }
             }).Start();
         }
+
+        
     }
 }
