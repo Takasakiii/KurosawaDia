@@ -160,37 +160,40 @@ namespace Bot.Nucleo.Eventos
 
         private void PIEvent(CommandContext contexto)
         {
-            new Thread(() =>
+            if (!contexto.IsPrivate)
             {
-                SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
-                if (botRepresentacao.GuildPermissions.ManageRoles)
+                new Thread(() =>
                 {
-                    new BotCadastro(() =>
+                    SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
+                    if (botRepresentacao.GuildPermissions.ManageRoles)
                     {
-                        Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
-                        Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
-                        Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
-                        PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
-                        PI pI;
-                        Cargos cargos;
-                        PontosInterativosDAO dao = new PontosInterativosDAO();
-                        if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
+                        new BotCadastro(() =>
                         {
-                            StringVarsControler varsControler = new StringVarsControler(contexto);
-                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
-                            new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
-                            if (cargos != null)
+                            Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
+                            Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
+                            Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
+                            PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
+                            PI pI;
+                            Cargos cargos;
+                            PontosInterativosDAO dao = new PontosInterativosDAO();
+                            if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
                             {
-                                IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
-                                if (cargoganho != null)
+                                StringVarsControler varsControler = new StringVarsControler(contexto);
+                                varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
+                                new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
+                                if (cargos != null)
                                 {
-                                    ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
+                                    IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
+                                    if (cargoganho != null)
+                                    {
+                                        ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
+                                    }
                                 }
                             }
-                        }
-                    }, contexto).EsperarOkDb();
-                }
-            }).Start();
+                        }, contexto).EsperarOkDb();
+                    }
+                }).Start();
+            }
         }
 
         
