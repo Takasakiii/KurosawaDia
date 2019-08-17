@@ -251,6 +251,22 @@ create procedure SetErroMsg (
     update configuracoesservidores set msgError = _erroMsg where cod_servidor = _codServidor;
 end$$
 
+create procedure GetPiInfo (
+	in _idUsuario bigint,
+    in _idServidor bigint
+) begin 
+	declare _codServidor int;
+    declare _codUsuario int;
+	declare _pontos bigint;
+    set _codServidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+    set _codUsuario = (select Usuarios.codigo_usuario from Usuarios where Usuarios.id_usuario = _idUsuario);
+    
+    if((select verificarConfig(_codServidor)) > 0 and (select PIconf from configuracoesservidores where cod_servidor = _codServidor)) then
+        set _pontos = ((select pontosinterativos.PI from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario) * 10 * (select configuracoesservidores.PIrate from configuracoesservidores where configuracoesservidores.cod_servidor =  (select servidores_usuarios_servidor from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario)));
+		select pontosinterativos.PI, pontosinterativos.fragmentosPI, _pontos as Total from pontosinterativos where pontosinterativos.servidores_usuarios_servidor = _codServidor and pontosinterativos.servidores_usuarios_usuario = _codUsuario;
+    end if;
+end$$
+
 delimiter ;
 
 create table Tipos_Canais (
