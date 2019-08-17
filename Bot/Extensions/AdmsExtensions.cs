@@ -17,7 +17,14 @@ namespace Bot.Extensions
                 Adms adms = new Adms(usuario);
                 if(new AdmsDAO().GetAdm(ref adms))
                 {
-                    return Tuple.Create(true, adms.Permissoes);
+                    if(adms.Permissoes != PermissoesAdms.Nada)
+                    {
+                        return Tuple.Create(true, adms.Permissoes);
+                    }
+                    else
+                    {
+                        return Tuple.Create(false, adms.Permissoes);
+                    }
                 }
                 else
                 {

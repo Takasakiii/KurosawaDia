@@ -74,10 +74,10 @@ namespace Bot.Comandos
             {
                 if (!cmdContext.IsPrivate)
                 {
-                    Servidores servidor = new Servidores(context.Guild.Id);
+                    Servidores servidor = new Servidores(cmdContext.Guild.Id);
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
-                        Usuarios usuario = new Usuarios(context.User.Id, context.User.ToString());
+                        Usuarios usuario = new Usuarios(cmdContext.User.Id, cmdContext.User.ToString());
                         if (servidor.Permissoes == PermissoesServidores.ServidorPika || new AdmsExtensions().GetAdm(usuario).Item1)
                         {
                             string[] comando = (string[])cmdArgs[1];

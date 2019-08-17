@@ -7,6 +7,7 @@ using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static MainDatabaseControler.Modelos.Adms;
 using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
@@ -17,12 +18,11 @@ namespace Bot.Comandos
         {
             if (new AdmsExtensions().GetAdm(new Usuarios(context.User.Id)).Item1)
             {
-
                 DiscordSocketClient client = context.Client as DiscordSocketClient;
 
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithColor(Color.DarkPurple)
-                    .WithDescription(StringCatch.GetString("respostaPing", "Meu ping é {0}", client.Latency)) //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
+                        .WithColor(Color.DarkPurple)
+                        .WithDescription(StringCatch.GetString("respostaPing", "Meu ping é {0}", client.Latency)) //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
                     .Build());
 
             }
@@ -34,7 +34,6 @@ namespace Bot.Comandos
             {
                 if (new AdmsExtensions().GetAdm(new Usuarios(context.User.Id)).Item1)
                 {
-
                     try
                     {
                         string[] comando = (string[])cmdArgs[1];
@@ -192,6 +191,47 @@ namespace Bot.Comandos
 
                 context.Channel.SendMessageAsync(embed: embed.Build());
 
+            }
+        }
+
+        public void setadm(CommandContext context, object[] args)
+        {
+            Tuple<bool, PermissoesAdms> perms = new AdmsExtensions().GetAdm(new Usuarios(context.User.Id));
+            if (perms.Item1 && perms.Item2 == PermissoesAdms.Donas)
+            {
+                string[] comando = (string[])args[1];
+
+                string id = null;
+                foreach (char tmp in comando[1])
+                {
+                    if (ulong.TryParse(tmp.ToString(), out ulong result))
+                    {
+                        id += result;
+                    }
+                }
+
+                IUser user = context.Client.GetUserAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                if (user != null)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        PermissoesAdms perm = (PermissoesAdms)Convert.ToInt32(comando[2]);
+                        new AdmsDAO().SetAdm(new Adms(new Usuarios(Convert.ToUInt64(user.Id))).SetPerms(perm));
+
+                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("setadmOk", "**{0}** o usuario: ``{1}`` ganhou a permissão: ``{2}``", cmdContext.User.ToString(), user.ToString(), perm))
+                                .WithColor(Color.DarkPurple)
+                            .Build());
+
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("setadmSemUsuario", "meu querido n achei essa pessoa"))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
             }
         }
     }
