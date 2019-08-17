@@ -274,7 +274,7 @@ namespace Bot.Comandos
             }
         }
 
-        public void profile()
+        public void perfil()
         {
             if (!contexto.IsPrivate)
             {
@@ -283,21 +283,34 @@ namespace Bot.Comandos
 
                 if (sucesso_total.Item1)
                 {
+                    string barra = "";
+                    for (ulong i = 0; i < 10; i++)
+                    {
+                        if( i < ((pi.FragmentosPI * 100) / sucesso_total.Item2) / 10)
+                        {
+                            barra += "💠";
+                        }
+                        else
+                        {
+                            barra += "🔹";
+                        }
+                    }
+
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(StringCatch.GetString("piinfoTitle", contexto.User.ToString()))
+                            .WithTitle(StringCatch.GetString("perfilTitle", contexto.User.ToString()))
                             .WithThumbnailUrl(contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl())
-                            .WithDescription(StringCatch.GetString("piinfoDesc", "Você tem {0}% dos pontos que faltam pra você subir de nivel", (sucesso_total.Item2 / pi.FragmentosPI)))
-                            .AddField(StringCatch.GetString("piinfoFieldTitle1", "Seus Pontos:"), StringCatch.GetString("piinfoFieldValue1", pi.FragmentosPI.ToString()), true)
-                            .AddField(StringCatch.GetString("piinfoFieldTitle2", "Seu Nivel:"), StringCatch.GetString("piinfoFieldValue2", pi.PI.ToString()), true)
-                            //.AddField(StringCatch.GetString("piinfoFieldTitle3", "Pontos Faltantes:"), StringCatch.GetString("piinfoFieldValue3", barra))
-                            .WithFooter(StringCatch.GetString("piinfoFoote", "{0}/{1}", pi.FragmentosPI.ToString(), sucesso_total.Item2.ToString()))
+                            .WithDescription(StringCatch.GetString("perfilDesc", "Você tem {0}% dos pontos que faltam pra você subir de nivel", ((pi.FragmentosPI * 100) / sucesso_total.Item2)))
+                            .AddField(StringCatch.GetString("perilFieldTitle1", "Seus Pontos:"), StringCatch.GetString("perilFieldValue1", pi.FragmentosPI.ToString()), true)
+                            .AddField(StringCatch.GetString("perilFieldTitle2", "Seu Nivel:"), StringCatch.GetString("perilFieldValue2", pi.PI.ToString()), true)
+                            .AddField(StringCatch.GetString("perilFieldTitle3", "Seu Progresso:"), StringCatch.GetString("perilFieldValue3", barra))
+                            .WithFooter(StringCatch.GetString("perilFooter", "{0}/{1}", pi.FragmentosPI.ToString(), sucesso_total.Item2.ToString()))
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("piinfoDesativado", "**{0}** os pontos interativos estão desativados nesse servidor", contexto.User.ToString()))
+                            .WithDescription(StringCatch.GetString("perilDesativado", "**{0}** os pontos interativos estão desativados nesse servidor", contexto.User.ToString()))
                             .WithColor(Color.Red)
                          .Build());
                 }
@@ -305,7 +318,7 @@ namespace Bot.Comandos
             else
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(StringCatch.GetString("piinfoDm", "Esse comando do pode ser usado em servidores"))
+                        .WithDescription(StringCatch.GetString("perilDm", "Esse comando do pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
