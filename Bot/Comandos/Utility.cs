@@ -109,7 +109,7 @@ namespace Bot.Comandos
             }
         }
 
-        public void emote(CommandContext context, object[] args)
+        public void emoji(CommandContext context, object[] args)
         {
             string[] comando = (string[])args[1];
 

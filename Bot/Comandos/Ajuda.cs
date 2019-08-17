@@ -125,7 +125,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Ultilidades (🛠)"))
                     .WithDescription(StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emote`, `{0}say`, `{0}simg`", (string)args[0]))
+                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`", (string)args[0]))
                     .WithFooter(StringCatch.GetString("utilidadeVoltar", "Voltar"), StringCatch.GetString("utilidadeVoltarImg", "https://i.imgur.com/iAnGwW4.png"))
                     .WithImageUrl(StringCatch.GetString("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build()).GetAwaiter().GetResult();
