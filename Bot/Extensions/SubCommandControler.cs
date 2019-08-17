@@ -33,7 +33,7 @@ namespace Bot.Extensions
             {
                 try
                 {
-                    List<IMessage> messages = msgPrimaria.Channel.GetMessagesAsync(msgPrimaria, Direction.After, 1).FlattenAsync().GetAwaiter().GetResult().ToList();
+                    List<IMessage> messages = msgPrimaria.Channel.GetMessagesAsync(msgPrimaria, Direction.After, 100).FlattenAsync().GetAwaiter().GetResult().ToList();
                     IMessage msg = messages.Find(x => x.Author.Id == usuario.Id);
                     if (msg != null)
                     {

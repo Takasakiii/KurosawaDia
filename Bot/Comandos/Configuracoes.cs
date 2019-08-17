@@ -120,7 +120,7 @@ namespace Bot.Comandos
                                         pergunta = cmdContext.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                                         sub = new SubCommandControler();
                                         msgresposta = sub.GetCommand(pergunta, cmdContext.User);
-                                        if (double.TryParse(msgresposta.Content, out rate))
+                                        if (msgresposta != null && double.TryParse(msgresposta.Content, out rate))
                                         {
                                             if (rate >= 1)
                                             {
@@ -146,20 +146,23 @@ namespace Bot.Comandos
                                     {
                                         ativado = false;
                                     }
-                                    PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
-                                    if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), pimodel)))
+                                    if (rate < 1 && msg != "")
                                     {
-                                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                            .WithColor(Color.Green)
-                                            .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
-                                            .Build());
-                                    }
-                                    else
-                                    {
-                                        cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                            .WithColor(Color.Red)
-                                            .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
-                                            .Build());
+                                        PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
+                                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(cmdContext.Guild.Id), pimodel)))
+                                        {
+                                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                                .WithColor(Color.Green)
+                                                .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                                .Build());
+                                        }
+                                        else
+                                        {
+                                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                                .WithColor(Color.Red)
+                                                .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                                .Build());
+                                        }
                                     }
                                 }
                                 else
