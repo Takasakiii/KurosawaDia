@@ -2,6 +2,8 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 
 namespace Bot.Comandos
@@ -262,6 +264,43 @@ namespace Bot.Comandos
                         .WithDescription(StringCatch.GetString("sugestaoFalar", "**{0}** você precisa me falara uma sugestão", context.User.ToString()))
                         .AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoSugestao", "`{0}sugestao <sugestão>`", (string)args[0]))
                         .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}sugestao fazer com que o bot ficasse mais tempo on`" ,(string)args[0]))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
+        public void profile(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                PontosInterativos pi = new PontosInterativos(new Servidores_Usuarios(new Servidores(context.Guild.Id), new Usuarios(context.User.Id)));
+                Tuple<bool, ulong> sucesso_total = new PontosInterativosDAO().GetPiInfo(ref pi);
+
+                if (sucesso_total.Item1)
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithTitle(StringCatch.GetString("piinfoTitle", context.User.ToString()))
+                            .WithThumbnailUrl(context.User.GetAvatarUrl(size: 2048) ?? context.User.GetDefaultAvatarUrl())
+                            .WithDescription(StringCatch.GetString("piinfoDesc", "Você tem {0}% dos pontos que faltam pra você subir de nivel", (sucesso_total.Item2 / pi.FragmentosPI)))
+                            .AddField(StringCatch.GetString("piinfoFieldTitle1", "Seus Pontos:"), StringCatch.GetString("piinfoFieldValue1", pi.FragmentosPI.ToString()), true)
+                            .AddField(StringCatch.GetString("piinfoFieldTitle2", "Seu Nivel:"), StringCatch.GetString("piinfoFieldValue2", pi.PI.ToString()), true)
+                            //.AddField(StringCatch.GetString("piinfoFieldTitle3", "Pontos Faltantes:"), StringCatch.GetString("piinfoFieldValue3", barra))
+                            .WithFooter(StringCatch.GetString("piinfoFoote", "{0}/{1}", pi.FragmentosPI.ToString(), sucesso_total.Item2.ToString()))
+                            .WithColor(Color.DarkPurple)
+                        .Build());
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("piinfoDesativado", "**{0}** os pontos interativos estão desativados nesse servidor", context.User.ToString()))
+                            .WithColor(Color.Red)
+                         .Build());
+                }
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("piinfoDm", "Esse comando do pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }

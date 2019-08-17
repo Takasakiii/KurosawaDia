@@ -13,11 +13,13 @@
             this.Cod = Cod;
         }
 
-        public void AddPIInfo(ulong Cod, ulong PI, ulong FragmentosPI)
+        public PontosInterativos AddPIInfo(ulong Cod, ulong PI, ulong FragmentosPI)
         {
             this.Cod = Cod;
             this.PI = PI;
             this.FragmentosPI = FragmentosPI;
+
+            return this;
         }
     }
 }

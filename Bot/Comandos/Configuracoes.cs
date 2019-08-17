@@ -153,7 +153,7 @@ namespace Bot.Comandos
                                     {
                                         ativado = false;
                                     }
-                                    if (rate < 1 && msg != "")
+                                    if (rate > 1 && msg != "")
                                     {
                                         PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
                                         if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(contexto.Guild.Id), pimodel)))
@@ -452,11 +452,11 @@ namespace Bot.Comandos
 
         }
 
-        public void welcomemsg(CommandContext context, object[] args)
+        public void welcomemsg()
         {
-            if (!context.IsPrivate)
+            if (!contexto.IsPrivate)
             {
-                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                SocketGuildUser guildUser = contexto.User as SocketGuildUser;
                 if (guildUser.GuildPermissions.Administrator)
                 {
                     new BotCadastro(() =>
@@ -484,7 +484,7 @@ namespace Bot.Comandos
                                     .Build()).GetAwaiter().GetResult();
 
                                 sub = new SubCommandControler();
-                                msgresposta = sub.GetCommand(embed, context.User);
+                                msgresposta = sub.GetCommand(embed, contexto.User);
 
                                 msg = msgresposta.Content;
                             }
@@ -506,11 +506,11 @@ namespace Bot.Comandos
                             RotaFail();
                         }
 
-                    }, context).EsperarOkDb();
+                    }, contexto).EsperarOkDb();
                 }
                 else
                 {
-                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
                             .WithColor(Color.Red)
                         .Build());
@@ -518,7 +518,7 @@ namespace Bot.Comandos
             }
             else
             {
-                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription(StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
