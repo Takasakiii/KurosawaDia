@@ -58,7 +58,7 @@ namespace Bot.Extensions
                     {
                         embed.WithImageUrl(null);
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", context.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", contexto.User.ToString()));
                         contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                 }
