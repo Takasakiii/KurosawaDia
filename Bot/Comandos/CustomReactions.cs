@@ -1,320 +1,326 @@
-﻿//using Bot.Extensions;
-//using Discord;
-//using Discord.Commands;
-//using Discord.WebSocket;
-//using MainDatabaseControler.DAO;
-//using MainDatabaseControler.Modelos;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
+﻿using Bot.Extensions;
+using Bot.GenericTypes;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-//namespace Bot.Comandos
-//{
-//    public class CustomReactions : Owner
-//    {
-//        public void acr(CommandContext context, object[] args)
-//        {
-//            //new BotCadastro(() =>
-//            //{
-//            //    EmbedBuilder embed = new EmbedBuilder();
-//            //    embed.WithColor(color: Color.DarkPurple);
+namespace Bot.Comandos
+{
+    public class CustomReactions : GenericModule
+    {
+        public CustomReactions(CommandContext contexto, object[] args): base (contexto, args)
+        {
 
-//            //    if (!cmdContext.IsPrivate)
-//            //    {
-//            //        SocketGuildUser usuario = cmdContext.User as SocketGuildUser;
-//            //        IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
+        }
 
-//            //        if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
-//            //        {
-//            //            string[] comando = (string[])cmdArgs[1];
-//            //            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-//            //            string[] resposta_pergunta = msg.Split('|');
+        public void acr()
+        {
+            new BotCadastro(() =>
+            {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(color: Color.DarkPurple);
 
-//            //            if (resposta_pergunta.Length >= 2)
-//            //            {
-//            //                ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(cmdContext.Guild.Id), cmdContext.Guild.Id);
-//            //                new ReacoesCustomizadasDAO().CriarAcr(ref cr);
+                if (!contexto.IsPrivate)
+                {
+                    SocketGuildUser usuario = contexto.User as SocketGuildUser;
+                    IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
-//            //                string resposta = "", pergunta = "";
+                    if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
+                    {
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        string[] resposta_pergunta = msg.Split('|');
 
-//            //                if (resposta_pergunta[0].Trim().Length > 1024)
-//            //                {
-//            //                    pergunta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
-//            //                }
-//            //                else
-//            //                {
-//            //                    pergunta = resposta_pergunta[0].Trim();
-//            //                }
+                        if (resposta_pergunta.Length >= 2)
+                        {
+                            ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(contexto.Guild.Id), contexto.Guild.Id);
+                            new ReacoesCustomizadasDAO().CriarAcr(ref cr);
 
-//            //                if (resposta_pergunta[1].Trim().Length > 1024)
-//            //                {
-//            //                    resposta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
-//            //                }
-//            //                else
-//            //                {
-//            //                    resposta = resposta_pergunta[1].Trim();
-//            //                }
+                            string resposta = "", pergunta = "";
 
-//            //                embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", cmdContext.User.ToString()));
-//            //                embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
-//            //                embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
-//            //                embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
-//            //            }
-//            //            else
-//            //            {
-//            //                embed.WithTitle(StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
-//            //                embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", (string)cmdArgs[0]));
-//            //                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", (string)cmdArgs[0]));
-//            //                embed.WithColor(Color.Red);
-//            //            }
-//            //        }
-//            //        else
-//            //        {
-//            //            embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", cmdContext.User.ToString()));
-//            //            embed.WithColor(Color.Red);
-//            //        }
-//            //    }
-//            //    else
-//            //    {
-//            //        embed.WithDescription(StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
-//            //        embed.WithColor(Color.Red);
-//            //    }
+                            if (resposta_pergunta[0].Trim().Length > 1024)
+                            {
+                                pergunta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                            }
+                            else
+                            {
+                                pergunta = resposta_pergunta[0].Trim();
+                            }
 
-//            //    context.Channel.SendMessageAsync(embed: embed.Build());
-//            //}, context).EsperarOkDb();
-//        }
+                            if (resposta_pergunta[1].Trim().Length > 1024)
+                            {
+                                resposta = $"{resposta_pergunta[0].Trim().Substring(0, 1020)}...";
+                            }
+                            else
+                            {
+                                resposta = resposta_pergunta[1].Trim();
+                            }
 
-//        public void dcr(CommandContext context, object[] args)
-//        {
-//            //new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
-//            //{
-//            //    EmbedBuilder embed = new EmbedBuilder();
-//            //    embed.WithColor(Color.DarkPurple);
+                            embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", contexto.User.ToString()));
+                            embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
+                            embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
+                            embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
+                        }
+                        else
+                        {
+                            embed.WithTitle(StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
+                            embed.AddField(StringCatch.GetString("usoCmd", "Uso do comando: "), StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", (string)args[0]));
+                            embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", (string)args[0]));
+                            embed.WithColor(Color.Red);
+                        }
+                    }
+                    else
+                    {
+                        embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", contexto.User.ToString()));
+                        embed.WithColor(Color.Red);
+                    }
+                }
+                else
+                {
+                    embed.WithDescription(StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
+                    embed.WithColor(Color.Red);
+                }
 
-//            //    if (!cmdContext.IsPrivate)
-//            //    {
-//            //        SocketGuildUser usuario = cmdContext.User as SocketGuildUser;
-//            //        IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
+                contexto.Channel.SendMessageAsync(embed: embed.Build());
+            }, contexto).EsperarOkDb();
+        }
 
-//            //        if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
-//            //        {
-//            //            string[] comando = (string[])cmdArgs[1];
-//            //            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+        public void dcr()
+        {
+            new BotCadastro(() =>
+            {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkPurple);
 
-//            //            if (msg != "")
-//            //            {
-//            //                try
-//            //                {
-//            //                    ulong codigo = Convert.ToUInt64(msg);
-//            //                    ReacoesCustomizadas acr = new ReacoesCustomizadas(codigo);
-//            //                    acr.SetServidor(new Servidores(cmdContext.Guild.Id));
+                if (!contexto.IsPrivate)
+                {
+                    SocketGuildUser usuario = contexto.User as SocketGuildUser;
+                    IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
-//            //                    if (new ReacoesCustomizadasDAO().DeletarAcr(acr))
-//            //                    {
-//            //                        embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", cmdContext.User.ToString(), codigo));
-//            //                    }
-//            //                    else
-//            //                    {
-//            //                        embed.WithDescription(StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", cmdContext.User.ToString()));
-//            //                    }
+                    if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
+                    {
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-//            //                }
-//            //                catch
-//            //                {
-//            //                    embed.WithDescription(StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", cmdContext.User.ToString()));
-//            //                    embed.WithColor(Color.Red);
-//            //                }
-//            //            }
-//            //            else
-//            //            {
-//            //                embed.WithTitle(StringCatch.GetString("dcrSemCodio", "Você me precisa falar o codigo da reação customizada para que eu possa deletar ela"));
-//            //                embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoDcr", "`{0}dcr <codigo>`", (string)cmdArgs[0]));
-//            //                embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploDcr", "`{0}dcr 1`", (string)cmdArgs[0]));
-//            //                embed.WithColor(Color.Red);
-//            //            }
-//            //        }
-//            //        else
-//            //        {
-//            //            embed.WithDescription(StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", cmdContext.User.ToString()));
-//            //            embed.WithColor(Color.Red);
-//            //        }
-//            //    }
-//            //    else
-//            //    {
-//            //        embed.WithDescription(StringCatch.GetString("dcrDm", "Esse comando so pode ser usado em servidores"));
-//            //        embed.WithColor(Color.Red);
-//            //    }
+                        if (msg != "")
+                        {
+                            try
+                            {
+                                ulong codigo = Convert.ToUInt64(msg);
+                                ReacoesCustomizadas acr = new ReacoesCustomizadas(codigo);
+                                acr.SetServidor(new Servidores(contexto.Guild.Id));
 
-//            //    cmdContext.Channel.SendMessageAsync(embed: embed.Build());
-//            //}, context, args).EsperarOkDb();
-//        }
+                                if (new ReacoesCustomizadasDAO().DeletarAcr(acr))
+                                {
+                                    embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", contexto.User.ToString(), codigo));
+                                }
+                                else
+                                {
+                                    embed.WithDescription(StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", contexto.User.ToString()));
+                                }
 
-//        public void lcr(CommandContext context, object[] args)
-//        {
-//            EmbedBuilder embed = new EmbedBuilder();
-//            embed.WithColor(Color.DarkPurple);
+                            }
+                            catch
+                            {
+                                embed.WithDescription(StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", contexto.User.ToString()));
+                                embed.WithColor(Color.Red);
+                            }
+                        }
+                        else
+                        {
+                            embed.WithTitle(StringCatch.GetString("dcrSemCodio", "Você me precisa falar o codigo da reação customizada para que eu possa deletar ela"));
+                            embed.AddField(StringCatch.GetString("usoCmd", "Uso do Comando: "), StringCatch.GetString("usoDcr", "`{0}dcr <codigo>`", (string)args[0]));
+                            embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploDcr", "`{0}dcr 1`", (string)args[0]));
+                            embed.WithColor(Color.Red);
+                        }
+                    }
+                    else
+                    {
+                        embed.WithDescription(StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", contexto.User.ToString()));
+                        embed.WithColor(Color.Red);
+                    }
+                }
+                else
+                {
+                    embed.WithDescription(StringCatch.GetString("dcrDm", "Esse comando so pode ser usado em servidores"));
+                    embed.WithColor(Color.Red);
+                }
 
-//            if (!context.IsPrivate)
-//            {
-//                ReacoesCustomizadas acr = new ReacoesCustomizadas();
-//                acr.SetServidor(new Servidores(context.Guild.Id));
-//                ReacoesCustomizadasDAO dao = new ReacoesCustomizadasDAO();
-//                List<ReacoesCustomizadas> listaRetorno = dao.ListarAcr(acr);
-                
-//                if(listaRetorno.Count != 0)
-//                {
+                contexto.Channel.SendMessageAsync(embed: embed.Build());
+            }, contexto).EsperarOkDb();
+        }
 
-//                    int[] restricoes = new int[2];
-//                    restricoes[0] = 0;
-//                    restricoes[1] = listaRetorno.Count / 10 + ((listaRetorno.Count % 10 > 0) ? 1 : 0);
-//                    //Declaracao da memoria extra que esse comando requer
-//                    ((List<object>)args[2]).Add(restricoes); //id 00 
-//                    ((List<object>)args[2]).Add(listaRetorno); //id 01
-//                    ((List<object>)args[2]).Add(1); //id 02 - Armazena a msg
-//                    ((List<object>)args[2]).Add(1); //id 03 - Armazena o controlador de reacoes
-//                    ((List<object>)args[2]).Add(1); //id 04 - Armazena o tipo de acao (next ou fowarding)
+        public void lcr()
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
 
-//                    Menu(context, args);
-//                }
-//                else
-//                {
-//                    embed.WithDescription(StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", context.User.ToString()));
-//                    embed.WithColor(Color.Red);
-//                    context.Channel.SendMessageAsync(embed: embed.Build());
-//                }
-//            }
-//            else
-//            {
-//                embed.WithDescription(StringCatch.GetString("lcrDm", "Esse comando so pode ser usado em servidores"));
-//                embed.WithColor(Color.Red);
-//                context.Channel.SendMessageAsync(embed: embed.Build());
-//            }
-//        }
+            if (!contexto.IsPrivate)
+            {
+                ReacoesCustomizadas acr = new ReacoesCustomizadas();
+                acr.SetServidor(new Servidores(contexto.Guild.Id));
+                ReacoesCustomizadasDAO dao = new ReacoesCustomizadasDAO();
+                List<ReacoesCustomizadas> listaRetorno = dao.ListarAcr(acr);
 
-//        private Tuple<string, string> CriarPagina(List<ReacoesCustomizadas> listaRetorno, int paginaAtual)
-//        {
-//            string respIds = "";
-//            string respTriggers = "";
-//            for (int i = paginaAtual * 10; i < listaRetorno.Count && i < ((paginaAtual* 10) + 10); i++)
-//            {
-//                ReacoesCustomizadas temp = listaRetorno[i];
+                if (listaRetorno.Count != 0)
+                {
 
-//                string trigger = "";
+                    int[] restricoes = new int[2];
+                    restricoes[0] = 0;
+                    restricoes[1] = listaRetorno.Count / 10 + ((listaRetorno.Count % 10 > 0) ? 1 : 0);
+                    //Declaracao da memoria extra que esse comando requer
+                    ((List<object>)args[2]).Add(restricoes); //id 00 
+                    ((List<object>)args[2]).Add(listaRetorno); //id 01
+                    ((List<object>)args[2]).Add(1); //id 02 - Armazena a msg
+                    ((List<object>)args[2]).Add(1); //id 03 - Armazena o controlador de reacoes
+                    ((List<object>)args[2]).Add(1); //id 04 - Armazena o tipo de acao (next ou fowarding)
 
-//                if(temp.Trigger.Length > 25)
-//                {
-//                    trigger = $"{temp.Trigger.Substring(0, 25)}...";
-//                }
-//                else
-//                {
-//                    trigger = temp.Trigger;
-//                }
+                    Menu(contexto, args);
+                }
+                else
+                {
+                    embed.WithDescription(StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", contexto.User.ToString()));
+                    embed.WithColor(Color.Red);
+                    contexto.Channel.SendMessageAsync(embed: embed.Build());
+                }
+            }
+            else
+            {
+                embed.WithDescription(StringCatch.GetString("lcrDm", "Esse comando so pode ser usado em servidores"));
+                embed.WithColor(Color.Red);
+                contexto.Channel.SendMessageAsync(embed: embed.Build());
+            }
+        }
 
-//                respIds += $"`#{temp.Cod}`\n";
-//                respTriggers += $"{trigger}\n";
-//            }
+        private Tuple<string, string> CriarPagina(List<ReacoesCustomizadas> listaRetorno, int paginaAtual)
+        {
+            string respIds = "";
+            string respTriggers = "";
+            for (int i = paginaAtual * 10; i < listaRetorno.Count && i < ((paginaAtual * 10) + 10); i++)
+            {
+                ReacoesCustomizadas temp = listaRetorno[i];
 
-//            return Tuple.Create(respIds, respTriggers);
-//        }
+                string trigger = "";
 
-//        private void Menu (CommandContext contexto, object[] args)
-//        {
-//            int[] restricoes = (int[])((List<object>)args[2])[0];
-//            var retornoStrings = CriarPagina((List<ReacoesCustomizadas>)((List<object>)args[2])[1], restricoes[0]);
-//            IUserMessage msg = null;
-//            if (retornoStrings.Item1 != "")
-//            {
-//                 msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-//                    .WithTitle(StringCatch.GetString("lcrTxt", "Lista das Reações Customizadas:"))
-//                    .AddField(StringCatch.GetString("lcrCods", "Codigos: "), retornoStrings.Item1, true)
-//                    .AddField(StringCatch.GetString("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
-//                    .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
-//                    .WithColor(Color.DarkPurple)
-//                    .Build()).GetAwaiter().GetResult();
-                
-//            }
+                if (temp.Trigger.Length > 25)
+                {
+                    trigger = $"{temp.Trigger.Substring(0, 25)}...";
+                }
+                else
+                {
+                    trigger = temp.Trigger;
+                }
 
-//            bool pProximo = false;
-//            bool pAnterior = false;
+                respIds += $"`#{temp.Cod}`\n";
+                respTriggers += $"{trigger}\n";
+            }
 
-//            if (restricoes[1] != 1)
-//            {
-//                if (restricoes[0] == 0 && restricoes[0] < restricoes[1])
-//                {
-//                    pProximo = true;
-//                }
-//                else
-//                {
-//                    if ((restricoes[0] + 1) != restricoes[1])
-//                    {
-//                        pProximo = true;
-//                        pAnterior = true;
-//                    }
-//                    else
-//                    {
-//                        pAnterior = true;
-//                    }
-//                }
-//            }
+            return Tuple.Create(respIds, respTriggers);
+        }
 
-//            ((List<object>)args[2])[2] = msg;
-//            ReactionControler controler = new ReactionControler();
-//            ((List<object>)args[2])[3] = controler;
-//            if (pAnterior)
-//            {
-//                Emoji emoji = new Emoji("⬅");
-//                msg.AddReactionAsync(emoji);
-//                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(AnteriorPagina));
-//            }
-//            if (pProximo)
-//            {
-//                Emoji emoji = new Emoji("➡");
-//                msg.AddReactionAsync(emoji);
-//                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(ProximaPagina));
-//            }
-//        }
+        private void Menu(CommandContext contexto, object[] args)
+        {
+            int[] restricoes = (int[])((List<object>)args[2])[0];
+            var retornoStrings = CriarPagina((List<ReacoesCustomizadas>)((List<object>)args[2])[1], restricoes[0]);
+            IUserMessage msg = null;
+            if (retornoStrings.Item1 != "")
+            {
+                msg = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                   .WithTitle(StringCatch.GetString("lcrTxt", "Lista das Reações Customizadas:"))
+                   .AddField(StringCatch.GetString("lcrCods", "Codigos: "), retornoStrings.Item1, true)
+                   .AddField(StringCatch.GetString("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
+                   .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
+                   .WithColor(Color.DarkPurple)
+                   .Build()).GetAwaiter().GetResult();
 
-//        private void ProximaPagina()
-//        {
-//            //((List<object>)args[2])[4] = 1;
-//            //AjustesDeDados(contexto, args);
-//        }
+            }
 
-//        private void AnteriorPagina()
-//        {
-//            //((List<object>)args[2])[4] = 2;
-//            //AjustesDeDados(contexto, args);
-//        }
+            bool pProximo = false;
+            bool pAnterior = false;
 
-//        private void AjustesDeDados(CommandContext contexto, object[]args)
-//        {
-//            int tipo = (int)((List<object>)args[2])[4];
-//            int[] restricoes = (int[])((List<object>)args[2])[0];
+            if (restricoes[1] != 1)
+            {
+                if (restricoes[0] == 0 && restricoes[0] < restricoes[1])
+                {
+                    pProximo = true;
+                }
+                else
+                {
+                    if ((restricoes[0] + 1) != restricoes[1])
+                    {
+                        pProximo = true;
+                        pAnterior = true;
+                    }
+                    else
+                    {
+                        pAnterior = true;
+                    }
+                }
+            }
 
-//            if (tipo == 1)
-//            {
-//                restricoes[0]++;
-//            }
-//            else
-//            {
-//                restricoes[0]--;
-//            }
+            ((List<object>)args[2])[2] = msg;
+            ReactionControler controler = new ReactionControler();
+            ((List<object>)args[2])[3] = controler;
+            if (pAnterior)
+            {
+                Emoji emoji = new Emoji("⬅");
+                msg.AddReactionAsync(emoji);
+                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(AnteriorPagina));
+            }
+            if (pProximo)
+            {
+                Emoji emoji = new Emoji("➡");
+                msg.AddReactionAsync(emoji);
+                controler.GetReaction(msg, emoji, contexto.User, new ReturnMethod(ProximaPagina));
+            }
+        }
 
-//            ((List<object>)args[2])[0] = restricoes;
-//            ((IUserMessage)((List<object>)args[2])[2]).DeleteAsync();
-//            ((ReactionControler)((List<object>)args[2])[3]).DesligarReaction();
-//            Menu(contexto, args);
-//        }
+        private void ProximaPagina()
+        {
+            ((List<object>)args[2])[4] = 1;
+            AjustesDeDados(contexto, args);
+        }
 
-//        public void TriggerACR (CommandContext contexto, Servidores servidor)
-//        {
-//            ReacoesCustomizadas aCRs = new ReacoesCustomizadas();
-//            aCRs.SetTrigger(contexto.Message.Content, servidor);
-//            new ReacoesCustomizadasDAO().ResponderAcr(ref aCRs);
-//            if (aCRs.Resposta != null)
-//            {
-//                new EmbedControl().SendMessage(contexto.Channel, aCRs.Resposta);
-//            }      
-//        }
-//    }
-//}
+        private void AnteriorPagina()
+        {
+            ((List<object>)args[2])[4] = 2;
+            AjustesDeDados(contexto, args);
+        }
+
+        private void AjustesDeDados(CommandContext contexto, object[] args)
+        {
+            int tipo = (int)((List<object>)args[2])[4];
+            int[] restricoes = (int[])((List<object>)args[2])[0];
+
+            if (tipo == 1)
+            {
+                restricoes[0]++;
+            }
+            else
+            {
+                restricoes[0]--;
+            }
+
+            ((List<object>)args[2])[0] = restricoes;
+            ((IUserMessage)((List<object>)args[2])[2]).DeleteAsync();
+            ((ReactionControler)((List<object>)args[2])[3]).DesligarReaction();
+            Menu(contexto, args);
+        }
+
+        public void TriggerACR(CommandContext contexto, Servidores servidor)
+        {
+            ReacoesCustomizadas aCRs = new ReacoesCustomizadas();
+            aCRs.SetTrigger(contexto.Message.Content, servidor);
+            new ReacoesCustomizadasDAO().ResponderAcr(ref aCRs);
+            if (aCRs.Resposta != null)
+            {
+                new EmbedControl().SendMessage(contexto.Channel, aCRs.Resposta);
+            }
+        }
+    }
+}

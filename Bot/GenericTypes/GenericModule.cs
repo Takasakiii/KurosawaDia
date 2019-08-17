@@ -18,13 +18,5 @@ namespace Bot.GenericTypes
             this.args = args;
         }
 
-
-        
-        //Instancia um GenericModule e preenche o contexto e o args
-        public static GenericModule GenerateModule(CommandContext contexto, object[] args)
-        {
-            GenericModule modulo = new GenericModule(contexto, args);
-            return modulo;
-        }
     }
 }
