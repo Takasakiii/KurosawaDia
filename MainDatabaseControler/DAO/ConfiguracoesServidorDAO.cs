@@ -2,6 +2,7 @@
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
 namespace MainDatabaseControler.DAO
 {
@@ -123,6 +124,37 @@ namespace MainDatabaseControler.DAO
             }
 
             cmd.ExecuteNonQuery();
+        }
+
+        public bool GetErrorMsg(ref ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call getErrorMessage(@id)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            bool retorno = false;
+
+            MySqlDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                configuracoes = new ConfiguracoesServidor(configuracoes.servidor, new ErroMsg(Convert.ToBoolean(rs["msgError"])));
+                retorno = true;
+            }
+            rs.Close();
+            conexao.Close();
+            return retorno;
+        }
+
+        public void SetErroMsg(ConfiguracoesServidor configuracoes)
+        {
+            const string sql = "call SetErroMsg(@id, @erroMsg)";
+            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+            cmd.Parameters.AddWithValue("@id", configuracoes.servidor.Id);
+            cmd.Parameters.AddWithValue("@erroMsg", configuracoes.erroMsg.erroMsg);
+
+            cmd.ExecuteNonQuery();
+            conexao.Close();
         }
     }
 }

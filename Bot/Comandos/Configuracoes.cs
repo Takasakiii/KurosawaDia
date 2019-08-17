@@ -487,7 +487,7 @@ namespace Bot.Comandos
 
                             cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithColor(Color.Green)
-                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                    .WithTitle(StringCatch.GetString("welcomemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
                                 .Build());
 
                         }
@@ -560,7 +560,7 @@ namespace Bot.Comandos
 
                             cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithColor(Color.Green)
-                                    .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                    .WithTitle(StringCatch.GetString("byemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
                                 .Build());
 
                         }
@@ -583,6 +583,63 @@ namespace Bot.Comandos
             {
                 context.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription(StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
+        public void erromsg(CommandContext context, object[] args)
+        {
+            if (!context.IsPrivate)
+            {
+                SocketGuildUser guildUser = context.User as SocketGuildUser;
+                if (guildUser.GuildPermissions.Administrator)
+                {
+                    new BotCadastro((CommandContext cmdContext, object[] cmdArgs) =>
+                    {
+                        IMessage embed = cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithTitle(StringCatch.GetString("erromsgTitle1", "Configurar a mensagem de erro"))
+                                .WithDescription(StringCatch.GetString("erromsgDesc1", "Você quer que eu envia uma mensagem de erro quando alguem tenta usar algum comando que eu não tenho?"))
+                                .AddField(StringCatch.GetString("erromsgOpcsValidasTitle1", "Opções Validas:"), StringCatch.GetString("erromsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                                .WithColor(Color.DarkPurple)
+                            .Build()).GetAwaiter().GetResult();
+
+                        SubCommandControler sub = new SubCommandControler();
+                        IMessage msgresposta = sub.GetCommand(embed, cmdContext.User);
+
+                        if (msgresposta.Content == "s" || msgresposta.Content == "n")
+                        {
+                            bool erroMsg = false;
+                            if (msgresposta.Content == "s")
+                            {
+                                erroMsg = true;
+                            }
+                            new ConfiguracoesServidorDAO().SetErroMsg(new ConfiguracoesServidor(new Servidores(context.Guild.Id), new ErroMsg(erroMsg)));
+                            cmdContext.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithColor(Color.Green)
+                                    .WithTitle(StringCatch.GetString("erromsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
+                                .Build());
+
+                        }
+                        else
+                        {
+                            RotaFail(cmdContext);
+                        }
+
+                    }, context, args).EsperarOkDb();
+                }
+                else
+                {
+                    context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("erromsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithColor(Color.Red)
+                        .Build());
+                }
+            }
+            else
+            {
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(StringCatch.GetString("erromsgDM", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }

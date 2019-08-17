@@ -6,9 +6,8 @@ using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
+using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
@@ -35,70 +34,35 @@ namespace Bot.Comandos
 
         public void comandos(CommandContext context, object[] args)
         {
-            try
-            {
-                string[] userMessage = (string[])args[1];
-            }
-            catch
-            {
-                ((IUserMessage)args[1]).DeleteAsync();
-            }
+            string[] comando = (string[])args[1];
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            string modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
-            List<Emoji> menu = new List<Emoji>();
-            menu.Add(new Emoji("❓"));
-            menu.Add(new Emoji("🛠"));
-            menu.Add(new Emoji("⚖"));
-            menu.Add(new Emoji("🔞"));
-            menu.Add(new Emoji("❤"));
-            menu.Add(new Emoji("🖼"));
-            menu.Add(new Emoji("💬"));
-            menu.Add(new Emoji("⚙"));
-
-            if (!context.IsPrivate)
+            if (!string.IsNullOrEmpty(msg))
             {
-                Servidores servidor = new Servidores(context.Guild.Id);
-                if (new ServidoresDAO().GetPermissoes(ref servidor))
+
+            }
+            else
+            {
+                string modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
+
+                if (!context.IsPrivate)
                 {
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika)
+                    Servidores servidor = new Servidores(context.Guild.Id);
+                    if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
-                        menu.Add(new Emoji("🌟"));
-                        modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
+                        if (servidor.Permissoes == PermissoesServidores.ServidorPika)
+                        {
+                            modulos = "❓ Ajuda;\n🛠 Ultilidades;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
+                        }
                     }
                 }
-            }
 
-            IUserMessage msg = context.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
-                        .WithDescription(StringCatch.GetString("cmdsNavegar", "Use as reações para navegar pelos comandos 👍"))
-                        .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", modulos))
-                        .WithImageUrl(StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
+                context.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle(StringCatch.GetString("comandosListaModulosTitle", "Lista dos Modulos:"))
+                        .WithDescription(StringCatch.GetString("comandosListaModulos", modulos))
                         .WithColor(Color.DarkPurple)
-                .Build()).GetAwaiter().GetResult();
-
-            foreach (Emoji emojo in menu)
-            {
-                msg.AddReactionAsync(emojo);
-                Thread.Sleep(475);
+                    .Build());
             }
-
-
-            args[1] = msg;
-            ReactionControler reaction = new ReactionControler();
-            args[2] = reaction;
-            reaction.GetReaction(msg, menu[0], context.User, new ReturnMethod(help, context, args));
-            reaction.GetReaction(msg, menu[1], context.User, new ReturnMethod(utilidade, context, args));
-            reaction.GetReaction(msg, menu[2], context.User, new ReturnMethod(moderacao, context, args));
-            reaction.GetReaction(msg, menu[3], context.User, new ReturnMethod(nsfw, context, args));
-            reaction.GetReaction(msg, menu[4], context.User, new ReturnMethod(weeb, context, args));
-            reaction.GetReaction(msg, menu[5], context.User, new ReturnMethod(img, context, args));
-            reaction.GetReaction(msg, menu[6], context.User, new ReturnMethod(customReaction, context, args));
-            reaction.GetReaction(msg, menu[7], context.User, new ReturnMethod(configuracoes, context, args));
-            if (menu.Count == 9)
-            {
-                reaction.GetReaction(msg, menu[8], context.User, new ReturnMethod(especial, context, args));
-            }
-
         }
 
         public void convite(CommandContext context, object[] args)
@@ -310,10 +274,23 @@ namespace Bot.Comandos
         {
             if (e is NullReferenceException || e is AmbiguousMatchException)
             {
-                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.Prefix)))
-                    .WithColor(Color.DarkPurple)
-                    .Build());
+                bool erroMsg = true;
+                if (!contexto.IsPrivate)
+                {
+                    ConfiguracoesServidor configuracoes = new ConfiguracoesServidor(new Servidores(contexto.Guild.Id), new ErroMsg());
+                    if(new ConfiguracoesServidorDAO().GetErrorMsg(ref configuracoes))
+                    {
+                        erroMsg = configuracoes.erroMsg.erroMsg;
+                    }
+                }
+
+                if (erroMsg)
+                {
+                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.Prefix)))
+                            .WithColor(Color.DarkPurple)
+                        .Build());
+                }
             }
             else
             {
