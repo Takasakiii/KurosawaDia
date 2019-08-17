@@ -1,4 +1,5 @@
 ﻿using Bot.Constantes;
+using Bot.Extensions;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
@@ -28,7 +29,7 @@ namespace Bot.Comandos
                     }
                 }
             }
-            getImg(context, imgs: imgs.ToArray(), nsfw: true);
+            new ImageExtensions().getImg(context, imgs: imgs.ToArray(), nsfw: true);
         }
 
         public void hentaibomb(CommandContext context, object[] args)
@@ -49,14 +50,14 @@ namespace Bot.Comandos
                     }
                 }
             }
-            getImg(context, img: links.hentai, nsfw: true, quantidade: 5);
+            new ImageExtensions().getImg(context, img: links.hentai, nsfw: true, quantidade: 5);
         }
 
         public void anal(CommandContext context, object[] args)
         {
             Links links = new Links();
 
-            getImg(context, img: links.anal, nsfw: true);
+            new ImageExtensions().getImg(context, img: links.anal, nsfw: true);
 
         }
     }
