@@ -2,7 +2,7 @@
 {
     public class Adms
     {
-        public enum PermissoesAdms { Donas };
+        public enum PermissoesAdms { Nada, Donas };
 
         public PermissoesAdms Permissoes { get; private set; }
         public Usuarios Usuario { get; private set; }

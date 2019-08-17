@@ -4,7 +4,6 @@ using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
-using static MainDatabaseControler.Modelos.Adms;
 using static MainDatabaseControler.Modelos.Servidores;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
@@ -19,10 +18,7 @@ namespace Bot.Comandos
                 Servidores servidor = new Servidores(context.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    Usuarios usuario = new Usuarios(context.User.Id, context.User.Username);
-                    Adms adm = new Adms(usuario);
-                    bool certo = new AdmsDAO().GetAdm(ref adm);
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == PermissoesAdms.Donas && certo))
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || new AdmsExtensions().GetAdm(new Usuarios(context.User.Id)).Item1)
                     {
                         Insultos insulto = new Insultos();
                         if (new InsultosDAO().GetInsulto(ref insulto))
@@ -82,10 +78,7 @@ namespace Bot.Comandos
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
                         Usuarios usuario = new Usuarios(context.User.Id, context.User.ToString());
-                        Adms adm = new Adms(usuario);
-                        bool certo = new AdmsDAO().GetAdm(ref adm);
-
-                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
+                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || new AdmsExtensions().GetAdm(usuario).Item1)
                         {
                             string[] comando = (string[])cmdArgs[1];
                             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
@@ -130,10 +123,8 @@ namespace Bot.Comandos
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
                         Usuarios usuario = new Usuarios(cmdContext.User.Id, cmdContext.User.ToString());
-                        Adms adm = new Adms(usuario);
-                        bool certo = new AdmsDAO().GetAdm(ref adm);
 
-                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || (adm.Permissoes == Adms.PermissoesAdms.Donas && certo))
+                        if (servidor.Permissoes == PermissoesServidores.ServidorPika || new AdmsExtensions().GetAdm(usuario).Item1)
                         {
                             string[] comando = (string[])cmdArgs[1];
                             try

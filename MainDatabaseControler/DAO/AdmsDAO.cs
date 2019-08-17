@@ -1,4 +1,6 @@
-﻿using MainDatabaseControler.Factory;
+﻿using ConfigurationControler.DAO;
+using ConfigurationControler.Modelos;
+using MainDatabaseControler.Factory;
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;

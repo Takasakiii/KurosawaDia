@@ -6,6 +6,12 @@
         public string Nome { get; private set; }
         public ulong Cod { get; private set; }
 
+        public Usuarios(ulong Id, ulong Cod = 0)
+        {
+            this.Id = Id;
+            this.Cod = Cod;
+        }
+
         public Usuarios(ulong Id, string Nome, ulong Cod = 0)
         {
             this.Id = Id;
