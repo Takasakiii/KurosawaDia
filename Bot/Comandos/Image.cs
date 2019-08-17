@@ -1,5 +1,6 @@
 ﻿using Bot.Constantes;
 using Bot.Extensions;
+using Bot.GenericTypes;
 using Discord;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
@@ -12,9 +13,14 @@ using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
-    public class Image : Moderacao
+    public class Image : GenericModule
     {
-        public void getImg(CommandContext context, string txt = "", Tuple<string, string> img = null, Tuple<string, string>[] imgs = null, bool nsfw = false, int quantidade = 1)
+        public Image(CommandContext contexto, object[] args) : base (contexto, args)
+        {
+
+        }
+
+        public void getImg(string txt = "", Tuple<string, string> img = null, Tuple<string, string>[] imgs = null, bool nsfw = false, int quantidade = 1)
         {
             new Thread(() =>
             {
@@ -40,16 +46,16 @@ namespace Bot.Comandos
 
                 if (!nsfw)
                 {
-                    context.Channel.SendMessageAsync(embed: embed.Build());
+                    contexto.Channel.SendMessageAsync(embed: embed.Build());
                 }
                 else
                 {
-                    ITextChannel canal = context.Channel as ITextChannel;
-                    if (context.IsPrivate || canal.IsNsfw)
+                    ITextChannel canal = contexto.Channel as ITextChannel;
+                    if (contexto.IsPrivate || canal.IsNsfw)
                     {
                         if (quantidade <= 1)
                         {
-                            context.Channel.SendMessageAsync(embed: embed.Build());
+                            contexto.Channel.SendMessageAsync(embed: embed.Build());
                         }
                         else
                         {
@@ -57,7 +63,7 @@ namespace Bot.Comandos
                             {
                                 int y = rand.Next(imgs.Length);
                                 embed.WithImageUrl(http.GetSite(imgs[i].Item1, imgs[i].Item2));
-                                context.Channel.SendMessageAsync(embed: embed.Build());
+                                contexto.Channel.SendMessageAsync(embed: embed.Build());
                             }
                         }
                     }
@@ -66,16 +72,16 @@ namespace Bot.Comandos
                         embed.WithImageUrl(null);
                         embed.WithColor(Color.Red);
                         embed.WithDescription(StringCatch.GetString("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", context.User.ToString()));
-                        context.Channel.SendMessageAsync(embed: embed.Build());
+                        contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                 }
             }).Start();
         }
 
-        public void cat(CommandContext context, object[] args)
+        public void cat()
         {
             Links links = new Links();
-            getImg(context, StringCatch.GetString("catTxt", "Meow"), links.cat);
+            getImg(contexto, StringCatch.GetString("catTxt", "Meow"), links.cat);
         }
 
         public void dog(CommandContext context, object[] args)
