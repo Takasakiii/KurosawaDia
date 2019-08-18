@@ -25,13 +25,13 @@ namespace Bot.Comandos
             new ImageExtensions().getImg(contexto, StringCatch.GetString("catTxt", "Meow"), links.cat);
         }
 
-        public void dog(CommandContext context, object[] args)
+        public void dog()
         {
             Links links = new Links();
-            new ImageExtensions().getImg(context, img: links.dog);
+            new ImageExtensions().getImg(contexto, img: links.dog);
         }
 
-        public void magikavatar(CommandContext context, object[] args)
+        public void magikavatar()
         {
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithColor(Color.DarkPurple);
@@ -39,9 +39,9 @@ namespace Bot.Comandos
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            if (!context.IsPrivate)
+            if (!contexto.IsPrivate)
             {
-                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
                 IUser user = null;
 
                 if (getUser.Item1 != null)
@@ -52,7 +52,7 @@ namespace Bot.Comandos
                 {
                     if (msg == "")
                     {
-                        user = context.User;
+                        user = contexto.User;
                     }
                     else
                     {
@@ -66,9 +66,9 @@ namespace Bot.Comandos
 
                 if (user != null)
                 {
-                    embed.WithDescription(StringCatch.GetString("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", context.User.ToString()));
+                    embed.WithDescription(StringCatch.GetString("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", contexto.User.ToString()));
                     embed.WithImageUrl(StringCatch.GetString(" agikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
-                    IUserMessage userMsg = context.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                    IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
@@ -84,7 +84,7 @@ namespace Bot.Comandos
                     {
                         userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", context.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -95,7 +95,7 @@ namespace Bot.Comandos
                 embed.WithDescription(StringCatch.GetString("magikavatarDm", "Eu so posso pegar o avatar de outras pessoas em um servidor"));
             }
 
-            context.Channel.SendMessageAsync(embed: embed.Build());
+            contexto.Channel.SendMessageAsync(embed: embed.Build());
 
         }
 
