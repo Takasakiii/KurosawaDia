@@ -144,7 +144,7 @@ namespace Bot.Comandos
 
         private void modulos()
         {
-            string modulos = "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
+            string modulos = StringCatch.GetString("modulosString", "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.");
 
             if (!contexto.IsPrivate)
             {
@@ -153,7 +153,7 @@ namespace Bot.Comandos
                 {
                     if (servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
-                        modulos = "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
+                        modulos = StringCatch.GetString("modulosStringEspecial", "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.");
                     }
                 }
             }
