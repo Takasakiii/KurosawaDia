@@ -1,4 +1,5 @@
 ﻿using Bot.Extensions;
+using Bot.Singletons;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -21,7 +22,7 @@ namespace Bot.Nucleo.Eventos
                 if(new ConfiguracoesServidorDAO().GetWelcomeMsg(ref configuracoes))
                 {
                     IMessageChannel channel = user.Guild.GetChannel(canal.Id) as IMessageChannel;
-                    StringVarsControler varsControler = new StringVarsControler(user);
+                    StringVarsControler varsControler = new StringVarsControler(new ICommandContext());
                     new EmbedControl().SendMessage(channel, varsControler.SubstituirVariaveis(configuracoes.bemvindo.bemvindoMsg));
                 }
             }

@@ -22,22 +22,18 @@ namespace Bot.Extensions
 
         private List<VarTypes> variaveis;
 
-        public StringVarsControler(CommandContext contexto)
+        public StringVarsControler(ICommandContext contexto)
         {
 
             variaveis = new List<VarTypes>();
 
             variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
             variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
-        }
-
-        public StringVarsControler(SocketGuildUser user)
-        {
-
-            variaveis = new List<VarTypes>();
-
-            variaveis.Add(new VarTypes("%user%", user.ToString()));
-            variaveis.Add(new VarTypes("%server%", user.Guild.Name));
+            variaveis.Add(new VarTypes("%id%", contexto.User.Id.ToString()));
+            variaveis.Add(new VarTypes("%avatar%", contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl()));
+            variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
+            variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
+            variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
         }
 
         public void AdicionarComplemento (VarTypes complemento)
