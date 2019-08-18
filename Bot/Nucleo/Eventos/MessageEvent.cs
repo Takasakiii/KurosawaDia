@@ -181,13 +181,15 @@ namespace Bot.Nucleo.Eventos
                                 StringVarsControler varsControler = new StringVarsControler(contexto);
                                 varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
                                 new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
-                                if (cargos != null)
+                                
+                            }
+
+                            if (cargos != null)
+                            {
+                                IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
+                                if (cargoganho != null)
                                 {
-                                    IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
-                                    if (cargoganho != null)
-                                    {
-                                        ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
-                                    }
+                                    ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
                                 }
                             }
                         }, contexto).EsperarOkDb();

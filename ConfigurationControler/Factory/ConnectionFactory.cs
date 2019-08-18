@@ -15,7 +15,7 @@ namespace ConfigurationControler.Factory
                 CriarDB();
             }
 
-            SqliteConnection conexao = new SqliteConnection($"Data Source={AppDomain.CurrentDomain.BaseDirectory}\\{DB.localDB}");
+            SqliteConnection conexao = new SqliteConnection($"Data Source={AppDomain.CurrentDomain.BaseDirectory}{DB.localDB}");
             conexao.Open();
             return conexao;
         }
