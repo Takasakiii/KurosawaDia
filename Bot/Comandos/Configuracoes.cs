@@ -123,7 +123,7 @@ namespace Bot.Comandos
                                         ativado = true;
                                         embed.WithDescription(StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
                                         embed.Fields.Clear();
-                                        embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1,0"));
+                                        embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1.0"));
                                         pergunta = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                                         sub = new SubCommandControler();
                                         msgresposta = sub.GetCommand(pergunta, contexto.User);
