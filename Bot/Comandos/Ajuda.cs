@@ -144,7 +144,7 @@ namespace Bot.Comandos
 
         private void modulos()
         {
-            string modulos = "❓ Ajuda;\n🛠 Ultilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
+            string modulos = "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.";
 
             if (!contexto.IsPrivate)
             {
@@ -153,7 +153,7 @@ namespace Bot.Comandos
                 {
                     if (servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
-                        modulos = "❓ Ajuda;\n🛠 Ultilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
+                        modulos = "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.";
                     }
                 }
             }
@@ -179,10 +179,10 @@ namespace Bot.Comandos
         private void utilidade()
         {
            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Ultilidades (🛠)"))
+                    .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Utilidade (🛠)"))
                     .WithDescription(StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg, `{0}sugestao`, `{0}perfil`", (string)args[0]))
+                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}perfil`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build());
         }
