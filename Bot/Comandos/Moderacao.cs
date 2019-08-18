@@ -33,6 +33,7 @@ namespace Bot.Comandos
              * (essa eh minha filosofia não en nada você que cria o significado de tudo)
              * 
              */
+             //Quem inventa é o inventor, segue o esperado pq vc não é inventor caralho
         }
 
         private void moderacao(int tipo) 
