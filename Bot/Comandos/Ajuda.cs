@@ -172,7 +172,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("helpModulo", "Modulo Ajuda (❓)"))
                     .WithDescription(StringCatch.GetString("helpInfo", "Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("helpCmdsTxt", "Comandos:"), StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`", (string)args[0]))
+                    .AddField(StringCatch.GetString("helpCmdsTxt", "Comandos:"), StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`, `{0}convite`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("helpImg", "https://i.imgur.com/XQTVJu9.jpg"))
                 .Build());
         }
@@ -182,7 +182,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Ultilidades (🛠)"))
                     .WithDescription(StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`", (string)args[0]))
+                    .AddField(StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg, `{0}sugestao`, `{0}perfil`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build());
         }
@@ -213,7 +213,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(StringCatch.GetString("weebInfo", "Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("weebCmdsTxt", "Comandos:"), StringCatch.GetString("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`", (string)args[0]))
+                    .AddField(StringCatch.GetString("weebCmdsTxt", "Comandos:"), StringCatch.GetString("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build());
         }
@@ -223,7 +223,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
                     .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}magikavatar`, `{0}magik`, `{0}fuck`", (string)args[0]))
+                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}fuck`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("imgsImg", "https://i.imgur.com/cQqTUl1.png"))
                 .Build());
 
@@ -245,7 +245,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("configsModulo", "Modulo Configurações (⚙)"))
                     .WithDescription(StringCatch.GetString("ConfigsInfo", "Em configurações você define preferencias de como agirei em seu servidor. \n\nTenho certeza que podemos ficar mais intimos assim 😄"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("configsCmdsTxt", "Comandos:"), StringCatch.GetString("configsCmds", "`{0}setprefix`", (string)args[0]))
+                    .AddField(StringCatch.GetString("configsCmdsTxt", "Comandos:"), StringCatch.GetString("configsCmds", "`{0}setprefix`, `{0}piconf`, `{0}welcomech`, `{0}byech`, `{0}picargo`, `{0}welcomemsg`, `{0}byemsg`, `{0}erromsg`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("configsImg", "https://i.imgur.com/vVBOIB2.gif"))
                 .Build());
         }
