@@ -13,6 +13,8 @@ namespace Bot.Nucleo.Eventos
     {
         public Task UserLeft(SocketGuildUser user)
         {
+
+
             Canais canal = new Canais(new Servidores(user.Guild.Id), TiposCanais.sairCh);
             if (new CanaisDAO().GetCh(ref canal))
             {

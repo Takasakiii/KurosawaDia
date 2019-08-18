@@ -22,7 +22,7 @@ namespace Bot.Extensions
 
         private List<VarTypes> variaveis;
 
-        public StringVarsControler(ICommandContext contexto)
+        public StringVarsControler(CommandContext contexto)
         {
 
             variaveis = new List<VarTypes>();
