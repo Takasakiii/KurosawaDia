@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,19 @@ namespace Bot.Extensions
             variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
             variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
             variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
+        }
+
+        public StringVarsControler(SocketGuildUser user)
+        {
+
+            variaveis = new List<VarTypes>();
+
+            variaveis.Add(new VarTypes("%user%", user.ToString()));
+            variaveis.Add(new VarTypes("%server%", user.Guild.Name));
+            variaveis.Add(new VarTypes("%id%", user.Id.ToString()));
+            variaveis.Add(new VarTypes("%avatar%", user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl()));
+            variaveis.Add(new VarTypes("%idservidor%", user.Guild.Id.ToString()));
+            variaveis.Add(new VarTypes("%usermention%", user.Mention));
         }
 
         public void AdicionarComplemento (VarTypes complemento)
