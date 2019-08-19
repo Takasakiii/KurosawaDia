@@ -23,7 +23,7 @@ namespace Bot
             DiaConfig config = new DiaConfigDAO().Carregar();
             
 
-            SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageRecived;
+            SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
             SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
             SingletonClient.client.Log += new Log().LogTask;
             SingletonClient.client.Ready += new ReadyEvent().Ready;
