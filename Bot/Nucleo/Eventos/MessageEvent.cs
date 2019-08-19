@@ -31,7 +31,7 @@ namespace Bot.Nucleo.Eventos
             this.modulesConcat = modulesConcat;
         }
 
-        public Task MessageRecived(SocketMessage mensagem)
+        public Task MessageReceived(SocketMessage mensagem)
         {
             CriarSessaoComandos(mensagem);
             return Task.CompletedTask;
