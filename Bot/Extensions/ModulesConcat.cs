@@ -8,25 +8,38 @@ namespace Bot.Extensions
 {
     public class ModulesConcat<T>
     {
+        private struct Modulos
+        {
+            public int ClasseIndex { get; private set; }
+            public MethodInfo Metodo { get; private set; }
 
+            public Modulos(int classeIndex, MethodInfo metodo)
+            {
+                ClasseIndex = classeIndex;
+                Metodo = metodo;
+            }
+        } 
 
-        private List<Tuple<MethodInfo, Type>> MethodsModules;
+        private Modulos[] MethodsModules;
+        private Type[] Classes;
         private object[] Args;
 
 
         public ModulesConcat()
         {
-            Type[] tiposClasses = Assembly.GetAssembly(typeof(T)).GetTypes().Where(meutipo => meutipo.IsClass && !meutipo.IsAbstract && meutipo.IsSubclassOf(typeof(T))).ToArray();
+            Classes = Assembly.GetAssembly(typeof(T)).GetTypes().Where(meutipo => meutipo.IsSubclassOf(typeof(T)) && meutipo.IsClass && !meutipo.IsAbstract).ToArray();
 
 
-            MethodsModules = new List<Tuple<MethodInfo, Type>>();
-            for(int i = 0; i < tiposClasses.Length; i++)
+            List<Modulos> temp = new List<Modulos>();
+            for(int i = 0; i < Classes.Length; i++)
             {
-                MethodInfo[] metodos = tiposClasses[i].GetMethods();
+                MethodInfo[] metodos = Classes[i].GetMethods();
                 for(int j = 0; j < metodos.Length; j++)
                 {
-                    MethodsModules.Add(Tuple.Create(metodos[j], tiposClasses[i]));
+                    temp.Add(new Modulos(i, metodos[j]));
                 }
+
+                MethodsModules = temp.ToArray();
             }
             
         } 
@@ -38,9 +51,9 @@ namespace Bot.Extensions
 
         public void InvokeMethod(string metodo, params object[] argumentosMetodo)
         {
-            int index = MethodsModules.FindIndex(x => x.Item1.Name == metodo);
-            object instanced = Activator.CreateInstance(MethodsModules[index].Item2, Args);
-            MethodsModules[index].Item1.Invoke(instanced, argumentosMetodo);
+            Modulos temp = Array.Find(MethodsModules, x => x.Metodo.Name == metodo);
+            object instanced = Activator.CreateInstance(Classes[temp.ClasseIndex], Args);
+            temp.Metodo.Invoke(instanced, argumentosMetodo);
         } 
     }
 }
