@@ -197,7 +197,7 @@ insert into Tipos_Canais values (0, "Bem Vindo (bemvindoCh)");
 insert into Tipos_Canais values (1, "Sair (sairCh)");
 
 create table Canais (
-	cod bigint not null auto_increment,
+    cod bigint not null auto_increment,
     cod_Tipos_Canais bigint not null,
     nome varchar(255) not null,
     id bigint not null,
@@ -251,7 +251,7 @@ create procedure GetCh (
 	in _tipo_canal bigint,
     in _id_servidor bigint
 ) begin 
-	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, Servidores.id_servidor, Servidores.nome_servidor from Canais join Servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$
 delimiter ;
 create table Tipos_Cargos(
@@ -321,7 +321,6 @@ create procedure AdicionarAtualizarCargoIP(
 end$$
 
 
-
 delimiter ;
 create table ConfiguracoesServidores(
 	cod bigint not null auto_increment,
@@ -344,7 +343,7 @@ create function verificarConfig(
 		_codServidor int
 ) returns int begin
 	declare _return int;
-    set _return = (select count(cod) from configuracoesservidores where cod_servidor = _codServidor);
+    set _return = (select count(cod) from ConfiguracoesServidores where cod_servidor = _codServidor);
     return _return;
 end$$
 
@@ -352,7 +351,7 @@ create procedure criarConfig(
 	in _codServidor int
 ) begin
 	if((select verificarConfig(_codServidor)) = 0) then
-		insert into configuracoesservidores (cod_servidor) values (_codServidor);
+		insert into ConfiguracoesServidores (cod_servidor) values (_codServidor);
 	end if;
 end$$
 
@@ -363,7 +362,7 @@ create procedure getErrorMessage (
     set _cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
     
     if((select verificarConfig(_cod_servidor)) <> 0) then
-		select configuracoesservidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = _cod_servidor;
+		select ConfiguracoesServidores.msgError from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor = _cod_servidor;
     else
 		select true as msgError;
     end if;
@@ -376,7 +375,7 @@ create procedure SetErroMsg (
 	declare _codServidor int;
 	set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
 	call criarConfig(_codServidor);
-    update configuracoesservidores set msgError = _erroMsg where cod_servidor = _codServidor;
+    update ConfiguracoesServidores set msgError = _erroMsg where cod_servidor = _codServidor;
 end$$
 
 create procedure SetWelcomeMsg(
@@ -386,7 +385,7 @@ create procedure SetWelcomeMsg(
 	declare _codServidor int;
     set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
     call criarConfig(_codServidor);
-    update configuracoesservidores set bemvindoMsg = _bemvindoMsg where cod_servidor = _codServidor;
+    update ConfiguracoesServidores set bemvindoMsg = _bemvindoMsg where cod_servidor = _codServidor;
 end$$
 
 create procedure SetGoodBye(
@@ -396,19 +395,19 @@ create procedure SetGoodBye(
 	declare _codServidor int;
     set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
     call criarConfig(_codServidor);
-    update configuracoesservidores set sairMsg = _msg where cod_servidor = _codServidor;
+    update ConfiguracoesServidores set sairMsg = _msg where cod_servidor = _codServidor;
 end$$
     
 create procedure GetWelcomeMsg(
 	in _idServidor bigint
 ) begin
-	select bemvindoMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+	select bemvindoMsg from ConfiguracoesServidores where ConfiguracoesServidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
 end$$
 
 create procedure GetByeMsg(
 	in _idServidor bigint
 ) begin
-	select sairMsg from configuracoesservidores where configuracoesservidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+	select sairMsg from ConfiguracoesServidores where ConfiguracoesServidores.Cod_servidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
 end$$
 delimiter ;
 CREATE TABLE Fuck (
@@ -479,11 +478,11 @@ end$$
 delimiter ;
 create table PontosInterativos (
 	cod bigint not null auto_increment,
-    servidores_usuarios_servidor int not null,
-    servidores_usuarios_usuario int not null,
+    Servidores_Usuarios_servidor int not null,
+    Servidores_Usuarios_usuario int not null,
     PI bigint not null default 1,
     fragmentosPI bigint not null default 0,
-    foreign key (servidores_usuarios_servidor, servidores_usuarios_usuario) references servidores_usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
+    foreign key (Servidores_Usuarios_servidor, Servidores_Usuarios_usuario) references Servidores_Usuarios(Servidores_codigo_servidor, Usuarios_codigo_usuario),
     primary key (cod)
 );
 
@@ -497,12 +496,12 @@ create procedure configurePI(
 	declare _cod int;
     set _cod = (select codigo_servidor from Servidores where id_servidor = _idServidor);
     call criarConfig(_cod);
-    update configuracoesservidores set PIConf = _piconf where cod_servidor = _cod;
-    update configuracoesservidores set PIrate = _pirate where cod_servidor = _cod;
+    update ConfiguracoesServidores set PIConf = _piconf where cod_servidor = _cod;
+    update ConfiguracoesServidores set PIrate = _pirate where cod_servidor = _cod;
     if (_msgPiup <> "") then
-		update configuracoesservidores set MsgPIUp = _msgPiup where cod_servidor = _cod;
+		update ConfiguracoesServidores set MsgPIUp = _msgPiup where cod_servidor = _cod;
 	else
-		update configuracoesservidores set MsgPIUp = NULL where cod_servidor = _cod;
+		update ConfiguracoesServidores set MsgPIUp = NULL where cod_servidor = _cod;
 	end if;
 end$$
 
@@ -511,7 +510,7 @@ create function verificarPI(
     _codUsuario int
 ) returns int begin
 	declare _return int;
-    set _return = (select count(cod) from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
+    set _return = (select count(cod) from PontosInterativos where Servidores_Usuarios_servidor = _codServidor and Servidores_Usuarios_usuario = _codUsuario);
     return _return;
 end$$
 
@@ -520,7 +519,7 @@ create procedure CriarPI(
 	in _codUsuario int
 ) begin
 	if((select verificarPI(_codServidor, _codUsuario)) = 0) then
-		insert into pontosinterativos (servidores_usuarios_servidor, servidores_usuarios_usuario) values (_codServidor, _codUsuario);
+		insert into PontosInterativos (Servidores_Usuarios_servidor, Servidores_Usuarios_usuario) values (_codServidor, _codUsuario);
 	end if;
 end$$
 	
@@ -533,13 +532,13 @@ create procedure LevelUP(
     declare _fragmento bigint;
     declare _levelAtual int;
     declare _cargoID bigint;
-    set _multi = (select PIrate from configuracoesservidores where cod_servidor = _codServidor);
-    set _fragmento = (select fragmentosPI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
-    set _levelAtual = (select pontosinterativos.PI from pontosinterativos where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario);
+    set _multi = (select PIrate from ConfiguracoesServidores where cod_servidor = _codServidor);
+    set _fragmento = (select fragmentosPI from PontosInterativos where Servidores_Usuarios_servidor = _codServidor and Servidores_Usuarios_usuario = _codUsuario);
+    set _levelAtual = (select PontosInterativos.PI from PontosInterativos where Servidores_Usuarios_servidor = _codServidor and Servidores_Usuarios_usuario = _codUsuario);
     if(_fragmento >= (_levelAtual * (_multi * 10))) then
-		update pontosinterativos set pontosinterativos.PI = (pontosinterativos.PI + 1), fragmentosPI = 0 where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+		update PontosInterativos set PontosInterativos.PI = (PontosInterativos.PI + 1), fragmentosPI = 0 where Servidores_Usuarios_servidor = _codServidor and Servidores_Usuarios_usuario = _codUsuario;
         set _cargoID = (select id from Cargos where cod_Tipos_Cargos = 2 and codigo_Servidores = _codServidor and requesito = _levelAtual);
-        select true as Upou, _levelAtual as LevelAtual, MsgPIUp, _cargoID as CargoID from configuracoesservidores where cod_servidor = _codServidor;
+        select true as Upou, _levelAtual as LevelAtual, MsgPIUp, _cargoID as CargoID from ConfiguracoesServidores where cod_servidor = _codServidor;
 	else
 		select false as Upou;
 	end if;
@@ -552,10 +551,28 @@ create procedure AddPI(
 	declare _codServidor int;
     declare _codUsuario int;
     set _codServidor = (select codigo_servidor from Servidores where id_servidor = _idServidor);
-    if((select verificarConfig (_codServidor)) > 0 and (select PIConf from configuracoesservidores where cod_servidor = _codServidor)) then
+    if((select verificarConfig (_codServidor)) > 0 and (select PIConf from ConfiguracoesServidores where cod_servidor = _codServidor)) then
 		set _codUsuario = (select codigo_usuario from Usuarios where id_usuario = _idUsuario);
 		call CriarPI(_codServidor, _codUsuario);
-        update pontosinterativos set fragmentosPI = (fragmentosPI + 1) where servidores_usuarios_servidor = _codServidor and servidores_usuarios_usuario = _codUsuario;
+        update PontosInterativos set fragmentosPI = (fragmentosPI + 1) where Servidores_Usuarios_servidor = _codServidor and Servidores_Usuarios_usuario = _codUsuario;
         call LevelUP(_codServidor, _codUsuario);
 	end if;
 end$$
+
+create procedure GetPiInfo (
+	in _idUsuario bigint,
+    in _idServidor bigint
+) begin 
+	declare _codServidor int;
+    declare _codUsuario int;
+	declare _pontos bigint;
+    set _codServidor = (select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _idServidor);
+    set _codUsuario = (select Usuarios.codigo_usuario from Usuarios where Usuarios.id_usuario = _idUsuario);
+    
+    if((select verificarConfig(_codServidor)) > 0 and (select PIconf from ConfiguracoesServidores where cod_servidor = _codServidor)) then
+        set _pontos = ((select PontosInterativos.PI from PontosInterativos where PontosInterativos.Servidores_Usuarios_servidor = _codServidor and PontosInterativos.Servidores_Usuarios_usuario = _codUsuario) * 10 * (select ConfiguracoesServidores.PIrate from ConfiguracoesServidores where ConfiguracoesServidores.cod_servidor =  (select Servidores_Usuarios_servidor from PontosInterativos where PontosInterativos.Servidores_Usuarios_servidor = _codServidor and PontosInterativos.Servidores_Usuarios_usuario = _codUsuario)));
+		select PontosInterativos.PI, PontosInterativos.fragmentosPI, _pontos as Total, cod from PontosInterativos where PontosInterativos.Servidores_Usuarios_servidor = _codServidor and PontosInterativos.Servidores_Usuarios_usuario = _codUsuario;
+    end if;
+end$$
+
+call GetPiInfo(368280970102833153, 556580866198077451)$$
