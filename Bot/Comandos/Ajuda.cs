@@ -262,7 +262,7 @@ namespace Bot.Comandos
 
         public void MessageEventExceptions(Exception e, Servidores servidor)
         {
-            if (e is ArgumentOutOfRangeException)
+            if (e is NullReferenceException)
             {
                 bool erroMsg = true;
                 if (!contexto.IsPrivate)
