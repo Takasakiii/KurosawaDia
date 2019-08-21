@@ -77,20 +77,17 @@ namespace Bot.Extensions
 
     public class ReturnMethod
     {
-        public Action<CommandContext, object[]> methodResult { private set; get; }
-        public CommandContext command { private set; get; }
-        public object[] args { private set; get; }
+        public Action methodResult { private set; get; }
 
-        public ReturnMethod(Action<CommandContext, object[]> methodResult, CommandContext command, object[] args)
+
+        public ReturnMethod(Action methodResult)
         {
             this.methodResult = methodResult;
-            this.command = command;
-            this.args = args;
         }
 
         public void Invoke()
         {
-            methodResult.Invoke(command, args);
+            methodResult.Invoke();
         }
     }
 

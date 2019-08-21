@@ -1,4 +1,5 @@
 ﻿using Bot.Extensions;
+using Bot.GenericTypes;
 using ConfigurationControler.DAO;
 using Discord;
 using Discord.Commands;
@@ -10,9 +11,14 @@ using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
-    public class Weeb : Ajuda
+    public class Weeb : GenericModule
     {
-        private void weeb(CommandContext context, object[] args, string tipo, string msg, bool auto = true) //separa o object carai
+        public Weeb(CommandContext contexto, object[] args) : base (contexto, args)
+        {
+
+        }
+
+        private void weeb(string tipo, string msg, bool auto = true)
         {
             var apiConfig = new ApisConfigDAO().Carregar();
 
@@ -26,24 +32,24 @@ namespace Bot.Comandos
 
             if (auto)
             {
-                if (!context.IsPrivate)
+                if (!contexto.IsPrivate)
                 {
                     string[] comando = (string[])args[1];
                     string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
 
                     UserExtensions userExtensions = new UserExtensions();
-                    Tuple<IUser, string> getUser = userExtensions.GetUser(context.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+                    Tuple<IUser, string> getUser = userExtensions.GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
 
                     string user = "";
-                    string author = userExtensions.GetNickname(context.User, !context.IsPrivate);
+                    string author = userExtensions.GetNickname(contexto.User, !contexto.IsPrivate);
 
-                    if (getUser.Item1 == null || getUser.Item1 == context.User)
+                    if (getUser.Item1 == null || getUser.Item1 == contexto.User)
                     {
                         user = StringCatch.GetString("weebSelf", "ele(a) mesmo");
                     }
                     else
                     {
-                        user = userExtensions.GetNickname(getUser.Item1, !context.IsPrivate);
+                        user = userExtensions.GetNickname(getUser.Item1, !contexto.IsPrivate);
                     }
 
                     embed.WithTitle($"{author} {msg} {user}");
@@ -60,57 +66,57 @@ namespace Bot.Comandos
                 embed.WithTitle(msg);
             }
 
-            context.Channel.SendMessageAsync(embed: embed.Build());
+            contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
-        public void hug(CommandContext context, object[] args)
+        public void hug()
         {
-            weeb(context, args, "hug", StringCatch.GetString("hugTxt", "esta abraçando"));
+            weeb("hug", StringCatch.GetString("hugTxt", "esta abraçando"));
         }
 
-        public void kiss(CommandContext context, object[] args)
+        public void kiss()
         {
-            weeb(context, args, "kiss", StringCatch.GetString("kissTxt", "esta beijando"));
+            weeb("kiss", StringCatch.GetString("kissTxt", "esta beijando"));
         }
 
-        public void slap(CommandContext context, object[] args)
+        public void slap()
         {
-            weeb(context, args, "slap", StringCatch.GetString("slapTxt", "esta dando um tapa no"));
+            weeb("slap", StringCatch.GetString("slapTxt", "esta dando um tapa no"));
         }
 
-        public void punch(CommandContext context, object[] args)
+        public void punch()
         {
-            weeb(context, args, "punch", StringCatch.GetString("punchTxt", "esta dando um soco no"));
+            weeb("punch", StringCatch.GetString("punchTxt", "esta dando um soco no"));
         }
 
-        public void lick(CommandContext context, object[] args)
+        public void lick()
         {
-            weeb(context, args, "lick", StringCatch.GetString("lickTxt", "esta lambendo o"));
+            weeb("lick", StringCatch.GetString("lickTxt", "esta lambendo o"));
         }
 
-        public void cry(CommandContext context, object[] args)
+        public void cry()
         {
-            weeb(context, args, "cry", StringCatch.GetString("cryTxt", "esta chorando com"));
+            weeb("cry", StringCatch.GetString("cryTxt", "esta chorando com"));
         }
 
-        public void megumin(CommandContext context, object[] args)
+        public void megumin()
         {
-            weeb(context, args, "megumin", StringCatch.GetString("meguminTxt", "Megumin ❤"), false);
+            weeb("megumin", StringCatch.GetString("meguminTxt", "Megumin ❤"), false);
         }
 
-        public void rem(CommandContext context, object[] args)
+        public void rem()
         {
-            weeb(context, args, "rem", StringCatch.GetString("remTxt", "rem ❤"), false);
+            weeb("rem", StringCatch.GetString("remTxt", "rem ❤"), false);
         }
 
-        public void pat(CommandContext context, object[] args)
+        public void pat()
         {
-            weeb(context, args, "pat", StringCatch.GetString("patTxt", "esta fazendo carinho no"));
+            weeb("pat", StringCatch.GetString("patTxt", "esta fazendo carinho no"));
         }
 
-        public void dance(CommandContext context, object[] args)
+        public void dance()
         {
-            weeb(context, args, "dance", StringCatch.GetString("danceTx", "{0} começou a dançar", new UserExtensions().GetNickname(context.User, !context.IsPrivate)), false);
+            weeb("dance", StringCatch.GetString("danceTx", "{0} começou a dançar", new UserExtensions().GetNickname(contexto.User, !contexto.IsPrivate)), false);
         }
     }
 }

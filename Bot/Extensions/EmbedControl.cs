@@ -52,16 +52,16 @@ namespace Bot.Extensions
             return Tuple.Create(embed.plainText, construtor.Build());
         }
 
-        public void SendMessage(CommandContext contexto, string valor)
+        public void SendMessage(IMessageChannel canal, string valor)
         {
             try
             {
                 var embed = CriarEmbedJson(valor);
-                contexto.Channel.SendMessageAsync(text: embed.Item1, embed: embed.Item2);
+                canal.SendMessageAsync(text: embed.Item1, embed: embed.Item2).GetAwaiter().GetResult();
             }
             catch
             {
-                contexto.Channel.SendMessageAsync(valor);
+                canal.SendMessageAsync(valor).GetAwaiter().GetResult();
             }
         }
     }

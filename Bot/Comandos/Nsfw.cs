@@ -1,54 +1,69 @@
-﻿using Bot.DataBase.MainDB.DAO;
-using Bot.DataBase.MainDB.Modelos;
+﻿using Bot.Constantes;
+using Bot.Extensions;
+using Bot.GenericTypes;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
+using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
-    public class Nsfw : Image
+    public class Nsfw : GenericModule
     {
-        public void hentai(CommandContext context, object[] args)
+        public Nsfw(CommandContext contexto, object[] args) : base (contexto, args)
         {
+
+        }
+
+        public void hentai()
+        {
+            Links links = new Links();
+
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
-            if (!context.IsPrivate)
+            if (!contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(context.Guild.Id);
+                Servidores servidor = new Servidores(contexto.Guild.Id);
                 if(new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    if(servidor.permissoes == Servidores.Permissoes.LolisEdition || servidor.permissoes == Servidores.Permissoes.ServidorPika)
+                    if(servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
                     }
                 }
             }
-            getImg(context, imgs: imgs.ToArray(), nsfw: true);
+            new ImageExtensions().getImg(contexto, imgs: imgs.ToArray(), nsfw: true);
         }
 
-        public void hentaibomb(CommandContext context, object[] args)
+        public void hentaibomb()
         {
+            Links links = new Links();
+
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
-            if (!context.IsPrivate)
+            if (!contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(context.Guild.Id);
+                Servidores servidor = new Servidores(contexto.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
-                    if (servidor.permissoes == Servidores.Permissoes.LolisEdition || servidor.permissoes == Servidores.Permissoes.ServidorPika)
+                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
                     }
                 }
             }
-            getImg(context, img: links.hentai, nsfw: true, quantidade: 5);
+            new ImageExtensions().getImg(contexto, img: links.hentai, nsfw: true, quantidade: 5);
         }
 
-        public void anal(CommandContext context, object[] args)
+        public void anal()
         {
-            getImg(context, img: links.anal, nsfw: true);
+            Links links = new Links();
+
+            new ImageExtensions().getImg(contexto, img: links.anal, nsfw: true);
 
         }
     }
