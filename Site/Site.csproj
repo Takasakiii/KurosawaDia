@@ -102,6 +102,8 @@
     <Content Include="css\main.css" />
     <Content Include="imgs\icon.ico" />
     <Content Include="index.aspx" />
+    <Content Include="pags\convite.aspx" />
+    <Content Include="pags\servidor.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +113,20 @@
     </Compile>
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pags\convite.aspx.cs">
+      <DependentUpon>convite.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pags\convite.aspx.designer.cs">
+      <DependentUpon>convite.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pags\servidor.aspx.cs">
+      <DependentUpon>servidor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pags\servidor.aspx.designer.cs">
+      <DependentUpon>servidor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
