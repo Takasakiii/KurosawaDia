@@ -21,13 +21,17 @@ namespace Bot.Extensions
             ThreadLife = false;
         }
 
-        public IMessage GetCommand(IMessage msgPrimaria, IUser usuario, int tempoAnalise = 60)
+        public IMessage GetCommand(IMessage msgPrimaria, IUser usuario, int tempoAnalise = 60, Action timeOutAction = null)
         {
             IMessage retorno = null;
             new Thread(() =>
             {
                 Thread.Sleep(tempoAnalise * 1000);
                 DesligarCommand();
+                if(timeOutAction != null)
+                {
+                    timeOutAction.Invoke();
+                }
             }).Start();
             do
             {
