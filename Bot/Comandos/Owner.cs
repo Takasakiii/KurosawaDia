@@ -33,6 +33,11 @@ namespace Bot.Comandos
                     .Build());
 
             }
+            else
+            {
+                Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
+                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+            }
         }
 
         public void setespecial()
@@ -69,6 +74,11 @@ namespace Bot.Comandos
                             .WithColor(Color.DarkPurple)
                          .Build());
                     }
+                }
+                else
+                {
+                    Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
+                    new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
                 }
             }, contexto).EsperarOkDb();
         }
@@ -199,6 +209,11 @@ namespace Bot.Comandos
                 contexto.Channel.SendMessageAsync(embed: embed.Build());
 
             }
+            else
+            {
+                Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
+                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+            }
         }
 
         public void setadm()
@@ -239,6 +254,11 @@ namespace Bot.Comandos
                             .WithColor(Color.Red)
                         .Build());
                 }
+            }
+            else
+            {
+                Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
+                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
             }
         }
     }
