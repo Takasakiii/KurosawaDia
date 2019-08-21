@@ -98,4 +98,3 @@ create procedure GetPiInfo (
     end if;
 end$$
 
-call GetPiInfo(368280970102833153, 556580866198077451)$$
