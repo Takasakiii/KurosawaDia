@@ -183,7 +183,7 @@ namespace Bot.Comandos
                         contexto.Message.DeleteAsync().GetAwaiter().GetResult();
                     }
 
-                    new EmbedControl().SendMessage(contexto.Channel, msg);
+                    new EmbedControl().SendMessage(contexto.Channel, new StringVarsControler(contexto).SubstituirVariaveis(msg));
                 }
                 else
                 {
