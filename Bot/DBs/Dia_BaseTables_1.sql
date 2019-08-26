@@ -92,7 +92,7 @@ create procedure DefinirTipoServidor(
     in _tipoServidor int
 ) begin
 	update Servidores set especial_servidor = _tipoServidor where id_servidor = _id;
-    if((select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id) != 0) then
+    if((select Servidores.especial_servidor from Servidores where Servidores.id_servidor = _id) = _tipoServidor) then
 		select true as Result;
 	else
 		select false as Result;

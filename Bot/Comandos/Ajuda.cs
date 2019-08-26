@@ -50,6 +50,7 @@ namespace Bot.Comandos
                 switch (msg.ToLowerInvariant())
                 {
                     case "ajuda":
+                    case "help":
                         help();
                         break;
                     case "utilidade":
@@ -66,6 +67,7 @@ namespace Bot.Comandos
                         weeb();
                         break;
                     case "imagens":
+                    case "imgs":
                         img();
                         break;
                     case "reações customizadas":
@@ -219,11 +221,23 @@ namespace Bot.Comandos
         }
         private void img()
         {
+            string cmds = StringCatch.GetString("imgCmdsNormais", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]);
+            if (!contexto.IsPrivate)
+            {
+                Servidores servidor = new Servidores(contexto.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
+                    {
+                        cmds = StringCatch.GetString("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`", (string)args[0]);
+                    }
+                }
+            }
             contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
                     .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]))
+                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), cmds)
                     .WithImageUrl(StringCatch.GetString("imgsImg", "https://i.imgur.com/cQqTUl1.png"))
                 .Build());
 

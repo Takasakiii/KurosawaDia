@@ -3,8 +3,11 @@ using Bot.Extensions;
 using Bot.GenericTypes;
 using Discord;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using System.Linq;
+using static MainDatabaseControler.Modelos.Servidores;
 
 namespace Bot.Comandos
 {
@@ -154,6 +157,27 @@ namespace Bot.Comandos
             contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
-
+        public void loli()
+        {
+            if (!contexto.IsPrivate)
+            {
+                Servidores servidor = new Servidores(contexto.Guild.Id);
+                if(new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if(servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+                    {
+                        Links links = new Links();
+                        new ImageExtensions().getImg(contexto, img: links.loli);
+                    }
+                    else
+                    {
+                        if (new ServidoresDAO().GetPrefix(ref servidor))
+                        {
+                            new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
