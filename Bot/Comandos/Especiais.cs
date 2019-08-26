@@ -22,7 +22,7 @@ namespace Bot.Comandos
         {
             if (!contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
+                Servidores servidor = new Servidores(contexto.Guild.Id, ((string)args[0]).ToCharArray());
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
                     if (servidor.Permissoes == PermissoesServidores.ServidorPika || new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
@@ -69,7 +69,10 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                        if (new ServidoresDAO().GetPrefix(ref servidor))
+                        {
+                            new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                        }
                     }
                 }
             }
@@ -81,7 +84,7 @@ namespace Bot.Comandos
             {
                 if (!contexto.IsPrivate)
                 {
-                    Servidores servidor = new Servidores(contexto.Guild.Id);
+                    Servidores servidor = new Servidores(contexto.Guild.Id, ((string)args[0]).ToCharArray());
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
                         Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString());
@@ -113,7 +116,10 @@ namespace Bot.Comandos
                         }
                         else
                         {
-                            new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                            if (new ServidoresDAO().GetPrefix(ref servidor))
+                            {
+                                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                            }
                         }
                     }
                 }
@@ -126,7 +132,7 @@ namespace Bot.Comandos
             {
                 if (!contexto.IsPrivate)
                 {
-                    Servidores servidor = new Servidores(contexto.Guild.Id);
+                    Servidores servidor = new Servidores(contexto.Guild.Id, ((string)args[0]).ToCharArray());
                     if (new ServidoresDAO().GetPermissoes(ref servidor))
                     {
                         Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString());
@@ -167,11 +173,17 @@ namespace Bot.Comandos
                             }
 
                         }
+                        else
+                        {
+                            if (new ServidoresDAO().GetPrefix(ref servidor))
+                            {
+                                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                            }
+                        }
                     }
                 }
             }, contexto).EsperarOkDb();
         }
-
 
     }
 }

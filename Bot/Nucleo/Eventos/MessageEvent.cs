@@ -55,7 +55,7 @@ namespace Bot.Nucleo.Eventos
             if (!contexto.User.IsBot)
             {
                 CadastrarServidorUsuarioAsync(contexto);
-                PIEvent(contexto);
+                new Utility(contexto, null).PIEvent();
                 Servidores servidores = PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
@@ -158,45 +158,7 @@ namespace Bot.Nucleo.Eventos
             }
         }
 
-        private void PIEvent(CommandContext contexto)
-        {
-            if (!contexto.IsPrivate)
-            {
-                new Thread(() =>
-                {
-                    SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
-                    if (botRepresentacao.GuildPermissions.ManageRoles)
-                    {
-                        new BotCadastro(() =>
-                        {
-                            Servidores server = new Servidores(Id: contexto.Guild.Id, Nome: contexto.Guild.Name);
-                            Usuarios usuario = new Usuarios(contexto.User.Id, contexto.User.ToString(), 0);
-                            Servidores_Usuarios servidores_Usuarios = new Servidores_Usuarios(server, usuario);
-                            PontosInterativos pontos = new PontosInterativos(servidores_Usuarios, 0);
-                            PI pI;
-                            Cargos cargos;
-                            PontosInterativosDAO dao = new PontosInterativosDAO();
-                            if (dao.AdicionarPonto(ref pontos, out pI, out cargos))
-                            {
-                                StringVarsControler varsControler = new StringVarsControler(contexto);
-                                varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%pontos%", pontos.PI.ToString()));
-                                new EmbedControl().SendMessage(contexto.Channel, varsControler.SubstituirVariaveis(pI.MsgPIUp));
-                                
-                            }
-
-                            if (cargos != null)
-                            {
-                                IRole cargoganho = contexto.Guild.Roles.ToList().Find(x => x.Id == cargos.Id);
-                                if (cargoganho != null)
-                                {
-                                    ((IGuildUser)contexto.User).AddRoleAsync(cargoganho);
-                                }
-                            }
-                        }, contexto).EsperarOkDb();
-                    }
-                }).Start();
-            }
-        }
+        
 
         
     }

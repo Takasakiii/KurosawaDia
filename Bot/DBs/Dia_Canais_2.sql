@@ -10,7 +10,7 @@ insert into Tipos_Canais values (0, "Bem Vindo (bemvindoCh)");
 insert into Tipos_Canais values (1, "Sair (sairCh)");
 
 create table Canais (
-	cod bigint not null auto_increment,
+    cod bigint not null auto_increment,
     cod_Tipos_Canais bigint not null,
     nome varchar(255) not null,
     id bigint not null,
@@ -64,5 +64,5 @@ create procedure GetCh (
 	in _tipo_canal bigint,
     in _id_servidor bigint
 ) begin 
-	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, servidores.id_servidor, Servidores.nome_servidor from Canais join servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
+	select Canais.cod, Canais.cod_Tipos_Canais, nome, id, Servidores.id_servidor, Servidores.nome_servidor from Canais join Servidores on Servidores.codigo_servidor = Canais.codigo_servidor where Canais.cod_Tipos_Canais = _tipo_canal and Canais.codigo_servidor = (Select Servidores.codigo_servidor from Servidores where Servidores.id_servidor = _id_servidor);
 end$$

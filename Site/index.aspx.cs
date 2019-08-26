@@ -1,8 +1,4 @@
-﻿using ConfigurationControler.DAO;
-using ConfigurationControler.Modelos;
-using MainDatabaseControler.DAO;
-using MainDatabaseControler.Modelos;
-using System;
+﻿using System;
 
 namespace Site
 {
@@ -10,19 +6,8 @@ namespace Site
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
-
-        protected void btOk_Click1(object sender, EventArgs e)
-        {
-            DiaConfig config = new DiaConfigDAO().Carregar();
-            Servidores servFinal = new Servidores(Convert.ToUInt64(txId.Text), config.prefix.ToCharArray());
-            Servidores servidores = servFinal;
-            if (new ServidoresDAO().GetPrefix(ref servidores))
-            {
-                servFinal = servidores;
-            }
-            lbPrefix.Text = $"O prefixo do servidor eh: {new string(servFinal.Prefix)}";
+            System.Web.Routing.RouteTable.Routes.MapPageRoute("Convite", "Convite", "~/pags/convite.aspx");
+            System.Web.Routing.RouteTable.Routes.MapPageRoute("Servidor", "Servidor", "~/pags/servidor.aspx");
         }
     }
 }

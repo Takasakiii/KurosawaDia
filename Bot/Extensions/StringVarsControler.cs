@@ -23,31 +23,31 @@ namespace Bot.Extensions
 
         private List<VarTypes> variaveis;
 
-        public StringVarsControler(CommandContext contexto)
+        public StringVarsControler(CommandContext contexto = null, SocketGuildUser user = null)
         {
 
             variaveis = new List<VarTypes>();
 
-            variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
-            variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
-            variaveis.Add(new VarTypes("%id%", contexto.User.Id.ToString()));
-            variaveis.Add(new VarTypes("%avatar%", contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl()));
-            variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
-            variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
-            variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
-        }
-
-        public StringVarsControler(SocketGuildUser user)
-        {
-
-            variaveis = new List<VarTypes>();
-
-            variaveis.Add(new VarTypes("%user%", user.ToString()));
-            variaveis.Add(new VarTypes("%server%", user.Guild.Name));
-            variaveis.Add(new VarTypes("%id%", user.Id.ToString()));
-            variaveis.Add(new VarTypes("%avatar%", user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl()));
-            variaveis.Add(new VarTypes("%idservidor%", user.Guild.Id.ToString()));
-            variaveis.Add(new VarTypes("%usermention%", user.Mention));
+            if(contexto != null && user == null)
+            {
+                variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
+                variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
+                variaveis.Add(new VarTypes("%id%", contexto.User.Id.ToString()));
+                variaveis.Add(new VarTypes("%avatar%", contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl()));
+                variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
+                variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
+                variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
+            }
+            else
+            {
+                variaveis.Add(new VarTypes("%user%", user.ToString()));
+                variaveis.Add(new VarTypes("%server%", user.Guild.Name));
+                variaveis.Add(new VarTypes("%id%", user.Id.ToString()));
+                variaveis.Add(new VarTypes("%avatar%", user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl()));
+                variaveis.Add(new VarTypes("%membros%", (user.Guild as IGuild).GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
+                variaveis.Add(new VarTypes("%idservidor%", user.Guild.Id.ToString()));
+                variaveis.Add(new VarTypes("%usermention%", user.Mention));
+            }
         }
 
         public void AdicionarComplemento (VarTypes complemento)
@@ -73,18 +73,14 @@ namespace Bot.Extensions
 
         public string SubstituirVariaveis(string stringReplace)
         {
-            string replacedString = "";
-            string[] parts = stringReplace.Split(' ');
-            for (int i = 0; i < parts.Length; i++)
+            foreach(VarTypes tipo in variaveis)
             {
-                VarTypes findVar = variaveis.Find(x => x.VarName == parts[i]);
-                if (findVar.Replace != null)
+                if (stringReplace.Contains(tipo.VarName))
                 {
-                    parts[i] = findVar.Replace;
+                    stringReplace = stringReplace.Replace(tipo.VarName, tipo.Replace);
                 }
             }
-            replacedString = string.Join(" ", parts);
-            return replacedString;
+            return stringReplace;
         }
     }
 }

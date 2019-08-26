@@ -22,7 +22,7 @@ namespace Bot.Nucleo.Eventos
                 if(new ConfiguracoesServidorDAO().GetWelcomeMsg(ref configuracoes))
                 {
                     IMessageChannel channel = user.Guild.GetChannel(canal.Id) as IMessageChannel;
-                    StringVarsControler varsControler = new StringVarsControler(user);
+                    StringVarsControler varsControler = new StringVarsControler(user: user);
                     new EmbedControl().SendMessage(channel, varsControler.SubstituirVariaveis(configuracoes.bemvindo.bemvindoMsg));
                 }
             }

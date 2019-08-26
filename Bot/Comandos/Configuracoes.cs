@@ -15,13 +15,13 @@ namespace Bot.Comandos
 {
     public class Configuracoes : GenericModule
     {
-        public Configuracoes(CommandContext contexto, object[] args) :base (contexto, args)
-        {
+        public Configuracoes(CommandContext contexto, object[] args) : base(contexto, args)
+        { 
 
         }
+        
 
 
-        //setar as perm
         public void setprefix()
         {
             new BotCadastro(() =>
@@ -32,7 +32,7 @@ namespace Bot.Comandos
                     if (userGuild.GuildPermissions.ManageGuild)
                     {
                         string[] comando = (string[])args[1];
-                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        string msg = comando[1];
 
                         if (msg != "")
                         {
@@ -90,26 +90,25 @@ namespace Bot.Comandos
 
         public void piconf()
         {
-            SocketGuildUser usuarioinGuild = contexto.User as SocketGuildUser;
-            if (usuarioinGuild.GuildPermissions.Administrator)
+            if (!contexto.IsPrivate)
             {
-                SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
-                if (botRepresentacao.GuildPermissions.ManageRoles)
+                SocketGuildUser usuarioinGuild = contexto.User as SocketGuildUser;
+                if (usuarioinGuild.GuildPermissions.Administrator)
                 {
-                    new BotCadastro(() =>
+                    SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
+                    if (botRepresentacao.GuildPermissions.ManageRoles)
                     {
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.WithColor(Color.DarkPurple);
-
-                        if (!contexto.IsPrivate)
+                        new BotCadastro(() =>
                         {
+                            EmbedBuilder embed = new EmbedBuilder();
+                            embed.WithColor(Color.DarkPurple);  
                             embed.WithColor(Color.Purple);
                             embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
                             embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
                             embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
                             IMessage pergunta = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                             SubCommandControler sub = new SubCommandControler();
-                            IMessage msgresposta = sub.GetCommand(pergunta, contexto.User);
+                            IMessage msgresposta = sub.GetCommand(pergunta, contexto.User, timeOutAction: TimeOut);
                             if (msgresposta != null)
                             {
                                 bool ativado;
@@ -126,17 +125,17 @@ namespace Bot.Comandos
                                         embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1.0"));
                                         pergunta = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                                         sub = new SubCommandControler();
-                                        msgresposta = sub.GetCommand(pergunta, contexto.User);
+                                        msgresposta = sub.GetCommand(pergunta, contexto.User, timeOutAction: TimeOut);
                                         if (msgresposta != null && double.TryParse(msgresposta.Content, out rate))
                                         {
-                                            if (rate >= 1)
+                                            if (rate > 1)
                                             {
                                                 embed.WithDescription(StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
                                                 embed.Fields.Clear();
                                                 embed.AddField(StringCatch.GetString("xptoleSetF1", "Opções Validas:"), StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
                                                 pergunta = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                                                 sub = new SubCommandControler();
-                                                msgresposta = sub.GetCommand(pergunta, contexto.User);
+                                                msgresposta = sub.GetCommand(pergunta, contexto.User, timeOutAction: TimeOut);
                                                 msg = msgresposta.Content;
                                             }
                                             else
@@ -153,23 +152,20 @@ namespace Bot.Comandos
                                     {
                                         ativado = false;
                                     }
-                                    if (rate > 1 && msg != "")
+                                    PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
+                                    if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(contexto.Guild.Id), pimodel)))
                                     {
-                                        PI pimodel = new PI(ativado, rate, (msg == "%desativar%") ? "" : msg);
-                                        if (new ConfiguracoesServidorDAO().SalvarPIConfig(new ConfiguracoesServidor(new Servidores(contexto.Guild.Id), pimodel)))
-                                        {
-                                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithColor(Color.Green)
-                                                .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
-                                                .Build());
-                                        }
-                                        else
-                                        {
-                                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithColor(Color.Red)
-                                                .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
-                                                .Build());
-                                        }
+                                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithColor(Color.Green)
+                                            .WithTitle(StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                            .Build());
+                                    }
+                                    else
+                                    {
+                                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                            .WithColor(Color.Red)
+                                            .WithTitle(StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                            .Build());
                                     }
                                 }
                                 else
@@ -177,21 +173,23 @@ namespace Bot.Comandos
                                     RotaFail();
                                 }
 
+                                
                             }
-                        }
-                        else
-                        {
-                            embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
-                            embed.WithColor(Color.Red);
-                            contexto.Channel.SendMessageAsync(embed: embed.Build());
-                        }
-                    }, contexto).EsperarOkDb();
+                        }, contexto).EsperarOkDb();
+                    }
+                    else
+                    {
+                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithColor(Color.Red)
+                            .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", contexto.User.Username))
+                            .Build());
+                    }
                 }
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", contexto.User.Username))
+                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
                         .Build());
                 }
             }
@@ -199,9 +197,18 @@ namespace Bot.Comandos
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
+                    .WithTitle(StringCatch.GetString("xprolePrivateErro", "Desculpe, mas você só pode dar esse comando em um servidor"))
                     .Build());
             }
+        }
+
+        private void TimeOut()
+        {
+            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithColor(Color.Red)
+                .WithTitle(StringCatch.GetString("timeoutFailTitle", "**{0}**, Tempo acabou 😶", contexto.User.Username))
+                .Build());
+            return;
         }
 
         private void RotaFail()

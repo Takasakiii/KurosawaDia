@@ -7,10 +7,10 @@
 // </gerado automaticamente>
 //------------------------------------------------------------------------------
 
-namespace Site {
+namespace Site.pags {
     
     
-    public partial class index {
+    public partial class teste {
         
         /// <summary>
         /// Controle form1.
