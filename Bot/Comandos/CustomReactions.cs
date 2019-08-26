@@ -36,7 +36,7 @@ namespace Bot.Comandos
                         string msg = string.Join(" ", comando, 1, (comando.Length - 1));
                         string[] resposta_pergunta = msg.Split('|');
 
-                        if (resposta_pergunta.Length >= 2 && string.IsNullOrEmpty(resposta_pergunta[0]) && string.IsNullOrEmpty(resposta_pergunta[1]))
+                        if (resposta_pergunta.Length >= 2 && !string.IsNullOrEmpty(resposta_pergunta[0]) && !string.IsNullOrEmpty(resposta_pergunta[1]))
                         {
                             ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(contexto.Guild.Id), contexto.Guild.Id);
                             new ReacoesCustomizadasDAO().CriarAcr(ref cr);
