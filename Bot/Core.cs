@@ -24,7 +24,7 @@ namespace Bot
 
             SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
             SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
-            SingletonClient.client.Log += new Log().LogTask;
+            SingletonClient.client.Log += new LogEvent().LogTask;
             SingletonClient.client.Ready += new ReadyEvent().Ready;
             SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
             SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;

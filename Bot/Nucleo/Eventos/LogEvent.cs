@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Bot.Nucleo.Eventos
 {
     //Classe responsavel por tratar o evento de log da discord.net para a interface de usuario
-    public class Log
+    public class LogEvent
     {
         //Evento que captura o log da discord.net e joga para a interface de usuario
         public Task LogTask(LogMessage msg)
