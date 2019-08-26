@@ -22,7 +22,6 @@ namespace Bot.Comandos
         
 
 
-        //setar as perm
         public void setprefix()
         {
             new BotCadastro(() =>
@@ -33,7 +32,7 @@ namespace Bot.Comandos
                     if (userGuild.GuildPermissions.ManageGuild)
                     {
                         string[] comando = (string[])args[1];
-                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        string msg = comando[1];
 
                         if (msg != "")
                         {
