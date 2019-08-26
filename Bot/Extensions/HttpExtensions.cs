@@ -5,8 +5,10 @@ using System.Net.Http;
 
 namespace Bot.Extensions
 {
+    //Classe responsavel por manipular dados de apis http
     public class HttpExtensions
     {
+        //Metodo responsavel por baixar um dado de um json de resposta de uma api externa atravez do WebClient
         public string GetSite(string url, string parametro)
         {
             using (WebClient wc = new WebClient())
@@ -18,6 +20,7 @@ namespace Bot.Extensions
             }
         }
 
+        //Metodo responsavel por baixar um dado de um json de resposta de uma api externa atraves do HttpClient
         public string GetSiteHttp(string url, string parametro)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -29,6 +32,7 @@ namespace Bot.Extensions
             }
         }
 
+        //Metodo responsavel por verificar se uma url é responsavel por uma imagem
         public bool IsImageUrl(string URL)
         {
             try
@@ -46,6 +50,7 @@ namespace Bot.Extensions
             }
         }
 
+        //Metodo responsavel por verificar o tamanho do arquivo de uma url (via download simples)
         public bool PegarTamanhoArquivo (string url, out long tamanho)
         {
             bool retorno = false;
