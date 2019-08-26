@@ -3,9 +3,9 @@ using Discord;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Bot.Nucleo
+namespace Bot.Nucleo.Eventos
 {
-    //Classe responsavel por mandar o log da discord.net para a interface de usuario
+    //Classe responsavel por tratar o evento de log da discord.net para a interface de usuario
     public class Log
     {
         //Evento que captura o log da discord.net e joga para a interface de usuario
