@@ -3,10 +3,12 @@ using Discord;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Bot.Nucleo
+namespace Bot.Nucleo.Eventos
 {
-    public class Log
+    //Classe responsavel por tratar o evento de log da discord.net para a interface de usuario
+    public class LogEvent
     {
+        //Evento que captura o log da discord.net e joga para a interface de usuario
         public Task LogTask(LogMessage msg)
         {
             MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
