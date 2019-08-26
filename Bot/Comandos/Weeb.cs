@@ -3,9 +3,12 @@ using Bot.GenericTypes;
 using ConfigurationControler.DAO;
 using Discord;
 using Discord.Commands;
+using MainDatabaseControler.DAO;
+using MainDatabaseControler.Modelos;
 using System;
 using Weeb.net;
 using Weeb.net.Data;
+using static MainDatabaseControler.Modelos.Servidores;
 using TokenType = Weeb.net.TokenType;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
@@ -160,6 +163,56 @@ namespace Bot.Comandos
         public void dance()
         {
             GetWeeb(new WeebInfo("dance", StringCatch.GetString("danceTxt", "está dançando com"), StringCatch.GetString("danceSelf", "começou a dançar")));
+        }
+
+        //Comando Fuck (leny face)
+        public void fuck()
+        {
+            if (!contexto.IsPrivate)
+            {
+                Servidores servidor = new Servidores(contexto.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    bool explicitImg = false;
+                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition)
+                    {
+                        explicitImg = true;
+                    }
+
+                    Fuck fuck = new Fuck(explicitImg);
+
+                    if (new FuckDAO().GetImg(ref fuck))
+                    {
+
+                        string[] comando = (string[])args[1];
+                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+
+                        UserExtensions userExtensions = new UserExtensions();
+                        Tuple<IUser, string> user = userExtensions.GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+
+                        string authorNick = userExtensions.GetNickname(contexto.User, !contexto.IsPrivate);
+                        if (user.Item1 != null)
+                        {
+                            string userNick = userExtensions.GetNickname(user.Item1, !contexto.IsPrivate);
+                            
+
+                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
+                                    .WithImageUrl(fuck.Img)
+                                    .WithColor(Color.DarkPurple)
+                                .Build());
+                        }
+                        else
+                        {
+                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                    .WithTitle(StringCatch.GetString("fuckSelf", "{0} esta se masturbando", authorNick))
+                                    .WithImageUrl(fuck.Img)
+                                    .WithColor(Color.DarkPurple)
+                                .Build());
+                        }
+                    }
+                }
+            }
         }
     }
 }

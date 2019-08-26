@@ -213,7 +213,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(StringCatch.GetString("weebInfo", "Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("weebCmdsTxt", "Comandos:"), StringCatch.GetString("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`", (string)args[0]))
+                    .AddField(StringCatch.GetString("weebCmdsTxt", "Comandos:"), StringCatch.GetString("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build());
         }
@@ -223,7 +223,7 @@ namespace Bot.Comandos
                     .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
                     .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}fuck`", (string)args[0]))
+                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]))
                     .WithImageUrl(StringCatch.GetString("imgsImg", "https://i.imgur.com/cQqTUl1.png"))
                 .Build());
 
