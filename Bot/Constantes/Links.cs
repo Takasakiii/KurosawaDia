@@ -12,5 +12,7 @@ namespace Bot.Constantes
         public readonly Tuple<string, string> nsfw_hentai_gif = Tuple.Create("https://nekos.life/api/v2/img/nsfw_neko_gif", "url");
         public readonly Tuple<string, string> lewdk = Tuple.Create("https://nekos.life/api/v2/img/lewdk", "url");
         public readonly Tuple<string, string> anal = Tuple.Create("https://nekobot.xyz/api/image?type=anal", "message");
+        public readonly Tuple<string, string> hentaiLoli = Tuple.Create("https://api.lolis.life/random?category=lewd", "url");
+        public readonly Tuple<string, string> loli = Tuple.Create("https://api.lolis.life/random", "url");
     }
 }

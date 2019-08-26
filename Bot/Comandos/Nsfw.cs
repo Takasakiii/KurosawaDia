@@ -32,6 +32,7 @@ namespace Bot.Comandos
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
+                        imgs.Add(links.hentaiLoli);
                     }
                 }
             }
@@ -53,6 +54,7 @@ namespace Bot.Comandos
                     {
                         imgs.Add(links.nsfw_hentai_gif);
                         imgs.Add(links.lewdk);
+                        imgs.Add(links.hentaiLoli);
                     }
                 }
             }
