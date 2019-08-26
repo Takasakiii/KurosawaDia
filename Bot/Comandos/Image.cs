@@ -115,12 +115,12 @@ namespace Bot.Comandos
 
             if (imgUrl != "")
             {
-                if (!imgUrl.EndsWith(".gif"))
-                {
-                    embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", contexto.User.ToString()));
-                    embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
-                    IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", contexto.User.ToString()));
+                embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
+                IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
+                if (new HttpExtensions().PegarTamanhoArquivo(imgUrl, out long tamanho) && tamanho < 102400)
+                {
                     try
                     {
                         string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
@@ -138,8 +138,10 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("magikGif", "**{0}** eu não posso fazer magica com gifs 😔", contexto.User.ToString()));
+                    userMsg.DeleteAsync();
                     embed.WithColor(Color.Red);
+                    embed.WithDescription(StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie imagens até 100 kb 😥", contexto.User.ToString()));
+                    embed.WithImageUrl(null);
                 }
             }
             else
