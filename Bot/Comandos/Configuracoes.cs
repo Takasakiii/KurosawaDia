@@ -15,12 +15,13 @@ namespace Bot.Comandos
 {
     public class Configuracoes : GenericModule
     {
-        public Configuracoes(CommandContext contexto, object[] args) : base(contexto, args) { 
-}
+        public Configuracoes(CommandContext contexto, object[] args) : base(contexto, args)
+        { 
+
+        }
         
 
 
-        //setar as perm
         public void setprefix()
         {
             new BotCadastro(() =>
@@ -31,7 +32,7 @@ namespace Bot.Comandos
                     if (userGuild.GuildPermissions.ManageGuild)
                     {
                         string[] comando = (string[])args[1];
-                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+                        string msg = comando[1];
 
                         if (msg != "")
                         {
@@ -89,19 +90,18 @@ namespace Bot.Comandos
 
         public void piconf()
         {
-            SocketGuildUser usuarioinGuild = contexto.User as SocketGuildUser;
-            if (usuarioinGuild.GuildPermissions.Administrator)
+            if (!contexto.IsPrivate)
             {
-                SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
-                if (botRepresentacao.GuildPermissions.ManageRoles)
+                SocketGuildUser usuarioinGuild = contexto.User as SocketGuildUser;
+                if (usuarioinGuild.GuildPermissions.Administrator)
                 {
-                    new BotCadastro(() =>
+                    SocketGuildUser botRepresentacao = contexto.Guild.GetCurrentUserAsync().GetAwaiter().GetResult() as SocketGuildUser;
+                    if (botRepresentacao.GuildPermissions.ManageRoles)
                     {
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.WithColor(Color.DarkPurple);
-
-                        if (!contexto.IsPrivate)
+                        new BotCadastro(() =>
                         {
+                            EmbedBuilder embed = new EmbedBuilder();
+                            embed.WithColor(Color.DarkPurple);  
                             embed.WithColor(Color.Purple);
                             embed.WithTitle(StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
                             embed.WithDescription(StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
@@ -173,21 +173,23 @@ namespace Bot.Comandos
                                     RotaFail();
                                 }
 
+                                
                             }
-                        }
-                        else
-                        {
-                            embed.WithDescription(StringCatch.GetString("xproleDm", "Esse comando só pode ser usado em servidores"));
-                            embed.WithColor(Color.Red);
-                            contexto.Channel.SendMessageAsync(embed: embed.Build());
-                        }
-                    }, contexto).EsperarOkDb();
+                        }, contexto).EsperarOkDb();
+                    }
+                    else
+                    {
+                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithColor(Color.Red)
+                            .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", contexto.User.Username))
+                            .Build());
+                    }
                 }
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", contexto.User.Username))
+                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
                         .Build());
                 }
             }
@@ -195,7 +197,7 @@ namespace Bot.Comandos
             {
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
+                    .WithTitle(StringCatch.GetString("xprolePrivateErro", "Desculpe, mas você só pode dar esse comando em um servidor"))
                     .Build());
             }
         }

@@ -45,5 +45,24 @@ namespace Bot.Extensions
                 return false;
             }
         }
+
+        public bool PegarTamanhoArquivo (string url, out long tamanho)
+        {
+            bool retorno = false;
+            WebRequest requisicao = WebRequest.Create(url);
+            using(WebResponse resp = requisicao.GetResponse())
+            {
+                if(resp.ContentLength > 0)
+                {
+                    retorno = true;
+                    tamanho = resp.ContentLength;
+                }
+                else
+                {
+                    tamanho = -1;
+                }
+            }
+            return retorno;
+        }
     }
 }

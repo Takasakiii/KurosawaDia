@@ -3,12 +3,8 @@ using Bot.Extensions;
 using Bot.GenericTypes;
 using Discord;
 using Discord.Commands;
-using MainDatabaseControler.DAO;
-using MainDatabaseControler.Modelos;
 using System;
 using System.Linq;
-using static MainDatabaseControler.Modelos.Servidores;
-using UserExtensions = Bot.Extensions.UserExtensions;
 
 namespace Bot.Comandos
 {
@@ -119,12 +115,12 @@ namespace Bot.Comandos
 
             if (imgUrl != "")
             {
-                if (!imgUrl.EndsWith(".gif"))
-                {
-                    embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", contexto.User.ToString()));
-                    embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
-                    IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", contexto.User.ToString()));
+                embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
+                IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
+                if (new HttpExtensions().PegarTamanhoArquivo(imgUrl, out long tamanho) && tamanho < 102400)
+                {
                     try
                     {
                         string retorno = new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
@@ -142,8 +138,10 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("magikGif", "**{0}** eu não posso fazer magica com gifs 😔", contexto.User.ToString()));
+                    userMsg.DeleteAsync();
                     embed.WithColor(Color.Red);
+                    embed.WithDescription(StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie imagens até 100 kb 😥", contexto.User.ToString()));
+                    embed.WithImageUrl(null);
                 }
             }
             else
@@ -156,53 +154,6 @@ namespace Bot.Comandos
             contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
-        public void fuck()
-        {
-            if (!contexto.IsPrivate)
-            {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
-                if (new ServidoresDAO().GetPermissoes(ref servidor))
-                {
-                    bool explicitImg = false;
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition)
-                    {
-                        explicitImg = true;
-                    }
 
-                    Fuck fuck = new Fuck(explicitImg);
-
-                    if (new FuckDAO().GetImg(ref fuck))
-                    {
-
-                        string[] comando = (string[])args[1];
-                        string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                        UserExtensions userExtensions = new UserExtensions();
-                        Tuple<IUser, string> user = userExtensions.GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
-
-                        if (user.Item1 != null)
-                        {
-                            string userNick = userExtensions.GetNickname(user.Item1, !contexto.IsPrivate);
-                            string authorNick = userExtensions.GetNickname(contexto.User, !contexto.IsPrivate);
-
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
-                                    .WithImageUrl(fuck.Img)
-                                    .WithColor(Color.DarkPurple)
-                                .Build());
-                        }
-                        else
-                        {
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                 .WithTitle(StringCatch.GetString("fuckSemPessoa", "{0} você não me disse quem você quer fuder", contexto.User.ToString()))
-                                 .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoFuck", "{0}fuck <pessoa>", (string)args[0]))
-                                 .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploFuck", "{0}fuck @José Gabriel#2282", (string)args[0]))
-                                 .WithColor(Color.Red)
-                            .Build());
-                        }
-                    }
-                }
-            }
-        }
     }
 }
