@@ -40,70 +40,78 @@ namespace Bot.Comandos
 
         }
 
+        enum ListaModulos { nada, ajuda, utilidade, moderacao, nsfw, weeb, imgs, cr, config, especial};
         public void comandos()
         {
             string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1)).ToLowerInvariant();
 
             if (!string.IsNullOrEmpty(msg))
             {
-                switch (msg.ToLowerInvariant())
+                ListaModulos modulo = ListaModulos.nada;
+                if(int.TryParse(msg, out int result))
                 {
-                    case "ajuda":
-                    case "help":
-                        help();
-                        break;
-                    case "utilidade":
-                        utilidade();
-                        break;
-                    case "moderacao":
-                    case "moderação":
-                        moderacao();
-                        break;
-                    case "nsfw":
-                        nsfw();
-                        break;
-                    case "weeb":
-                        weeb();
-                        break;
-                    case "imagens":
-                    case "imgs":
-                        img();
-                        break;
-                    case "reações customizadas":
-                    case "reacoes customizadas":
-                        customReaction();
-                        break;
-                    case "configurações":
-                    case "configuracoes":
-                        configuracoes();
-                        break;
-                    case "especiais":
-                        if (!contexto.IsPrivate)
-                        {
-                            Servidores servidor = new Servidores(contexto.Guild.Id);
-                            if (new ServidoresDAO().GetPermissoes(ref servidor))
-                            {
-                                if (servidor.Permissoes == PermissoesServidores.ServidorPika)
-                                {
-                                    especial();
-                                }
-                                else
-                                {
-                                    modulos();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            modulos();
-                        }
-                        break;
-                    default:
-                        modulos();
-                        break;
+                    modulo = (ListaModulos)result;
                 }
 
+                if(modulo ==  ListaModulos.ajuda || msg == "ajuda")
+                {
+                    help();
+                }
+                else if (modulo == ListaModulos.utilidade || msg == "utilidade")
+                {
+                    utilidade();
+                }
+                else if (modulo == ListaModulos.moderacao || msg == "moderação" || msg == "moderacao")
+                {
+                    moderacao();
+                }
+                else if (modulo == ListaModulos.nsfw || msg == "nsfw")
+                {
+                    nsfw();
+                }
+                else if (modulo == ListaModulos.weeb || msg == "weeb")
+                {
+                    weeb();
+                }
+                else if (modulo == ListaModulos.imgs || msg == "imagens" || msg == "imgs")
+                {
+                    img();
+                }
+                else if (modulo == ListaModulos.cr || msg == "reações customizadas" || msg == "reacoes customizadas")
+                {
+                    customReaction();
+                }
+                else if (modulo == ListaModulos.config || msg == "configurações" || msg == "configuracoes")
+                {
+                    configuracoes();
+                }
+                else if (modulo == ListaModulos.especial || msg == "especiais")
+                {
+                    if (!contexto.IsPrivate)
+                    {
+                        Servidores servidor = new Servidores(contexto.Guild.Id);
+                        if (new ServidoresDAO().GetPermissoes(ref servidor))
+                        {
+                            if (servidor.Permissoes == PermissoesServidores.ServidorPika)
+                            {
+                                especial();
+                            }
+                            else
+                            {
+                                modulos();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        modulos();
+                    }
+                }
+                else
+                {
+                    modulos();
+                }
             }
             else
             {
@@ -146,7 +154,7 @@ namespace Bot.Comandos
 
         private void modulos()
         {
-            string modulos = StringCatch.GetString("modulosString", "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.");
+            string modulos = StringCatch.GetString("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
 
             if (!contexto.IsPrivate)
             {
