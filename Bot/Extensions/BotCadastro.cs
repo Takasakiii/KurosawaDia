@@ -58,12 +58,19 @@ namespace Bot.Extensions
         {
             new Thread(() =>
             {
-                for (int i = 0; i < sessoes.Count; i++)
+                try
                 {
-                    if (sessoes[i].processo.IsCompleted)
+                    for (int i = 0; i < sessoes.Count; i++)
                     {
-                        sessoes.RemoveAt(i);
+                        if (sessoes[i].processo.IsCompleted)
+                        {
+                            sessoes.RemoveAt(i);
+                        }
                     }
+                }
+                catch
+                {
+                    return;
                 }
             }).Start();
         }
@@ -84,7 +91,7 @@ namespace Bot.Extensions
                     threadCadastrando.Wait(); 
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 processoFinalizar.Invoke();
             }
