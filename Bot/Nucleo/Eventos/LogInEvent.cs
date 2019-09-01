@@ -15,10 +15,10 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(async () =>
             {
-                List<Status> status = new StatusDAO().CarregarStatus().Item2;
+                Status[] status = new StatusDAO().CarregarStatus().Item2.ToArray();
                 do
                 {
-                    for (int i = 0; i < status.Count; i++)
+                    for (int i = 0; i < status.Length; i++)
                     {
                         try
                         {
@@ -45,9 +45,12 @@ namespace Bot.Nucleo.Eventos
                             parms[0] = e.ToString();
                             metodo.Invoke(SingletonLogs.instanced, parms);
                         }
-                        Thread.Sleep(8000);
+                        finally
+                        {
+                            Thread.Sleep(8000);
+                        }
                     }
-                } while (true);
+                } while (status.Length != 0);
             }).Start();
             return Task.CompletedTask;
         }
