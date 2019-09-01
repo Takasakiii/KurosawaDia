@@ -1,8 +1,10 @@
-﻿using Discord.Commands;
+﻿using Bot.Singletons;
+using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +38,6 @@ namespace Bot.Extensions
                 Task Sessao = new Task(() =>
                 {
                     new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(contexto.Guild.Id, contexto.Guild.Name), new Usuarios(contexto.User.Id, contexto.User.ToString())));
-
                     new BotCadastro(null, null).GarbageColectorSessao();
                 });
 
@@ -80,14 +81,24 @@ namespace Bot.Extensions
                 if (sessaoIndex >= 0)
                 {
                     Task threadCadastrando = sessoes[sessaoIndex].processo;
-                    threadCadastrando.Wait();
+                    threadCadastrando.Wait(); 
                 }
             }
-            catch
+            catch (IndexOutOfRangeException)
             {
-                return;
+                processoFinalizar.Invoke();
             }
-            processoFinalizar.Invoke();
+            catch(Exception e)
+            {
+                MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
+                object[] parms = new object[1];
+                parms[0] = e.ToString();
+                metodo.Invoke(SingletonLogs.instanced, parms);
+            }
+            finally
+            {
+                processoFinalizar.Invoke();
+            }
         }        
     }
 }
