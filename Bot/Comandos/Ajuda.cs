@@ -40,68 +40,78 @@ namespace Bot.Comandos
 
         }
 
+        enum ListaModulos { nada, ajuda, utilidade, moderacao, nsfw, weeb, imgs, cr, config, especial};
         public void comandos()
         {
             string[] comando = (string[])args[1];
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1)).ToLowerInvariant();
 
             if (!string.IsNullOrEmpty(msg))
             {
-                switch (msg.ToLowerInvariant())
+                ListaModulos modulo = ListaModulos.nada;
+                if(int.TryParse(msg, out int result))
                 {
-                    case "ajuda":
-                        help();
-                        break;
-                    case "utilidade":
-                        utilidade();
-                        break;
-                    case "moderacao":
-                    case "moderação":
-                        moderacao();
-                        break;
-                    case "nsfw":
-                        nsfw();
-                        break;
-                    case "weeb":
-                        weeb();
-                        break;
-                    case "imagens":
-                        img();
-                        break;
-                    case "reações customizadas":
-                    case "reacoes customizadas":
-                        customReaction();
-                        break;
-                    case "configurações":
-                    case "configuracoes":
-                        configuracoes();
-                        break;
-                    case "especiais":
-                        if (!contexto.IsPrivate)
-                        {
-                            Servidores servidor = new Servidores(contexto.Guild.Id);
-                            if (new ServidoresDAO().GetPermissoes(ref servidor))
-                            {
-                                if (servidor.Permissoes == PermissoesServidores.ServidorPika)
-                                {
-                                    especial();
-                                }
-                                else
-                                {
-                                    modulos();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            modulos();
-                        }
-                        break;
-                    default:
-                        modulos();
-                        break;
+                    modulo = (ListaModulos)result;
                 }
 
+                if(modulo ==  ListaModulos.ajuda || msg == "ajuda")
+                {
+                    help();
+                }
+                else if (modulo == ListaModulos.utilidade || msg == "utilidade")
+                {
+                    utilidade();
+                }
+                else if (modulo == ListaModulos.moderacao || msg == "moderação" || msg == "moderacao")
+                {
+                    moderacao();
+                }
+                else if (modulo == ListaModulos.nsfw || msg == "nsfw")
+                {
+                    nsfw();
+                }
+                else if (modulo == ListaModulos.weeb || msg == "weeb")
+                {
+                    weeb();
+                }
+                else if (modulo == ListaModulos.imgs || msg == "imagens" || msg == "imgs")
+                {
+                    img();
+                }
+                else if (modulo == ListaModulos.cr || msg == "reações customizadas" || msg == "reacoes customizadas")
+                {
+                    customReaction();
+                }
+                else if (modulo == ListaModulos.config || msg == "configurações" || msg == "configuracoes")
+                {
+                    configuracoes();
+                }
+                else if (modulo == ListaModulos.especial || msg == "especiais")
+                {
+                    if (!contexto.IsPrivate)
+                    {
+                        Servidores servidor = new Servidores(contexto.Guild.Id);
+                        if (new ServidoresDAO().GetPermissoes(ref servidor))
+                        {
+                            if (servidor.Permissoes == PermissoesServidores.ServidorPika)
+                            {
+                                especial();
+                            }
+                            else
+                            {
+                                modulos();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        modulos();
+                    }
+                }
+                else
+                {
+                    modulos();
+                }
             }
             else
             {
@@ -134,7 +144,7 @@ namespace Bot.Comandos
                     .AddField(StringCatch.GetString("infoBot", "**Sobre mim:**"), StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
                     .AddField(StringCatch.GetString("infoDeveloperTitle", "**As pessoas/grupos que fazem tudo isso ser possivel:**"), StringCatch.GetString("infoDeveloperDesc", "Zuraaa!\nTakasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
                     .AddField(StringCatch.GetString("infoConvites", "**Quer me ajudar????**"), StringCatch.GetString("infoConvites", "[Adicione-me em seu Servidor](https://ayura.com.br/links/bot)\n[Entre em meu servidor para dar suporte ao projeto](https://ayura.com.br/dia)\n[Vote em mim no DiscordBotList para que possa ajudar mais pessoas](https://discordbots.org/bot/389917977862078484/vote)"))
-                    .AddField(StringCatch.GetString("infoOutras", "**Informações chatas:**"), StringCatch.GetString("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuarios:__ {2}\n__Versão:__ 1.2.2.2  (Cinnamon Smooth - Patch 02)", client.Latency, client.Guilds.Count, users), false)
+                    .AddField(StringCatch.GetString("infoOutras", "**Informações chatas:**"), StringCatch.GetString("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuarios:__ {2}\n__Versão:__ 1.2.2.3  (Cinnamon Smooth - Patch 03)", client.Latency, client.Guilds.Count, users), false)
                     .WithThumbnailUrl("https://i.imgur.com/ppXRHTi.jpg")
                     .WithImageUrl("https://i.imgur.com/qGb6xtG.jpg")
                     .WithColor(Color.DarkPurple)
@@ -144,7 +154,7 @@ namespace Bot.Comandos
 
         private void modulos()
         {
-            string modulos = StringCatch.GetString("modulosString", "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações.");
+            string modulos = StringCatch.GetString("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
 
             if (!contexto.IsPrivate)
             {
@@ -219,11 +229,23 @@ namespace Bot.Comandos
         }
         private void img()
         {
+            string cmds = StringCatch.GetString("imgCmdsNormais", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]);
+            if (!contexto.IsPrivate)
+            {
+                Servidores servidor = new Servidores(contexto.Guild.Id);
+                if (new ServidoresDAO().GetPermissoes(ref servidor))
+                {
+                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
+                    {
+                        cmds = StringCatch.GetString("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`", (string)args[0]);
+                    }
+                }
+            }
             contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
                     .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), StringCatch.GetString("imgCmds", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]))
+                    .AddField(StringCatch.GetString("imgCmdsTxt", "Comandos:"), cmds)
                     .WithImageUrl(StringCatch.GetString("imgsImg", "https://i.imgur.com/cQqTUl1.png"))
                 .Build());
 

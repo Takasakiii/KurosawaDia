@@ -59,7 +59,7 @@ namespace Bot.Comandos
 
             WeebClient weebClient = new WeebClient();
             weebClient.Authenticate(apiConfig.Item2[0].Token, TokenType.Wolke).GetAwaiter().GetResult();
-            RandomData img = weebClient.GetRandomAsync(weeb.Tipo, new string[] { }, FileType.Gif, false, NsfwSearch.False).GetAwaiter().GetResult();
+            RandomData img = weebClient.GetRandomAsync(weeb.Tipo, new string[] { }, FileType.Any, false, NsfwSearch.False).GetAwaiter().GetResult();
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithColor(Color.DarkPurple);

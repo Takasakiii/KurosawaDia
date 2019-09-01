@@ -1,6 +1,5 @@
 ﻿using Bot.Extensions;
 using Bot.GenericTypes;
-using Bot.Nucleo;
 using Bot.Nucleo.Eventos;
 using Bot.Singletons;
 using ConfigurationControler.DAO;
@@ -21,11 +20,11 @@ namespace Bot
             SingletonClient.criarClient();
 
             DiaConfig config = new DiaConfigDAO().Carregar();
-            
+
 
             SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
             SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
-            SingletonClient.client.Log += new Log().LogTask;
+            SingletonClient.client.Log += new LogEvent().LogTask;
             SingletonClient.client.Ready += new ReadyEvent().Ready;
             SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
             SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;
