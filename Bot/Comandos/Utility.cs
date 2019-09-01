@@ -177,7 +177,7 @@ namespace Bot.Comandos
 
                 if (msg != "")
                 {
-                    IGuildUser user = contexto.Client as IGuildUser;
+                    IGuildUser user =  contexto.Guild.GetUserAsync(contexto.Client.CurrentUser.Id).GetAwaiter().GetResult();
                     if (user.GuildPermissions.ManageMessages)
                     {
                         contexto.Message.DeleteAsync().GetAwaiter().GetResult();
