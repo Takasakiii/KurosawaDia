@@ -20,7 +20,7 @@ namespace Bot.Singletons
                 AlwaysDownloadUsers = false,
                 MessageCacheSize = 50,
                 ExclusiveBulkDelete = true,
-                LogLevel = Discord.LogSeverity.Info, 
+                LogLevel = Discord.LogSeverity.Info
             }) ;
 
         }

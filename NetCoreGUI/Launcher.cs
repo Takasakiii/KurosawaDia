@@ -12,6 +12,7 @@ namespace NetCoreGUI
     {
         static void Main(string[] args)
         {
+            Console.Write("", Color.White);
             Console.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
             new Thread(() => new Core().IniciarBot()).Start();
             LogEmiter.SetMetodoLog(new Launcher().Log);
