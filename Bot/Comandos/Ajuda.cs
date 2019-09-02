@@ -307,10 +307,7 @@ namespace Bot.Comandos
             }
             else
             {
-                MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
-                object[] parms = new object[1];
-                parms[0] = e.ToString();
-                metodo.Invoke(SingletonLogs.instanced, parms);
+                
             }
         }
 

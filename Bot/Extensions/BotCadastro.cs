@@ -97,10 +97,7 @@ namespace Bot.Extensions
             }
             catch(Exception e)
             {
-                MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
-                object[] parms = new object[1];
-                parms[0] = e.ToString();
-                metodo.Invoke(SingletonLogs.instanced, parms);
+                LogEmiter.EnviarLogAsync(e);
             }
             finally
             {

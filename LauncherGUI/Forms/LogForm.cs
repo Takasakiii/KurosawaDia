@@ -1,5 +1,7 @@
-﻿using Bot.Singletons;
+﻿using Bot.Extensions;
+using Bot.Singletons;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Bot.Forms
@@ -13,7 +15,17 @@ namespace Bot.Forms
             this.Launcher = Launcher;
         }
 
-        public void Log(string e)
+        private void AdicionarLinha(ref RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
+        }
+
+        public void Log(LogEmiter.TipoLog tipoLog, string e)
         {
             try
             {
@@ -21,8 +33,7 @@ namespace Bot.Forms
                 {
                     txLog.Invoke((MethodInvoker)delegate
                     {
-                        txLog.Text += $"\r\n  {e}";
-
+                        AdicionarLinha(ref txLog, $"\r\n{e}", tipoLog.CorNoDrawing);
                     });
                 }
             }

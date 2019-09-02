@@ -4,6 +4,7 @@ using Bot.Nucleo.Eventos;
 using Bot.Singletons;
 using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
+using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace Bot
@@ -39,6 +40,12 @@ namespace Bot
         {
             await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
             await SingletonClient.client.StartAsync();
+            string shardsIDs = "";
+            foreach (DiscordSocketClient socket in SingletonClient.client.Shards)
+            {
+                shardsIDs += $" {socket.ShardId} ";
+            }
+            await LogEmiter.EnviarLogAsync(LogEmiter.TipoLog.TipoCor.Debug, $"Shards[{SingletonClient.client.Shards.Count.ToString()}]: {shardsIDs}");
             await Task.Delay(-1);
         }
 

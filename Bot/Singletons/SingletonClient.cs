@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Bot.Extensions;
+using Discord.WebSocket;
 using System;
 
 namespace Bot.Singletons
@@ -19,8 +20,9 @@ namespace Bot.Singletons
                 AlwaysDownloadUsers = false,
                 MessageCacheSize = 50,
                 ExclusiveBulkDelete = true,
-                TotalShards = 5
-            });
+                LogLevel = Discord.LogSeverity.Info, 
+            }) ;
+
         }
 
 

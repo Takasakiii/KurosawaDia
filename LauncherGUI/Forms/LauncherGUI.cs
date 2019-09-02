@@ -1,4 +1,5 @@
 ﻿using Bot;
+using Bot.Extensions;
 using Bot.Forms;
 using Bot.Singletons;
 using ConfigurationControler.DAO;
@@ -35,7 +36,7 @@ namespace Bot.Forms
 
 
             LogForm log = new LogForm(this);
-            SingletonLogs.SetInstance(log, typeof(LogForm));
+            LogEmiter.SetMetodoLog(log.Log);
             log.Show();
             Hide();
             new Thread(() => new Core().IniciarBot()).Start();
