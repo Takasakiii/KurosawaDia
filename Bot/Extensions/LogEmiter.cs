@@ -49,7 +49,7 @@ namespace Bot.Extensions
 
         //Array constante contendo todas as variações de cores do Log
         private static readonly TipoLog[] CoresLog = {
-            new TipoLog(TipoLog.TipoCor.Generic, Color.Black, ConsoleColor.Black),
+            new TipoLog(TipoLog.TipoCor.Generic, Color.Black, ConsoleColor.White),
             new TipoLog(TipoLog.TipoCor.Info, Color.Blue, ConsoleColor.Blue),
             new TipoLog(TipoLog.TipoCor.Erro, Color.Red, ConsoleColor.Red),
             new TipoLog(TipoLog.TipoCor.Debug, Color.Magenta, ConsoleColor.Magenta)
