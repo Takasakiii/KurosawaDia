@@ -130,12 +130,13 @@ namespace Bot.Comandos
 
         public void info()
         {
-            DiscordSocketClient client = contexto.Client as DiscordSocketClient;
+            DiscordShardedClient client = contexto.Client as DiscordShardedClient;
             int users = 0;
             foreach (SocketGuild servidor in client.Guilds)
             {
                 users += servidor.Users.Count;
             }
+            
 
 
             _ = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()

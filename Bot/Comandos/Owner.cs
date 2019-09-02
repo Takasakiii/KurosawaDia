@@ -25,7 +25,7 @@ namespace Bot.Comandos
         {
             if (new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
             {
-                DiscordSocketClient client = contexto.Client as DiscordSocketClient;
+                DiscordShardedClient client = contexto.Client as DiscordShardedClient;
 
                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
