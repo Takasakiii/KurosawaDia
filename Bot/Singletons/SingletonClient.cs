@@ -8,20 +8,20 @@ namespace Bot.Singletons
     public static class SingletonClient
     {
         //Metodo que contem o DiscordSocketClient
-        public static DiscordSocketClient client { get; private set; }
+        public static DiscordSocketClient Client { get; private set; }
 
         //Metodo permite criar um novo DiscordSocketClient
         public static void criarClient()
         {
-            client = new DiscordSocketClient();
+            Client = new DiscordSocketClient();
         }
 
 
         //Classe responsavel por desalocar o DiscordSocketClient
         public static void setNull()
         {
-            client.Dispose();
-            client = null;
+            Client.Dispose();
+            Client = null;
         }
     }
 }

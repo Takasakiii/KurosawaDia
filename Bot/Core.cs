@@ -22,14 +22,14 @@ namespace Bot
             DiaConfig config = new DiaConfigDAO().Carregar();
 
 
-            SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
-            SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
-            SingletonClient.client.Log += new LogEvent().LogTask;
-            SingletonClient.client.Ready += new ReadyEvent().Ready;
-            SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
-            SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;
-            SingletonClient.client.UserJoined += new UserJoinedEvent().UserJoined;
-            SingletonClient.client.UserLeft += new UserLeftEvent().UserLeft;
+            SingletonClient.Client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
+            SingletonClient.Client.LoggedIn += new LogInEvent(config).LogIn;
+            SingletonClient.Client.Log += new LogEvent().LogTask;
+            SingletonClient.Client.Ready += new ReadyEvent().Ready;
+            SingletonClient.Client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
+            SingletonClient.Client.LeftGuild += new LeftGuildEvent().LeftGuild;
+            SingletonClient.Client.UserJoined += new UserJoinedEvent().UserJoined;
+            SingletonClient.Client.UserLeft += new UserLeftEvent().UserLeft;
 
             Iniciar(config).GetAwaiter().GetResult();
         }
@@ -37,8 +37,8 @@ namespace Bot
         //Tarefa interna responsavel por iniciar(logar) o bot
         private async Task Iniciar(DiaConfig diaConfig)
         {
-            await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
-            await SingletonClient.client.StartAsync();
+            await SingletonClient.Client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
+            await SingletonClient.Client.StartAsync();
             await Task.Delay(-1);
         }
 
