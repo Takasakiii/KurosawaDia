@@ -26,14 +26,16 @@ namespace ConfigurationControler.DAO
                         retorno.Add(temp);
                     }
                     reader.Close();
-                    conexao.Close();
                 }
             }
             catch
             {
                 result = false;
             }
-
+            finally
+            {
+                conexao.Close();
+            }
             return Tuple.Create(result, retorno);
         }
 

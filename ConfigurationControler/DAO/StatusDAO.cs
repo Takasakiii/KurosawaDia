@@ -57,11 +57,15 @@ namespace ConfigurationControler.DAO
                     retorno.Add(temp);
                     estado = true;
                 }
-                conexao.Close();
                 return Tuple.Create(estado, retorno);
-            } catch (ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 return Tuple.Create(false, (List<Status>)null);
+            }
+            finally
+            {
+                conexao.Close();
             }
         }
     }

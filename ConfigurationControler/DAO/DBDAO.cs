@@ -91,11 +91,15 @@ namespace ConfigurationControler.DAO
                     estado++;
                 }
 
-            } catch
+            }
+            catch
             {
                 estado = 0;
             }
-            conexao.Close();
+            finally
+            {
+                conexao.Close();
+            }
             return Tuple.Create(estado, apis, db, dia);
         }
 
