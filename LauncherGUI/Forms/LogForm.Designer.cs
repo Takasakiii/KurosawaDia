@@ -38,8 +38,8 @@
             this.aaaToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.verLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.desligarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txLog = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txLog = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -109,16 +109,6 @@
             this.desligarToolStripMenuItem.Text = "Desligar";
             this.desligarToolStripMenuItem.Click += new System.EventHandler(this.BtDesligar_Click);
             // 
-            // txLog
-            // 
-            this.txLog.Location = new System.Drawing.Point(6, 19);
-            this.txLog.Multiline = true;
-            this.txLog.Name = "txLog";
-            this.txLog.ReadOnly = true;
-            this.txLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txLog.Size = new System.Drawing.Size(614, 439);
-            this.txLog.TabIndex = 3;
-            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
@@ -131,6 +121,15 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Log:";
+            // 
+            // txLog
+            // 
+            this.txLog.Location = new System.Drawing.Point(6, 19);
+            this.txLog.Name = "txLog";
+            this.txLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.txLog.Size = new System.Drawing.Size(614, 439);
+            this.txLog.TabIndex = 4;
+            this.txLog.Text = "";
             // 
             // LogForm
             // 
@@ -150,7 +149,6 @@
             this.Resize += new System.EventHandler(this.LogForm_Resize);
             this.contextMenuStrip.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -164,7 +162,7 @@
         private System.Windows.Forms.ToolStripMenuItem verLogsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator aaaToolStripMenuItem;
-        private System.Windows.Forms.TextBox txLog;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RichTextBox txLog;
     }
 }

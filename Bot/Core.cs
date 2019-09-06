@@ -4,6 +4,7 @@ using Bot.Nucleo.Eventos;
 using Bot.Singletons;
 using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
+using Discord.WebSocket;
 using System.Threading.Tasks;
 
 namespace Bot
@@ -22,14 +23,14 @@ namespace Bot
             DiaConfig config = new DiaConfigDAO().Carregar();
 
 
-            SingletonClient.Client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
-            SingletonClient.Client.LoggedIn += new LogInEvent(config).LogIn;
-            SingletonClient.Client.Log += new LogEvent().LogTask;
-            SingletonClient.Client.Ready += new ReadyEvent().Ready;
-            SingletonClient.Client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
-            SingletonClient.Client.LeftGuild += new LeftGuildEvent().LeftGuild;
-            SingletonClient.Client.UserJoined += new UserJoinedEvent().UserJoined;
-            SingletonClient.Client.UserLeft += new UserLeftEvent().UserLeft;
+            SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
+            SingletonClient.client.LoggedIn += new LogInEvent().LogIn;
+            SingletonClient.client.Log += new LogEvent().LogTask;
+            SingletonClient.client.ShardReady += new ReadyEvent().ShardReady;
+            SingletonClient.client.JoinedGuild += new JoinedGuildEvent().JoinedGuild;
+            SingletonClient.client.LeftGuild += new LeftGuildEvent().LeftGuild;
+            SingletonClient.client.UserJoined += new UserJoinedEvent().UserJoined;
+            SingletonClient.client.UserLeft += new UserLeftEvent().UserLeft;
 
             Iniciar(config).GetAwaiter().GetResult();
         }
@@ -37,8 +38,14 @@ namespace Bot
         //Tarefa interna responsavel por iniciar(logar) o bot
         private async Task Iniciar(DiaConfig diaConfig)
         {
-            await SingletonClient.Client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
-            await SingletonClient.Client.StartAsync();
+            await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
+            await SingletonClient.client.StartAsync();
+            string shardsIDs = "";
+            foreach (DiscordSocketClient socket in SingletonClient.client.Shards)
+            {
+                shardsIDs += $" {socket.ShardId} ";
+            }
+            await LogEmiter.EnviarLogAsync(LogEmiter.TipoLog.TipoCor.Debug, $"Shards[{SingletonClient.client.Shards.Count.ToString()}]: {shardsIDs}");
             await Task.Delay(-1);
         }
 

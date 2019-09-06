@@ -1,27 +1,37 @@
-﻿using Discord.WebSocket;
+﻿using Bot.Extensions;
+using Discord.WebSocket;
+using System;
 
 namespace Bot.Singletons
 {
     /*
-     * Classe responsavel por armazenar o DiscordSocketClient (Objeto principal da Discord.net que representa a Dia(bot)) e disponibilizar o mesmo para o projeto inteiro
+     * Classe responsavel por armazenar o DiscordShardedClient (Objeto principal da Discord.net que representa a Dia(bot) e seus shards) e disponibilizar o mesmo para o projeto inteiro
      */
     public static class SingletonClient
     {
-        //Metodo que contem o DiscordSocketClient
-        public static DiscordSocketClient Client { get; private set; }
+        //Metodo que contem o DiscordShardedClient
+        public static DiscordShardedClient client { get; private set; }
 
-        //Metodo permite criar um novo DiscordSocketClient
+        //Metodo permite criar um novo DiscordShardedClient
         public static void criarClient()
         {
-            Client = new DiscordSocketClient();
+            client = new DiscordShardedClient(new DiscordSocketConfig
+            {
+                AlwaysDownloadUsers = false,
+                MessageCacheSize = 50,
+                ExclusiveBulkDelete = true,
+                LogLevel = Discord.LogSeverity.Info
+            }) ;
+
         }
 
 
-        //Classe responsavel por desalocar o DiscordSocketClient
+        //Classe responsavel por desalocar o DiscordShardedClient
         public static void setNull()
         {
-            Client.Dispose();
-            Client = null;
+            client.Dispose();
+            client = null;
+            GC.Collect();
         }
     }
 }

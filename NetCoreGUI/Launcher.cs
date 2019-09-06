@@ -1,7 +1,10 @@
 ﻿using Bot;
+using Bot.Extensions;
 using Bot.Singletons;
 using System;
+using System.Drawing;
 using System.Threading;
+using Console = Colorful.Console;
 
 namespace NetCoreGUI
 {
@@ -9,12 +12,16 @@ namespace NetCoreGUI
     {
         static void Main(string[] args)
         {
+            Console.Write("", Color.Black);
+            Console.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
             new Thread(() => new Core().IniciarBot()).Start();
-            SingletonLogs.SetInstance(new Launcher(), typeof(Launcher));
+            LogEmiter.SetMetodoLog(new Launcher().Log);
+            
         }
 
-        public void Log(string e)
+        public void Log(LogEmiter.TipoLog logType, string e)
         {
+            System.Console.ForegroundColor = logType.CorNoConsole;
             Console.Write($"\n{e}");
         }
     }

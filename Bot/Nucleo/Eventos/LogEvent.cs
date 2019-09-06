@@ -1,4 +1,5 @@
-﻿using Bot.Singletons;
+﻿using Bot.Extensions;
+using Bot.Singletons;
 using Discord;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -9,14 +10,9 @@ namespace Bot.Nucleo.Eventos
     public class LogEvent
     {
         //Evento que captura o log da discord.net e joga para a interface de usuario
-        public Task LogTask(LogMessage msg)
+        public async Task LogTask(LogMessage msg)
         {
-            MethodInfo metodo = SingletonLogs.tipo.GetMethod("Log");
-            object[] parms = new object[1];
-            parms[0] = msg.ToString();
-            metodo.Invoke(SingletonLogs.instanced, parms);
-
-            return Task.CompletedTask;
+            await LogEmiter.EnviarLogAsync(LogEmiter.TipoLog.TipoCor.Info, msg.ToString()) ;
         }
     }
 }
