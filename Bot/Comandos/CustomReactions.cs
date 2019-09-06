@@ -319,7 +319,8 @@ namespace Bot.Comandos
             new ReacoesCustomizadasDAO().ResponderAcr(ref aCRs);
             if (aCRs.Resposta != null)
             {
-                new EmbedControl().SendMessage(context.Channel, aCRs.Resposta);
+                StringVarsControler varsControler = new StringVarsControler(context);
+                new EmbedControl().SendMessage(context.Channel, varsControler.SubstituirVariaveis(aCRs.Resposta));
             }
         }
     }

@@ -50,7 +50,7 @@ namespace Bot.Forms
 
         private void BtDesligar_Click(object sender, EventArgs e)
         {
-            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
+            SingletonClient.Client.StopAsync().GetAwaiter().GetResult();
             SingletonClient.setNull();
             Launcher.Show();
             Close();
@@ -64,7 +64,7 @@ namespace Bot.Forms
 
         private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
+            SingletonClient.Client.StopAsync().GetAwaiter().GetResult();
             SingletonClient.setNull();
             Launcher.Show();
         }
