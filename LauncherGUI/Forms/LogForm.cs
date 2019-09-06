@@ -25,7 +25,7 @@ namespace Bot.Forms
             box.SelectionColor = box.ForeColor;
         }
 
-        public void Log(LogEmiter.TipoLog tipoLog, string e)
+        public void Log(LogEmiter.TipoLog logType, string e)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Bot.Forms
                 {
                     txLog.Invoke((MethodInvoker)delegate
                     {
-                        AdicionarLinha(ref txLog, $"\r\n{e}", tipoLog.CorNoDrawing);
+                        AdicionarLinha(ref txLog, $"\r\n{e}", logType.CorNoDrawing);
                     });
                 }
             }
@@ -50,7 +50,7 @@ namespace Bot.Forms
 
         private void BtDesligar_Click(object sender, EventArgs e)
         {
-            SingletonClient.Client.StopAsync().GetAwaiter().GetResult();
+            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
             SingletonClient.setNull();
             Launcher.Show();
             Close();
@@ -64,7 +64,7 @@ namespace Bot.Forms
 
         private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SingletonClient.Client.StopAsync().GetAwaiter().GetResult();
+            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
             SingletonClient.setNull();
             Launcher.Show();
         }

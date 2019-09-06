@@ -36,10 +36,10 @@ namespace Bot.Forms
 
 
             LogForm log = new LogForm(this);
+            new Thread(() => new Core().IniciarBot()).Start();
             LogEmiter.SetMetodoLog(log.Log);
             log.Show();
             Hide();
-            new Thread(() => new Core().IniciarBot()).Start();
         }
 
         private void LauncherGUI_FormClosed(object sender, FormClosedEventArgs e)

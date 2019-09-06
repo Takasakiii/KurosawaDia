@@ -48,7 +48,7 @@ namespace Bot.Nucleo.Eventos
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
                 if (socketUserMessage != null)
                 {
-                    CommandContext contexto = new CommandContext(SingletonClient.Client, socketUserMessage);
+                    CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
                     ControlarMensagens(contexto);
                 }
             }).Start();
@@ -161,7 +161,7 @@ namespace Bot.Nucleo.Eventos
         //Metodo interno para avaliar se a mensagem é uma mensão ao bot
         private bool IsMentionCall(CommandContext contexto)
         {
-            if (contexto.Message.Content == $"<@{SingletonClient.Client.CurrentUser.Id}>" || contexto.Message.Content == $"<@!{SingletonClient.Client.CurrentUser.Id}>")
+            if (contexto.Message.Content == $"<@{SingletonClient.client.CurrentUser.Id}>" || contexto.Message.Content == $"<@!{SingletonClient.client.CurrentUser.Id}>")
             {
                 return true;
             }
