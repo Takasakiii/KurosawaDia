@@ -54,7 +54,7 @@ namespace Bot.Forms
             config.ShowDialog();
         }
 
-        private void CheckButton()
+        public void CheckButton()
         {
             if (File.Exists(DB.localDB) && new DBDAO().PegarDadosBot().Item1 == 3)
             {

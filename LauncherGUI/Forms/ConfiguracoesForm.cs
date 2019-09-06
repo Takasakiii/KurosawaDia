@@ -8,13 +8,13 @@ namespace Bot.Forms
 {
     public partial class ConfiguracoesForm : Form
     {
-        Form gui = null;
-        public ConfiguracoesForm(Form gui)
+        LauncherGUI gui = null;
+        public ConfiguracoesForm(LauncherGUI gui)
         {
             InitializeComponent();
             this.gui = gui;
         }
-
+         
         private void BtPicInicializarSalvar_Click(object sender, EventArgs e)
         {
             try
@@ -215,6 +215,7 @@ namespace Bot.Forms
 
         private void ConfiguracoesForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            gui.CheckButton();
             gui.Show();
         }
     }
