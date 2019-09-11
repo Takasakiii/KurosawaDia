@@ -57,11 +57,11 @@ namespace Bot.Extensions
             try
             {
                 var embed = CriarEmbedJson(valor);
-                canal.SendMessageAsync(text: embed.Item1, embed: embed.Item2).GetAwaiter().GetResult();
+                canal.SendMessageAsync(text: embed.Item1, embed: embed.Item2);
             }
             catch
             {
-                canal.SendMessageAsync(valor).GetAwaiter().GetResult();
+                canal.SendMessageAsync(valor);
             }
         }
     }
