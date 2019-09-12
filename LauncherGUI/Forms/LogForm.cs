@@ -64,8 +64,11 @@ namespace Bot.Forms
 
         private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SingletonClient.client.StopAsync().GetAwaiter().GetResult();
-            SingletonClient.setNull();
+            if(SingletonClient.client != null)
+            {
+                SingletonClient.client.StopAsync().GetAwaiter().GetResult();
+                SingletonClient.setNull();
+            }
             Launcher.Show();
         }
 
