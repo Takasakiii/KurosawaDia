@@ -9,7 +9,14 @@ namespace MainDatabaseControler.Factory
         public MySqlConnection Conectar()
         {
             DBConfig dbConfig = new DbConfigDAO().GetDbConfig();
-            MySqlConnection conexao = new MySqlConnection($"Server={dbConfig.ip};Database={dbConfig.database};Uid={dbConfig.login};Pwd={dbConfig.senha};");
+            string stringConexao = $"Server={dbConfig.ip};Database={dbConfig.database};Uid={dbConfig.login};Pwd={dbConfig.senha};";
+
+            if(dbConfig.porta != null)
+            {
+                stringConexao += $"Port={dbConfig.porta};";
+            }
+
+            MySqlConnection conexao = new MySqlConnection(stringConexao);
             conexao.Open();
             return conexao;
         }

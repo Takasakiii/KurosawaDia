@@ -25,7 +25,7 @@ namespace ConfigurationControler.DAO
             }
 
             sqls[0] = "insert into ApisConfig values (@idapi, @ApiIdentifier, @Token, @Ativada), (@idapi2, @ApiIdentifier2, @Token2, @Ativada2);";
-            sqls[1] = "insert into DbConfig values (1, @ip, @database, @login, @senha);";
+            sqls[1] = "insert into DbConfig values (1, @ip, @database, @login, @senha, @porta);";
             sqls[2] = "insert into DiaConfig values (1, @tk, @pr, @id);";
 
             SqliteCommand cmda = new SqliteCommand(sqls[0], conexao);
@@ -45,6 +45,14 @@ namespace ConfigurationControler.DAO
             cmda.Parameters.AddWithValue("@database", dBConfig.database);
             cmda.Parameters.AddWithValue("@login", dBConfig.login);
             cmda.Parameters.AddWithValue("@senha", dBConfig.senha);
+            if(dBConfig.porta != null)
+            {
+                cmda.Parameters.AddWithValue("@porta", dBConfig.porta);
+            }
+            else
+            {
+                cmda.Parameters.AddWithValue("@porta", DBNull.Value);
+            }
             cmda.ExecuteNonQuery();
             cmda = new SqliteCommand(sqls[2], conexao);
             cmda.Parameters.AddWithValue("@tk", diaConfig.token);
@@ -80,7 +88,14 @@ namespace ConfigurationControler.DAO
                 rs = cmd.ExecuteReader();
                 if (rs.Read())
                 {
-                    db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"]);
+                    if(rs["porta"] != DBNull.Value)
+                    {
+                        db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], Convert.ToInt32(rs["porta"]));
+                    }
+                    else
+                    {
+                        db = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], null);
+                    }
                     estado++;
                 }
                 cmd = new SqliteCommand(sqls[2], conexao);

@@ -1,6 +1,7 @@
 ﻿using ConfigurationControler.Factory;
 using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
+using System;
 
 namespace ConfigurationControler.DAO
 {
@@ -13,14 +14,21 @@ namespace ConfigurationControler.DAO
             SqliteCommand cmd = conexao.CreateCommand();
             cmd.CommandText = "select * from DbConfig";
 
-            using (SqliteDataReader reader = cmd.ExecuteReader())
+            using (SqliteDataReader rs = cmd.ExecuteReader())
             {
                 DBConfig dbConfig = null;
-                while (reader.Read())
+                while (rs.Read())
                 {
-                    dbConfig = new DBConfig(reader.GetString(reader.GetOrdinal("ip")), reader.GetString(reader.GetOrdinal("database")), reader.GetString(reader.GetOrdinal("login")), reader.GetString(reader.GetOrdinal("senha")));
+                    if (rs["porta"] != DBNull.Value)
+                    {
+                        dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], Convert.ToInt32(rs["porta"]));
+                    }
+                    else
+                    {
+                        dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], null);
+                    }
                 }
-                reader.Close();
+                rs.Close();
                 conexao.Close();
                 return dbConfig;
             }

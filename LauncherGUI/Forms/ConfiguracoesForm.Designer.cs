@@ -92,6 +92,8 @@
             this.txIdiomasIdentificador = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.txDBPorta = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -139,7 +141,7 @@
             this.groupBox6.Controls.Add(this.checkAtualizarDbl);
             this.groupBox6.Controls.Add(this.label18);
             this.groupBox6.Controls.Add(this.txDblApiToken);
-            this.groupBox6.Location = new System.Drawing.Point(6, 228);
+            this.groupBox6.Location = new System.Drawing.Point(6, 255);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(377, 65);
             this.groupBox6.TabIndex = 3;
@@ -184,9 +186,9 @@
             // btPicInicializarSalvar
             // 
             this.btPicInicializarSalvar.Image = global::Bot.Properties.Resources.Shiro;
-            this.btPicInicializarSalvar.Location = new System.Drawing.Point(6, 299);
+            this.btPicInicializarSalvar.Location = new System.Drawing.Point(6, 320);
             this.btPicInicializarSalvar.Name = "btPicInicializarSalvar";
-            this.btPicInicializarSalvar.Size = new System.Drawing.Size(371, 218);
+            this.btPicInicializarSalvar.Size = new System.Drawing.Size(377, 197);
             this.btPicInicializarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btPicInicializarSalvar.TabIndex = 3;
             this.btPicInicializarSalvar.TabStop = false;
@@ -196,7 +198,7 @@
             // 
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txWeebAPIToken);
-            this.groupBox3.Location = new System.Drawing.Point(6, 174);
+            this.groupBox3.Location = new System.Drawing.Point(6, 201);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(377, 48);
             this.groupBox3.TabIndex = 2;
@@ -221,6 +223,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label19);
+            this.groupBox2.Controls.Add(this.txDBPorta);
             this.groupBox2.Controls.Add(this.txDBSenha);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label6);
@@ -231,7 +235,7 @@
             this.groupBox2.Controls.Add(this.txDBIP);
             this.groupBox2.Location = new System.Drawing.Point(6, 90);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(377, 78);
+            this.groupBox2.Size = new System.Drawing.Size(377, 105);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Banco de Dados:";
@@ -705,6 +709,22 @@
             this.label15.TabIndex = 1;
             this.label15.Text = "Bot by Takasaki 2k19 ©";
             // 
+            // txDBPorta
+            // 
+            this.txDBPorta.Location = new System.Drawing.Point(53, 71);
+            this.txDBPorta.Name = "txDBPorta";
+            this.txDBPorta.Size = new System.Drawing.Size(121, 20);
+            this.txDBPorta.TabIndex = 8;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 74);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(35, 13);
+            this.label19.TabIndex = 9;
+            this.label19.Text = "Porta:";
+            // 
             // ConfiguracoesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -814,5 +834,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txDblApiToken;
         private System.Windows.Forms.CheckBox checkAtualizarDbl;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox txDBPorta;
     }
 }

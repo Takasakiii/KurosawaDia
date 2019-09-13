@@ -14,13 +14,19 @@ namespace Bot.Forms
             InitializeComponent();
             this.gui = gui;
         }
-         
+
         private void BtPicInicializarSalvar_Click(object sender, EventArgs e)
         {
             try
             {
+                int? porta = null;
+                if (txDBPorta.Text != "")
+                {
+                    porta = Convert.ToInt32(txDBPorta.Text);
+                }
+
                 DiaConfig diaConfig = new DiaConfig(txBotToken.Text, txBotPrefix.Text, Convert.ToUInt64(txBotIDDono.Text));
-                DBConfig dBConfig = new DBConfig(txDBIP.Text, txDBDatabase.Text, txDBLogin.Text, txDBSenha.Text);
+                DBConfig dBConfig = new DBConfig(txDBIP.Text, txDBDatabase.Text, txDBLogin.Text, txDBSenha.Text, porta);
                 ApisConfig weebApi = new ApisConfig("Weeb", txWeebAPIToken.Text, true, 0);
                 ApisConfig dblApi = new ApisConfig("Discord Bot List", txDblApiToken.Text, checkAtualizarDbl.Checked, 1);
                 ApisConfig[] apis = new ApisConfig[2];
@@ -49,30 +55,39 @@ namespace Bot.Forms
             DBDAO dao = new DBDAO();
             var retorno = dao.PegarDadosBot();
 
-            
-                if (retorno.Item4 != null)
-                {
-                    txBotToken.Text = retorno.Item4.token;
-                    txBotPrefix.Text = retorno.Item4.prefix;
-                    txBotIDDono.Text = retorno.Item4.idDono.ToString();
-                }
 
-                
-                if (retorno.Item3 != null)
-                {
-                    txDBIP.Text = retorno.Item3.ip;
-                    txDBDatabase.Text = retorno.Item3.database;
-                    txDBLogin.Text = retorno.Item3.login;
-                    txDBSenha.Text = retorno.Item3.senha;
-                }
+            if (retorno.Item4 != null)
+            {
+                txBotToken.Text = retorno.Item4.token;
+                txBotPrefix.Text = retorno.Item4.prefix;
+                txBotIDDono.Text = retorno.Item4.idDono.ToString();
+            }
 
-                
-                if(retorno.Item2.Count > 0)
+
+            if (retorno.Item3 != null)
+            {
+                txDBIP.Text = retorno.Item3.ip;
+                txDBDatabase.Text = retorno.Item3.database;
+                txDBLogin.Text = retorno.Item3.login;
+                txDBSenha.Text = retorno.Item3.senha;
+
+                if (retorno.Item3.porta != null)
                 {
-                    txWeebAPIToken.Text = retorno.Item2[0].Token;
-                    txDblApiToken.Text = retorno.Item2[1].Token;
-                    checkAtualizarDbl.Checked = retorno.Item2[1].Ativada;
+                    txDBPorta.Text = retorno.Item3.porta.ToString();
                 }
+                else
+                {
+                    txDBPorta.Text = "";
+                }
+            }
+
+
+            if (retorno.Item2.Count > 0)
+            {
+                txWeebAPIToken.Text = retorno.Item2[0].Token;
+                txDblApiToken.Text = retorno.Item2[1].Token;
+                checkAtualizarDbl.Checked = retorno.Item2[1].Ativada;
+            }
 
             StatusDAO sdao = new StatusDAO();
             var retorno2 = sdao.CarregarStatus();
@@ -134,7 +149,7 @@ namespace Bot.Forms
 
         private void BtIdiomasSalvar_Click(object sender, EventArgs e)
         {
-            if(btIdiomasSalvar.Tag.ToString() == "-1")
+            if (btIdiomasSalvar.Tag.ToString() == "-1")
             {
                 if (cbIdiomasIdioma.SelectedIndex >= 0 && txIdiomasIdentificador.Text != "" && txIdiomasTexto.Text != "")
                 {
@@ -147,7 +162,7 @@ namespace Bot.Forms
             }
             else
             {
-                Linguagens linguagens = new Linguagens ((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text, Convert.ToUInt32(btIdiomasSalvar.Tag));
+                Linguagens linguagens = new Linguagens((Linguagens.Idiomas)cbIdiomasIdioma.SelectedIndex, txIdiomasIdentificador.Text, txIdiomasTexto.Text, Convert.ToUInt32(btIdiomasSalvar.Tag));
                 LinguagensDAO dao = new LinguagensDAO();
                 dao.Atualisar(linguagens);
 
@@ -166,7 +181,7 @@ namespace Bot.Forms
 
         private void CbIdiomasIdioma_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbIdiomasIdioma.SelectedIndex >= 0)
+            if (cbIdiomasIdioma.SelectedIndex >= 0)
             {
                 dgIdiomasLista.Rows.Clear();
 
@@ -175,7 +190,7 @@ namespace Bot.Forms
                 var retorno = dao.Listar(linguagens);
                 if (retorno.Item1)
                 {
-                    foreach(Linguagens lin in retorno.Item2)
+                    foreach (Linguagens lin in retorno.Item2)
                     {
                         dgIdiomasLista.Rows.Add(lin.stringIdentifier, lin.idString, lin.idiomaString.ToString(), lin.texto, (int)lin.idiomaString);
                     }
@@ -189,7 +204,7 @@ namespace Bot.Forms
             if (dg.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
                 DataGridViewButtonColumn botaoColuna = (DataGridViewButtonColumn)dg.Columns[e.ColumnIndex];
-                if(botaoColuna.Name == "IdiomasRemover")
+                if (botaoColuna.Name == "IdiomasRemover")
                 {
                     DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
                     Linguagens linguagens = new Linguagens(idString: Convert.ToUInt64(row.Cells["IdiomasID"].Value));
@@ -199,7 +214,7 @@ namespace Bot.Forms
                 }
                 else
                 {
-                    if(botaoColuna.Name == "IdiomasEditar")
+                    if (botaoColuna.Name == "IdiomasEditar")
                     {
                         DataGridViewRow row = dgIdiomasLista.Rows[e.RowIndex];
                         txIdiomasIdentificador.Text = row.Cells["IdiomasIdentificador"].Value.ToString();
@@ -209,7 +224,7 @@ namespace Bot.Forms
                     }
                 }
 
-                
+
             }
         }
 
