@@ -172,27 +172,38 @@ namespace Bot.Comandos
         {
             if (!contexto.IsPrivate)
             {
-                string[] comando = (string[])args[1];
-                string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                if (msg != "")
+                SocketGuildUser userGuild = contexto.User as SocketGuildUser;
+                if (userGuild.GuildPermissions.ManageMessages)
                 {
-                    IGuildUser user =  contexto.Guild.GetUserAsync(contexto.Client.CurrentUser.Id).GetAwaiter().GetResult();
-                    if (user.GuildPermissions.ManageMessages)
-                    {
-                        contexto.Message.DeleteAsync().GetAwaiter().GetResult();
-                    }
+                    string[] comando = (string[])args[1];
+                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                    new EmbedControl().SendMessage(contexto.Channel, new StringVarsControler(contexto).SubstituirVariaveis(msg));
+                    if (msg != "")
+                    {
+                        IGuildUser user = contexto.Guild.GetUserAsync(contexto.Client.CurrentUser.Id).GetAwaiter().GetResult();
+                        if (user.GuildPermissions.ManageMessages)
+                        {
+                            contexto.Message.DeleteAsync().GetAwaiter().GetResult();
+                        }
+
+                        new EmbedControl().SendMessage(contexto.Channel, new StringVarsControler(contexto).SubstituirVariaveis(msg));
+                    }
+                    else
+                    {
+                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("sayErro", "**{0}** você precisa de me falar uma mensagem", contexto.User.ToString()))
+                                .AddField(StringCatch.GetString("usoCmd", "Uso do comando:"), StringCatch.GetString("usoSay", "`{0}say <mensagem>`", (string)args[0]))
+                                .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("ExemploSay", "`{0}say @Sora#5614 cade o wallpaper?`", (string)args[0]))
+                                .WithColor(Color.Red)
+                            .Build());
+                    }
                 }
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("sayErro", "**{0}** você precisa de me falar uma mensagem", contexto.User.ToString()))
-                            .AddField(StringCatch.GetString("usoCmd", "Uso do comando:"), StringCatch.GetString("usoSay", "`{0}say <mensagem>`", (string)args[0]))
-                            .AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("ExemploSay", "`{0}say @Sora#5614 cade o wallpaper?`", (string)args[0]))
-                            .WithColor(Color.Red)
-                        .Build());
+                        .WithDescription(StringCatch.GetString("saySemPerm", "**{0}**, você precisa de permissão de Gerenciar Mensagens para poder executar esse comando 😔", contexto.User.Username))
+                        .WithColor(Color.Red)
+                    .Build());
                 }
             }
             else

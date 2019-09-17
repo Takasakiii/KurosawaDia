@@ -54,7 +54,7 @@ namespace Bot.Comandos
 
                                 message.DeleteAsync();
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", contexto.User.ToString(), (string)args[0], new string(servidor.Prefix)))
+                                        .WithDescription(StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", contexto.User.Username, (string)args[0], new string(servidor.Prefix)))
                                         .WithColor(Color.DarkPurple)
                                     .Build());
                             }));
@@ -62,7 +62,7 @@ namespace Bot.Comandos
                         else
                         {
                             contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", contexto.User.ToString()))
+                                    .WithDescription(StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", contexto.User.Username))
                                     .AddField(StringCatch.GetString("usoCmd", "Uso do Comando:"), StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", (string)args[0]))
                                     .AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploCmd", "`{0}setprefix !`", (string)args[0]))
                                     .WithColor(Color.Red)
@@ -72,7 +72,7 @@ namespace Bot.Comandos
                     else
                     {
                         contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setprefixSemPerm", "**{0}** você precisa da permissão ``Gerenciar Servidor`` para usar esse comando", contexto.User.ToString()))
+                                .WithDescription(StringCatch.GetString("setprefixSemPerm", "**{0}**, você precisa de permissão de Gerenciar Servidor para poder usar esse comando 😔", contexto.User.Username))
                                 .WithColor(Color.Red)
                             .Build()); ;
                     }
@@ -189,7 +189,7 @@ namespace Bot.Comandos
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔"))
+                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", contexto.User.Username))
                         .Build());
                 }
             }
@@ -255,14 +255,14 @@ namespace Bot.Comandos
                             if (new CanaisDAO().AddCh(canalModel))
                             {
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", contexto.User.ToString(), canalModel.NomeCanal))
+                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", contexto.User.Username, canalModel.NomeCanal))
                                         .WithColor(Color.DarkPurple)
                                      .Build());
                             }
                             else
                             {
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", contexto.User.ToString()))
+                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", contexto.User.Username))
                                         .WithColor(Color.Red)
                                     .Build());
                             }
@@ -270,7 +270,7 @@ namespace Bot.Comandos
                         else
                         {
                             contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", contexto.User.ToString()))
+                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", contexto.User.Username))
                                     .WithColor(Color.Red)
                                 .Build());
                         }
@@ -279,7 +279,7 @@ namespace Bot.Comandos
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -329,14 +329,14 @@ namespace Bot.Comandos
                             if (new CanaisDAO().AddCh(canalModel))
                             {
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de saida serão enviadas no canal: `#{1}`", contexto.User.ToString(), canalModel.NomeCanal))
+                                        .WithDescription(StringCatch.GetString("welcomechOk", "**{0}** as mensagens de saida serão enviadas no canal: `#{1}`", contexto.User.Username, canalModel.NomeCanal))
                                         .WithColor(Color.DarkPurple)
                                      .Build());
                             }
                             else
                             {
                                 contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as mensagens de saida", contexto.User.ToString()))
+                                        .WithDescription(StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as mensagens de saida", contexto.User.Username))
                                         .WithColor(Color.Red)
                                     .Build());
                             }
@@ -344,7 +344,7 @@ namespace Bot.Comandos
                         else
                         {
                             contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", contexto.User.ToString()))
+                                    .WithDescription(StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", contexto.User.Username))
                                     .WithColor(Color.Red)
                                 .Build());
                         }
@@ -353,7 +353,7 @@ namespace Bot.Comandos
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithDescription(StringCatch.GetString("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -444,7 +444,7 @@ namespace Bot.Comandos
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder execultar esse comando 😔"))
+                        .WithTitle(StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", contexto.User.Username))
                         .Build());
                 }
             }
@@ -518,7 +518,7 @@ namespace Bot.Comandos
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -591,7 +591,7 @@ namespace Bot.Comandos
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithDescription(StringCatch.GetString("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -648,7 +648,7 @@ namespace Bot.Comandos
                 else
                 {
                     contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("erromsgSemPerm", "**{0}** você precisa da permissão: ``Administrador`` para usar esse comando"))
+                            .WithDescription(StringCatch.GetString("erromsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
