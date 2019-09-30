@@ -72,7 +72,7 @@ namespace MainDatabaseControler.DAO
             bool retorno = false;
             if (rs.Read())
             {
-                servidor = new Servidores(servidor.Id, (PermissoesServidores)rs["especial_servidor"]);
+                servidor = new Servidores(servidor.Id, (PermissoesServidores)rs["especial_servidor"], servidor.Prefix, servidor.Nome);
                 retorno = true;
             }
             rs.Close();

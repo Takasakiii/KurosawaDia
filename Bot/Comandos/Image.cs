@@ -159,25 +159,25 @@ namespace Bot.Comandos
 
         public void loli()
         {
+            ulong id = 0;
             if (!contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
-                if(new ServidoresDAO().GetPermissoes(ref servidor))
-                {
-                    if(servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
-                    {
-                        Links links = new Links();
-                        new ImageExtensions().getImg(contexto, img: links.loli);
-                    }
-                    else
-                    {
-                        if (new ServidoresDAO().GetPrefix(ref servidor))
-                        {
-                            new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
-                        }
-                    }
-                }
+                id = contexto.Guild.Id;
             }
+
+            Servidores servidor = new Servidores(id, ((string)args[0]).ToCharArray());
+
+            bool sucesso = new ServidoresDAO().GetPermissoes(ref servidor);
+            if (!contexto.IsPrivate && sucesso && servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+            {
+                Links links = new Links();
+                new ImageExtensions().getImg(contexto, img: links.loli);
+            }
+            else
+            {
+                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+            }
+
         }
     }
 }
