@@ -4,10 +4,9 @@ using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using static Bot.Extensions.StringVarsControler;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -18,27 +17,31 @@ namespace Bot.Nucleo.Eventos
         {
             this.diaConfig = diaConfig;
         }
+
         public Task LogIn()
         {
-            new Thread(async () => {
+            new Thread(async () =>
+            {
                 Status[] status = new StatusDAO().CarregarStatus().Item2.ToArray();
-                StringVarsControler varsControler = new StringVarsControler(null);
                 do
                 {
                     for (int i = 0; i < status.Length; i++)
                     {
                         try
                         {
-                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%prefixo%", diaConfig.prefix));
-                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%servidores%", SingletonClient.client.Guilds.Count.ToString()));
-
                             int users = 0;
                             foreach (SocketGuild servidor in SingletonClient.client.Guilds)
                             {
                                 users += servidor.Users.Count;
                             }
 
-                            varsControler.AdicionarComplemento(new StringVarsControler.VarTypes("%usuarios%", users.ToString()));
+                            StringVarsControler varsControler = new StringVarsControler();
+                            VarTypes[] vars = new VarTypes[] {
+                                new VarTypes("%prefixo%", diaConfig.prefix),
+                                new VarTypes("%servidores%", SingletonClient.client.Guilds.Count.ToString()),
+                                new VarTypes("%usuarios%", users.ToString())
+                            };
+                            varsControler.AdicionarComplementos(vars);
 
                             switch (status[i].status_tipo)
                             {
@@ -55,6 +58,8 @@ namespace Bot.Nucleo.Eventos
                                     await SingletonClient.client.SetGameAsync(varsControler.SubstituirVariaveis(status[i].status_jogo), status[i].status_url, Discord.ActivityType.Watching);
                                     break;
                             }
+                            varsControler = null;
+                            GC.Collect();
                         }
                         catch (Exception e)
                         {
