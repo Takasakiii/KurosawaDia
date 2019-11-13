@@ -4,40 +4,40 @@ using MainDatabaseControler.Factory;
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
+using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.Adms;
 
 namespace MainDatabaseControler.DAO
 {
     public class AdmsDAO
     {
-        private MySqlConnection conexao = null;
 
-        public AdmsDAO()
+        public async Task<Tuple<bool, Adms>> GetAdmAsync(Adms adms)
         {
-            conexao = new ConnectionFactory().Conectar();
-        }
-
-        public bool GetAdm(ref Adms adms)
-        {
-            const string sql = "call GetAdm(@id)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;
-            if (rs.Read())
+            Adms retadms = adms;
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                bool result = Convert.ToBoolean(rs["result"]);
-                if (result)
+                const string sql = "call GetAdm(@id)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+                cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                
+                if (await rs.ReadAsync())
                 {
-                    adms.SetPerms((PermissoesAdms)rs["permissao"]);
-                    retorno = true;
+                    bool result = Convert.ToBoolean(rs["result"]);
+                    if (result)
+                    {
+                        retadms.SetPerms((PermissoesAdms)rs["permissao"]);
+                        retorno = true;
+                    }
                 }
-            }
-            rs.Close();
-            conexao.Close();
-            return retorno;
+            });
+
+            return Tuple.Create(retorno, retadms);
         }
 
         public void SetAdm(Adms adms)

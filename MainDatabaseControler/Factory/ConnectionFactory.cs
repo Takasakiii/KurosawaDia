@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MainDatabaseControler.Factory
 {
-    public class ConnectionFactory
+    internal class ConnectionFactory
     {
-        public static async Task Conectar(Action funcao)
+        internal static async Task ConectarAsync(Action<MySqlConnection> funcao)
         {
-            DBConfig dbConfig = new DbConfigDAO().GetDbConfig();
+            DBConfig dbConfig = await new DbConfigDAO().GetDbConfigAsync();
             string stringConexao = $"Server={dbConfig.ip};Database={dbConfig.database};Uid={dbConfig.login};Pwd={dbConfig.senha};";
 
             if(dbConfig.porta != null)
@@ -19,8 +19,9 @@ namespace MainDatabaseControler.Factory
             }
 
             MySqlConnection conexao = new MySqlConnection(stringConexao);
-            conexao.Open();
-            return conexao;
+            await conexao.OpenAsync();
+            funcao.Invoke(conexao);
+            await conexao.CloseAsync();
         }
     }
 }
