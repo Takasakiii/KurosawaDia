@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ElectronNET.API;
+using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -63,7 +64,15 @@ namespace ElectronGUI
 
         private async Task ElectronConfigAsnyc()
         {
-            await Electron.WindowManager.CreateWindowAsync();
+            BrowserWindowOptions options = new BrowserWindowOptions();
+            options.Center = true;
+            options.AutoHideMenuBar = true;
+            options.Resizable = false;
+
+            options.MinWidth = 1289;
+            options.MinHeight = 720;
+
+            await Electron.WindowManager.CreateWindowAsync(options);
         }
     }
 }
