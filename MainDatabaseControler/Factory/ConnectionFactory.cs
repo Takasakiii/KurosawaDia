@@ -2,12 +2,13 @@
 using ConfigurationControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using System.Threading.Tasks;
 
 namespace MainDatabaseControler.Factory
 {
     public class ConnectionFactory
     {
-        public MySqlConnection Conectar(Action funcao)
+        public static async Task Conectar(Action funcao)
         {
             DBConfig dbConfig = new DbConfigDAO().GetDbConfig();
             string stringConexao = $"Server={dbConfig.ip};Database={dbConfig.database};Uid={dbConfig.login};Pwd={dbConfig.senha};";

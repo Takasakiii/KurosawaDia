@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ConfigurationControler.Factory
 {
-    public class ConnectionFactory
+    internal class ConnectionFactory
     {
 
-        public static async Task ConectarAsync(Action<SqliteConnection> funcaoDados)
+        internal static async Task ConectarAsync(Action<SqliteConnection> funcaoDados)
         {
             if (!File.Exists(DB.localDB))
             {
