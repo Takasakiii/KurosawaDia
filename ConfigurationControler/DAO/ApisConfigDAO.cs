@@ -3,41 +3,36 @@ using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ConfigurationControler.DAO
 {
     public class ApisConfigDAO
     {
-        private SqliteConnection conexao = new ConnectionFactory().Conectar();
 
-        public Tuple<bool, List<ApisConfig>> Carregar()
+        public async Task<ApisConfig[]> CarregarAsync()
         {
-            SqliteCommand selectCmd = conexao.CreateCommand();
-            selectCmd.CommandText = "select * from ApisConfig";
-            bool result = true; //fake
             List<ApisConfig> retorno = new List<ApisConfig>();
-            try
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                using (SqliteDataReader reader = selectCmd.ExecuteReader())
+                SqliteCommand selectCmd = conexao.CreateCommand();
+                selectCmd.CommandText = "select * from ApisConfig";
+                using (SqliteDataReader reader = await selectCmd.ExecuteReaderAsync())
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         ApisConfig temp = new ApisConfig((string)reader["ApiIdentifier"], (string)reader["Token"], Convert.ToBoolean(reader["Ativada"]), Convert.ToUInt32(reader["id"]));
                         retorno.Add(temp);
                     }
                     reader.Close();
                 }
-            }
-            catch
-            {
-                result = false;
-            }
-            finally
-            {
-                conexao.Close();
-            }
-            return Tuple.Create(result, retorno);
+            });
+
+            return retorno.ToArray();
         }
+
+
+           
 
         
     }

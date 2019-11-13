@@ -2,36 +2,37 @@
 using ConfigurationControler.Modelos;
 using Microsoft.Data.Sqlite;
 using System;
+using System.Threading.Tasks;
 
 namespace ConfigurationControler.DAO
 {
     public class DbConfigDAO
     {
-        private SqliteConnection conexao = new ConnectionFactory().Conectar();
-
-        public DBConfig GetDbConfig()
+        public async Task<DBConfig> GetDbConfigAsync()
         {
-            SqliteCommand cmd = conexao.CreateCommand();
-            cmd.CommandText = "select * from DbConfig";
-
-            using (SqliteDataReader rs = cmd.ExecuteReader())
+            DBConfig dbConfig = null;
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                DBConfig dbConfig = null;
-                while (rs.Read())
+                SqliteCommand cmd = conexao.CreateCommand();
+                cmd.CommandText = "select * from DbConfig";
+
+                using (SqliteDataReader rs = await cmd.ExecuteReaderAsync())
                 {
-                    if (rs["porta"] != DBNull.Value)
+                    while (await rs.ReadAsync())
                     {
-                        dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], Convert.ToInt32(rs["porta"]));
+                        if (rs["porta"] != DBNull.Value)
+                        {
+                            dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], Convert.ToInt32(rs["porta"]));
+                        }
+                        else
+                        {
+                            dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], null);
+                        }
                     }
-                    else
-                    {
-                        dbConfig = new DBConfig((string)rs["ip"], (string)rs["database"], (string)rs["login"], (string)rs["senha"], null);
-                    }
+                    rs.Close();
                 }
-                rs.Close();
-                conexao.Close();
-                return dbConfig;
-            }
+            });
+            return dbConfig;
         }
     }
 }

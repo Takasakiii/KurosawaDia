@@ -2,49 +2,39 @@
 using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ConfigurationControler.Factory
 {
     public class ConnectionFactory
     {
 
-        public SqliteConnection Conectar()
+        public static async Task ConectarAsync(Action<SqliteConnection> funcaoDados)
         {
             if (!File.Exists(DB.localDB))
             {
-                CriarDB();
+                await CriarDBAsync();
             }
 
             SqliteConnection conexao = new SqliteConnection($"Data Source={AppDomain.CurrentDomain.BaseDirectory}{DB.localDB}");
-            conexao.Open();
-            return conexao;
+            await conexao.OpenAsync();
+            funcaoDados.Invoke(conexao);
+            await conexao.CloseAsync();
         }
 
-        private void CriarDB()
+        private static async Task CriarDBAsync()
         {
-            try
+            FileStream fs = File.Create(DB.localDB);
+            fs.Close();
+
+            await ConnectionFactory.ConectarAsync(async (SqliteConnection) =>
             {
-                FileStream fs = File.Create(DB.localDB);
-                fs.Close();
-
-                ConnectionFactory repetidor = new ConnectionFactory();
-                SqliteConnection conexao = repetidor.Conectar();
-
-
-
-                conexao.Open();
                 for (int i = 0; i < DB.sqlCriacao.Length; i++)
                 {
-                    SqliteCommand cmd = new SqliteCommand(DB.sqlCriacao[i], conexao);
-                    cmd.ExecuteNonQuery();
+                    SqliteCommand cmd = new SqliteCommand(DB.sqlCriacao[i], SqliteConnection);
+                    await cmd.ExecuteNonQueryAsync();
                 }
-
-                conexao.Close();
-            }
-            catch
-            {
-                throw;
-            }
+            });
         }
     }
 }
