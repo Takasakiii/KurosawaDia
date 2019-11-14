@@ -40,16 +40,18 @@ namespace MainDatabaseControler.DAO
             return Tuple.Create(retorno, retadms);
         }
 
-        public void SetAdm(Adms adms)
+        public async Task SetAdmAsync(Adms adms)
         {
-            const string sql = "call AdicionarAdm(@id, @perm)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
+            {
+                const string sql = "call AdicionarAdm(@id, @perm)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
-            cmd.Parameters.AddWithValue("@perm", (int)adms.Permissoes);
+                cmd.Parameters.AddWithValue("@id", adms.Usuario.Id);
+                cmd.Parameters.AddWithValue("@perm", (int)adms.Permissoes);
 
-            cmd.ExecuteNonQuery();
-            conexao.Close();
+                await cmd.ExecuteNonQueryAsync();
+            });
         }
     }
 }

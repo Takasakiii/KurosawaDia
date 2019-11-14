@@ -2,100 +2,99 @@
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
+using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.Servidores;
 
 namespace MainDatabaseControler.DAO
 {
     public class ServidoresDAO
     {
-        private MySqlConnection conexao = null;
-
-        public ServidoresDAO()
+        public async Task<Tuple<bool, Servidores>> GetPrefixAsync(Servidores servidor)
         {
-            conexao = new ConnectionFactory().Conectar();
-        }
-
-        public bool GetPrefix(ref Servidores servidor)
-        {
-            const string sql = "call buscarPrefix(@id)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", servidor.Id);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
-            string prefix = null;
-            if (rs.Read())
-            {
-                prefix = rs["prefix_servidor"].ToString();
-            }
-
             bool retorno = false;
-            if (!string.IsNullOrEmpty(prefix))
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                servidor = new Servidores(servidor.Id, prefix.ToCharArray());
-                retorno = true;
-            }
+                const string sql = "call buscarPrefix(@id)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-            rs.Close();
-            conexao.Close();
-            return retorno;
+                cmd.Parameters.AddWithValue("@id", servidor.Id);
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                string prefix = null;
+                if (await rs.ReadAsync())
+                {
+                    prefix = rs["prefix_servidor"].ToString();
+                }
+
+                if (!string.IsNullOrEmpty(prefix))
+                {
+                    servidor = new Servidores(servidor.Id, prefix.ToCharArray());
+                    retorno = true;
+                }
+            });
+
+            return Tuple.Create(retorno, servidor);
         }
 
-        public bool SetServidorPrefix(ref Servidores servidor)
+        public async Task<Tuple<bool, Servidores>> SetServidorPrefixAsync(Servidores servidor)
         {
-            const string sql = "call atualizarPrefix(@id, @prefix)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", servidor.Id);
-            cmd.Parameters.AddWithValue("@prefix", new string(servidor.Prefix));
-
-            MySqlDataReader rs = cmd.ExecuteReader();
             bool retono = false;
-            if (rs.Read())
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                servidor = new Servidores(servidor.Id, ((string)rs["prefix_servidor"]).ToCharArray());
-                retono = true;
-            }
-            rs.Close();
-            conexao.Close();
-            return retono;
+                const string sql = "call atualizarPrefix(@id, @prefix)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+                cmd.Parameters.AddWithValue("@id", servidor.Id);
+                cmd.Parameters.AddWithValue("@prefix", new string(servidor.Prefix));
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                if (await rs.ReadAsync())
+                {
+                    servidor = new Servidores(servidor.Id, ((string)rs["prefix_servidor"]).ToCharArray());
+                    retono = true;
+                }
+            });
+            return Tuple.Create(retono, servidor);
         }
 
-        public bool GetPermissoes(ref Servidores servidor)
+        public async Task<Tuple<bool, Servidores>> GetPermissoesAsync(Servidores servidor)
         {
-            const string sql = "call GetPermissoes(@id)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", servidor.Id);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;
-            if (rs.Read())
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                servidor = new Servidores(servidor.Id, (PermissoesServidores)rs["especial_servidor"], servidor.Prefix, servidor.Nome);
-                retorno = true;
-            }
-            rs.Close();
-            conexao.Close();
-            return retorno;
+                const string sql = "call GetPermissoes(@id)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+                cmd.Parameters.AddWithValue("@id", servidor.Id);
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                if (await rs.ReadAsync())
+                {
+                    servidor = new Servidores(servidor.Id, (PermissoesServidores)rs["especial_servidor"], servidor.Prefix, servidor.Nome);
+                    retorno = true;
+                }
+            });
+            return Tuple.Create(retorno, servidor);
         }
 
-        public bool SetEspecial(Servidores servidor)
+        public async Task<bool> SetEspecialAsync(Servidores servidor)
         {
-            const string sql = "call DefinirTipoServidor(@id, @tipo)";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            cmd.Parameters.AddWithValue("@id", servidor.Id);
-            cmd.Parameters.AddWithValue("@tipo", (int)servidor.Permissoes);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
             bool retorno = false;
-            if (rs.Read())
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                retorno = Convert.ToBoolean(rs["Result"]);
-            }
-            rs.Close();
-            conexao.Close();
+                const string sql = "call DefinirTipoServidor(@id, @tipo)";
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+                cmd.Parameters.AddWithValue("@id", servidor.Id);
+                cmd.Parameters.AddWithValue("@tipo", (int)servidor.Permissoes);
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                if (await rs.ReadAsync())
+                {
+                    retorno = Convert.ToBoolean(rs["Result"]);
+                }
+            });
             return retorno;
         }
     }
