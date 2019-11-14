@@ -13,7 +13,7 @@ namespace Bot.Comandos
     public class Especiais : GenericModule
     {
 
-        public Especiais(CommandContext contexto, object[] args) : base(contexto, args)
+        public Especiais(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
 
         }

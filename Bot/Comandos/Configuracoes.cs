@@ -15,7 +15,7 @@ namespace Bot.Comandos
 {
     public class Configuracoes : GenericModule
     {
-        public Configuracoes(CommandContext contexto, object[] args) : base(contexto, args)
+        public Configuracoes(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         { 
 
         }

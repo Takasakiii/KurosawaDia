@@ -10,7 +10,7 @@ namespace Bot.Comandos
 {
     public class Moderacao : GenericModule
     {
-        public Moderacao(CommandContext contexto, object[] args) : base (contexto, args)
+        public Moderacao(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
                 /*
              *  pra que server

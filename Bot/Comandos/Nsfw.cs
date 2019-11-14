@@ -12,7 +12,7 @@ namespace Bot.Comandos
 {
     public class Nsfw : GenericModule
     {
-        public Nsfw(CommandContext contexto, object[] args) : base (contexto, args)
+        public Nsfw(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
 
         }

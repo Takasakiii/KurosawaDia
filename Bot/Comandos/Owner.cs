@@ -16,7 +16,7 @@ namespace Bot.Comandos
     public class Owner : GenericModule
     {
 
-        public Owner (CommandContext contexto, object[] args) : base(contexto, args)
+        public Owner(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
 
         }

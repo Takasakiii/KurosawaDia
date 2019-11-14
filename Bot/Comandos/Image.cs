@@ -13,7 +13,7 @@ namespace Bot.Comandos
 {
     public class Image : GenericModule
     {
-        public Image(CommandContext contexto, object[] args) : base(contexto, args)
+        public Image(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
 
         }

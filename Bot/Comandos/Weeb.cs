@@ -18,7 +18,7 @@ namespace Bot.Comandos
     public class Weeb : GenericModule
     {
         //Contrutor do modulo e passagem do Contexto e args
-        public Weeb(CommandContext contexto, object[] args) : base (contexto, args)
+        public Weeb(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
         {
 
         }

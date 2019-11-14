@@ -15,7 +15,7 @@ namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
     {
-        public Ajuda (CommandContext contexto, object[] args) : base (contexto, args)
+        public Ajuda (CommandContext contexto, string prefixo, string[] comando) : base (contexto, prefixo, comando)
         {
             
         }
