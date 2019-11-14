@@ -2,56 +2,53 @@
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace MainDatabaseControler.DAO
 {
     public class InsultosDAO
     {
-        private MySqlConnection conexao = null;
-        public InsultosDAO()
+        public async Task<bool> InserirInsultoAsync(Insultos insulto)
         {
-            conexao = new ConnectionFactory().Conectar();
+            bool retorno = true;
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
+            {
+                try
+                {
+                    const string sql = "call AdicionarInsulto(@id, @insulto)";
+                    MySqlCommand cmd = new MySqlCommand(sql, conexao);
+
+                    cmd.Parameters.AddWithValue("@id", insulto.Usuario.Id);
+                    cmd.Parameters.AddWithValue("@insulto", insulto.Insulto);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                catch
+                {
+                    retorno = false;
+                }
+            });
+            return retorno;
         }
 
-        public bool InserirInsulto(Insultos insulto)
+        public async Task<Tuple<bool, Insultos>> GetInsultoAsync(Insultos insulto)
         {
-            try
+            bool retorno = false;
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                const string sql = "call AdicionarInsulto(@id, @insulto)";
+                const string sql = "call PegarInsulto()";
                 MySqlCommand cmd = new MySqlCommand(sql, conexao);
 
-                cmd.Parameters.AddWithValue("@id", insulto.Usuario.Id);
-                cmd.Parameters.AddWithValue("@insulto", insulto.Insulto);
-
-                cmd.ExecuteNonQuery();
-                conexao.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool GetInsulto(ref Insultos insulto)
-        {
-            const string sql = "call PegarInsulto()";
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
-
-            bool retorno = false;
-            if (rs.Read())
-            {
-                Usuarios usuario = new Usuarios(Convert.ToUInt64(rs["id_usuario"]), (string)rs["nome_usuario"]);
-                insulto = new Insultos((string)rs["insulto"], usuario, Convert.ToUInt32(rs["cod"]));
-                retorno = true;
-            }
-            rs.Close();
-            conexao.Close();
-            return retorno;
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+                if (await rs.ReadAsync())
+                {
+                    Usuarios usuario = new Usuarios(Convert.ToUInt64(rs["id_usuario"]), (string)rs["nome_usuario"]);
+                    insulto = new Insultos((string)rs["insulto"], usuario, Convert.ToUInt32(rs["cod"]));
+                    retorno = true;
+                }
+            });
+            return Tuple.Create(retorno, insulto);
         }
     }
 }

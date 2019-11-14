@@ -2,6 +2,8 @@
 using MainDatabaseControler.Modelos;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace MainDatabaseControler.DAO
 {
@@ -15,30 +17,32 @@ namespace MainDatabaseControler.DAO
             Delete = 3
         }
 
-        private MySqlConnection conexao = new ConnectionFactory().Conectar();
-
-        public Operacao AdicionarAtualizarCargo(Cargos cargos)
+        public async Task<Operacao> AdicionarAtualizarCargoAsync(Cargos cargos)
         {
             Operacao retorno = Operacao.Incompleta;
-            const string sql = "call AdicionarAtualizarCargoIP(@cargo, @idC, @idS, @IP)";
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexao);
-            cmd.Parameters.AddWithValue("@cargo", cargos.Cargo);
-            cmd.Parameters.AddWithValue("@idC", cargos.Id);
-            cmd.Parameters.AddWithValue("@idS", cargos.Servidor.Id);
-            cmd.Parameters.AddWithValue("@IP", cargos.Requesito);
-
-            MySqlDataReader rs = cmd.ExecuteReader();
-
-            if (rs.Read())
+            await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
-                if (rs["tipoOperacao"] != null)
-                {
-                    retorno = (Operacao)Convert.ToInt32(rs["tipoOperacao"]);
-                }
-            }
+                const string sql = "call AdicionarAtualizarCargoIP(@cargo, @idC, @idS, @IP)";
 
-            conexao.Close();
+                MySqlCommand cmd = new MySqlCommand(sql, conexao);
+                cmd.Parameters.AddWithValue("@cargo", cargos.Cargo);
+                cmd.Parameters.AddWithValue("@idC", cargos.Id);
+                cmd.Parameters.AddWithValue("@idS", cargos.Servidor.Id);
+                cmd.Parameters.AddWithValue("@IP", cargos.Requesito);
+
+                DbDataReader rs = await cmd.ExecuteReaderAsync();
+
+                if (await rs.ReadAsync())
+                {
+                    if (rs["tipoOperacao"] != null)
+                    {
+                        retorno = (Operacao)Convert.ToInt32(rs["tipoOperacao"]);
+                    }
+                }
+
+            });
+
             return retorno;
         }
     }
