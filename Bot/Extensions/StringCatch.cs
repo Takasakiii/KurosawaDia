@@ -1,6 +1,7 @@
 ﻿using ConfigurationControler.DAO;
 using ConfigurationControler.Modelos;
 using System;
+using System.Threading.Tasks;
 using static ConfigurationControler.Modelos.Linguagens;
 
 namespace Bot.Extensions
@@ -20,11 +21,11 @@ namespace Bot.Extensions
         }
 
 
-        public static string GetString(string identificador, string respostaPadrao, params object[] addon)
+        public static async Task<string> GetString(string identificador, string respostaPadrao, params object[] addon)
         {
             Linguagens linguagens = new Linguagens(idiomaSelecionado, identificador);
             LinguagensDAO dao = new LinguagensDAO();
-            var result = dao.GetString(linguagens);
+            var result = await dao.GetStringAsync(linguagens);
 
             string rest = "";
             if (result.Item1)

@@ -21,28 +21,30 @@ namespace Bot.Nucleo.Eventos
         
         //Dependencias do MessagemEvent
         //  - DiaConfig contem informações como prefix padrão do bot
-        private readonly DiaConfig config;
+        private readonly DiaConfig Config;
         //  - ModulesConcat contem as informações de todos os modulos e comandos do bot
         //      -GenericModule é a classe que representa o tipo de modulo usado nos comandos
-        private readonly ModulesConcat<GenericModule> modulesConcat;
+        private readonly ModulesConcat<GenericModule> ModulesConcat;
 
         //Construtor da classe MessageEvent, ele requer para fins de dependencia um objeto da DiaConfig e um objeto de ModulesConcat<GenericModule>
         public MessageEvent(DiaConfig config, ModulesConcat<GenericModule> modulesConcat)
         {
-            this.config = config;
-            this.modulesConcat = modulesConcat;
+            Config = config;
+            ModulesConcat = modulesConcat;
         }
 
         //Metodo responsavel por receber e cuidar do MessageEvent do Discord.Net
         public async Task MessageReceived(SocketMessage mensagem)
         {
-            await CriarSessaoComandos(mensagem);
+            await Task.Run(() => {
+                CriarSessaoComandos(mensagem);
+            });
         }
 
         //Metodo interno que cria uma thread para que o bot não trave o Handler do bot
-        private async Task CriarSessaoComandos(SocketMessage message)
+        private void CriarSessaoComandos(SocketMessage message)
         {
-            await Task.Run(async () =>
+            new Thread(async () =>
             {
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
                 if (socketUserMessage != null)
@@ -50,7 +52,7 @@ namespace Bot.Nucleo.Eventos
                     CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
                     await ControlarMensagens(contexto);
                 }
-            });
+            }).Start();
         }
 
         //Metodo interno responsavel por integrar todos os modulos extras (SubEventos) a fim de que cada mensagem receba o seu devido tratamento e caminho pelo bot
@@ -60,7 +62,7 @@ namespace Bot.Nucleo.Eventos
             {
                 CadastrarServidorUsuarioAsync(contexto);
                 new Utility(contexto, null).PIEvent();
-                Servidores servidores = PegarPrefixo(contexto);
+                Servidores servidores = await PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
                 {
@@ -82,21 +84,22 @@ namespace Bot.Nucleo.Eventos
         }
 
         //Metodo interno para pegar as informações do prefixo do servidor especifico
-        private Servidores PegarPrefixo(CommandContext contexto)
+        private async Task<Servidores> PegarPrefixo(CommandContext contexto)
         {
             if (!contexto.IsPrivate)
             {
-                Servidores servFinal = new Servidores(contexto.Guild.Id, config.prefix.ToCharArray());
+                Servidores servFinal = new Servidores(contexto.Guild.Id, Config.prefix.ToCharArray());
                 Servidores servidores = servFinal;
-                if (new ServidoresDAO().GetPrefix(ref servidores))
+                Tuple<bool, Servidores> serv = await new ServidoresDAO().GetPrefixAsync(servidores);
+                if (serv.Item1)
                 {
-                    servFinal = servidores;
+                    servFinal = serv.Item2;
                 }
                 return servFinal;
             }
             else
             {
-                Servidores servidores = new Servidores(0, config.prefix.ToCharArray());
+                Servidores servidores = new Servidores(0, Config.prefix.ToCharArray());
                 return servidores;
             }
 
@@ -145,8 +148,8 @@ namespace Bot.Nucleo.Eventos
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
-                modulesConcat.AddArgs(contexto, args);
-                await (Task)modulesConcat.InvokeMethod(chamada);
+                ModulesConcat.AddArgs(contexto, args);
+                await (Task)ModulesConcat.InvokeMethod(chamada);
             }
             catch (Exception e)
             {

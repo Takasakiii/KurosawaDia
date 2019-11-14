@@ -18,7 +18,7 @@ namespace Bot.Extensions
                 if (dbl.Ativada)
                 {
                     AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(SingletonClient.client.CurrentUser.Id, dbl.Token);
-                    IDblSelfBot me = DblApi.GetMeAsync().GetAwaiter().GetResult();
+                    IDblSelfBot me = await DblApi.GetMeAsync();
                     await me.UpdateStatsAsync(SingletonClient.client.Guilds.Count);
                 }
             }

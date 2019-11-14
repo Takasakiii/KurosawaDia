@@ -30,7 +30,7 @@ namespace Bot.Extensions
         {
             
             
-            Thread processo = new Thread(() =>
+            Thread processo = new Thread(async () =>
             {
                 bool gatilho = false;
  
@@ -39,7 +39,7 @@ namespace Bot.Extensions
                 {
                     try
                     {
-                        
+
                         List<IUser> retono = mensagem.GetReactionUsersAsync(emoji, 10).FlattenAsync().GetAwaiter().GetResult().ToList();
                         if (retono.FindLast(x => usuarioComparado.Id == x.Id) != null)
                         {
@@ -61,7 +61,7 @@ namespace Bot.Extensions
                     returnMethod.Invoke();
                 } else
                 {
-                    mensagem.RemoveReactionAsync(emoji, mensagem.Author);
+                    await mensagem.RemoveReactionAsync(emoji, mensagem.Author);
                 }
             });
             processo.Start();

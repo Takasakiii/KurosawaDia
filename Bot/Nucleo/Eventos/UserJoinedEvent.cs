@@ -3,6 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
+using System;
 using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.Canais;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
@@ -11,21 +12,23 @@ namespace Bot.Nucleo.Eventos
 {
     public class UserJoinedEvent
     {
-        public Task UserJoined(SocketGuildUser user)
+        public async Task UserJoined(SocketGuildUser user)
         {
             Canais canal = new Canais(new Servidores(user.Guild.Id), TiposCanais.bemvindoCh);
-            if (new CanaisDAO().GetCh(ref canal))
+            Tuple<bool, Canais> res = await new CanaisDAO().GetChAsync(canal);
+            canal = res.Item2;
+            if (res.Item1)
             {
                 ConfiguracoesServidor configuracoes = new ConfiguracoesServidor(new Servidores(user.Guild.Id), new BemVindoGoodByeMsg());
-                if (new ConfiguracoesServidorDAO().GetWelcomeMsg(ref configuracoes))
+                Tuple<bool, ConfiguracoesServidor> res2 = await new ConfiguracoesServidorDAO().GetWelcomeMsgAsync(configuracoes);
+                configuracoes = res2.Item2;
+                if (res2.Item1)
                 {
                     IMessageChannel channel = user.Guild.GetChannel(canal.Id) as IMessageChannel;
                     StringVarsControler varsControler = new StringVarsControler(user: user);
                     new EmbedControl().SendMessage(channel, varsControler.SubstituirVariaveis(configuracoes.bemvindo.bemvindoMsg));
                 }
             }
-
-            return Task.CompletedTask;
         }
     }
 }

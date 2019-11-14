@@ -35,10 +35,10 @@ namespace Bot.Extensions
         {
             if (!contexto.IsPrivate)
             {
-                Task Sessao = new Task(() =>
+                Task Sessao = new Task(async () =>
                 {
-                    new Servidores_UsuariosDAO().inserirServidorUsuario(new Servidores_Usuarios(new Servidores(contexto.Guild.Id, contexto.Guild.Name), new Usuarios(contexto.User.Id, contexto.User.ToString())));
-                    new BotCadastro(null, null).GarbageColectorSessao();
+                    await new Servidores_UsuariosDAO().inserirServidorUsuarioAsync(new Servidores_Usuarios(new Servidores(contexto.Guild.Id, contexto.Guild.Name), new Usuarios(contexto.User.Id, contexto.User.ToString())));
+                    await new BotCadastro(null, null).GarbageColectorSessao();
                 });
 
                 Sessao.Start();
@@ -54,9 +54,9 @@ namespace Bot.Extensions
         private CommandContext contextoObj;
 
 
-        private void GarbageColectorSessao()
+        private async Task GarbageColectorSessao()
         {
-            new Thread(() =>
+            await Task.Run(() =>
             {
                 try
                 {
@@ -72,7 +72,11 @@ namespace Bot.Extensions
                 {
                     return;
                 }
-            }).Start();
+                finally
+                {
+                    GC.Collect();
+                }
+            });
         }
         public BotCadastro(Action readyFunction, CommandContext contexto)
         {
