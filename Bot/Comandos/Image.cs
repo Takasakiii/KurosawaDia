@@ -21,13 +21,13 @@ namespace Bot.Comandos
         public void cat()
         {
             Links links = new Links();
-            new ImageExtensions().getImg(contexto, StringCatch.GetString("catTxt", "Meow"), links.cat);
+            new ImageExtensions().getImg(Contexto, StringCatch.GetString("catTxt", "Meow"), links.cat);
         }
 
         public void dog()
         {
             Links links = new Links();
-            new ImageExtensions().getImg(contexto, img: links.dog);
+            new ImageExtensions().getImg(Contexto, img: links.dog);
         }
 
         public void magikavatar()
@@ -38,9 +38,9 @@ namespace Bot.Comandos
             string[] comando = (string[])args[1];
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
-                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(Contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
                 IUser user = null;
 
                 if (getUser.Item1 != null)
@@ -51,7 +51,7 @@ namespace Bot.Comandos
                 {
                     if (msg == "")
                     {
-                        user = contexto.User;
+                        user = Contexto.User;
                     }
                     else
                     {
@@ -65,9 +65,9 @@ namespace Bot.Comandos
 
                 if (user != null)
                 {
-                    embed.WithDescription(StringCatch.GetString("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", contexto.User.ToString()));
+                    embed.WithDescription(StringCatch.GetString("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", Contexto.User.ToString()));
                     embed.WithImageUrl(StringCatch.GetString(" agikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
-                    IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                    IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
 
@@ -83,7 +83,7 @@ namespace Bot.Comandos
                     {
                         userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -94,7 +94,7 @@ namespace Bot.Comandos
                 embed.WithDescription(StringCatch.GetString("magikavatarDm", "Eu so posso pegar o avatar de outras pessoas em um servidor"));
             }
 
-            contexto.Channel.SendMessageAsync(embed: embed.Build());
+            Contexto.Channel.SendMessageAsync(embed: embed.Build());
 
         }
 
@@ -111,16 +111,16 @@ namespace Bot.Comandos
             {
                 imgUrl = msg;
             }
-            else if (contexto.Message.Attachments.Count != 0)
+            else if (Contexto.Message.Attachments.Count != 0)
             {
-                imgUrl = contexto.Message.Attachments.First().Url;
+                imgUrl = Contexto.Message.Attachments.First().Url;
             }
 
             if (imgUrl != "")
             {
-                embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", contexto.User.ToString()));
+                embed.WithDescription(StringCatch.GetString("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", Contexto.User.ToString()));
                 embed.WithImageUrl(StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
-                IUserMessage userMsg = contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
+                IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                 if (new HttpExtensions().PegarTamanhoArquivo(imgUrl, out long tamanho) && tamanho < 102400)
                 {
@@ -135,7 +135,7 @@ namespace Bot.Comandos
                     {
                         userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -143,7 +143,7 @@ namespace Bot.Comandos
                 {
                     userMsg.DeleteAsync();
                     embed.WithColor(Color.Red);
-                    embed.WithDescription(StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie imagens até 100 kb 😥", contexto.User.ToString()));
+                    embed.WithDescription(StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie imagens até 100 kb 😥", Contexto.User.ToString()));
                     embed.WithImageUrl(null);
                 }
             }
@@ -154,28 +154,28 @@ namespace Bot.Comandos
                 embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo: "), StringCatch.GetString("exemploMagik", "`{0}magik https://i.imgur.com/cZDlYXr.png`", (string)args[0]));
                 embed.WithColor(Color.Red);
             }
-            contexto.Channel.SendMessageAsync(embed: embed.Build());
+            Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public void loli()
         {
             ulong id = 0;
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
-                id = contexto.Guild.Id;
+                id = Contexto.Guild.Id;
             }
 
             Servidores servidor = new Servidores(id, ((string)args[0]).ToCharArray());
 
             bool sucesso = new ServidoresDAO().GetPermissoes(ref servidor);
-            if (!contexto.IsPrivate && sucesso && servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+            if (!Contexto.IsPrivate && sucesso && servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id)).Item1)
             {
                 Links links = new Links();
-                new ImageExtensions().getImg(contexto, img: links.loli);
+                new ImageExtensions().getImg(Contexto, img: links.loli);
             }
             else
             {
-                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                new Ajuda(Contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
             }
 
         }

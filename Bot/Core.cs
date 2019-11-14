@@ -9,18 +9,15 @@ using System.Threading.Tasks;
 
 namespace Bot
 {
-    /*
-     * Classe Core é responsavel por cadastrar os eventos na Discord.net e iniciar o bot
-     */
+
 
     public class Core
     {
-        //Metodo interno responsavel por definir as informações do clientes e seus eventos, alem de inserir o mesmo em seu singleton
-        private void CriarCliente()
+        public async Task CriarClienteAsync()
         {
             SingletonClient.criarClient();
 
-            DiaConfig config = new DiaConfigDAO().Carregar();
+            DiaConfig config = await new DiaConfigDAO().CarregarAsync();
 
 
             SingletonClient.client.MessageReceived += new MessageEvent(config, new ModulesConcat<GenericModule>()).MessageReceived;
@@ -32,11 +29,10 @@ namespace Bot
             SingletonClient.client.UserJoined += new UserJoinedEvent().UserJoined;
             SingletonClient.client.UserLeft += new UserLeftEvent().UserLeft;
 
-            Iniciar(config).GetAwaiter().GetResult();
+            await IniciarAsync(config);
         }
 
-        //Tarefa interna responsavel por iniciar(logar) o bot
-        private async Task Iniciar(DiaConfig diaConfig)
+        private async Task IniciarAsync(DiaConfig diaConfig)
         {
             await SingletonClient.client.LoginAsync(Discord.TokenType.Bot, diaConfig.token);
             await SingletonClient.client.StartAsync();
@@ -49,10 +45,6 @@ namespace Bot
             await Task.Delay(-1);
         }
 
-        //Metodo responsavel pelo inicio do bot
-        public void IniciarBot()
-        {
-            CriarCliente();
-        }
+
     }
 }

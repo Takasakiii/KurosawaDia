@@ -6,10 +6,9 @@ namespace Bot.Nucleo.Eventos
 {
     public class LeftGuildEvent
     {
-        public Task LeftGuild(SocketGuild socketGuild)
+        public async Task LeftGuild(SocketGuild socketGuild)
         {
-            new DblExtensions().AtualizarDadosDbl();
-            return Task.CompletedTask;
+            await new DblExtensions().AtualizarDadosDbl();
         }
     }
 }

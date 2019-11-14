@@ -4,6 +4,7 @@ using Bot.Singletons;
 using System;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using Console = Colorful.Console;
 
 namespace NetCoreGUI
@@ -14,7 +15,11 @@ namespace NetCoreGUI
         {
             Console.Write("", Color.White);
             Console.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
-            new Thread(() => new Core().IniciarBot()).Start();
+            Task.Run(async () =>
+            {
+                await new Core().CriarClienteAsync();
+            });
+            
             LogEmiter.SetMetodoLog(new Launcher().Log);
             
         }

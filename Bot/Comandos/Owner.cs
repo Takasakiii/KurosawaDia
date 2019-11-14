@@ -23,11 +23,11 @@ namespace Bot.Comandos
 
         public void ping()
         {
-            if (new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+            if (new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id)).Item1)
             {
-                DiscordShardedClient client = contexto.Client as DiscordShardedClient;
+                DiscordShardedClient client = Contexto.Client as DiscordShardedClient;
 
-                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithDescription(StringCatch.GetString("respostaPing", "Meu ping é {0}", client.Latency)) //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
                     .Build());
@@ -36,7 +36,7 @@ namespace Bot.Comandos
             else
             {
                 Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
-                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                new Ajuda(Contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Bot.Comandos
         {
             new BotCadastro(() =>
             {
-                if (new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+                if (new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id)).Item1)
                 {
                     try
                     {
@@ -53,15 +53,15 @@ namespace Bot.Comandos
 
                         if (new ServidoresDAO().SetEspecial(servidor))
                         {
-                            IGuild servi = contexto.Client.GetGuildAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            IGuild servi = Contexto.Client.GetGuildAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
+                            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithDescription(StringCatch.GetString("setEspecialSetado", "O servidor: `{0}` ganhou a permissão: `{1}`", servi.Name, (PermissoesServidores)Convert.ToInt32(comando[2])))
                                     .WithColor(Color.DarkPurple)
                                 .Build());
                         }
                         else
                         {
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithDescription(StringCatch.GetString("setEspecialNaoFoi", "Não foi possivel atualizar as permmissões do servidor"))
                                 .WithColor(Color.DarkPurple)
                              .Build());
@@ -69,7 +69,7 @@ namespace Bot.Comandos
                     }
                     catch
                     {
-                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription(StringCatch.GetString("setEspecialErro", "Meu caro vc n digitou o cmd do jeito certo"))
                             .WithColor(Color.DarkPurple)
                          .Build());
@@ -78,14 +78,14 @@ namespace Bot.Comandos
                 else
                 {
                     Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
-                    new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                    new Ajuda(Contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
                 }
-            }, contexto).EsperarOkDb();
+            }, Contexto).EsperarOkDb();
         }
 
         public void send()
         {
-            if (new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id)).Item1)
+            if (new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id)).Item1)
             {
 
                 string[] comando = (string[])args[1];
@@ -105,7 +105,7 @@ namespace Bot.Comandos
                 embed.WithColor(Color.DarkPurple);
                 if (id_msg[0][0] == 'c')
                 {
-                    IChannel canal = contexto.Client.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                    IChannel canal = Contexto.Client.GetChannelAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
 
                     if (canal != null)
                     {
@@ -119,19 +119,19 @@ namespace Bot.Comandos
                         catch
                         {
                             embed.WithColor(Color.Red);
-                            embed.WithDescription(StringCatch.GetString("sendCanalErro", "**{0}** eu não consegui enviar a msg no canal: #{0} 😔", contexto.User.ToString(), canal.Name));
+                            embed.WithDescription(StringCatch.GetString("sendCanalErro", "**{0}** eu não consegui enviar a msg no canal: #{0} 😔", Contexto.User.ToString(), canal.Name));
                             embed.WithFooter(StringCatch.GetString("sendMsgServidor", "Servidor: {0}", (canal as ITextChannel).Guild.Name));
                         }
                     }
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("sendErroCanal", "**{0}** eu não encontrei esse canal 😔", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("sendErroCanal", "**{0}** eu não encontrei esse canal 😔", Contexto.User.ToString()));
                     }
                 }
                 else if (id_msg[0][0] == 's')
                 {
-                    IGuild servidor = contexto.Client.GetGuildAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                    IGuild servidor = Contexto.Client.GetGuildAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
                     List<IGuildChannel> canais = servidor.GetChannelsAsync().GetAwaiter().GetResult().ToList();
                     if (canais.Count > 0)
                     {
@@ -139,7 +139,7 @@ namespace Bot.Comandos
                         int i;
                         for (i = 0; i < canais.Count && !parar; i++)
                         {
-                            ChannelPermissions permissoes = (contexto.User as IGuildUser).GetPermissions(canais[i]);
+                            ChannelPermissions permissoes = (Contexto.User as IGuildUser).GetPermissions(canais[i]);
                             if (permissoes.SendMessages)
                             {
                                 try
@@ -152,7 +152,7 @@ namespace Bot.Comandos
                                 catch
                                 {
                                     embed.WithColor(Color.Red);
-                                    embed.WithDescription(StringCatch.GetString("sendServerErro", "**{0}** eu não consegui enviar a msg no canal: #{0} 😔", contexto.User.ToString(), (canais[i] as IMessageChannel).Name));
+                                    embed.WithDescription(StringCatch.GetString("sendServerErro", "**{0}** eu não consegui enviar a msg no canal: #{0} 😔", Contexto.User.ToString(), (canais[i] as IMessageChannel).Name));
                                     embed.WithFooter(StringCatch.GetString("sendServidorServer", "Servidor: {0}", (canais[i] as ITextChannel).Guild.Name));
                                 }
                                 parar = true;
@@ -174,7 +174,7 @@ namespace Bot.Comandos
                 }
                 else if (id_msg[0][0] == 'u')
                 {
-                    IUser user = contexto.Client.GetUserAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                    IUser user = Contexto.Client.GetUserAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
 
                     if (user != null)
                     {
@@ -187,13 +187,13 @@ namespace Bot.Comandos
                         catch
                         {
                             embed.WithColor(Color.Red);
-                            embed.WithDescription(StringCatch.GetString("sendPvBloqueado", "**{0}** o privado da gasosa: {1} esta bloqueado 😔", contexto.User.ToString(), user.Mention.ToString()));
+                            embed.WithDescription(StringCatch.GetString("sendPvBloqueado", "**{0}** o privado da gasosa: {1} esta bloqueado 😔", Contexto.User.ToString(), user.Mention.ToString()));
                         }
                     }
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(StringCatch.GetString("sendErroUsuario", "**{0}** eu não encontrei essa gasosa 😔", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("sendErroUsuario", "**{0}** eu não encontrei essa gasosa 😔", Contexto.User.ToString()));
                     }
 
                 }
@@ -206,19 +206,19 @@ namespace Bot.Comandos
                     embed.AddField(StringCatch.GetString("exemploCmd", "Exemplo:"), StringCatch.GetString("exemploSend", "`{0}send c 588997126126698497 | para de salva print gay`", (string)args[0]));
                 }
 
-                contexto.Channel.SendMessageAsync(embed: embed.Build());
+                Contexto.Channel.SendMessageAsync(embed: embed.Build());
 
             }
             else
             {
                 Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
-                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                new Ajuda(Contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
             }
         }
 
         public void setadm()
         {
-            Tuple<bool, PermissoesAdms> perms = new AdmsExtensions().GetAdm(new Usuarios(contexto.User.Id));
+            Tuple<bool, PermissoesAdms> perms = new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id));
             if (perms.Item1 && perms.Item2 == PermissoesAdms.Donas)
             {
                 string[] comando = (string[])args[1];
@@ -232,7 +232,7 @@ namespace Bot.Comandos
                     }
                 }
 
-                IUser user = contexto.Client.GetUserAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
+                IUser user = Contexto.Client.GetUserAsync(Convert.ToUInt64(id)).GetAwaiter().GetResult();
                 if (user != null)
                 {
                     new BotCadastro(() =>
@@ -240,16 +240,16 @@ namespace Bot.Comandos
                         PermissoesAdms perm = (PermissoesAdms)Convert.ToInt32(comando[2]);
                         new AdmsDAO().SetAdm(new Adms(new Usuarios(Convert.ToUInt64(user.Id))).SetPerms(perm));
 
-                        contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(StringCatch.GetString("setadmOk", "**{0}** o usuario: ``{1}`` ganhou a permissão: ``{2}``", contexto.User.ToString(), user.ToString(), perm))
+                        Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(StringCatch.GetString("setadmOk", "**{0}** o usuario: ``{1}`` ganhou a permissão: ``{2}``", Contexto.User.ToString(), user.ToString(), perm))
                                 .WithColor(Color.DarkPurple)
                             .Build());
 
-                    }, contexto).EsperarOkDb();
+                    }, Contexto).EsperarOkDb();
                 }
                 else
                 {
-                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithDescription(StringCatch.GetString("setadmSemUsuario", "meu querido n achei essa pessoa"))
                             .WithColor(Color.Red)
                         .Build());
@@ -258,7 +258,7 @@ namespace Bot.Comandos
             else
             {
                 Servidores servidor = new Servidores(0, ((string)args[0]).ToCharArray());
-                new Ajuda(contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
+                new Ajuda(Contexto, args).MessageEventExceptions(new NullReferenceException(), servidor);
             }
         }
     }

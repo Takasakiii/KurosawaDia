@@ -25,9 +25,9 @@ namespace Bot.Comandos
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.WithColor(color: Color.DarkPurple);
 
-                if (!contexto.IsPrivate)
+                if (!Contexto.IsPrivate)
                 {
-                    SocketGuildUser usuario = contexto.User as SocketGuildUser;
+                    SocketGuildUser usuario = Contexto.User as SocketGuildUser;
                     IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
                     if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
@@ -38,7 +38,7 @@ namespace Bot.Comandos
 
                         if (resposta_pergunta.Length >= 2 && !string.IsNullOrEmpty(resposta_pergunta[0]) && !string.IsNullOrEmpty(resposta_pergunta[1]))
                         {
-                            ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(contexto.Guild.Id), contexto.Guild.Id);
+                            ReacoesCustomizadas cr = new ReacoesCustomizadas(resposta_pergunta[0].Trim(), resposta_pergunta[1].Trim(), new Servidores(Contexto.Guild.Id), Contexto.Guild.Id);
                             new ReacoesCustomizadasDAO().CriarAcr(ref cr);
 
                             string resposta = "", pergunta = "";
@@ -61,7 +61,7 @@ namespace Bot.Comandos
                                 resposta = resposta_pergunta[1].Trim();
                             }
 
-                            embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", contexto.User.ToString()));
+                            embed.WithDescription(StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", Contexto.User.ToString()));
                             embed.AddField(StringCatch.GetString("trigger", "Trigger: "), pergunta);
                             embed.AddField(StringCatch.GetString("resposta", "Reposta: "), resposta);
                             embed.AddField(StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
@@ -76,7 +76,7 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
                         embed.WithColor(Color.Red);
                     }
                 }
@@ -86,8 +86,8 @@ namespace Bot.Comandos
                     embed.WithColor(Color.Red);
                 }
 
-                contexto.Channel.SendMessageAsync(embed: embed.Build());
-            }, contexto).EsperarOkDb();
+                Contexto.Channel.SendMessageAsync(embed: embed.Build());
+            }, Contexto).EsperarOkDb();
         }
 
         public void dcr()
@@ -97,9 +97,9 @@ namespace Bot.Comandos
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.WithColor(Color.DarkPurple);
 
-                if (!contexto.IsPrivate)
+                if (!Contexto.IsPrivate)
                 {
-                    SocketGuildUser usuario = contexto.User as SocketGuildUser;
+                    SocketGuildUser usuario = Contexto.User as SocketGuildUser;
                     IRole cargo = (usuario as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Ajudante de Idol");
 
                     if (usuario.GuildPermissions.ManageGuild || usuario.Roles.Contains(cargo))
@@ -113,21 +113,21 @@ namespace Bot.Comandos
                             {
                                 ulong codigo = Convert.ToUInt64(msg);
                                 ReacoesCustomizadas acr = new ReacoesCustomizadas(codigo);
-                                acr.SetServidor(new Servidores(contexto.Guild.Id));
+                                acr.SetServidor(new Servidores(Contexto.Guild.Id));
 
                                 if (new ReacoesCustomizadasDAO().DeletarAcr(acr))
                                 {
-                                    embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", contexto.User.ToString(), codigo));
+                                    embed.WithDescription(StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", Contexto.User.ToString(), codigo));
                                 }
                                 else
                                 {
-                                    embed.WithDescription(StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", contexto.User.ToString()));
+                                    embed.WithDescription(StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", Contexto.User.ToString()));
                                 }
 
                             }
                             catch
                             {
-                                embed.WithDescription(StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", contexto.User.ToString()));
+                                embed.WithDescription(StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", Contexto.User.ToString()));
                                 embed.WithColor(Color.Red);
                             }
                         }
@@ -141,7 +141,7 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        embed.WithDescription(StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", contexto.User.ToString()));
+                        embed.WithDescription(StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
                         embed.WithColor(Color.Red);
                     }
                 }
@@ -151,8 +151,8 @@ namespace Bot.Comandos
                     embed.WithColor(Color.Red);
                 }
 
-                contexto.Channel.SendMessageAsync(embed: embed.Build());
-            }, contexto).EsperarOkDb();
+                Contexto.Channel.SendMessageAsync(embed: embed.Build());
+            }, Contexto).EsperarOkDb();
         }
 
         public void lcr()
@@ -160,10 +160,10 @@ namespace Bot.Comandos
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithColor(Color.DarkPurple);
 
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
                 ReacoesCustomizadas acr = new ReacoesCustomizadas();
-                acr.SetServidor(new Servidores(contexto.Guild.Id));
+                acr.SetServidor(new Servidores(Contexto.Guild.Id));
                 ReacoesCustomizadasDAO dao = new ReacoesCustomizadasDAO();
                 List<ReacoesCustomizadas> listaRetorno = dao.ListarAcr(acr);
 
@@ -180,20 +180,20 @@ namespace Bot.Comandos
                     ((List<object>)args[2]).Add(1); //id 03 - Armazena o controlador de reacoes
                     ((List<object>)args[2]).Add(1); //id 04 - Armazena o tipo de acao (next ou fowarding)
 
-                    Menu(contexto, args);
+                    Menu(Contexto, args);
                 }
                 else
                 {
-                    embed.WithDescription(StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", contexto.User.ToString()));
+                    embed.WithDescription(StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", Contexto.User.ToString()));
                     embed.WithColor(Color.Red);
-                    contexto.Channel.SendMessageAsync(embed: embed.Build());
+                    Contexto.Channel.SendMessageAsync(embed: embed.Build());
                 }
             }
             else
             {
                 embed.WithDescription(StringCatch.GetString("lcrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
-                contexto.Channel.SendMessageAsync(embed: embed.Build());
+                Contexto.Channel.SendMessageAsync(embed: embed.Build());
             }
         }
 
@@ -283,13 +283,13 @@ namespace Bot.Comandos
         private void ProximaPagina()
         {
             ((List<object>)args[2])[4] = 1;
-            AjustesDeDados(contexto, args);
+            AjustesDeDados(Contexto, args);
         }
 
         private void AnteriorPagina()
         {
             ((List<object>)args[2])[4] = 2;
-            AjustesDeDados(contexto, args);
+            AjustesDeDados(Contexto, args);
         }
 
         private void AjustesDeDados(CommandContext contexto, object[] args)

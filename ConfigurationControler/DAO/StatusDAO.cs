@@ -39,7 +39,7 @@ namespace ConfigurationControler.DAO
         }
 
 
-        public async Task<Status[]> CarregarStatus()
+        public async Task<Status[]> CarregarStatusAsync()
         {
             List<Status> retorno = new List<Status>();
             await ConnectionFactory.ConectarAsync(async (conexao) =>

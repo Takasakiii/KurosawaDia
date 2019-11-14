@@ -34,28 +34,27 @@ namespace Bot.Nucleo.Eventos
         }
 
         //Metodo responsavel por receber e cuidar do MessageEvent do Discord.Net
-        public Task MessageReceived(SocketMessage mensagem)
+        public async Task MessageReceived(SocketMessage mensagem)
         {
-            CriarSessaoComandos(mensagem);
-            return Task.CompletedTask;
+            await CriarSessaoComandos(mensagem);
         }
 
         //Metodo interno que cria uma thread para que o bot não trave o Handler do bot
-        private void CriarSessaoComandos(SocketMessage message)
+        private async Task CriarSessaoComandos(SocketMessage message)
         {
-            new Thread(() =>
+            await Task.Run(async () =>
             {
                 SocketUserMessage socketUserMessage = message as SocketUserMessage;
                 if (socketUserMessage != null)
                 {
                     CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
-                    ControlarMensagens(contexto);
+                    await ControlarMensagens(contexto);
                 }
-            }).Start();
+            });
         }
 
         //Metodo interno responsavel por integrar todos os modulos extras (SubEventos) a fim de que cada mensagem receba o seu devido tratamento e caminho pelo bot
-        private void ControlarMensagens(CommandContext contexto)
+        private async Task ControlarMensagens(CommandContext contexto)
         {
             if (!contexto.User.IsBot)
             {
@@ -65,7 +64,7 @@ namespace Bot.Nucleo.Eventos
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
                 {
-                    CallComando(comandoSemPrefix, servidores, contexto);
+                    await CallComando(comandoSemPrefix, servidores, contexto);
                 }
                 else
                 {
@@ -129,7 +128,6 @@ namespace Bot.Nucleo.Eventos
         //Metodo interno responsavel por separar o comando e criar o args que vai ser enviado pros modulos
         //  - 0: prefixo do servidor/bot
         //  - 1: array de string cada um contendo uma posição do comando enviado separado por " "(espaço);
-        //  - 2: List responsavel por passamento de args extras para uso de Extenções 
         private object[] CriadorDoArgs(string messagemSemPrefixo, ref string comando, Servidores servidor)
         {
             string[] stringComando = messagemSemPrefixo.Split(' ');
@@ -137,19 +135,18 @@ namespace Bot.Nucleo.Eventos
             object[] args = new object[3];
             args[0] = new string(servidor.Prefix);
             args[1] = stringComando;
-            args[2] = new List<object>();
             return args;
         }
         
         //Metodo interno resposavel por chamar o ModulesConcat e chamar o comando especificado
-        private void CallComando(string comando, Servidores servidor, CommandContext contexto)
+        private async Task CallComando(string comando, Servidores servidor, CommandContext contexto)
         {
             string chamada = null;
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
                 modulesConcat.AddArgs(contexto, args);
-                modulesConcat.InvokeMethod(chamada);
+                await (Task)modulesConcat.InvokeMethod(chamada);
             }
             catch (Exception e)
             {

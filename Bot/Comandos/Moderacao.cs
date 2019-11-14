@@ -38,20 +38,20 @@ namespace Bot.Comandos
 
         private void moderacao(int tipo) 
         {
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
                 new Thread(() =>
                 {
                     string[] comando = (string[])args[1];
                     string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
-                    Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                    Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(Contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
 
                     if (getUser.Item1 != null)
                     {
                         SocketGuildUser user = getUser.Item1 as SocketGuildUser;
-                        SocketGuildUser author = contexto.User as SocketGuildUser;
-                        SocketGuildUser bot = contexto.Guild.GetUserAsync(contexto.Client.CurrentUser.Id).GetAwaiter().GetResult() as SocketGuildUser;
+                        SocketGuildUser author = Contexto.User as SocketGuildUser;
+                        SocketGuildUser bot = Contexto.Guild.GetUserAsync(Contexto.Client.CurrentUser.Id).GetAwaiter().GetResult() as SocketGuildUser;
 
                         EmbedBuilder embed = new EmbedBuilder();
                         embed.WithColor(Color.Red);
@@ -62,13 +62,13 @@ namespace Bot.Comandos
                             case 1:
                                 perm = author.GuildPermissions.KickMembers;
                                 botPerm = bot.GuildPermissions.KickMembers;
-                                embed.WithDescription(StringCatch.GetString("kickPerm", "**{0}** você não pode expulsar esse usuario", contexto.User.ToString()));
+                                embed.WithDescription(StringCatch.GetString("kickPerm", "**{0}** você não pode expulsar esse usuario", Contexto.User.ToString()));
                                 break;
                             case 2:
                             case 3:
                                 perm = author.GuildPermissions.BanMembers;
                                 botPerm = bot.GuildPermissions.BanMembers;
-                                embed.WithDescription(StringCatch.GetString("banPerm", "**{0}** você não pode banir esse usuario", contexto.User.ToString()));
+                                embed.WithDescription(StringCatch.GetString("banPerm", "**{0}** você não pode banir esse usuario", Contexto.User.ToString()));
                                 break;
                         }
 
@@ -91,19 +91,19 @@ namespace Bot.Comandos
                                     if(motivo == "")
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("kickExpulso", "você foi expulso do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("kickExpulso", "você foi expulso do servidor: **{0}**", Contexto.Guild.Name))
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("kickModerador", "Moderador: {0}", contexto.User);
+                                        motivo = StringCatch.GetString("kickModerador", "Moderador: {0}", Contexto.User);
                                     }
                                     else
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("kickExpulso", "você foi expulso do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("kickExpulso", "você foi expulso do servidor: **{0}**", Contexto.Guild.Name))
                                                 .AddField(StringCatch.GetString("kickMotivo", "Motivo:"), motivo)
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("kickModeradorMotivo", "Moderador: {0} || Motivo: {1}", contexto.User.ToString(), motivo);
+                                        motivo = StringCatch.GetString("kickModeradorMotivo", "Moderador: {0} || Motivo: {1}", Contexto.User.ToString(), motivo);
                                     }
 
                                     if (motivo.Length > 512)
@@ -115,26 +115,26 @@ namespace Bot.Comandos
 
                                     user.KickAsync(motivo);
 
-                                    embedo.WithDescription(StringCatch.GetString("kickTxt", "**{0}** o membro {1} foi expulso do servidor", contexto.User.ToString(), user.Mention));
-                                    contexto.Channel.SendMessageAsync(embed: embedo.Build());
+                                    embedo.WithDescription(StringCatch.GetString("kickTxt", "**{0}** o membro {1} foi expulso do servidor", Contexto.User.ToString(), user.Mention));
+                                    Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 2:
                                     if (motivo == "")
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("banBanido", "você foi banido do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("banBanido", "você foi banido do servidor: **{0}**", Contexto.Guild.Name))
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("banModerador", "Moderador: {0}", contexto.User.ToString());
+                                        motivo = StringCatch.GetString("banModerador", "Moderador: {0}", Contexto.User.ToString());
                                     }
                                     else
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("banBanido", "você foi banido do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("banBanido", "você foi banido do servidor: **{0}**", Contexto.Guild.Name))
                                                 .AddField(StringCatch.GetString("banMotivo", "Motivo:"), motivo)
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("banModeradorMotivo", "Moderador: {0} || Motivo: {1}", contexto.User.ToString(), motivo);
+                                        motivo = StringCatch.GetString("banModeradorMotivo", "Moderador: {0} || Motivo: {1}", Contexto.User.ToString(), motivo);
                                     }
 
                                     if (motivo.Length > 512)
@@ -146,26 +146,26 @@ namespace Bot.Comandos
 
                                     user.BanAsync(7, motivo);
 
-                                    embedo.WithDescription(StringCatch.GetString("banMembroBanido", "**{0}** o membro {1} foi banido do servidor", contexto.User.ToString(), user.Mention));
-                                    contexto.Channel.SendMessageAsync(embed: embedo.Build());
+                                    embedo.WithDescription(StringCatch.GetString("banMembroBanido", "**{0}** o membro {1} foi banido do servidor", Contexto.User.ToString(), user.Mention));
+                                    Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 3:
                                     if (motivo == "")
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("softbanExpulso", "você foi banido temporariamente do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("softbanExpulso", "você foi banido temporariamente do servidor: **{0}**", Contexto.Guild.Name))
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("softbanModerador", "Moderador: {0}", contexto.User.ToString());
+                                        motivo = StringCatch.GetString("softbanModerador", "Moderador: {0}", Contexto.User.ToString());
                                     }
                                     else
                                     {
                                         privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription(StringCatch.GetString("softbanExpulso", "você foi banido temporariamente do servidor: **{0}**", contexto.Guild.Name))
+                                                .WithDescription(StringCatch.GetString("softbanExpulso", "você foi banido temporariamente do servidor: **{0}**", Contexto.Guild.Name))
                                                 .AddField("Motivo:", motivo)
                                                 .WithColor(Color.DarkPurple)
                                             .Build());
-                                        motivo = StringCatch.GetString("softbanModeradorMotivo", "Moderador: {0} || Motivo: {1}", contexto.User.ToString(), motivo);
+                                        motivo = StringCatch.GetString("softbanModeradorMotivo", "Moderador: {0} || Motivo: {1}", Contexto.User.ToString(), motivo);
                                     }
 
                                     if (motivo.Length > 512)
@@ -176,24 +176,24 @@ namespace Bot.Comandos
                                     Thread.Sleep(1000);
 
                                     user.BanAsync(7, motivo);
-                                    contexto.Guild.RemoveBanAsync(user);
+                                    Contexto.Guild.RemoveBanAsync(user);
 
-                                    embedo.WithDescription(StringCatch.GetString("softbanMembroExpulso", "**{0}** o membro {1} foi banido temporariamente do servidor", contexto.User.ToString(), user.Mention));
-                                    contexto.Channel.SendMessageAsync(embed: embedo.Build());
+                                    embedo.WithDescription(StringCatch.GetString("softbanMembroExpulso", "**{0}** o membro {1} foi banido temporariamente do servidor", Contexto.User.ToString(), user.Mention));
+                                    Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                             }
 
                         }
                         else
                         {
-                            contexto.Channel.SendMessageAsync(embed: embed.Build());
+                            Contexto.Channel.SendMessageAsync(embed: embed.Build());
                         }
                     }
                     else
                     {
                         EmbedBuilder usoEmbed = new EmbedBuilder();
                         usoEmbed.WithColor(Color.Red);
-                        usoEmbed.WithDescription(StringCatch.GetString("moderacaoMembro", "**{0}** você precisa mencionar um membro", contexto.User.ToString()));
+                        usoEmbed.WithDescription(StringCatch.GetString("moderacaoMembro", "**{0}** você precisa mencionar um membro", Contexto.User.ToString()));
 
                         switch (tipo)
                         {
@@ -211,7 +211,7 @@ namespace Bot.Comandos
                                 break;
                         }
 
-                        contexto.Channel.SendMessageAsync(embed: usoEmbed.Build());
+                        Contexto.Channel.SendMessageAsync(embed: usoEmbed.Build());
                     }
 
                 }).Start();
@@ -219,7 +219,7 @@ namespace Bot.Comandos
             }
             else
             {
-                contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithDescription(StringCatch.GetString("moderacaoDm", "Você so pode usar esse comando em servidores"))
                         .WithColor(Color.Red)
                     .Build());

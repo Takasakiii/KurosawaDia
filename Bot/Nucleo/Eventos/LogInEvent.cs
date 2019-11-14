@@ -22,7 +22,7 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(async () =>
             {
-                Status[] status = new StatusDAO().CarregarStatus().Item2.ToArray();
+                Status[] status = await new StatusDAO().CarregarStatusAsync();
                 do
                 {
                     for (int i = 0; i < status.Length; i++)

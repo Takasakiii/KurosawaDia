@@ -57,17 +57,18 @@ namespace Bot.Extensions
         } 
 
         //Metodo responsavel pela passagem dos parametros de instancia das classes filhas / metodos
-        public void AddArgs(params object[] args)
+        internal void AddArgs(params object[] args)
         {
             Args = args;
         }
 
         //Metodo responsavel por instanciar uma classe filha / modulo e chamar o metodo solicitado
-        public void InvokeMethod(string metodo, params object[] argumentosMetodo)
+        internal object InvokeMethod(string metodo, params object[] argumentosMetodo)
         {
+            GC.Collect();
             Modulos temp = Array.Find(MethodsModules, x => x.Metodo.Name == metodo);
             object instanced = Activator.CreateInstance(Classes[temp.ClasseIndex], Args);
-            temp.Metodo.Invoke(instanced, argumentosMetodo);
+            return temp.Metodo.Invoke(instanced, argumentosMetodo);
         } 
     }
 }

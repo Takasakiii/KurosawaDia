@@ -6,10 +6,9 @@ namespace Bot.Nucleo.Eventos
 {
     public class JoinedGuildEvent
     {
-        public Task JoinedGuild(SocketGuild socketGuild)
+        public async Task JoinedGuild(SocketGuild socketGuild)
         {
-            new DblExtensions().AtualizarDadosDbl();
-            return Task.CompletedTask;
+            await new DblExtensions().AtualizarDadosDbl();
         }
     }
 }

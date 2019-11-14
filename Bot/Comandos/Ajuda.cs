@@ -17,14 +17,14 @@ namespace Bot.Comandos
     {
         public Ajuda (CommandContext contexto, object[] args) : base (contexto, args)
         {
-
+            
         }
 
         
 
         public void ajuda()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.DarkPurple)
                 .WithTitle(StringCatch.GetString("ajudaTitle", "Sera um enorme prazer te ajudar 😋"))
                 .WithDescription(StringCatch.GetString("ajudaDesctiption", "Eu me chamo Kurosawa Dia, sou presidente do conselho de classe, idol e tambem ajudo as pessoas com algumas coisinhas no discord 😉\n"
@@ -88,9 +88,9 @@ namespace Bot.Comandos
                 }
                 else if (modulo == ListaModulos.especial || msg == "especiais")
                 {
-                    if (!contexto.IsPrivate)
+                    if (!Contexto.IsPrivate)
                     {
-                        Servidores servidor = new Servidores(contexto.Guild.Id);
+                        Servidores servidor = new Servidores(Contexto.Guild.Id);
                         if (new ServidoresDAO().GetPermissoes(ref servidor))
                         {
                             if (servidor.Permissoes == PermissoesServidores.ServidorPika)
@@ -121,7 +121,7 @@ namespace Bot.Comandos
 
         public void convite()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
                     .WithDescription(StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
                     .WithColor(Color.DarkPurple)
@@ -130,7 +130,7 @@ namespace Bot.Comandos
 
         public void info()
         {
-            DiscordShardedClient client = contexto.Client as DiscordShardedClient;
+            DiscordShardedClient client = Contexto.Client as DiscordShardedClient;
             int users = 0;
             foreach (SocketGuild servidor in client.Guilds)
             {
@@ -139,7 +139,7 @@ namespace Bot.Comandos
             
 
 
-            _ = contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            _ = Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("infoTxt", "Dia's Book:"))
                     .WithDescription(StringCatch.GetString("infoDescription", "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk 😝"))
                     .AddField(StringCatch.GetString("infoBot", "**Sobre mim:**"), StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
@@ -157,9 +157,9 @@ namespace Bot.Comandos
         {
             string modulos = StringCatch.GetString("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
 
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
+                Servidores servidor = new Servidores(Contexto.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
                     if (servidor.Permissoes == PermissoesServidores.ServidorPika)
@@ -169,7 +169,7 @@ namespace Bot.Comandos
                 }
             }
 
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
                     .WithDescription(StringCatch.GetString("cmdsNavegar", "Para ver os comandos de cada modulo é so usar: `{0}{1} modulo`, exemplo: `{0}{1} utilidade`", (string)args[0], ((string[])args[1])[0]))
                     .AddField(StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", modulos))
@@ -179,7 +179,7 @@ namespace Bot.Comandos
         }
         private void help()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("helpModulo", "Modulo Ajuda (❓)"))
                     .WithDescription(StringCatch.GetString("helpInfo", "Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉"))
                     .WithColor(Color.DarkPurple)
@@ -189,7 +189,7 @@ namespace Bot.Comandos
         }
         private void utilidade()
         {
-           contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+           Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("utilidadeModulo", "Modulo Utilidade (🛠)"))
                     .WithDescription(StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
@@ -199,7 +199,7 @@ namespace Bot.Comandos
         }
         private void moderacao()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("moderacaoModulo", "Modulo Moderação (⚖)"))
                     .WithDescription(StringCatch.GetString("moderacaoInfo", "Esse modulo possui coisas para te ajudar moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣"))
                     .WithColor(Color.DarkPurple)
@@ -210,7 +210,7 @@ namespace Bot.Comandos
         }
         private void nsfw()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("nsfwModulo", "Modulo NSFW (🔞)"))
                     .WithDescription(StringCatch.GetString("nsfwInfo", "Esse modulo possui coias para você dar orgulho para sua família. \n\nTenho medo dessas coisa 😣"))
                     .WithColor(Color.DarkPurple)
@@ -220,7 +220,7 @@ namespace Bot.Comandos
         }
         private void weeb()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(StringCatch.GetString("weebInfo", "Esse modulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
@@ -231,9 +231,9 @@ namespace Bot.Comandos
         private void img()
         {
             string cmds = StringCatch.GetString("imgCmdsNormais", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", (string)args[0]);
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
+                Servidores servidor = new Servidores(Contexto.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
                     if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
@@ -242,7 +242,7 @@ namespace Bot.Comandos
                     }
                 }
             }
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("imgModulo", "Modulo Imagem (🖼)"))
                     .WithDescription(StringCatch.GetString("imgInfo", "Esse modulopossui imagens fofinhas para agraciar seu computador.  \n\nKawaiii ❤❤❤"))
                     .WithColor(Color.DarkPurple)
@@ -253,7 +253,7 @@ namespace Bot.Comandos
         }
         private void customReaction()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("acrModulo", "Modulo Reações Customizadas (💬)"))
                     .WithDescription(StringCatch.GetString("acrInfo", "Esse modulo possui comandos para você controlar as minhas Reações Customizadas. \n\nEu adoro usar elas para me divertir com vocês 😂"))
                     .WithColor(Color.DarkPurple)
@@ -264,7 +264,7 @@ namespace Bot.Comandos
         }
         private void configuracoes()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("configsModulo", "Modulo Configurações (⚙)"))
                     .WithDescription(StringCatch.GetString("ConfigsInfo", "Em configurações você define preferencias de como agirei em seu servidor. \n\nTenho certeza que podemos ficar mais intimos assim 😄"))
                     .WithColor(Color.DarkPurple)
@@ -274,7 +274,7 @@ namespace Bot.Comandos
         }
         private void especial()
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(StringCatch.GetString("especialModulo", "Modulo Especiais (🌟)"))
                     .WithDescription(StringCatch.GetString("especialInfo", "Só falo uma coisa, isso é exclusivo, e você pode ter o prazer de acessar, não é todo mundo que tem essa chance então aproveite."))
                     .WithColor(Color.DarkPurple)
@@ -288,9 +288,9 @@ namespace Bot.Comandos
             if (e is NullReferenceException)
             {
                 bool erroMsg = true;
-                if (!contexto.IsPrivate)
+                if (!Contexto.IsPrivate)
                 {
-                    ConfiguracoesServidor configuracoes = new ConfiguracoesServidor(new Servidores(contexto.Guild.Id), new ErroMsg());
+                    ConfiguracoesServidor configuracoes = new ConfiguracoesServidor(new Servidores(Contexto.Guild.Id), new ErroMsg());
                     if(new ConfiguracoesServidorDAO().GetErrorMsg(ref configuracoes))
                     {
                         erroMsg = configuracoes.erroMsg.erroMsg;
@@ -299,8 +299,8 @@ namespace Bot.Comandos
 
                 if (erroMsg)
                 {
-                    contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", contexto.User.ToString(), new string(servidor.Prefix)))
+                    Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithDescription(StringCatch.GetString("msgEventNotFoundCommand", " **{0}** comando não encontrado use `{1}comandos` para ver os meus comandos", Contexto.User.ToString(), new string(servidor.Prefix)))
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
@@ -313,8 +313,8 @@ namespace Bot.Comandos
 
         public void MentionMessage(Servidores servidores)
         {
-            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", contexto.User.Username, new string(servidores.Prefix)))
+            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithDescription(StringCatch.GetString("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver meus comando é so usar: `{1}comandos`", Contexto.User.Username, new string(servidores.Prefix)))
                 .WithColor(Color.DarkPurple)
                 .Build());
         }

@@ -67,24 +67,24 @@ namespace Bot.Comandos
 
             if (weeb.Auto)
             {
-                if (!contexto.IsPrivate)
+                if (!Contexto.IsPrivate)
                 {
                     string[] comando = (string[])args[1];
                     string cmd = string.Join(" ", comando, 1, (comando.Length - 1));
 
                     UserExtensions userExtensions = new UserExtensions();
-                    Tuple<IUser, string> getUser = userExtensions.GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
+                    Tuple<IUser, string> getUser = userExtensions.GetUser(Contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), cmd);
 
                     
-                    string author = userExtensions.GetNickname(contexto.User, !contexto.IsPrivate);
+                    string author = userExtensions.GetNickname(Contexto.User, !Contexto.IsPrivate);
 
-                    if (getUser.Item1 == null || getUser.Item1 == contexto.User)
+                    if (getUser.Item1 == null || getUser.Item1 == Contexto.User)
                     {
                         embed.WithTitle($"{author} {weeb.Selfmsg}");
                     }
                     else
                     {
-                        string user = userExtensions.GetNickname(getUser.Item1, !contexto.IsPrivate);
+                        string user = userExtensions.GetNickname(getUser.Item1, !Contexto.IsPrivate);
                         embed.WithTitle($"{author} {weeb.Msg} {user}");
                     }
 
@@ -102,7 +102,7 @@ namespace Bot.Comandos
                 embed.WithTitle(weeb.Msg);
             }
 
-            contexto.Channel.SendMessageAsync(embed: embed.Build());
+            Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         //Comando de Hug (Abraço)
@@ -168,9 +168,9 @@ namespace Bot.Comandos
         //Comando Fuck (leny face)
         public void fuck()
         {
-            if (!contexto.IsPrivate)
+            if (!Contexto.IsPrivate)
             {
-                Servidores servidor = new Servidores(contexto.Guild.Id);
+                Servidores servidor = new Servidores(Contexto.Guild.Id);
                 if (new ServidoresDAO().GetPermissoes(ref servidor))
                 {
                     bool explicitImg = false;
@@ -188,15 +188,15 @@ namespace Bot.Comandos
                         string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
                         UserExtensions userExtensions = new UserExtensions();
-                        Tuple<IUser, string> user = userExtensions.GetUser(contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
+                        Tuple<IUser, string> user = userExtensions.GetUser(Contexto.Guild.GetUsersAsync().GetAwaiter().GetResult(), msg);
 
-                        string authorNick = userExtensions.GetNickname(contexto.User, !contexto.IsPrivate);
+                        string authorNick = userExtensions.GetNickname(Contexto.User, !Contexto.IsPrivate);
                         if (user.Item1 != null)
                         {
-                            string userNick = userExtensions.GetNickname(user.Item1, !contexto.IsPrivate);
+                            string userNick = userExtensions.GetNickname(user.Item1, !Contexto.IsPrivate);
                             
 
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithTitle(StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
@@ -204,7 +204,7 @@ namespace Bot.Comandos
                         }
                         else
                         {
-                            contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                            Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithTitle(StringCatch.GetString("fuckSelf", "{0} esta se masturbando", authorNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
