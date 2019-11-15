@@ -61,7 +61,7 @@ namespace Bot.Nucleo.Eventos
             if (!contexto.User.IsBot)
             {
                 await CadastrarServidorUsuarioAsync(contexto);
-                //new Utility(contexto, null, null).PIEvent();
+                await new Utility(contexto, null, null).PIEvent();
                 Servidores servidores = await PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))

@@ -10,11 +10,11 @@ namespace MainDatabaseControler.DAO
 {
     public class PontosInterativosDAO
     {
-        public async Task<Tuple<bool, PontosInterativos, PI, Cargos>> AdicionarPontoAsync(PontosInterativos pontosInterativos, PI piSaida, Cargos cargoSaida)
+        public async Task<Tuple<bool, PontosInterativos, PI, Cargos>> AdicionarPontoAsync(PontosInterativos pontosInterativos)
         {
             bool retorno = false;
-            cargoSaida = null;
-            piSaida = new PI();
+            Cargos cargoSaida = null;
+            PI piSaida = new PI();
 
             await ConnectionFactory.ConectarAsync(async (conexao) =>
             {
