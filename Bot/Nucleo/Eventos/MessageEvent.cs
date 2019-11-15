@@ -60,7 +60,7 @@ namespace Bot.Nucleo.Eventos
         {
             if (!contexto.User.IsBot)
             {
-                CadastrarServidorUsuarioAsync(contexto);
+                await CadastrarServidorUsuarioAsync(contexto);
                 //new Utility(contexto, null, null).PIEvent();
                 Servidores servidores = await PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
@@ -76,7 +76,7 @@ namespace Bot.Nucleo.Eventos
                     }
                     else
                     {
-                        //new CustomReactions(contexto, null, null).TriggerACR(contexto, servidores);
+                        await new CustomReactions(contexto, null, null).TriggerACR(contexto, servidores);
                     }
 
                 }

@@ -77,10 +77,10 @@ namespace Bot.Extensions
 
     public class ReturnMethod
     {
-        public Action methodResult { private set; get; }
+        public Func<Task> methodResult { private set; get; }
 
 
-        public ReturnMethod(Action methodResult)
+        public ReturnMethod(Func<Task> methodResult)
         {
             this.methodResult = methodResult;
         }
