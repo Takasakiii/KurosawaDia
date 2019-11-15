@@ -148,7 +148,7 @@ namespace Bot.Nucleo.Eventos
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
-                ModulesConcat.AddArgs(contexto, args);
+                ModulesConcat.AddArgs(contexto, args[0], args[1]);
                 await (Task)ModulesConcat.InvokeMethod(chamada);
             }
             catch (Exception e)

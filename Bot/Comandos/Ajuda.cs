@@ -144,10 +144,10 @@ namespace Bot.Comandos
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetString("infoTxt", "Dia's Book:"))
                     .WithDescription(await StringCatch.GetString("infoDescription", "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk 😝"))
-                    .AddField(await StringCatch.GetString("infoBot", "**Sobre mim:**"), StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
-                    .AddField(await StringCatch.GetString("infoDeveloperTitle", "**As pessoas/grupos que fazem tudo isso ser possivel:**"), StringCatch.GetString("infoDeveloperDesc", "Zuraaa!\nTakasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
-                    .AddField(await StringCatch.GetString("infoConvites", "**Quer me ajudar????**"), StringCatch.GetString("infoConvites", "[Adicione-me em seu Servidor](https://ayura.com.br/links/bot)\n[Entre em meu servidor para dar suporte ao projeto](https://ayura.com.br/dia)\n[Vote em mim no DiscordBotList para que possa ajudar mais pessoas](https://top.gg/bot/389917977862078484/vote)"))
-                    .AddField(await StringCatch.GetString("infoOutras", "**Informações chatas:**"), StringCatch.GetString("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuarios:__ {2}\n__Versão:__ 1.2.2.3  (Cinnamon Smooth - Patch 03)", client.Latency, client.Guilds.Count, users), false)
+                    .AddField(await StringCatch.GetString("infoBot", "**Sobre mim:**"), await StringCatch.GetString("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversario:__ 01 de Janeiro (Quero Presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
+                    .AddField(await StringCatch.GetString("infoDeveloperTitle", "**As pessoas/grupos que fazem tudo isso ser possivel:**"), await StringCatch.GetString("infoDeveloperDesc", "Zuraaa!\nTakasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
+                    .AddField(await StringCatch.GetString("infoConvites", "**Quer me ajudar????**"), await StringCatch.GetString("infoConvites", "[Adicione-me em seu Servidor](https://ayura.com.br/links/bot)\n[Entre em meu servidor para dar suporte ao projeto](https://ayura.com.br/dia)\n[Vote em mim no DiscordBotList para que possa ajudar mais pessoas](https://top.gg/bot/389917977862078484/vote)"))
+                    .AddField(await StringCatch.GetString("infoOutras", "**Informações chatas:**"), await StringCatch.GetString("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuarios:__ {2}\n__Versão:__ 1.2.2.3  (Cinnamon Smooth - Patch 03)", client.Latency, client.Guilds.Count, users), false)
                     .WithThumbnailUrl("https://i.imgur.com/ppXRHTi.jpg")
                     .WithImageUrl("https://i.imgur.com/qGb6xtG.jpg")
                     .WithColor(Color.DarkPurple)
@@ -176,7 +176,7 @@ namespace Bot.Comandos
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetString("cmdsAtacar", "Comandos atacaaaaar 😁"))
                     .WithDescription(await StringCatch.GetString("cmdsNavegar", "Para ver os comandos de cada modulo é so usar: `{0}{1} modulo`, exemplo: `{0}{1} utilidade`", PrefixoServidor, Comando[0]))
-                    .AddField(await StringCatch.GetString("cmdsModulos", "Modulos:"), StringCatch.GetString("cmdsModulosLista", modulos))
+                    .AddField(await StringCatch.GetString("cmdsModulos", "Modulos:"), await StringCatch.GetString("cmdsModulosLista", modulos))
                     .WithImageUrl(await StringCatch.GetString("cmdsImg", "https://i.imgur.com/mQVFSrP.gif"))
                     .WithColor(Color.DarkPurple)
                 .Build());
@@ -197,7 +197,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetString("utilidadeModulo", "Modulo Utilidade (🛠)"))
                     .WithDescription(await StringCatch.GetString("utilidadeInfo", "Esse modulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}perfil`", PrefixoServidor))
+                    .AddField(await StringCatch.GetString("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetString("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}perfil`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetString("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build());
         }
@@ -315,7 +315,7 @@ namespace Bot.Comandos
             }
             else
             {
-                
+                await LogEmiter.EnviarLogAsync(e);
             }
         }
 
