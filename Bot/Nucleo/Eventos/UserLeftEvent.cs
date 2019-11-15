@@ -31,7 +31,6 @@ namespace Bot.Nucleo.Eventos
                     new EmbedControl().SendMessage(channel, varsControler.SubstituirVariaveis(configuracoes.bemvindo.sairMsg));
                 }
             }
-            return Task.CompletedTask;
         }
     }
 }

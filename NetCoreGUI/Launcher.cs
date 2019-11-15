@@ -11,17 +11,15 @@ namespace NetCoreGUI
 {
     class Launcher
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.Write("", Color.White);
             Console.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
-            Task.Run(async () =>
-            {
-                await new Core().CriarClienteAsync();
-            });
+
             
             LogEmiter.SetMetodoLog(new Launcher().Log);
-            
+            Core core = new Core();
+            await core.CriarClienteAsync();
         }
 
         public void Log(LogEmiter.TipoLog logType, string e)

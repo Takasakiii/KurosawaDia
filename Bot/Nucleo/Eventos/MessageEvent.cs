@@ -61,7 +61,7 @@ namespace Bot.Nucleo.Eventos
             if (!contexto.User.IsBot)
             {
                 CadastrarServidorUsuarioAsync(contexto);
-                new Utility(contexto, null).PIEvent();
+                //new Utility(contexto, null, null).PIEvent();
                 Servidores servidores = await PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
@@ -72,11 +72,11 @@ namespace Bot.Nucleo.Eventos
                 {
                     if (IsMentionCall(contexto))
                     {
-                        new Ajuda(contexto, null).MentionMessage(servidores);
+                        await new Ajuda(contexto, null, null).MentionMessage(servidores);
                     }
                     else
                     {
-                        new CustomReactions(contexto, null).TriggerACR(contexto, servidores);
+                        //new CustomReactions(contexto, null, null).TriggerACR(contexto, servidores);
                     }
 
                 }
@@ -135,7 +135,7 @@ namespace Bot.Nucleo.Eventos
         {
             string[] stringComando = messagemSemPrefixo.Split(' ');
             comando = stringComando[0];
-            object[] args = new object[3];
+            object[] args = new object[2];
             args[0] = new string(servidor.Prefix);
             args[1] = stringComando;
             return args;
@@ -153,7 +153,7 @@ namespace Bot.Nucleo.Eventos
             }
             catch (Exception e)
             {
-                new Ajuda(contexto, args).MessageEventExceptions(e, servidor);
+                await new Ajuda(contexto, (string)args[0], (string[])args[1]).MessageEventExceptions(e, servidor);
             }
 
         }
