@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 namespace Bot.Extensions
 {
     //Classe responsavel por manipular dados de apis http
-    public class HttpExtensions
+    public class HttpExtensions : WebClient
     {
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            WebRequest web = base.GetWebRequest(address);
+            web.Timeout = int.MaxValue;
+            return web;
+        }
+
+
         //Metodo responsavel por baixar um dado de um json de resposta de uma api externa atravez do WebClient
         public async Task<string> GetSite(string url, string parametro)
         {
@@ -17,6 +25,7 @@ namespace Bot.Extensions
             {
                 using (WebClient wc = new WebClient())
                 {
+                    
                     string site = wc.DownloadString(url);
                     JToken siteJson = JObject.Parse(site);
 
