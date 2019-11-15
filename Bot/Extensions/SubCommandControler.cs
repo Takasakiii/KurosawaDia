@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bot.Extensions
 {
@@ -21,7 +22,7 @@ namespace Bot.Extensions
             ThreadLife = false;
         }
 
-        public IMessage GetCommand(IMessage msgPrimaria, IUser usuario, int tempoAnalise = 60, Action timeOutAction = null)
+        public async Task<IMessage> GetCommand(IMessage msgPrimaria, IUser usuario, int tempoAnalise = 60, Action timeOutAction = null)
         {
             IMessage retorno = null;
             new Thread(() =>
@@ -37,7 +38,7 @@ namespace Bot.Extensions
             {
                 try
                 {
-                    List<IMessage> messages = msgPrimaria.Channel.GetMessagesAsync(msgPrimaria, Direction.After, 100).FlattenAsync().GetAwaiter().GetResult().ToList();
+                    List<IMessage> messages = (await msgPrimaria.Channel.GetMessagesAsync(msgPrimaria, Direction.After, 100).FlattenAsync()).ToList();
                     IMessage msg = messages.Find(x => x.Author.Id == usuario.Id);
                     if (msg != null)
                     {
