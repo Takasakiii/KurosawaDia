@@ -27,7 +27,7 @@ namespace ConfigurationControler.Factory
             FileStream fs = File.Create(DB.localDB);
             fs.Close();
 
-            await ConnectionFactory.ConectarAsync(async (SqliteConnection) =>
+            await ConectarAsync(async (SqliteConnection) =>
             {
                 for (int i = 0; i < DB.sqlCriacao.Length; i++)
                 {
