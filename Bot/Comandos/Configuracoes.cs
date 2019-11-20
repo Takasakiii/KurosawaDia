@@ -37,8 +37,8 @@ namespace Bot.Comandos
                     {
                         string msg = comando[1];
                         IUserMessage message = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", Contexto.User))
-                                .WithFooter(await StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
+                                .WithDescription(await StringCatch.GetStringAsync("setprefixCtz", "**{0}** você quer mudar o prefixo?", Contexto.User))
+                                .WithFooter(await StringCatch.GetStringAsync("setprefixIgnorar", "se não apenas ignore essa mensagem"))
                                 .WithColor(Color.DarkPurple)
                             .Build());
 
@@ -54,7 +54,7 @@ namespace Bot.Comandos
                             servidor = res.Item2;
                             await message.DeleteAsync();
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetString("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", Contexto.User.Username, PrefixoServidor, new string(servidor.Prefix)))
+                                    .WithDescription(await StringCatch.GetStringAsync("setperfixAlterado", "**{0}** o prefixo do servidor foi alterado de: `{1}` para: `{2}`", Contexto.User.Username, PrefixoServidor, new string(servidor.Prefix)))
                                     .WithColor(Color.DarkPurple)
                                 .Build());
                         }));
@@ -62,9 +62,9 @@ namespace Bot.Comandos
                     else
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetString("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", Contexto.User.Username))
-                                .AddField(await StringCatch.GetString("usoCmd", "Uso do Comando:"), await StringCatch.GetString("usoSetprefix", "`{0}setprefix <prefixo>`", PrefixoServidor))
-                                .AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("exemploCmd", "`{0}setprefix !`", PrefixoServidor))
+                                .WithDescription(await StringCatch.GetStringAsync("setprefixFalarPrefixo", "**{0}** você precisa me falar um prefixo", Contexto.User.Username))
+                                .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoSetprefix", "`{0}setprefix <prefixo>`", PrefixoServidor))
+                                .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploCmd", "`{0}setprefix !`", PrefixoServidor))
                                 .WithColor(Color.Red)
                             .Build());
                     }
@@ -72,7 +72,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("setprefixSemPerm", "**{0}**, você precisa de permissão de Gerenciar Servidor para poder usar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("setprefixSemPerm", "**{0}**, você precisa de permissão de Gerenciar Servidor para poder usar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build()); ;
                 }
@@ -81,7 +81,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("setprefixDm", "Esse comando so pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("setprefixDm", "Esse comando so pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -100,9 +100,9 @@ namespace Bot.Comandos
                         EmbedBuilder embed = new EmbedBuilder();
                         embed.WithColor(Color.DarkPurple);
                         embed.WithColor(Color.Purple);
-                        embed.WithTitle(await StringCatch.GetString("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
-                        embed.WithDescription(await StringCatch.GetString("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
-                        embed.AddField(await StringCatch.GetString("xptoleSetF1", "Opções Validas:"), await StringCatch.GetString("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
+                        embed.WithTitle(await StringCatch.GetStringAsync("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
+                        embed.WithDescription(await StringCatch.GetStringAsync("xproleSetDesc1", "Você deseja ligar os pontos de interação??(eles servem para medir a interação dos seus membros e setar cargos automaticamente)"));
+                        embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções Validas:"), await StringCatch.GetStringAsync("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
                         IMessage pergunta = await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                         SubCommandControler sub = new SubCommandControler();
                         IMessage msgresposta = await sub.GetCommand(pergunta, Contexto.User);
@@ -117,9 +117,9 @@ namespace Bot.Comandos
                                 if (msgresposta.Content == "s")
                                 {
                                     ativado = true;
-                                    embed.WithDescription(await StringCatch.GetString("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
+                                    embed.WithDescription(await StringCatch.GetStringAsync("xproleSetDesc2", "Qual é o multiplicador de Pontos de Interação que deseja usar (esse multiplicador determina como sera medido a interação dos membros) [recomendamos o multiplicador 2]"));
                                     embed.Fields.Clear();
-                                    embed.AddField(await StringCatch.GetString("xptoleSetF1", "Opções Validas:"), await StringCatch.GetString("xproleSet2F1Desc", "Qualquer numero a partir de 1.0"));
+                                    embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções Validas:"), await StringCatch.GetStringAsync("xproleSet2F1Desc", "Qualquer numero a partir de 1.0"));
                                     pergunta = await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                                     sub = new SubCommandControler();
                                     msgresposta = await sub.GetCommand(pergunta, Contexto.User);
@@ -127,9 +127,9 @@ namespace Bot.Comandos
                                     {
                                         if (rate > 1)
                                         {
-                                            embed.WithDescription(await StringCatch.GetString("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
+                                            embed.WithDescription(await StringCatch.GetStringAsync("xproleSetDesc3", "Digite a messagem que você quer que eu mostre quando alguem conseguir um Ponto de Interação, se você não deseja ter uma mensagem apenas digite `%desativar%`"));
                                             embed.Fields.Clear();
-                                            embed.AddField(await StringCatch.GetString("xptoleSetF1", "Opções Validas:"), await StringCatch.GetString("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
+                                            embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções Validas:"), await StringCatch.GetStringAsync("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user% e %pontos%"));
                                             pergunta = await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                                             sub = new SubCommandControler();
                                             msgresposta = await sub.GetCommand(pergunta, Contexto.User);
@@ -154,14 +154,14 @@ namespace Bot.Comandos
                                 {
                                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.Green)
-                                        .WithTitle(await StringCatch.GetString("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
+                                        .WithTitle(await StringCatch.GetStringAsync("xproleSetTitleOK", "Ok, farei tudo conforme o pedido 😃"))
                                         .Build());
                                 }
                                 else
                                 {
                                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.Red)
-                                        .WithTitle(await StringCatch.GetString("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                        .WithTitle(await StringCatch.GetStringAsync("xproleSetTitleFail", "Desculpe mas ouve um problema ao tentar salvar suas preferencias, se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
                                         .Build());
                                 }
                             }
@@ -177,7 +177,7 @@ namespace Bot.Comandos
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithColor(Color.Red)
-                            .WithTitle(await StringCatch.GetString("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", Contexto.User.Username))
+                            .WithTitle(await StringCatch.GetStringAsync("xproleCargosFailCheck", "**{0}**, o bot precisa da permissão de gerenciar cargos para executar esse comando 😔", Contexto.User.Username))
                             .Build());
                     }
                 }
@@ -185,7 +185,7 @@ namespace Bot.Comandos
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(await StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
+                        .WithTitle(await StringCatch.GetStringAsync("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
                         .Build());
                 }
             }
@@ -193,7 +193,7 @@ namespace Bot.Comandos
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .WithTitle(await StringCatch.GetString("xprolePrivateErro", "Desculpe, mas você só pode dar esse comando em um servidor"))
+                    .WithTitle(await StringCatch.GetStringAsync("xprolePrivateErro", "Desculpe, mas você só pode dar esse comando em um servidor"))
                     .Build());
             }
         }
@@ -202,7 +202,7 @@ namespace Bot.Comandos
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.Red)
-                .WithTitle(await StringCatch.GetString("timeoutFailTitle", "**{0}**, Tempo acabou 😶", Contexto.User.Username))
+                .WithTitle(await StringCatch.GetStringAsync("timeoutFailTitle", "**{0}**, Tempo acabou 😶", Contexto.User.Username))
                 .Build());
             return;
         }
@@ -211,7 +211,7 @@ namespace Bot.Comandos
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithColor(Color.Red)
-                .WithTitle(await StringCatch.GetString("rotafailtitle", "Desculpe, mas você terá que me falar um valor dentro do **Opções Validas**, se não eu não poderei te ajudar 😔"))
+                .WithTitle(await StringCatch.GetStringAsync("rotafailtitle", "Desculpe, mas você terá que me falar um valor dentro do **Opções Validas**, se não eu não poderei te ajudar 😔"))
                 .Build());
         }
 
@@ -249,14 +249,14 @@ namespace Bot.Comandos
                         if (await new CanaisDAO().AddChAsync(canalModel))
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetString("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", Contexto.User.Username, canalModel.NomeCanal))
+                                    .WithDescription(await StringCatch.GetStringAsync("welcomechOk", "**{0}** as mensagens de boas-vindas serão enviadas no canal: `#{1}`", Contexto.User.Username, canalModel.NomeCanal))
                                     .WithColor(Color.DarkPurple)
                                  .Build());
                         }
                         else
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", Contexto.User.Username))
+                                    .WithDescription(await StringCatch.GetStringAsync("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as boas-vindas", Contexto.User.Username))
                                     .WithColor(Color.Red)
                                 .Build());
                         }
@@ -264,7 +264,7 @@ namespace Bot.Comandos
                     else
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", Contexto.User.Username))
+                                .WithDescription(await StringCatch.GetStringAsync("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", Contexto.User.Username))
                                 .WithColor(Color.Red)
                             .Build());
                     }
@@ -272,7 +272,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -280,7 +280,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("welcomechDm", "Esse comando só pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("welcomechDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -320,14 +320,14 @@ namespace Bot.Comandos
                         if (await new CanaisDAO().AddChAsync(canalModel))
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetString("welcomechOk", "**{0}** as mensagens de saida serão enviadas no canal: `#{1}`", Contexto.User.Username, canalModel.NomeCanal))
+                                    .WithDescription(await StringCatch.GetStringAsync("welcomechOk", "**{0}** as mensagens de saida serão enviadas no canal: `#{1}`", Contexto.User.Username, canalModel.NomeCanal))
                                     .WithColor(Color.DarkPurple)
                                  .Build());
                         }
                         else
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetString("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as mensagens de saida", Contexto.User.Username))
+                                    .WithDescription(await StringCatch.GetStringAsync("welcomechNSetado", "**{0}** eu não consegui definir esse canal para mandar as mensagens de saida", Contexto.User.Username))
                                     .WithColor(Color.Red)
                                 .Build());
                         }
@@ -335,7 +335,7 @@ namespace Bot.Comandos
                     else
                     {
                        await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetString("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", Contexto.User.Username))
+                                .WithDescription(await StringCatch.GetStringAsync("welcomechSemCanal", "**{0}** eu não encontrei esse canal no servidor", Contexto.User.Username))
                                 .WithColor(Color.Red)
                             .Build());
                     }
@@ -343,7 +343,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("welcomechSemPerm", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -351,7 +351,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("welcomechDm", "Esse comando só pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("welcomechDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -368,8 +368,8 @@ namespace Bot.Comandos
                     string prefix = PrefixoServidor;
                     EmbedBuilder msgErro = new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .AddField(await StringCatch.GetString("addpicargoErrMsgUsageFtitle", "Uso do comando:"), await StringCatch.GetString("addpicargoErrMsgUsageFcontent", "`{0}picargo [QuantidadeDePIRequerido se o valor for menor ou igual a 0 o mesmo será removido] NomeCargo`", prefix))
-                        .AddField(await StringCatch.GetString("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), await StringCatch.GetString("addpicargoErrMsgExempleFcontent", "`{0}piCargo 3 Membros`", prefix));
+                        .AddField(await StringCatch.GetStringAsync("addpicargoErrMsgUsageFtitle", "Uso do comando:"), await StringCatch.GetStringAsync("addpicargoErrMsgUsageFcontent", "`{0}picargo [QuantidadeDePIRequerido se o valor for menor ou igual a 0 o mesmo será removido] NomeCargo`", prefix))
+                        .AddField(await StringCatch.GetStringAsync("addpicargoErrMsgExempleFtitle", "Exemplo do comando:"), await StringCatch.GetStringAsync("addpicargoErrMsgExempleFcontent", "`{0}piCargo 3 Membros`", prefix));
 
                     if (comandoargs.Length > 2)
                     {
@@ -388,7 +388,7 @@ namespace Bot.Comandos
 
                         if (cargoSelecionado == null)
                         {
-                            msgErro.WithTitle(await StringCatch.GetString("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado, por favor verifique se você digitou o nome/id do cargo corretamente.", Contexto.User.Username));
+                            msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado, por favor verifique se você digitou o nome/id do cargo corretamente.", Contexto.User.Username));
                             await Contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                         }
                         else
@@ -404,26 +404,26 @@ namespace Bot.Comandos
                                 {
                                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.Green)
-                                        .WithTitle(await StringCatch.GetString("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", Contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetString("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetString("addpicargoAtualizado", "atualizado") : StringCatch.GetString("addpicargoDeletado", "removido")))
+                                        .WithTitle(await StringCatch.GetStringAsync("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", Contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetStringAsync("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetStringAsync("addpicargoAtualizado", "atualizado") : StringCatch.GetStringAsync("addpicargoDeletado", "removido")))
                                         .Build());
                                 }
                                 else
                                 {
-                                    msgErro.WithTitle(await StringCatch.GetString("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", Contexto.User.Username));
+                                    msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoNFAdd", "Desculpe mas não consegui adicionar o cargo 😔", Contexto.User.Username));
                                     msgErro.Fields.Clear();
                                     await Contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                                 }
                             }
                             else
                             {
-                                msgErro.WithTitle(await StringCatch.GetString("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros.", Contexto.User.Username));
+                                msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoErrTitlerequesito", "**{0}**, a quantidade de PI está invalida, por favor digite somente numero inteiros.", Contexto.User.Username));
                                 await Contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                             }
                         }
                     }
                     else
                     {
-                        msgErro.WithTitle(await StringCatch.GetString("addpicargoErrTitleLess2", "**{0}**, você precisa adicionar enviar os parametros do comando.", Contexto.User.Username));
+                        msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoErrTitleLess2", "**{0}**, você precisa adicionar enviar os parametros do comando.", Contexto.User.Username));
                         await Contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                     }
                 }
@@ -431,7 +431,7 @@ namespace Bot.Comandos
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(await StringCatch.GetString("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
+                        .WithTitle(await StringCatch.GetStringAsync("msgErroConfigPermission", "**{0}**, você precisa de permissão de Administrador para poder executar esse comando 😔", Contexto.User.Username))
                         .Build());
                 }
             }
@@ -439,7 +439,7 @@ namespace Bot.Comandos
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithTitle(await StringCatch.GetString("xproleCargosFailCheck", "Esse comando so pode ser execultado em Servidores"))
+                        .WithTitle(await StringCatch.GetStringAsync("xproleCargosFailCheck", "Esse comando so pode ser execultado em Servidores"))
                         .Build());
             }
 
@@ -454,9 +454,9 @@ namespace Bot.Comandos
                 if (guildUser.GuildPermissions.Administrator)
                 {
                     IMessage embed = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                               .WithTitle(await StringCatch.GetString("welcomemsgTitle1", "Configurar a mensagem de boas-vindas"))
-                               .WithDescription(await StringCatch.GetString("welcomemsgDesc1", "Você quer ligar a mensagem de boas vindas no seu servidor?"))
-                               .AddField(await StringCatch.GetString("welcomemmsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetString("welcomemmsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                               .WithTitle(await StringCatch.GetStringAsync("welcomemsgTitle1", "Configurar a mensagem de boas-vindas"))
+                               .WithDescription(await StringCatch.GetStringAsync("welcomemsgDesc1", "Você quer ligar a mensagem de boas vindas no seu servidor?"))
+                               .AddField(await StringCatch.GetStringAsync("welcomemmsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetStringAsync("welcomemmsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
                                .WithColor(Color.DarkPurple)
                            .Build());
 
@@ -469,9 +469,9 @@ namespace Bot.Comandos
                         if (msgresposta.Content == "s")
                         {
                             embed = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetString("welcomemsgTitle2", "Configurar a mensagem de boas-vindas"))
-                                    .WithDescription(await StringCatch.GetString("welcomemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem entrar no servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
-                                    .AddField(await StringCatch.GetString("welcomemmsgOpcValidasTitle2", "Opções Validas:"), await StringCatch.GetString("welcomemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
+                                    .WithTitle(await StringCatch.GetStringAsync("welcomemsgTitle2", "Configurar a mensagem de boas-vindas"))
+                                    .WithDescription(await StringCatch.GetStringAsync("welcomemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem entrar no servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
+                                    .AddField(await StringCatch.GetStringAsync("welcomemmsgOpcValidasTitle2", "Opções Validas:"), await StringCatch.GetStringAsync("welcomemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
                                     .WithColor(Color.DarkPurple)
                                 .Build());
 
@@ -489,7 +489,7 @@ namespace Bot.Comandos
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithColor(Color.Green)
-                                .WithTitle(await StringCatch.GetString("welcomemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
+                                .WithTitle(await StringCatch.GetStringAsync("welcomemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
                             .Build());
 
                     }
@@ -502,7 +502,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -510,7 +510,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -524,9 +524,9 @@ namespace Bot.Comandos
                 if (guildUser.GuildPermissions.Administrator)
                 {
                     IMessage embed = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithTitle(await StringCatch.GetString("byemsgTitle1", "Configurar a mensagem de saida"))
-                                .WithDescription(await StringCatch.GetString("byemsgDesc1", "Você quer ligar a mensagem de quando alguem sai do servidor?"))
-                                .AddField(await StringCatch.GetString("byeMsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetString("byemsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                                .WithTitle(await StringCatch.GetStringAsync("byemsgTitle1", "Configurar a mensagem de saida"))
+                                .WithDescription(await StringCatch.GetStringAsync("byemsgDesc1", "Você quer ligar a mensagem de quando alguem sai do servidor?"))
+                                .AddField(await StringCatch.GetStringAsync("byeMsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetStringAsync("byemsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
                                 .WithColor(Color.DarkPurple)
                             .Build());
 
@@ -539,9 +539,9 @@ namespace Bot.Comandos
                         if (msgresposta.Content == "s")
                         {
                             embed = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetString("byemsgTitle2", "Configurar a mensagem de saida"))
-                                    .WithDescription(await StringCatch.GetString("byemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem sai do servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
-                                    .AddField(await StringCatch.GetString("byeMsgOpcsValidasTitle2", "Opções Validas:"), await StringCatch.GetString("byemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
+                                    .WithTitle(await StringCatch.GetStringAsync("byemsgTitle2", "Configurar a mensagem de saida"))
+                                    .WithDescription(await StringCatch.GetStringAsync("byemsgDesc2", "Digite a mensagem que você quer que eu mostre quando alguem sai do servidor, se você não quer ter uma mensagem digite: ``%desativar%``"))
+                                    .AddField(await StringCatch.GetStringAsync("byeMsgOpcsValidasTitle2", "Opções Validas:"), await StringCatch.GetStringAsync("byemsgOpcsValidas2", "Qualquer tipo de texto, podendo usar até Embeds compativel com a Nadeko Bot e variaveis como %user%"))
                                     .WithColor(Color.DarkPurple)
                                 .Build());
 
@@ -559,7 +559,7 @@ namespace Bot.Comandos
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithColor(Color.Green)
-                                .WithTitle(await StringCatch.GetString("byemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
+                                .WithTitle(await StringCatch.GetStringAsync("byemsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
                             .Build());
 
                     }
@@ -572,7 +572,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("welcomemsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -580,7 +580,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("welcomemsgDm", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }
@@ -594,9 +594,9 @@ namespace Bot.Comandos
                 if (guildUser.GuildPermissions.Administrator)
                 {
                     IMessage embed = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithTitle(await StringCatch.GetString("erromsgTitle1", "Configurar a mensagem de erro"))
-                                .WithDescription(await StringCatch.GetString("erromsgDesc1", "Você quer que eu envia uma mensagem de erro quando alguem tenta usar algum comando que eu não tenho?"))
-                                .AddField(await StringCatch.GetString("erromsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetString("erromsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
+                                .WithTitle(await StringCatch.GetStringAsync("erromsgTitle1", "Configurar a mensagem de erro"))
+                                .WithDescription(await StringCatch.GetStringAsync("erromsgDesc1", "Você quer que eu envia uma mensagem de erro quando alguem tenta usar algum comando que eu não tenho?"))
+                                .AddField(await StringCatch.GetStringAsync("erromsgOpcsValidasTitle1", "Opções Validas:"), await StringCatch.GetStringAsync("erromsgOpcsValidas1", "s - Sim / Ligar\nn - Não / Desligar"))
                                 .WithColor(Color.DarkPurple)
                             .Build());
 
@@ -613,7 +613,7 @@ namespace Bot.Comandos
                         await new ConfiguracoesServidorDAO().SetErroMsgAsync(new ConfiguracoesServidor(new Servidores(Contexto.Guild.Id), new ErroMsg(erroMsg)));
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithColor(Color.Green)
-                                .WithTitle(await StringCatch.GetString("erromsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
+                                .WithTitle(await StringCatch.GetStringAsync("erromsgSetOk", "Ok, farei tudo conforme o pedido 😃"))
                             .Build());
 
                     }
@@ -626,7 +626,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetString("erromsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("erromsgSemPerm", "**{0}**, você precisa de permissão de Administrador para poder usar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -634,7 +634,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetString("erromsgDM", "Esse comando só pode ser usado em servidores"))
+                        .WithDescription(await StringCatch.GetStringAsync("erromsgDM", "Esse comando só pode ser usado em servidores"))
                         .WithColor(Color.Red)
                     .Build());
             }

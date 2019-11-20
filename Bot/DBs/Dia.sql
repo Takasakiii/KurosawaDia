@@ -15,8 +15,6 @@ Arquivos unidos na ordem: Dia_BaseTables_1.sql Dia_MonitoringProcedures_2.sql Di
 delimiter ; 
 
 delimiter ;
-create database Pitas_Kurosawa;
-use Pitas_Kurosawa;
 
 SET GLOBAL max_connections = 1000;
 

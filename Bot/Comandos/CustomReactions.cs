@@ -61,28 +61,28 @@ namespace Bot.Comandos
                             resposta = resposta_pergunta[1].Trim();
                         }
 
-                        embed.WithDescription(await StringCatch.GetString("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", Contexto.User.ToString()));
-                        embed.AddField(await StringCatch.GetString("trigger", "Trigger: "), pergunta);
-                        embed.AddField(await StringCatch.GetString("resposta", "Reposta: "), resposta);
-                        embed.AddField(await StringCatch.GetString("codigo", "Codigo: "), cr.Cod);
+                        embed.WithDescription(await StringCatch.GetStringAsync("acrCriadaOk", "**{0}** a reação customizada foi criada com sucesso", Contexto.User.ToString()));
+                        embed.AddField(await StringCatch.GetStringAsync("trigger", "Trigger: "), pergunta);
+                        embed.AddField(await StringCatch.GetStringAsync("resposta", "Reposta: "), resposta);
+                        embed.AddField(await StringCatch.GetStringAsync("codigo", "Codigo: "), cr.Cod);
                     }
                     else
                     {
-                        embed.WithTitle(await StringCatch.GetString("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
-                        embed.AddField(await StringCatch.GetString("usoCmd", "Uso do comando: "), await StringCatch.GetString("usoAcr", "`{0}acr trigger | resposta`", PrefixoServidor));
-                        embed.AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("exemploAcr", "`{0}acr upei | boa corno`", PrefixoServidor));
+                        embed.WithTitle(await StringCatch.GetStringAsync("acrErro", "Para adicionaru uma reação customizada você precisa me falar o trigger e a resposta da reação customizada"));
+                        embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do comando: "), await StringCatch.GetStringAsync("usoAcr", "`{0}acr trigger | resposta`", PrefixoServidor));
+                        embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploAcr", "`{0}acr upei | boa corno`", PrefixoServidor));
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetString("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
+                    embed.WithDescription(await StringCatch.GetStringAsync("acrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
                     embed.WithColor(Color.Red);
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetString("acrDm", "Esse comando so pode ser usado em servidores"));
+                embed.WithDescription(await StringCatch.GetStringAsync("acrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
             }
 
@@ -114,37 +114,37 @@ namespace Bot.Comandos
 
                             if (await new ReacoesCustomizadasDAO().DeletarAcrAsync(acr))
                             {
-                                embed.WithDescription(await StringCatch.GetString("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", Contexto.User.ToString(), codigo));
+                                embed.WithDescription(await StringCatch.GetStringAsync("dcrOk", "**{0}** a reação customizada com o codigo: `{1}` foi deletada do servidor", Contexto.User.ToString(), codigo));
                             }
                             else
                             {
-                                embed.WithDescription(await StringCatch.GetString("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", Contexto.User.ToString()));
+                                embed.WithDescription(await StringCatch.GetStringAsync("dcrNenhuma", "**{0}** não foi possivel deletar uma reação customizada com esse codigo", Contexto.User.ToString()));
                             }
 
                         }
                         catch
                         {
-                            embed.WithDescription(await StringCatch.GetString("dcrNumero", "**{0}** isso não é um numero", Contexto.User.ToString()));
+                            embed.WithDescription(await StringCatch.GetStringAsync("dcrNumero", "**{0}** isso não é um numero", Contexto.User.ToString()));
                             embed.WithColor(Color.Red);
                         }
                     }
                     else
                     {
-                        embed.WithTitle(await StringCatch.GetString("dcrSemCodio", "Você me precisa falar o codigo da reação customizada para que eu possa deletar ela"));
-                        embed.AddField(await StringCatch.GetString("usoCmd", "Uso do Comando: "), await StringCatch.GetString("usoDcr", "`{0}dcr <codigo>`", PrefixoServidor));
-                        embed.AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("exemploDcr", "`{0}dcr 1`", PrefixoServidor));
+                        embed.WithTitle(await StringCatch.GetStringAsync("dcrSemCodio", "Você me precisa falar o codigo da reação customizada para que eu possa deletar ela"));
+                        embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoDcr", "`{0}dcr <codigo>`", PrefixoServidor));
+                        embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploDcr", "`{0}dcr 1`", PrefixoServidor));
                         embed.WithColor(Color.Red);
                     }
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetString("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
+                    embed.WithDescription(await StringCatch.GetStringAsync("dcrSemPerm", "**{0}** Você não possui permissão de `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
                     embed.WithColor(Color.Red);
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetString("dcrDm", "Esse comando so pode ser usado em servidores"));
+                embed.WithDescription(await StringCatch.GetStringAsync("dcrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
             }
 
@@ -180,14 +180,14 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetString("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", Contexto.User.ToString()));
+                    embed.WithDescription(await StringCatch.GetStringAsync("lcrNenhuma", "**{0}** o servidor não tem nenhuma reação customizada", Contexto.User.ToString()));
                     embed.WithColor(Color.Red);
                     await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetString("lcrDm", "Esse comando so pode ser usado em servidores"));
+                embed.WithDescription(await StringCatch.GetStringAsync("lcrDm", "Esse comando so pode ser usado em servidores"));
                 embed.WithColor(Color.Red);
                 await Contexto.Channel.SendMessageAsync(embed: embed.Build());
             }
@@ -227,9 +227,9 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                 msg = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                   .WithTitle(await StringCatch.GetString("lcrTxt", "Lista das Reações Customizadas:"))
-                   .AddField(await StringCatch.GetString("lcrCods", "Codigos: "), retornoStrings.Item1, true)
-                   .AddField(await StringCatch.GetString("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
+                   .WithTitle(await StringCatch.GetStringAsync("lcrTxt", "Lista das Reações Customizadas:"))
+                   .AddField(await StringCatch.GetStringAsync("lcrCods", "Codigos: "), retornoStrings.Item1, true)
+                   .AddField(await StringCatch.GetStringAsync("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
                    .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
                    .WithColor(Color.DarkPurple)
                    .Build());
