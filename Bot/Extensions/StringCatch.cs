@@ -21,7 +21,7 @@ namespace Bot.Extensions
         }
 
 
-        public static async Task<string> GetString(string identificador, string respostaPadrao, params object[] addon)
+        public static async Task<string> GetStringAsync(string identificador, string respostaPadrao, params object[] addon)
         {
             Linguagens linguagens = new Linguagens(idiomaSelecionado, identificador);
             LinguagensDAO dao = new LinguagensDAO();

@@ -45,7 +45,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    Selfmsg = msg + " " + StringCatch.GetString("weebSelfDefault", "ele(a) mesmo").GetAwaiter().GetResult();
+                    Selfmsg = msg + " " + StringCatch.GetStringAsync("weebSelfDefault", "ele(a) mesmo").GetAwaiter().GetResult();
                 }
 
                 Tipo = tipo;
@@ -94,7 +94,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetString("weebDm", "Desculpe, mas so posso execultar esse comando em um servidor 😔"));
+                    embed.WithDescription(await StringCatch.GetStringAsync("weebDm", "Desculpe, mas so posso execultar esse comando em um servidor 😔"));
                     embed.WithColor(Color.Red);
                     embed.WithImageUrl(null);
                 }
@@ -110,61 +110,61 @@ namespace Bot.Comandos
         //Comando de Hug (Abraço)
         public async Task hug()
         {
-            await GetWeeb(new WeebInfo("hug", await StringCatch.GetString("hugTxt", "está abraçando"), await StringCatch.GetString("hugSelf", "está se abraçando")));
+            await GetWeeb(new WeebInfo("hug", await StringCatch.GetStringAsync("hugTxt", "está abraçando"), await StringCatch.GetStringAsync("hugSelf", "está se abraçando")));
         }
 
         //Comando de Kiss (Beijar)
         public async Task kiss()
         {
-            await GetWeeb(new WeebInfo("kiss", await StringCatch.GetString("kissTxt", "está beijando")));
+            await GetWeeb(new WeebInfo("kiss", await StringCatch.GetStringAsync("kissTxt", "está beijando")));
         }
 
         //Comando de Slap (Bater)
         public async Task slap()
         {
-            await GetWeeb(new WeebInfo("slap", await StringCatch.GetString("slapTxt", "está dando um tapa no(a)"), await StringCatch.GetString("slapSelf", "está se batendo")));
+            await GetWeeb(new WeebInfo("slap", await StringCatch.GetStringAsync("slapTxt", "está dando um tapa no(a)"), await StringCatch.GetStringAsync("slapSelf", "está se batendo")));
         }
 
         //Comando de Punch (Socar)
         public async Task punch()
         {
-            await GetWeeb(new WeebInfo("punch", await StringCatch.GetString("punchTxt", "esta socando")));
+            await GetWeeb(new WeebInfo("punch", await StringCatch.GetStringAsync("punchTxt", "esta socando")));
         }
 
         //Comando de Lick (Lamber)
         public async Task lick()
         {
-            await GetWeeb(new WeebInfo("lick", await StringCatch.GetString("lickTxt", "esta lambendo")));
+            await GetWeeb(new WeebInfo("lick", await StringCatch.GetStringAsync("lickTxt", "esta lambendo")));
         }
 
         //Comando de Cry (Chorar)
         public async Task cry()
         {
-            await GetWeeb(new WeebInfo("cry", await StringCatch.GetString("cryTxt", "está chorando com"), await StringCatch.GetString("crySelf", "está chorando")));
+            await GetWeeb(new WeebInfo("cry", await StringCatch.GetStringAsync("cryTxt", "está chorando com"), await StringCatch.GetStringAsync("crySelf", "está chorando")));
         }
 
         //Comando Megumin (mostra uma imagem da megumin) 
         public async Task megumin()
         {
-            await GetWeeb(new WeebInfo("megumin", await StringCatch.GetString("meguminTxt", "Megumin ❤"), auto: false));
+            await GetWeeb(new WeebInfo("megumin", await StringCatch.GetStringAsync("meguminTxt", "Megumin ❤"), auto: false));
         }
 
         //Comando Rem (Mostra uma imagem da rem)
         public async Task rem()
         {
-            await GetWeeb(new WeebInfo("rem", await StringCatch.GetString("remTxt", "rem ❤"), auto: false));
+            await GetWeeb(new WeebInfo("rem", await StringCatch.GetStringAsync("remTxt", "rem ❤"), auto: false));
         }
 
         //Comando Pat (Acariciar)
         public async Task pat()
         {
-            await GetWeeb(new WeebInfo("pat", await StringCatch.GetString("patTxt", "está fazendo carinho no(a)"), await StringCatch.GetString("patSelf", "está se acariciando")));
+            await GetWeeb(new WeebInfo("pat", await StringCatch.GetStringAsync("patTxt", "está fazendo carinho no(a)"), await StringCatch.GetStringAsync("patSelf", "está se acariciando")));
         }
 
         //Comando Dance (Dançar)
         public async Task dance()
         {
-            await GetWeeb(new WeebInfo("dance", await StringCatch.GetString("danceTxt", "está dançando com"), await StringCatch.GetString("danceSelf", "começou a dançar")));
+            await GetWeeb(new WeebInfo("dance", await StringCatch.GetStringAsync("danceTxt", "está dançando com"), await StringCatch.GetStringAsync("danceSelf", "começou a dançar")));
         }
 
         //Comando Fuck (leny face)
@@ -202,7 +202,7 @@ namespace Bot.Comandos
                             
 
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetString("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
+                                    .WithTitle(await StringCatch.GetStringAsync("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
@@ -210,7 +210,7 @@ namespace Bot.Comandos
                         else
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetString("fuckSelf", "{0} esta se masturbando", authorNick))
+                                    .WithTitle(await StringCatch.GetStringAsync("fuckSelf", "{0} esta se masturbando", authorNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
