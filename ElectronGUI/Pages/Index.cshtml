@@ -4,8 +4,28 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <form method="post">
-        <button type="submit" class="btn btn-primary">Ligar</button>
-    </form>
-</div>
+    <body>
+        <br />
+        <br />
+        <video id="myVideo" autoplay muted loop>
+            <source src="~/videos/video.mp4" type="video/mp4">
+        </video>
+
+        <div class="text-center content">
+            <form id="login" class="form-signin fundo" method="post">
+                <div id="resposta">
+
+                </div>
+                <img class="mb-4 dia" src="~/images/dia.jpg">
+                <h1 class="h3 mb-3 font-weight-normal">Kudsawa Daiya</h1>
+                @*<div class="checkbox mb-3">
+                    <label>
+                        <input name="lembrar" type="checkbox" value="lembrar"> Lembrar
+                    </label>
+                </div>*@
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar</button>
+            </form>
+            <br />
+            <br />
+        </div>
+    </body>
