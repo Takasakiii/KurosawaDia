@@ -55,8 +55,15 @@ namespace Bot.Comandos
                     }
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
-
-                    PossiveisMsg[] msgs = { new PossiveisMsg("avatarMsgNice", "Nossa que avatar bonito, agora sei porque você queria ve-lo"), new PossiveisMsg("avatarMsgJoy", "Vocês são realmente criativos para avatares 😂"), new PossiveisMsg("avatarMsgIdol", "Com avatar assim seria um disperdicio não se tornar idol 😃"), new PossiveisMsg("avatarMsgFiltro", "Talvez se você posse um filtro ficaria melhor...") };
+                    PossiveisMsg[] msgs = null;
+                    if (user.Id == Contexto.Client.CurrentUser.Id)
+                    {
+                        msgs = ArrayExtension.CriarArray(new PossiveisMsg("selfavatarAmor",  "Ow que amor, você realmente quer me ver😍"),  new PossiveisMsg("selfAvatarsemjeito" , "Assim você me deixa sem jeito 😊"));
+                    }
+                    else
+                    {
+                        msgs = ArrayExtension.CriarArray(new PossiveisMsg("avatarMsgNice", "Nossa que avatar bonito, agora sei porque você queria ve-lo 🤣"), new PossiveisMsg("avatarMsgJoy", "Vocês são realmente criativos para avatares 😂"), new PossiveisMsg("avatarMsgIdol", "Com avatar assim seria um disperdicio não se tornar idol 😃"), new PossiveisMsg("avatarMsgFiltro", "Talvez se você pusesse um filtro ficaria melhor... 🤐") );
+                    }
                     int rnd = new Random().Next(0, msgs.Length);
 
                     string msgfinal = await StringCatch.GetString(msgs[rnd].identifier, msgs[rnd].msgDefault);
