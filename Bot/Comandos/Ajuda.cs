@@ -121,14 +121,14 @@ namespace Bot.Comandos
             }
         }
 
-        public async Task convite()
-        {
-            await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(await StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
-                    .WithDescription(await StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
-                    .WithColor(Color.DarkPurple)
-             .Build());
-        }
+        //public async Task convite()
+        //{
+        //    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+        //            .WithTitle(await StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
+        //            .WithDescription(await StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
+        //            .WithColor(Color.DarkPurple)
+        //     .Build());
+        //}
 
         public async Task info()
         {
@@ -168,7 +168,7 @@ namespace Bot.Comandos
                 {
                     if (servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
-                        modulos = await StringCatch.GetString("modulosStringEspecial", "❓ Ajuda;\n🛠 Utilidade;\n⚖ Moderação;\n🔞 NSFW;\n❤ Weeb;\n🖼 Imagens;\n💬 Reações Customizadas;\n⚙ Configurações;\n🌟 Especiais.");
+                        modulos = await StringCatch.GetString("modulosStringEspecial", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações;\n:nine: 🌟 Especiais.");
                     }
                 }
             }
@@ -187,7 +187,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetString("helpModulo", "Modulo Ajuda (❓)"))
                     .WithDescription(await StringCatch.GetString("helpInfo", "Esse modulo tem comandos para te ajudar na ultilização do bot. \n\nNão tenha medo eles não mordem 😉"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetString("helpCmdsTxt", "Comandos:"), await StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`, `{0}convite`", PrefixoServidor))
+                    .AddField(await StringCatch.GetString("helpCmdsTxt", "Comandos:"), await StringCatch.GetString("helpCmds", "`{0}ajuda`, `{0}comandos`, `{0}info`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetString("helpImg", "https://i.imgur.com/XQTVJu9.jpg"))
                 .Build());
         }
@@ -275,7 +275,7 @@ namespace Bot.Comandos
                     .WithDescription(await StringCatch.GetString("ConfigsInfo", "Em configurações você define preferencias de como agirei em seu servidor. \n\nTenho certeza que podemos ficar mais intimos assim 😄"))
                     .WithColor(Color.DarkPurple)
                     .AddField(await StringCatch.GetString("configsCmdsTxt", "Comandos:"), await StringCatch.GetString("configsCmds", "`{0}setprefix`, `{0}piconf`, `{0}welcomech`, `{0}byech`, `{0}picargo`, `{0}welcomemsg`, `{0}byemsg`, `{0}erromsg`", PrefixoServidor))
-                    .WithImageUrl(await StringCatch.GetString("configsImg", "https://i.imgur.com/vVBOIB2.gif"))
+                    .WithImageUrl(await StringCatch.GetString("configsImg", "https://i.imgur.com/vg0z9yT.jpg"))
                 .Build());
         }
         private async Task especial()

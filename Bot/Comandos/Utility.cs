@@ -115,7 +115,7 @@ namespace Bot.Comandos
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.Red)
-                        .WithDescription(await StringCatch.GetString("videoChamadaDm", "você precisa estar em um canal de voz e em um servidor para usar esse comando"))
+                        .WithDescription(await StringCatch.GetString("videoChamadaDm", "Você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"))
                 .Build());
             }
         }
@@ -161,8 +161,8 @@ namespace Bot.Comandos
             catch
             {
                 embed.WithTitle(await StringCatch.GetString("emoteInvalido", "Desculpe mas o emoji que você digitou é invalido"));
-                embed.AddField(await StringCatch.GetString("usoCmd", "Uso do comando: "), await StringCatch.GetString("emoteUso", "`{0}emote emoji`", PrefixoServidor));
-                embed.AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("emoteExeemplo", "`{0}emote :kanna:`", PrefixoServidor));
+                embed.AddField(await StringCatch.GetString("usoCmd", "Uso do comando: "), await StringCatch.GetString("emoteUso", "`{0}emoji emoji`", PrefixoServidor));
+                embed.AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("emoteExeemplo", "`{0}emoji :kanna:`", PrefixoServidor));
                 embed.WithColor(Color.Red);
             }
 

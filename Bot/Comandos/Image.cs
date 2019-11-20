@@ -123,18 +123,17 @@ namespace Bot.Comandos
                 embed.WithImageUrl(await StringCatch.GetString("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                 IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 Tuple<bool, long> res = await new HttpExtensions().PegarTamanhoArquivo(imgUrl);
-                if (res.Item1 && res.Item2 < 102400)
+
+                if (!imgUrl.Contains("gif"))
                 {
                     try
                     {
                         string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                        await userMsg.DeleteAsync();
                         embed.WithDescription("");
                         embed.WithImageUrl(retorno);
                     }
                     catch
                     {
-                        await userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
                         embed.WithDescription(await StringCatch.GetString("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
@@ -142,11 +141,19 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await userMsg.DeleteAsync();
-                    embed.WithColor(Color.Red);
-                    embed.WithDescription(await StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie imagens até 100 kb 😥", Contexto.User.ToString()));
-                    embed.WithImageUrl(null);
+                    if (res.Item1 && res.Item2 < 102400) {
+                        string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
+                        embed.WithDescription("");
+                        embed.WithImageUrl(retorno);
+                    }
+                    else
+                    {
+                        embed.WithColor(Color.Red);
+                        embed.WithDescription(await StringCatch.GetString("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie gifs até 100 kb 😥", Contexto.User.ToString()));
+                        embed.WithImageUrl(null);
+                    }
                 }
+                await userMsg.DeleteAsync();
             }
             else
             {
@@ -155,6 +162,7 @@ namespace Bot.Comandos
                 embed.AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("exemploMagik", "`{0}magik https://i.imgur.com/cZDlYXr.png`", PrefixoServidor));
                 embed.WithColor(Color.Red);
             }
+
             await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 

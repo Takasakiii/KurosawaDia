@@ -21,18 +21,12 @@ namespace Bot.Extensions
         //Metodo responsavel por baixar um dado de um json de resposta de uma api externa atravez do WebClient
         public async Task<string> GetSite(string url, string parametro)
         {
-            return await Task.Run(() =>
-            {
-                using (WebClient wc = new WebClient())
-                {
-                    
-                    string site = wc.DownloadString(url);
-                    JToken siteJson = JObject.Parse(site);
+            string site = await new HttpExtensions().DownloadStringTaskAsync(url);
+            JToken siteJson = JObject.Parse(site);
 
-                    return siteJson.SelectToken(parametro).ToString();
-                }
-            });
+            return siteJson.SelectToken(parametro).ToString();
         }
+
 
         //Metodo responsavel por baixar um dado de um json de resposta de uma api externa atraves do HttpClient
         public async Task<string> GetSiteHttp(string url, string parametro)
