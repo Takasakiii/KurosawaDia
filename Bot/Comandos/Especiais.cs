@@ -171,7 +171,7 @@ namespace Bot.Comandos
                 catch
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(await StringCatch.GetString("fuckAddErro", "{0} Eh meu caro teve um erro na hora de adicionar a img", Contexto.User.ToString()))
+                            .WithTitle(await StringCatch.GetString("fuckAddErro", "{0} você precisa fornecer a url da imagem e se ela é explicita ou não", Contexto.User.ToString()))
                             .AddField(await StringCatch.GetString("usoCmd", "Uso do Comando:"), await StringCatch.GetString("usoFuckAdd", "`{0}fuckadd <Url Img> <Explicit>`", PrefixoServidor))
                             .AddField(await StringCatch.GetString("exemploCmd", "Exemplo: "), await StringCatch.GetString("usoFuckAdd", "`{0}fuckadd https://i.imgur.com/JDlJzBC.gif false`", PrefixoServidor))
                             .WithColor(Color.Red)

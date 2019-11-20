@@ -31,10 +31,11 @@ namespace Bot.Comandos
                 if (userGuild.GuildPermissions.ManageGuild)
                 {
                     string[] comando = Comando;
-                    string msg = comando[1];
+                    
 
-                    if (msg != "")
+                    if (comando.Length > 1)
                     {
+                        string msg = comando[1];
                         IUserMessage message = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithDescription(await StringCatch.GetString("setprefixCtz", "**{0}** você quer mudar o prefixo?", Contexto.User))
                                 .WithFooter(await StringCatch.GetString("setprefixIgnorar", "se não apenas ignore essa mensagem"))
