@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using static Bot.Extensions.LogEmiter.TipoLog;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -46,11 +47,24 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(async () =>
             {
-                SocketUserMessage socketUserMessage = message as SocketUserMessage;
-                if (socketUserMessage != null)
+                CommandContext contexto = null;
+                try
                 {
-                    CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
-                    await ControlarMensagens(contexto);
+                    SocketUserMessage socketUserMessage = message as SocketUserMessage;
+                    if (socketUserMessage != null)
+                    {
+                        contexto = new CommandContext(SingletonClient.client, socketUserMessage);
+                        await ControlarMensagens(contexto);
+                    }
+                }
+                catch(Discord.Net.HttpException e)
+                {
+                    await LogEmiter.EnviarLogAsync(TipoCor.Erro, $"Erro do servidor: {contexto.Guild.Id}\n\n{e.ToString()}");
+                }
+
+                catch (Exception e)
+                {
+                    await LogEmiter.EnviarLogAsync(e);
                 }
             }).Start();
         }
