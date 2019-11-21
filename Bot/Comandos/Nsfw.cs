@@ -1,6 +1,7 @@
 ﻿using Bot.Constantes;
 using Bot.Extensions;
 using Bot.GenericTypes;
+using Bot.Modelos;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
@@ -39,7 +40,7 @@ namespace Bot.Comandos
                     }
                 }
             }
-            await new ImageExtensions().getImg(Contexto, imgs: imgs.ToArray(), nsfw: true);
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Contexto.User.ToString(), Nsfw: true), imgs.ToArray());
         }
 
         public async Task hentaibomb()
@@ -54,7 +55,7 @@ namespace Bot.Comandos
                 Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
                 servidor = res.Item2;
                 if (res.Item1)
-                { 
+                {
                     if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
                         imgs.Add(links.nsfw_hentai_gif);
@@ -63,15 +64,14 @@ namespace Bot.Comandos
                     }
                 }
             }
-            await new ImageExtensions().getImg(Contexto, img: links.hentai, nsfw: true, quantidade: 5);
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Contexto.User.ToString(), Nsfw: true, Quantidade: 5), imgs.ToArray());
         }
 
         public async Task anal()
         {
             Links links = new Links();
 
-            await new ImageExtensions().getImg(Contexto, img: links.anal, nsfw: true);
-
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Contexto.User.ToString(), Nsfw: true), links.anal);
         }
     }
 }
