@@ -1,64 +1,33 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Bot.Modelos;
+using Discord;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bot.Extensions
 {
     public class ImageExtensions
     {
-        public async Task getImg(CommandContext contexto, string txt = "", Tuple<string, string> img = null, Tuple<string, string>[] imgs = null, bool nsfw = false, int quantidade = 1)
+        public async Task GetImgAsync(ImgModel model, params Tuple<string, string>[] links)
         {
-            if (imgs == null)
+            if (model.Nsfw && !(model.Canal as ITextChannel).IsNsfw)
             {
-                Tuple<string, string>[] tuple =
-                {
-                        img
-                    };
-
-                imgs = tuple;
-            }
-
-            Random rand = new Random();
-            int i = rand.Next(imgs.Length);
-
-            HttpExtensions http = new HttpExtensions();
-
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-            embed.WithImageUrl(await http.GetSite(imgs[i].Item1, imgs[i].Item2));
-            embed.WithTitle(txt);
-
-            if (!nsfw)
-            {
-                await contexto.Channel.SendMessageAsync(embed: embed.Build());
+                await model.Canal.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle(model.Texto)
+                        .WithColor(Color.Red)
+                        .WithDescription(await StringCatch.GetStringAsync("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", model.NomeUsuario))
+                    .Build());
             }
             else
             {
-                ITextChannel canal = contexto.Channel as ITextChannel;
-                if (contexto.IsPrivate || canal.IsNsfw)
+                HttpExtensions http = new HttpExtensions();
+                for (int i = 0; i < model.Quantidade; i++)
                 {
-                    if (quantidade <= 1)
-                    {
-                        await contexto.Channel.SendMessageAsync(embed: embed.Build());
-                    }
-                    else
-                    {
-                        for (int x = 0; x < quantidade; x++)
-                        {
-                            int y = rand.Next(imgs.Length);
-                            embed.WithImageUrl(await http.GetSite(imgs[i].Item1, imgs[i].Item2));
-                            await contexto.Channel.SendMessageAsync(embed: embed.Build());
-                        }
-                    }
-                }
-                else
-                {
-                    embed.WithImageUrl(null);
-                    embed.WithColor(Color.Red);
-                    embed.WithDescription(await StringCatch.GetStringAsync("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", contexto.User.ToString()));
-                    await contexto.Channel.SendMessageAsync(embed: embed.Build());
+                    int random = new Random().Next(links.Length);
+                    await model.Canal.SendMessageAsync(embed: new EmbedBuilder()
+                            .WithTitle(model.Texto)
+                            .WithColor(Color.DarkPurple)
+                            .WithImageUrl(await http.GetSite(links[random].Item1, links[random].Item2))
+                        .Build());
                 }
             }
         }
