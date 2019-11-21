@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using static Bot.Extensions.LogEmiter.TipoLog;
 
 namespace Bot.Nucleo.Eventos
 {
@@ -46,11 +47,24 @@ namespace Bot.Nucleo.Eventos
         {
             new Thread(async () =>
             {
-                SocketUserMessage socketUserMessage = message as SocketUserMessage;
-                if (socketUserMessage != null)
+                CommandContext contexto = null;
+                try
                 {
-                    CommandContext contexto = new CommandContext(SingletonClient.client, socketUserMessage);
-                    await ControlarMensagens(contexto);
+                    SocketUserMessage socketUserMessage = message as SocketUserMessage;
+                    if (socketUserMessage != null)
+                    {
+                        contexto = new CommandContext(SingletonClient.client, socketUserMessage);
+                        await ControlarMensagens(contexto);
+                    }
+                }
+                catch(Discord.Net.HttpException e)
+                {
+                    await LogEmiter.EnviarLogAsync(TipoCor.Erro, $"Erro do servidor: {contexto.Guild.Id}\n\n{e.ToString()}");
+                }
+
+                catch (Exception e)
+                {
+                    await LogEmiter.EnviarLogAsync(e);
                 }
             }).Start();
         }
@@ -125,7 +139,10 @@ namespace Bot.Nucleo.Eventos
         //Metodo interno responsavel pelo cadastramento de um usuario/servidor na db do bot
         private async Task CadastrarServidorUsuarioAsync(CommandContext context)
         {
-            await new Servidores_UsuariosDAO().inserirServidorUsuarioAsync(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+            if (!context.IsPrivate)
+            {
+                await new Servidores_UsuariosDAO().inserirServidorUsuarioAsync(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+            }
         }
 
         //Metodo interno responsavel por separar o comando e criar o args que vai ser enviado pros modulos
