@@ -61,7 +61,19 @@ namespace Bot.Extensions
                     returnMethod.Invoke();
                 } else
                 {
-                    await mensagem.RemoveReactionAsync(emoji, mensagem.Author);
+                    bool tentativa = false;
+                    do
+                    {
+                        try
+                        {
+                            await mensagem.RemoveReactionAsync(emoji, mensagem.Author);
+                        }
+                        catch
+                        {
+                            Thread.Sleep(134);
+                            tentativa = true;
+                        }
+                    } while (tentativa);
                 }
             });
             processo.Start();
