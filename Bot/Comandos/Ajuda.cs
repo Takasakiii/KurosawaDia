@@ -245,7 +245,7 @@ namespace Bot.Comandos
                 {
                     if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
                     {
-                        cmds = await StringCatch.GetStringAsync("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`", PrefixoServidor);
+                        cmds = await StringCatch.GetStringAsync("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`, `{0}lolibomb`", PrefixoServidor);
                     }
                 }
             }

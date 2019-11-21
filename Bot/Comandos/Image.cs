@@ -1,6 +1,7 @@
 ﻿using Bot.Constantes;
 using Bot.Extensions;
 using Bot.GenericTypes;
+using Bot.Modelos;
 using Discord;
 using Discord.Commands;
 using MainDatabaseControler.DAO;
@@ -22,13 +23,13 @@ namespace Bot.Comandos
         public async Task cat()
         {
             Links links = new Links();
-            await new ImageExtensions().getImg(Contexto, await StringCatch.GetStringAsync("catTxt", "Meow"), links.cat);
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Texto: await StringCatch.GetStringAsync("catTxt", "Meow")), links.cat);
         }
 
         public async Task dog()
         {
             Links links = new Links();
-            await new ImageExtensions().getImg(Contexto, img: links.dog);
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel), links.dog);
         }
 
         public async Task magikavatar()
@@ -177,10 +178,33 @@ namespace Bot.Comandos
             Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
 
             Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && servidor.Permissoes == PermissoesServidores.ServidorPika || servidor.Permissoes == PermissoesServidores.LolisEdition || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (!Contexto.IsPrivate && sucesso.Item1 && (sucesso.Item2.Permissoes == PermissoesServidores.LolisEdition || sucesso.Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1))
             {
                 Links links = new Links();
-                await new ImageExtensions().getImg(Contexto, img: links.loli);
+                await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel), links.loli);
+            }
+            else
+            {
+                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+            }
+
+        }
+
+        public async Task lolibomb()
+        {
+            ulong id = 0;
+            if (!Contexto.IsPrivate)
+            {
+                id = Contexto.Guild.Id;
+            }
+
+            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
+
+            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
+            if (!Contexto.IsPrivate && sucesso.Item1 && (sucesso.Item2.Permissoes == PermissoesServidores.LolisEdition || sucesso.Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1))
+            {
+                Links links = new Links();
+                await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Quantidade: 5), links.loli);
             }
             else
             {
