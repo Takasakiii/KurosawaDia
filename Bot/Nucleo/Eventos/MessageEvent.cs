@@ -125,7 +125,10 @@ namespace Bot.Nucleo.Eventos
         //Metodo interno responsavel pelo cadastramento de um usuario/servidor na db do bot
         private async Task CadastrarServidorUsuarioAsync(CommandContext context)
         {
-            await new Servidores_UsuariosDAO().inserirServidorUsuarioAsync(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+            if (!context.IsPrivate)
+            {
+                await new Servidores_UsuariosDAO().inserirServidorUsuarioAsync(new Servidores_Usuarios(new Servidores(context.Guild.Id, context.Guild.Name), new Usuarios(context.User.Id, context.User.ToString())));
+            }
         }
 
         //Metodo interno responsavel por separar o comando e criar o args que vai ser enviado pros modulos
