@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace ElectronGUI
 {
@@ -33,12 +28,12 @@ namespace ElectronGUI
         {
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
             //}
             //else
             //{
             //     app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //    app.UseHsts();
             //}
 
@@ -69,8 +64,8 @@ namespace ElectronGUI
             options.AutoHideMenuBar = true;
             options.Resizable = false;
 
-            options.MinWidth = 1289;
-            options.MinHeight = 720;
+            options.Width = 1304;
+            options.Height = 795;
 
             await Electron.WindowManager.CreateWindowAsync(options);
         }
