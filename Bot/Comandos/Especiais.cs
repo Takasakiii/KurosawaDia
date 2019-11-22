@@ -66,7 +66,7 @@ namespace Bot.Comandos
                     else
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithTitle(await StringCatch.GetStringAsync("insultSemPessoa", "Você não me disse quem deve insultar"))
+                                .WithTitle(await StringCatch.GetStringAsync("insultSemPessoa", "Você não me disse quem deve insultar."))
                                 .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoInsult", "`{0}insult @pessoa`", PrefixoServidor))
                                 .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo:"), await StringCatch.GetStringAsync("usoInsult", "`{0}insult @Brunoow#7239`", PrefixoServidor))
                                 .WithColor(Color.Red)
@@ -76,7 +76,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("insultFail", "**{0}** infelizmente ainda não tem nenhum insulto 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("insultFail", "**{0}**, infelizmente ainda não tem nenhum insulto 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -110,7 +110,7 @@ namespace Bot.Comandos
                     if (await new InsultosDAO().InserirInsultoAsync(insulto))
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("createinsultCriado", "**{0}** o insulto foi adicinado", Contexto.User.ToString()))
+                                .WithDescription(await StringCatch.GetStringAsync("createinsultCriado", "**{0}**, o insulto foi adicionado.", Contexto.User.ToString()))
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
@@ -118,7 +118,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle(await StringCatch.GetStringAsync("criarinsultoErro", "Você precisa me falar um insulto"))
+                        .WithTitle(await StringCatch.GetStringAsync("criarinsultoErro", "Você precisa me falar um insulto."))
                         .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoCriarinsulto", "`{0}criarinsulto insulto`", PrefixoServidor))
                         .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo:"), await StringCatch.GetStringAsync("exemploCirarinsulto", "`{0}criarinsulto joguei uma pedra em você e ela entrou em orbita`", PrefixoServidor))
                         .WithColor(Color.Red)
@@ -156,14 +156,14 @@ namespace Bot.Comandos
                         await new FuckDAO().AddImgAsync(fuck);
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("addFuckCriado", "**{0}** a imagem foi adicionada", Contexto.User.ToString()))
+                                .WithDescription(await StringCatch.GetStringAsync("addFuckCriado", "**{0}**, a imagem foi adicionada.", Contexto.User.ToString()))
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
                     else
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("addFucknEhImg", "**{0}** isso n eh uma imagem meu caro", Contexto.User.ToString()))
+                                .WithDescription(await StringCatch.GetStringAsync("addFucknEhImg", "**{0}**, isso não é uma imagem.", Contexto.User.ToString()))
                                 .WithColor(Color.Red)
                             .Build());
                     }
@@ -171,7 +171,7 @@ namespace Bot.Comandos
                 catch
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(await StringCatch.GetStringAsync("fuckAddErro", "{0} você precisa fornecer a url da imagem e se ela é explicita ou não", Contexto.User.ToString()))
+                            .WithTitle(await StringCatch.GetStringAsync("fuckAddErro", "{0}, você precisa fornecer a url da imagem e se ela é explicita ou não.", Contexto.User.ToString()))
                             .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoFuckAdd", "`{0}fuckadd <Url Img> <Explicit>`", PrefixoServidor))
                             .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("usoFuckAdd", "`{0}fuckadd https://i.imgur.com/JDlJzBC.gif false`", PrefixoServidor))
                             .WithColor(Color.Red)
