@@ -28,28 +28,25 @@ namespace Bot.Extensions
 
             variaveis = new List<VarTypes>();
 
-            if(contexto != null && user != null)
+            if (contexto != null && user == null)
             {
-                if (contexto != null && user == null)
-                {
-                    variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
-                    variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
-                    variaveis.Add(new VarTypes("%id%", contexto.User.Id.ToString()));
-                    variaveis.Add(new VarTypes("%avatar%", contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl()));
-                    variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
-                    variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
-                    variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
-                }
-                else
-                {
-                    variaveis.Add(new VarTypes("%user%", user.ToString()));
-                    variaveis.Add(new VarTypes("%server%", user.Guild.Name));
-                    variaveis.Add(new VarTypes("%id%", user.Id.ToString()));
-                    variaveis.Add(new VarTypes("%avatar%", user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl()));
-                    variaveis.Add(new VarTypes("%membros%", (user.Guild as IGuild).GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
-                    variaveis.Add(new VarTypes("%idservidor%", user.Guild.Id.ToString()));
-                    variaveis.Add(new VarTypes("%usermention%", user.Mention));
-                }
+                variaveis.Add(new VarTypes("%user%", contexto.User.ToString()));
+                variaveis.Add(new VarTypes("%server%", contexto.Guild.Name));
+                variaveis.Add(new VarTypes("%id%", contexto.User.Id.ToString()));
+                variaveis.Add(new VarTypes("%avatar%", contexto.User.GetAvatarUrl(size: 2048) ?? contexto.User.GetDefaultAvatarUrl()));
+                variaveis.Add(new VarTypes("%membros%", contexto.Guild.GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
+                variaveis.Add(new VarTypes("%idservidor%", contexto.Guild.Id.ToString()));
+                variaveis.Add(new VarTypes("%usermention%", contexto.User.Mention));
+            }
+            else
+            {
+                variaveis.Add(new VarTypes("%user%", user.ToString()));
+                variaveis.Add(new VarTypes("%server%", user.Guild.Name));
+                variaveis.Add(new VarTypes("%id%", user.Id.ToString()));
+                variaveis.Add(new VarTypes("%avatar%", user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl()));
+                variaveis.Add(new VarTypes("%membros%", (user.Guild as IGuild).GetUsersAsync().GetAwaiter().GetResult().Count.ToString()));
+                variaveis.Add(new VarTypes("%idservidor%", user.Guild.Id.ToString()));
+                variaveis.Add(new VarTypes("%usermention%", user.Mention));
             }
         }
 
