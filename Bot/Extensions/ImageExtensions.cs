@@ -14,7 +14,7 @@ namespace Bot.Extensions
                 await model.Canal.SendMessageAsync(embed: new EmbedBuilder()
                         .WithTitle(model.Texto)
                         .WithColor(Color.Red)
-                        .WithDescription(await StringCatch.GetStringAsync("imgNsfw", "**{0}** esse comando só pode ser usado em canais NSFW", model.NomeUsuario))
+                        .WithDescription(await StringCatch.GetStringAsync("imgNsfw", "**{0}**, esse comando só pode ser usado em canais NSFW.", model.NomeUsuario))
                     .Build());
             }
             else

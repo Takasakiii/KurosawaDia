@@ -45,7 +45,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    Selfmsg = msg + " " + StringCatch.GetStringAsync("weebSelfDefault", "ele(a) mesmo").GetAwaiter().GetResult();
+                    Selfmsg = msg + " " + StringCatch.GetStringAsync("weebSelfDefault", "ele(a) mesmo.").GetAwaiter().GetResult();
                 }
 
                 Tipo = tipo;
@@ -82,19 +82,19 @@ namespace Bot.Comandos
 
                     if (getUser.Item1 == null || getUser.Item1 == Contexto.User)
                     {
-                        embed.WithTitle($"{author} {weeb.Selfmsg}");
+                        embed.WithTitle($"{author} {weeb.Selfmsg}.");
                     }
                     else
                     {
                         string user = userExtensions.GetNickname(getUser.Item1, !Contexto.IsPrivate);
-                        embed.WithTitle($"{author} {weeb.Msg} {user}");
+                        embed.WithTitle($"{author} {weeb.Msg} {user}.");
                     }
 
                     
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("weebDm", "Desculpe, mas so posso execultar esse comando em um servidor 😔"));
+                    embed.WithDescription(await StringCatch.GetStringAsync("weebDm", "Desculpe, mas só posso executar esse comando em um servidor 😔"));
                     embed.WithColor(Color.Red);
                     embed.WithImageUrl(null);
                 }
@@ -128,13 +128,13 @@ namespace Bot.Comandos
         //Comando de Punch (Socar)
         public async Task punch()
         {
-            await GetWeeb(new WeebInfo("punch", await StringCatch.GetStringAsync("punchTxt", "esta socando")));
+            await GetWeeb(new WeebInfo("punch", await StringCatch.GetStringAsync("punchTxt", "está socando")));
         }
 
         //Comando de Lick (Lamber)
         public async Task lick()
         {
-            await GetWeeb(new WeebInfo("lick", await StringCatch.GetStringAsync("lickTxt", "esta lambendo")));
+            await GetWeeb(new WeebInfo("lick", await StringCatch.GetStringAsync("lickTxt", "está lambendo")));
         }
 
         //Comando de Cry (Chorar)
@@ -202,7 +202,7 @@ namespace Bot.Comandos
                             
 
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetStringAsync("fuckTxt", "{0} esta fudendo {1}", authorNick, userNick))
+                                    .WithTitle(await StringCatch.GetStringAsync("fuckTxt", "{0} está fudendo {1}.", authorNick, userNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
@@ -210,7 +210,7 @@ namespace Bot.Comandos
                         else
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetStringAsync("fuckSelf", "{0} esta se masturbando", authorNick))
+                                    .WithTitle(await StringCatch.GetStringAsync("fuckSelf", "{0} está se masturbando.", authorNick))
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());

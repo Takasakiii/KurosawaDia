@@ -59,7 +59,7 @@ namespace Bot.Comandos
                     {
                         embed.WithColor(Color.Red);
                         embed.WithDescription("");
-                        embed.WithTitle(await StringCatch.GetStringAsync("magikavatarPessoa", "Eu não encontrei essa pessoa no servidor"));
+                        embed.WithTitle(await StringCatch.GetStringAsync("magikavatarPessoa", "Eu não encontrei essa pessoa no servidor."));
                         embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoMagikavatar", "`{0}magikavatar <pessoa>`", PrefixoServidor));
                         embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploMagikavatar", "`{0}magikavatar @KingCerverus#2490`", PrefixoServidor));
                     }
@@ -67,7 +67,7 @@ namespace Bot.Comandos
 
                 if (user != null)
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("magikavatarAguarde", "**{0}** estou fazendo magica com o avatar por-favor aguarde", Contexto.User.ToString()));
+                    embed.WithDescription(await StringCatch.GetStringAsync("magikavatarAguarde", "**{0}**, estou fazendo mágica com o avatar. Por favor, aguarde.", Contexto.User.ToString()));
                     embed.WithImageUrl(await StringCatch.GetStringAsync(" agikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                     IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
@@ -85,7 +85,7 @@ namespace Bot.Comandos
                     {
                         await userMsg.DeleteAsync();
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("magikavatarErro", "**{0}** infelizmente a diretora mari roubou a minha magia", Contexto.User.ToString()));
+                        embed.WithDescription(await StringCatch.GetStringAsync("magikavatarErro", "**{0}** infelizmente a diretora Mari roubou a minha magia", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -136,7 +136,7 @@ namespace Bot.Comandos
                     catch
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia", Contexto.User.ToString()));
+                        embed.WithDescription(await StringCatch.GetStringAsync("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia 😔", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -150,7 +150,7 @@ namespace Bot.Comandos
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim, por favor envie gifs até 100 kb 😥", Contexto.User.ToString()));
+                        embed.WithDescription(await StringCatch.GetStringAsync("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim. Por favor, envie gifs até 100 kb 😥", Contexto.User.ToString()));
                         embed.WithImageUrl(null);
                     }
                 }
@@ -158,7 +158,7 @@ namespace Bot.Comandos
             }
             else
             {
-                embed.WithTitle(await StringCatch.GetStringAsync("magikSemImg", "Você precisa me falar qual imagem você quer que eu faça magica"));
+                embed.WithTitle(await StringCatch.GetStringAsync("magikSemImg", "Você precisa me falar com que imagem você quer que eu faça mágica."));
                 embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoMagik", "`{0}magik <imagem>`", PrefixoServidor));
                 embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploMagik", "`{0}magik https://i.imgur.com/cZDlYXr.png`", PrefixoServidor));
                 embed.WithColor(Color.Red);
