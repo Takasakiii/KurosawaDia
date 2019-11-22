@@ -59,7 +59,7 @@ namespace Bot.Comandos
         {
             if (Permissoes)
             {
-                await Contexto.Channel.SendMessageAsync("msg2: ");
+                await Contexto.Channel.SendMessageAsync(Autor);
             }
             else
             {
