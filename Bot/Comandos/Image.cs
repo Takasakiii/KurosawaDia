@@ -15,7 +15,7 @@ namespace Bot.Comandos
 {
     public class Image : GenericModule
     {
-        public Image(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
+        public Image(CommandContext contexto, params object[] args) : base(contexto, args)
         {
 
         }
@@ -208,7 +208,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                await new Ajuda(Contexto, PrefixoServidor, Comando, Erro).MessageEventExceptions(new NullReferenceException(), servidor);
             }
 
         }

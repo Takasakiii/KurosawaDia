@@ -14,7 +14,7 @@ namespace Bot.Comandos
 {
     public class CustomReactions : GenericModule
     {
-        public CustomReactions(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
+        public CustomReactions(CommandContext contexto, params object[] args) : base(contexto, args)
         {
 
         }

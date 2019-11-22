@@ -16,7 +16,7 @@ namespace Bot.Comandos
 
     public class Utility : GenericModule
     {
-        public Utility(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
+        public Utility(CommandContext contexto, params object[] args) : base(contexto, args)
         {
 
         }

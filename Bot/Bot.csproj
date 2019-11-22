@@ -21,4 +21,8 @@
     <ProjectReference Include="..\MainDatabaseControler\MainDatabaseControler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SubModules\" />
+  </ItemGroup>
+
 </Project>

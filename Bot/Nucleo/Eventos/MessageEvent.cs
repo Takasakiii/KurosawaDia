@@ -75,7 +75,7 @@ namespace Bot.Nucleo.Eventos
             if (!contexto.User.IsBot)
             {
                 await CadastrarServidorUsuarioAsync(contexto);
-                await new Utility(contexto, null, null).PIEvent();
+                await new Utility(contexto:contexto).PIEvent();
                 Servidores servidores = await PegarPrefixo(contexto);
                 string comandoSemPrefix = null;
                 if (SepararComandoPrefix(contexto, servidores, ref comandoSemPrefix))
@@ -165,7 +165,7 @@ namespace Bot.Nucleo.Eventos
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
-                ModulesConcat.AddArgs(contexto, args[0], args[1]);
+                ModulesConcat.AddArgs(contexto, args[0], args[1], new ErrorExtension(contexto, chamada));
                 await (Task)ModulesConcat.InvokeMethod(chamada);
             }
             catch (Exception e)

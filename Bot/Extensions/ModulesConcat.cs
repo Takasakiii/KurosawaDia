@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Bot.Extensions
 {
@@ -25,7 +24,7 @@ namespace Bot.Extensions
                 ClasseIndex = classeIndex;
                 Metodo = metodo;
             }
-        } 
+        }
 
         //Array responsavel por armazenar todos os metodos das classes filhas / comandos
         private Modulos[] MethodsModules;
@@ -43,18 +42,18 @@ namespace Bot.Extensions
 
 
             List<Modulos> temp = new List<Modulos>();
-            for(int i = 0; i < Classes.Length; i++)
+            for (int i = 0; i < Classes.Length; i++)
             {
                 MethodInfo[] metodos = Classes[i].GetMethods();
-                for(int j = 0; j < metodos.Length; j++)
+                for (int j = 0; j < metodos.Length; j++)
                 {
                     temp.Add(new Modulos(i, metodos[j]));
                 }
 
                 MethodsModules = temp.ToArray();
             }
-            
-        } 
+
+        }
 
         //Metodo responsavel pela passagem dos parametros de instancia das classes filhas / metodos
         internal void AddArgs(params object[] args)
@@ -69,6 +68,6 @@ namespace Bot.Extensions
             Modulos temp = Array.Find(MethodsModules, x => x.Metodo.Name == metodo);
             object instanced = Activator.CreateInstance(Classes[temp.ClasseIndex], Args);
             return temp.Metodo.Invoke(instanced, argumentosMetodo);
-        } 
+        }
     }
 }

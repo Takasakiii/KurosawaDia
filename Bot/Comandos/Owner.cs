@@ -16,8 +16,8 @@ namespace Bot.Comandos
 {
     public class Owner : GenericModule
     {
-
-        public Owner(CommandContext contexto, string prefixo, string[] comando) : base(contexto, prefixo, comando)
+        
+        public Owner(CommandContext contexto, params object[] args) : base(contexto, args)
         {
 
         }
@@ -37,7 +37,7 @@ namespace Bot.Comandos
             else
             {
                 Servidores servidor = new Servidores(0, PrefixoServidor.ToCharArray());
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                await new Ajuda(Contexto, PrefixoServidor, Comando, Erro).MessageEventExceptions(new NullReferenceException(), servidor);
             }
         }
 
