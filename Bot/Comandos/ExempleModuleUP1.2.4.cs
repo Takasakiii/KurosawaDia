@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static Bot.Extensions.ErrorExtension;
 
 namespace Bot.Comandos
 {
@@ -75,7 +76,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync("gordo viado", new ErrorExtension.DadosErro("viado", "gay"));                
+                await Erro.EnviarErroAsync("gordo viado", new DadosErro("viado", "gay"), new DadosErro("grande", "dia"));                
             }
         }
 
