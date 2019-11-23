@@ -11,8 +11,8 @@ namespace Bot.GenericTypes
         //Discord Context para uso nos modulos
         protected CommandContext Contexto { private set; get; }
 
-        protected string? PrefixoServidor { private set; get; }
-        protected string[]? Comando { private set; get; }
+        protected string PrefixoServidor { private set; get; }
+        protected string[] Comando { private set; get; }
         internal  ErrorExtension Erro { private set; get; }
         protected List<object> DumpComandos { private set; get; }
         public GenericModule(CommandContext contexto, params object[] args)
