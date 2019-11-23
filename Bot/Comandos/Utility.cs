@@ -58,7 +58,7 @@ namespace Bot.Comandos
                     PossiveisMsg[] msgs = null;
                     if (user.Id == Contexto.Client.CurrentUser.Id)
                     {
-                        msgs = ArrayExtension.CriarArray(new PossiveisMsg("selfavatarAmor",  "Ow que amor, você realmente quer me ver 😍"),  new PossiveisMsg("selfAvatarsemjeito" , "Assim você me deixa sem jeito 😊"));
+                        msgs = ArrayExtension.CriarArray(new PossiveisMsg("selfavatarAmor",  "Ownt, que amor, você realmente quer me ver 😍"),  new PossiveisMsg("selfAvatarsemjeito" , "Assim você me deixa sem jeito 😊"));
                     }
                     else
                     {

@@ -294,7 +294,7 @@ namespace Bot.Comandos
                 if (erroMsg)
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("msgEventNotFoundCommand", " **{0}** comando não encontrado, use `{1}comandos` para ver os meus comandos", Contexto.User.ToString(), new string(servidor.Prefix)))
+                            .WithDescription(await StringCatch.GetStringAsync("msgEventNotFoundCommand", " **{0}**, esse comando não foi encontrado. Use `{1}comandos` para ver os meus comandos.", Contexto.User.ToString(), new string(servidor.Prefix)))
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
