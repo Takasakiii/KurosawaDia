@@ -13,13 +13,13 @@ namespace Bot.Comandos
 {
     public class Especiais : GenericModule
     {
-
+        private bool Autorizado = false;
         public Especiais(CommandContext contexto, params object[] args) : base(contexto, args)
         {
-
+            VerificarServidorUsuario().Wait();
         }
 
-        public async Task insult()
+        private async Task VerificarServidorUsuario()
         {
             ulong id = 0;
             if (!Contexto.IsPrivate)
@@ -27,10 +27,16 @@ namespace Bot.Comandos
                 id = Contexto.Guild.Id;
             }
 
-            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
+            if((await new ServidoresDAO().GetPermissoesAsync(new Servidores(id))).Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            {
+                Autorizado = true;
+            }
 
-            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && servidor.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+        }
+
+        public async Task insult()
+        {
+            if (Autorizado)
             {
                 Insultos insulto = new Insultos();
                 Tuple<bool, Insultos> res = await new InsultosDAO().GetInsultoAsync(insulto);
@@ -83,29 +89,20 @@ namespace Bot.Comandos
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando, Erro).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
 
         public async Task criarinsulto()
         {
-            ulong id = 0;
-            if (!Contexto.IsPrivate)
-            {
-                id = Contexto.Guild.Id;
-            }
-
-            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
-            Usuarios usuario = new Usuarios(Contexto.User.Id, Contexto.User.ToString());
-
-            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && servidor.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (Autorizado)
             {
                 string[] comando = Comando;
                 string msg = string.Join(" ", comando, 1, (comando.Length - 1));
 
                 if (msg != "")
                 {
+                    Usuarios usuario = new Usuarios(Contexto.User.Id, Contexto.User.ToString());
                     Insultos insulto = new Insultos(msg, usuario);
                     if (await new InsultosDAO().InserirInsultoAsync(insulto))
                     {
@@ -127,24 +124,14 @@ namespace Bot.Comandos
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
 
         }
 
         public async Task fuckadd()
         {
-            ulong id = 0;
-            if (!Contexto.IsPrivate)
-            {
-                id = Contexto.Guild.Id;
-            }
-
-            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
-            Usuarios usuario = new Usuarios(Contexto.User.Id, Contexto.User.ToString());
-
-            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && servidor.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (Autorizado)
             {
                 string[] comando = Comando;
                 try
@@ -152,6 +139,7 @@ namespace Bot.Comandos
                     if (await new HttpExtensions().IsImageUrl(comando[1]))
                     {
                         bool _explicit = Convert.ToBoolean(comando[2]);
+                        Usuarios usuario = new Usuarios(Contexto.User.Id, Contexto.User.ToString());
                         Fuck fuck = new Fuck(_explicit, comando[1], usuario);
                         await new FuckDAO().AddImgAsync(fuck);
 
@@ -180,7 +168,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
     }

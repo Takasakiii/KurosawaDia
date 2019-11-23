@@ -16,12 +16,28 @@ namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
     {
+        private PermissoesServidores Permissao = PermissoesServidores.Normal; 
         public Ajuda (CommandContext contexto, params object[] args) : base (contexto, args)
         {
-            
+            VerificarPermissao().Wait();
         }
 
-        
+        private async Task VerificarPermissao()
+        {
+            ulong id = 0;
+            if (!Contexto.IsPrivate)
+            {
+                id = Contexto.Guild.Id;
+            }
+
+            Tuple<bool, Servidores> servidor = await new ServidoresDAO().GetPermissoesAsync(new Servidores(id));
+            if (servidor.Item1)
+            {
+                Permissao = servidor.Item2.Permissoes;
+            }
+        }
+
+
 
         public async Task ajuda()
         {
@@ -88,22 +104,9 @@ namespace Bot.Comandos
                 }
                 else if (modulo == ListaModulos.especial || msg == "especiais")
                 {
-                    if (!Contexto.IsPrivate)
+                    if (Permissao == PermissoesServidores.ServidorPika)
                     {
-                        Servidores servidor = new Servidores(Contexto.Guild.Id);
-                        Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
-                        servidor = res.Item2;
-                        if (res.Item1)
-                        {
-                            if (servidor.Permissoes == PermissoesServidores.ServidorPika)
-                            {
-                                await especial();
-                            }
-                            else
-                            {
-                                await modulos();
-                            }
-                        }
+                        await especial();
                     }
                     else
                     {
@@ -160,18 +163,9 @@ namespace Bot.Comandos
         {
             string modulos = await StringCatch.GetStringAsync("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
 
-            if (!Contexto.IsPrivate)
+            if (Permissao == PermissoesServidores.ServidorPika)
             {
-                Servidores servidor = new Servidores(Contexto.Guild.Id);
-                Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
-                servidor = res.Item2;
-                if (res.Item1)
-                {
-                    if (servidor.Permissoes == PermissoesServidores.ServidorPika)
-                    {
-                        modulos = await StringCatch.GetStringAsync("modulosStringEspecial", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações;\n:nine: 🌟 Especiais.");
-                    }
-                }
+                modulos = await StringCatch.GetStringAsync("modulosStringEspecial", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações;\n:nine: 🌟 Especiais.");
             }
 
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -236,18 +230,9 @@ namespace Bot.Comandos
         private async Task img()
         {
             string cmds = await StringCatch.GetStringAsync("imgCmdsNormais", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", PrefixoServidor);
-            if (!Contexto.IsPrivate)
+            if (Permissao == PermissoesServidores.LolisEdition || Permissao == PermissoesServidores.ServidorPika)
             {
-                Servidores servidor = new Servidores(Contexto.Guild.Id);
-                Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
-                servidor = res.Item2;
-                if (res.Item1)
-                {
-                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
-                    {
-                        cmds = await StringCatch.GetStringAsync("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`, `{0}lolibomb`", PrefixoServidor);
-                    }
-                }
+                cmds = await StringCatch.GetStringAsync("imgCmdsLolis", "`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`, `{0}lolibomb`", PrefixoServidor);
             }
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetStringAsync("imgModulo", "Módulo Imagem (🖼)"))

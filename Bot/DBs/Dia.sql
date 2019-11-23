@@ -14,8 +14,6 @@ Arquivos unidos na ordem: Dia_BaseTables_1.sql Dia_MonitoringProcedures_2.sql Di
 #Dia_BaseTables_1.sql
 delimiter ; 
 
-delimiter ;
-
 SET GLOBAL max_connections = 1000;
 
 create table Servidores (
@@ -462,9 +460,8 @@ create procedure AdicionarAdm(
     set result = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
 	if(select count(cod) from AdmsBot where codigo_Usuario = result) = 0 then
 		insert into AdmsBot(codigo_Usuario, permissao) values (result, _permissao);
-        select true as Result;
 	else
-		select false as Result;
+		update AdmsBot set permissao = _permissao where codigo_Usuario = result;
 	end if;
 end$$
 
@@ -479,7 +476,6 @@ create procedure GetAdm (
 		select false as Result;
 	end if;
 end$$
-
 
 #Dia_Acr_2.sql
 delimiter ; 

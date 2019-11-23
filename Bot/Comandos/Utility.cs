@@ -296,11 +296,62 @@ namespace Bot.Comandos
             }
         }
 
+        public async Task bug()
+        {
+            string[] comando = Comando;
+            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
+            string servidor = "";
+
+            if (!Contexto.IsPrivate)
+            {
+                servidor = Contexto.Guild.Name;
+            }
+            else
+            {
+                servidor = "Privado";
+            }
+
+            if (msg != "")
+            {
+                IMessageChannel canal = await Contexto.Client.GetChannelAsync(556598669500088320) as IMessageChannel;
+
+                await canal.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithTitle($"Novo bug reportado por: {Contexto.User}")
+                        .AddField("Bug: ", msg)
+                        .AddField("Servidor: ", servidor)
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(await StringCatch.GetStringAsync("bugEnviado", "**{0}**, eu sou muito grata por você ter achado esse bug, ajudou muito ❤", Contexto.User.ToString()))
+                        .WithColor(Color.DarkPurple)
+                    .Build());
+            }
+            else
+            {
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithDescription(await StringCatch.GetStringAsync("bugFalar", "**{0}**, você precisa me o bug.", Contexto.User.ToString()))
+                        .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoBug", "`{0}bug <bug>`", PrefixoServidor))
+                        .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploBug", "`{0}bug cadê o status?`", PrefixoServidor))
+                        .WithColor(Color.Red)
+                    .Build());
+            }
+        }
+
         public async Task perfil()
         {
             if (!Contexto.IsPrivate)
             {
-                PontosInterativos pi = new PontosInterativos(new Servidores_Usuarios(new Servidores(Contexto.Guild.Id), new Usuarios(Contexto.User.Id)));
+                string msg = string.Join(" ", Comando, 1, (Comando.Length - 1));
+                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), msg);
+
+                IUser user = getUser.Item1;
+                if(user == null)
+                {
+                    user = Contexto.User;
+                }
+
+                PontosInterativos pi = new PontosInterativos(new Servidores_Usuarios(new Servidores(Contexto.Guild.Id), new Usuarios(user.Id)));
                 Tuple<bool, ulong, PontosInterativos> sucesso_total = await new PontosInterativosDAO().GetPiInfoAsync(pi);
                 pi = sucesso_total.Item3;
 
@@ -320,8 +371,8 @@ namespace Bot.Comandos
                     }
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(await StringCatch.GetStringAsync("perfilTitle", Contexto.User.ToString()))
-                            .WithThumbnailUrl(Contexto.User.GetAvatarUrl(size: 2048) ?? Contexto.User.GetDefaultAvatarUrl())
+                            .WithTitle(await StringCatch.GetStringAsync("perfilTitle", user.ToString()))
+                            .WithThumbnailUrl(user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl())
                             .WithDescription(await StringCatch.GetStringAsync("perfilDesc", "Você tem {0}% dos pontos que faltam pra você subir de nivel.", ((pi.FragmentosPI * 100) / sucesso_total.Item2)))
                             .AddField(await StringCatch.GetStringAsync("perilFieldTitle1", "Seus Pontos:"), await StringCatch.GetStringAsync("perilFieldValue1", pi.FragmentosPI.ToString()), true)
                             .AddField(await StringCatch.GetStringAsync("perilFieldTitle2", "Seu Nivel:"), await StringCatch.GetStringAsync("perilFieldValue2", pi.PI.ToString()), true)

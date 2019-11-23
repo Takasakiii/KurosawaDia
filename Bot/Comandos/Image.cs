@@ -15,8 +15,25 @@ namespace Bot.Comandos
 {
     public class Image : GenericModule
     {
+        public bool Autorizado = false;
         public Image(CommandContext contexto, params object[] args) : base(contexto, args)
         {
+            VerificarOwner().Wait();
+        }
+
+        private async Task VerificarOwner()
+        {
+            ulong id = 0;
+            if (!Contexto.IsPrivate)
+            {
+                id = Contexto.Guild.Id;
+            }
+
+            Tuple<bool, Servidores> servidor = await new ServidoresDAO().GetPermissoesAsync(new Servidores(id));
+            if (servidor.Item2.Permissoes == PermissoesServidores.LolisEdition || servidor.Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            {
+                Autorizado = true;
+            }
 
         }
 
@@ -169,46 +186,28 @@ namespace Bot.Comandos
 
         public async Task loli()
         {
-            ulong id = 0;
-            if (!Contexto.IsPrivate)
-            {
-                id = Contexto.Guild.Id;
-            }
-
-            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
-
-            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && (sucesso.Item2.Permissoes == PermissoesServidores.LolisEdition || sucesso.Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1))
+            if (Autorizado)
             {
                 Links links = new Links();
                 await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel), links.loli);
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
 
         }
 
         public async Task lolibomb()
         {
-            ulong id = 0;
-            if (!Contexto.IsPrivate)
-            {
-                id = Contexto.Guild.Id;
-            }
-
-            Servidores servidor = new Servidores(id, PrefixoServidor.ToCharArray());
-
-            Tuple<bool, Servidores> sucesso = await new ServidoresDAO().GetPermissoesAsync(servidor);
-            if (!Contexto.IsPrivate && sucesso.Item1 && (sucesso.Item2.Permissoes == PermissoesServidores.LolisEdition || sucesso.Item2.Permissoes == PermissoesServidores.ServidorPika || (await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1))
+            if (Autorizado)
             {
                 Links links = new Links();
                 await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Quantidade: 5), links.loli);
             }
             else
             {
-                await new Ajuda(Contexto, PrefixoServidor, Comando, Erro).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
 
         }

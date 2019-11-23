@@ -14,9 +14,28 @@ namespace Bot.Comandos
 {
     public class Nsfw : GenericModule
     {
+        private bool Autorizado = false;
         public Nsfw(CommandContext contexto, params object[] args) : base(contexto, args)
         {
+            VerificarPermissao().Wait();
+        }
 
+        private async Task VerificarPermissao()
+        {
+            ulong id = 0;
+            if (!Contexto.IsPrivate)
+            {
+                id = Contexto.Guild.Id;
+            }
+
+            Tuple<bool, Servidores> servidor = await new ServidoresDAO().GetPermissoesAsync(new Servidores(id));
+            if (servidor.Item1)
+            {
+                if (servidor.Item2.Permissoes == PermissoesServidores.LolisEdition || servidor.Item2.Permissoes == PermissoesServidores.ServidorPika)
+                {
+                    Autorizado = true;
+                }
+            }
         }
 
         public async Task hentai()
@@ -25,20 +44,11 @@ namespace Bot.Comandos
 
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
-            if (!Contexto.IsPrivate)
+            if (Autorizado)
             {
-                Servidores servidor = new Servidores(Contexto.Guild.Id);
-                Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
-                servidor = res.Item2;
-                if (res.Item1)
-                {
-                    if(servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
-                    {
-                        imgs.Add(links.nsfw_hentai_gif);
-                        imgs.Add(links.lewdk);
-                        imgs.Add(links.hentaiLoli);
-                    }
-                }
+                imgs.Add(links.nsfw_hentai_gif);
+                imgs.Add(links.lewdk);
+                imgs.Add(links.hentaiLoli);
             }
             await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Contexto.User.ToString(), Nsfw: true), imgs.ToArray());
         }
@@ -49,20 +59,11 @@ namespace Bot.Comandos
 
             List<Tuple<string, string>> imgs = new List<Tuple<string, string>>();
             imgs.Add(links.hentai);
-            if (!Contexto.IsPrivate)
+            if (Autorizado)
             {
-                Servidores servidor = new Servidores(Contexto.Guild.Id);
-                Tuple<bool, Servidores> res = await new ServidoresDAO().GetPermissoesAsync(servidor);
-                servidor = res.Item2;
-                if (res.Item1)
-                {
-                    if (servidor.Permissoes == PermissoesServidores.LolisEdition || servidor.Permissoes == PermissoesServidores.ServidorPika)
-                    {
-                        imgs.Add(links.nsfw_hentai_gif);
-                        imgs.Add(links.lewdk);
-                        imgs.Add(links.hentaiLoli);
-                    }
-                }
+                imgs.Add(links.nsfw_hentai_gif);
+                imgs.Add(links.lewdk);
+                imgs.Add(links.hentaiLoli);
             }
             await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Contexto.User.ToString(), Nsfw: true, Quantidade: 5), imgs.ToArray());
         }

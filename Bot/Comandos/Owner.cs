@@ -16,15 +16,27 @@ namespace Bot.Comandos
 {
     public class Owner : GenericModule
     {
-        
+        private bool Adm = false;
+        private PermissoesAdms Permissoes = PermissoesAdms.Nada;
+
         public Owner(CommandContext contexto, params object[] args) : base(contexto, args)
         {
+            VerificarOwner().Wait();
+        }
 
+        private async Task VerificarOwner()
+        {
+            Tuple<bool, PermissoesAdms> Perms = await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id));
+            if (Perms.Item1)
+            {
+                Adm = true;
+                Permissoes = Perms.Item2; 
+            }
         }
 
         public async Task ping()
         {
-            if ((await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (Adm)
             {
                 DiscordShardedClient client = Contexto.Client as DiscordShardedClient;
 
@@ -36,14 +48,13 @@ namespace Bot.Comandos
             }
             else
             {
-                Servidores servidor = new Servidores(0, PrefixoServidor.ToCharArray());
-                await new Ajuda(Contexto, PrefixoServidor, Comando, Erro).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
 
         public async Task setespecial()
         {
-            if ((await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (Adm)
             {
                 try
                 {
@@ -86,14 +97,13 @@ namespace Bot.Comandos
             }
             else
             {
-                Servidores servidor = new Servidores(0, PrefixoServidor.ToCharArray());
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
 
         public async Task send()
         {
-            if ((await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id))).Item1)
+            if (Adm)
             {
 
                 string[] comando = Comando;
@@ -219,15 +229,13 @@ namespace Bot.Comandos
             }
             else
             {
-                Servidores servidor = new Servidores(0, PrefixoServidor.ToCharArray());
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
 
         public async Task setadm()
         {
-            Tuple<bool, PermissoesAdms> perms = await new AdmsExtensions().GetAdm(new Usuarios(Contexto.User.Id));
-            if (perms.Item1 && perms.Item2 == PermissoesAdms.Donas)
+            if (Adm && Permissoes == PermissoesAdms.Donas)
             {
                 try
                 {
@@ -287,8 +295,7 @@ namespace Bot.Comandos
             }
             else
             {
-                Servidores servidor = new Servidores(0, PrefixoServidor.ToCharArray());
-                await new Ajuda(Contexto, PrefixoServidor, Comando).MessageEventExceptions(new NullReferenceException(), servidor);
+                throw new NullReferenceException();
             }
         }
     }

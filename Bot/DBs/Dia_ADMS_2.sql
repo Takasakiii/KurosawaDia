@@ -17,9 +17,8 @@ create procedure AdicionarAdm(
     set result = (select codigo_usuario from Usuarios where id_usuario = _id_Usuario);
 	if(select count(cod) from AdmsBot where codigo_Usuario = result) = 0 then
 		insert into AdmsBot(codigo_Usuario, permissao) values (result, _permissao);
-        select true as Result;
 	else
-		select false as Result;
+		update AdmsBot set permissao = _permissao where codigo_Usuario = result;
 	end if;
 end$$
 
