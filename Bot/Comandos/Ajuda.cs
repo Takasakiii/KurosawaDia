@@ -192,7 +192,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("utilidadeModulo", "Módulo Utilidade (🛠)"))
                     .WithDescription(await StringCatch.GetStringAsync("utilidadeInfo", "Este módulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}perfil`", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, {0}bug, `{0}perfil`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                 .Build());
         }
