@@ -124,16 +124,6 @@ namespace Bot.Comandos
             }
         }
 
-        //public async Task convite()
-        //{
-        //    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-        //            .WithTitle(await StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
-        //            .WithDescription(await StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
-        //            .WithColor(Color.DarkPurple)
-        //     .Build());
-        //}
-        //RIP 😥😔
-
         public async Task info()
         {
             DiscordShardedClient client = Contexto.Client as DiscordShardedClient;
@@ -149,8 +139,8 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("infoTxt", "Dia's Book:"))
                     .WithDescription(await StringCatch.GetStringAsync("infoDescription", "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk 😝"))
                     .AddField(await StringCatch.GetStringAsync("infoBot", "**Sobre mim:**"), await StringCatch.GetStringAsync("infoInfos", "__Nome:__ Kurosawa Dia (Dia - Chan)\n__Aniversário:__ 1° de Janeiro (Quero presentes)\n__Ocupação:__ Estudante e Traficante/Idol nas horas vagas"), false)
-                    .AddField(await StringCatch.GetStringAsync("infoDeveloperTitle", "**As pessoas/grupos que fazem tudo isso ser possivel:**"), await StringCatch.GetStringAsync("infoDeveloperDesc", "Takasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
-                    .AddField(await StringCatch.GetStringAsync("infoConvites", "**Quer me ajudar????**"), await StringCatch.GetStringAsync("infoConvites", "[Me adicione em seu Servidor]({0})\n[Entre no meu servidor para dar suporte ao projeto]({1})\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas](https://top.gg/bot/389917977862078484/vote)", InfoImportante.conviteDia, InfoImportante.conviteServer))
+                    .AddField(await StringCatch.GetStringAsync("infoDeveloperTitle", "**As pessoas que fazem tudo isso ser possivel:**"), await StringCatch.GetStringAsync("infoDeveloperDesc", "Takasaki#7072\nYummi#1375\n\nE é claro você que acredita em meu potencial🧡"), false)
+                    .AddField(await StringCatch.GetStringAsync("infoConvites", "**Quer me ajudar?**"), await StringCatch.GetStringAsync("infoConvites", "[Me adicione em seu Servidor]({0})\n[Entre no meu servidor para dar suporte ao projeto]({1})\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas](https://top.gg/bot/389917977862078484/vote)", InfoImportante.conviteDia, InfoImportante.conviteServer))
                     .AddField(await StringCatch.GetStringAsync("infoOutras", "**Informações chatas:**"), await StringCatch.GetStringAsync("infoOutrasInfos", "__Ping:__ {0}ms\n__Servidores:__ {1}\n__Usuários:__ {2}\n__Versão:__ {3}  ({4})", client.Latency, client.Guilds.Count, users, InfoImportante.VersaoNumb, InfoImportante.VersaoName), false)
                     .WithThumbnailUrl("https://i.imgur.com/ppXRHTi.jpg")
                     .WithImageUrl("https://i.imgur.com/qGb6xtG.jpg")
@@ -161,11 +151,15 @@ namespace Bot.Comandos
 
         private async Task modulos()
         {
-            string modulos = await StringCatch.GetStringAsync("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
+            string modulos = await StringCatch.GetStringAsync("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações");
 
-            if (Permissao == PermissoesServidores.ServidorPika)
+            if (Permissao.Equals(PermissoesServidores.ServidorPika))
             {
-                modulos = await StringCatch.GetStringAsync("modulosStringEspecial", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações;\n:nine: 🌟 Especiais.");
+                modulos += await StringCatch.GetStringAsync("modulosStringEspecial", "\n:nine: 🌟 Especiais.");
+            }
+            else
+            {
+                modulos += ".";
             }
 
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
