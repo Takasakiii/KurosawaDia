@@ -43,13 +43,15 @@ namespace Bot.Extensions
         {
             Builder.WithColor(Color.Red);
             Builder.WithTitle($"**{Autor}**, {fraseErro}");
-            string args = string.Empty;
-            string exemplo = string.Empty;
+            string args = "`";
+            string exemplo = "`";
             foreach(DadosErro dado in dados)
             {
-                args += $"`{Prefix}{Comando} {dado.Arg}`\n";
-                exemplo += $"`{Prefix}{Comando} {dado.Exemplo}`\n";
+                args += $"{Prefix}{Comando} {dado.Arg}\n";
+                exemplo += $"{Prefix}{Comando} {dado.Exemplo}\n";
             }
+            args = "`";
+            exemplo = "`";
 
             Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
             Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroExM1", "Exemplos:") : await StringCatch.GetStringAsync("baseErroEx1", "Exemplo:"), exemplo);
