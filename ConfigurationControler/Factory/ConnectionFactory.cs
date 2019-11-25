@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigurationControler.Factory
 {
-    internal class ConnectionFactory
+    public class ConnectionFactory
     {
 
         internal static async Task ConectarAsync(Action<SqliteConnection> funcaoDados)
@@ -35,6 +35,11 @@ namespace ConfigurationControler.Factory
                     await cmd.ExecuteNonQueryAsync();
                 }
             });
+        }
+
+        public static bool VerificarDB()
+        {
+            return File.Exists(DB.localDB);
         }
     }
 }

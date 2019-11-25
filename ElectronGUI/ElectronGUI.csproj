@@ -7,10 +7,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bot\Bot.csproj" />
+    <ProjectReference Include="..\ConfigurationControler\ConfigurationControler.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="configDia.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

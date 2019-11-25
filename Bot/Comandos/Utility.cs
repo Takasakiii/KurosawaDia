@@ -95,10 +95,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("avatarDm", "**{0}**, desculpe, mas eu não consigo pegar o avatar de outras pessoas no privado 😔", Contexto.User.ToString()))
-                            .WithColor(Color.Red)
-                     .Build());
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarDm", "desculpe, mas eu não consigo pegar o avatar de outras pessoas no privado 😔"));
                 }
             }
         }
@@ -116,23 +113,17 @@ namespace Bot.Comandos
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithColor(Color.Red)
-                        .WithDescription(await StringCatch.GetStringAsync("videoChamadaDm", "Você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"))
-                .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("videoChamadaDm", "Você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"));
             }
         }
 
         public async Task emoji()
         {
-            string[] comando = Comando;
-
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-
             try
             {
-                bool parse = Emote.TryParse(comando[1], out Emote emote);
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithColor(Color.DarkPurple);
+                bool parse = Emote.TryParse(Comando[1], out Emote emote);
 
                 if (parse)
                 {
@@ -144,7 +135,7 @@ namespace Bot.Comandos
                 else
                 {
                     HttpExtensions http = new HttpExtensions();
-                    string name = await http.GetSiteHttp("https://ayura.com.br/links/emojis.json", comando[1]);
+                    string name = await http.GetSiteHttp("https://ayura.com.br/links/emojis.json", Comando[1]);
 
                     string shortName = "";
                     foreach (char character in name)
@@ -160,16 +151,12 @@ namespace Bot.Comandos
                     embed.WithDescription(await StringCatch.GetStringAsync("emoteLinkUnicode", "[Link Direto]({0})", $"https://twemoji.maxcdn.com/2/72x72/{unicode}.png"));
                     embed.WithImageUrl($"https://twemoji.maxcdn.com/2/72x72/{unicode}.png");
                 }
+                await Contexto.Channel.SendMessageAsync(embed: embed.Build());
             }
             catch
             {
-                embed.WithTitle(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."));
-                embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do comando: "), await StringCatch.GetStringAsync("emoteUso", "`{0}emoji emoji`", PrefixoServidor));
-                embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("emoteExeemplo", "`{0}emoji :kanna:`", PrefixoServidor));
-                embed.WithColor(Color.Red);
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "`emoji`"), await StringCatch.GetStringAsync("emoteExemplo", "`:kanna:`")));
             }
-
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public async Task say()
