@@ -226,14 +226,19 @@ namespace Bot.Comandos
             if (!(Comando.Length == 1))
             {
                 string input = string.Join(" ", Comando, 1, (Comando.Length - 1));
-                string[] faces = { "(・`ω´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
+                string[] faces = { @"(・\`ω\´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
                 input = Regex.Replace(input, @"(?:r|l)", "w");
                 input = Regex.Replace(input, @"(?:R|L)", "W");
                 input = Regex.Replace(input, @"n([aeiouãõáéíóúâêîôûàèìòùäëïöü])", "ny$1");
                 input = Regex.Replace(input, @"N([aeiouãõáéíóúâêîôûàèìòùäëïöü])", "Ny$1");
                 input = Regex.Replace(input, @"N([AEIOUÃÕÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÄËÏÖÜ])", "NY$1");
                 input = Regex.Replace(input, @"ove", "uv");
-                input = Regex.Replace(input, @"\!+", " " + faces[new Random().Next(0, faces.Length)] + " ");
+
+                Random rand = new Random();
+                Regex regex = new Regex(@"\!+");
+                while (regex.Match(input).Success) {
+                    input = regex.Replace(input, $" {faces[rand.Next(0, faces.Length)]} ", 1);
+                }
 
                 if (!(input.Length > 2048))
                 {
