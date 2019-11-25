@@ -78,7 +78,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarErro", "não encontrei essa pessoa."), new DadosErro(await StringCatch.GetStringAsync("avatarUso", "`@pessoa`"), await StringCatch.GetStringAsync("exemloAvatar", "`@Hikari#3172`")));
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarErro", "não encontrei essa pessoa."), new DadosErro(await StringCatch.GetStringAsync("avatarUso", "@pessoa"), await StringCatch.GetStringAsync("exemloAvatar", "@Hikari#3172")));
                 }
             }
             else
