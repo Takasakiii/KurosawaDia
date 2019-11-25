@@ -7,12 +7,12 @@ using Discord.Commands;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Weeb.net;
 using Weeb.net.Data;
-using System.Text.RegularExpressions;
-using static MainDatabaseControler.Modelos.Servidores;
 using static Bot.Extensions.ErrorExtension;
+using static MainDatabaseControler.Modelos.Servidores;
 using TokenType = Weeb.net.TokenType;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
@@ -79,7 +79,7 @@ namespace Bot.Comandos
                     UserExtensions userExtensions = new UserExtensions();
                     Tuple<IUser, string> getUser = userExtensions.GetUser(await Contexto.Guild.GetUsersAsync(), cmd);
 
-                    
+
                     string author = userExtensions.GetNickname(Contexto.User, !Contexto.IsPrivate);
 
                     if (getUser.Item1 == null || getUser.Item1 == Contexto.User)
@@ -92,7 +92,7 @@ namespace Bot.Comandos
                         embed.WithTitle($"{author} {weeb.Msg} {user}.");
                     }
 
-                    
+
                 }
                 else
                 {
@@ -201,7 +201,7 @@ namespace Bot.Comandos
                         if (user.Item1 != null)
                         {
                             string userNick = userExtensions.GetNickname(user.Item1, !Contexto.IsPrivate);
-                            
+
 
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                     .WithTitle(await StringCatch.GetStringAsync("fuckTxt", "{0} está fudendo {1}.", authorNick, userNick))
@@ -221,7 +221,7 @@ namespace Bot.Comandos
                 }
             }
         }
-        public async Task owoify()
+        public async Task owofy()
         {
             if (!(Comando.Length == 1))
             {
@@ -235,21 +235,14 @@ namespace Bot.Comandos
                 input = Regex.Replace(input, @"ove", "uv");
                 input = Regex.Replace(input, @"\!+", " " + faces[new Random().Next(0, faces.Length)] + " ");
 
-                if (!(input.Length > 2048))
-                {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithDescription(input)
                     .Build());
-                }
-                else
-                {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
-                }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
             }
         }
     }
