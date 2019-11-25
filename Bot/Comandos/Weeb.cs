@@ -235,7 +235,7 @@ namespace Bot.Comandos
                 input = Regex.Replace(input, @"ove", "uv");
                 input = Regex.Replace(input, @"\!+", " " + faces[new Random().Next(0, faces.Length)] + " ");
 
-                if ((input.Length >= 2048))
+                if (!(input.Length > 2048))
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
