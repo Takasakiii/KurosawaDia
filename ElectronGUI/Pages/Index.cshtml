@@ -1,17 +1,23 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Iniciar Bot";
 }
 
+    <head>
+        <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script>if (window.module) module = window.module;</script>
+    </head>
     <body>
         <br />
         <br />
-        <video id="myVideo" autoplay muted loop>
+        <video id="myVideo" autoplay muted>
             <source src="~/videos/video.mp4" type="video/mp4">
         </video>
 
-        <div class="content text-center">
+        <div id="formulario" class="content text-center">
             <form id="login" class="form-signin fundo" method="post">
                 <div id="resposta">
 
@@ -24,6 +30,9 @@
                     </label>
                 </div>*@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar</button>
+                <br />
+                <button class="btn btn-sm btn-secondary btn-block">Configurações</button>
+                <button class="btn btn-sm btn-secondary btn-block" onclick="happyOnClick();">Happy 😉</button>
             </form>
             <br />
             <br />

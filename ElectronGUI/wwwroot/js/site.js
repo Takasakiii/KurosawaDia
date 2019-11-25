@@ -1,4 +1,18 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿let formulario;
+let video;
 
-// Write your Javascript code.
+function happyOnClick() {
+    formulario.hidden = true;
+    video.muted = false;
+    video.play();
+}
+
+$('document').ready(function () {
+    formulario = document.getElementById("formulario");
+    video = document.getElementById("myVideo");
+    document.getElementById('myVideo').addEventListener('ended', function () {
+        video.muted = true;
+        formulario.hidden = false;
+        video.play();
+    });
+});
