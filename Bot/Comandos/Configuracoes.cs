@@ -54,7 +54,7 @@ namespace Bot.Comandos
                             servidor = res.Item2;
                             await message.DeleteAsync();
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithDescription(await StringCatch.GetStringAsync("setperfixAlterado", "**{0}**, o prefixo do servidor foi alterado de: `{1}` para: `{2}`.", Contexto.User.Username, PrefixoServidor, new string(servidor.Prefix)))
+                                    .WithDescription(await StringCatch.GetStringAsync("setperfixAlterado", "**{0}**, o prefixo do servidor foi alterado de `{1}` para `{2}`.", Contexto.User.Username, PrefixoServidor, new string(servidor.Prefix)))
                                     .WithColor(Color.DarkPurple)
                                 .Build());
                         }));
@@ -72,7 +72,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("setprefixSemPerm", "**{0}**, você precisa de permissão da permissão `Gerenciar Servidor` para poder usar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("setprefixSemPerm", "**{0}**, você precisa da permissão `Gerenciar Servidor` para poder usar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build()); ;
                 }
@@ -102,7 +102,7 @@ namespace Bot.Comandos
                         embed.WithColor(Color.Purple);
                         embed.WithTitle(await StringCatch.GetStringAsync("xproleSetTitle", "**Configuração dos Pontos de Interação**"));
                         embed.WithDescription(await StringCatch.GetStringAsync("xproleSetDesc1", "Você deseja ligar os pontos de interação? (Eles servem para medir a interação dos seus membros e setar cargos automaticamente.)"));
-                        embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções Validas:"), await StringCatch.GetStringAsync("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
+                        embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções válidas:"), await StringCatch.GetStringAsync("xproleSetF1Desc", "s - Sim / Ligar\nn - Não / Desligar"));
                         IMessage pergunta = await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                         SubCommandControler sub = new SubCommandControler();
                         IMessage msgresposta = await sub.GetCommand(pergunta, Contexto.User);
@@ -129,7 +129,7 @@ namespace Bot.Comandos
                                         {
                                             embed.WithDescription(await StringCatch.GetStringAsync("xproleSetDesc3", "Digite a mensagem que você quer que eu mostre quando alguém conseguir um Ponto de Interação. Se você não deseja ter uma mensagem, apenas digite `%desativar%`."));
                                             embed.Fields.Clear();
-                                            embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções Validas:"), await StringCatch.GetStringAsync("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativeis com a Nadeko Bot e variáveis como %user% e %pontos%."));
+                                            embed.AddField(await StringCatch.GetStringAsync("xptoleSetF1", "Opções válidas:"), await StringCatch.GetStringAsync("xproleSet3F1Desc", "Qualquer tipo de texto, podendo usar até Embeds compativeis com a Nadeko Bot e variáveis como %user% e %pontos%."));
                                             pergunta = await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                                             sub = new SubCommandControler();
                                             msgresposta = await sub.GetCommand(pergunta, Contexto.User);
@@ -161,7 +161,7 @@ namespace Bot.Comandos
                                 {
                                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.Red)
-                                        .WithTitle(await StringCatch.GetStringAsync("xproleSetTitleFail", "Desculpe, mas ouve um problema ao tentar salvar suas preferências. Se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
+                                        .WithTitle(await StringCatch.GetStringAsync("xproleSetTitleFail", "Desculpe, mas houve um problema ao tentar salvar suas preferências. Se for urgente contate meus criadores que eles vão te dar todo o suporte 😔"))
                                         .Build());
                                 }
                             }
@@ -272,7 +272,7 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("welcomechSemPerm", "**{0}**, você precisa de permissão `Administrador` para poder executar esse comando 😔", Contexto.User.Username))
+                            .WithDescription(await StringCatch.GetStringAsync("welcomechSemPerm", "**{0}**, você precisa da permissão `Administrador` para poder executar esse comando 😔", Contexto.User.Username))
                             .WithColor(Color.Red)
                         .Build());
                 }
@@ -388,7 +388,7 @@ namespace Bot.Comandos
 
                         if (cargoSelecionado == null)
                         {
-                            msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pode ser encontrado. Por favor, verifique se você digitou o nome/id do cargo corretamente.", Contexto.User.Username));
+                            msgErro.WithTitle(await StringCatch.GetStringAsync("addpicargoErrTitleRoleNotFind", "**{0}**, o cargo não pôde ser encontrado. Por favor, verifique se você digitou o nome/id do cargo corretamente.", Contexto.User.Username));
                             await Contexto.Channel.SendMessageAsync(embed: msgErro.Build());
                         }
                         else
