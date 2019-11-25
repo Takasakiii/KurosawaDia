@@ -10,7 +10,9 @@ using System;
 using System.Threading.Tasks;
 using Weeb.net;
 using Weeb.net.Data;
+using System.Text.RegularExpressions;
 using static MainDatabaseControler.Modelos.Servidores;
+using static Bot.Extensions.ErrorExtension;
 using TokenType = Weeb.net.TokenType;
 using UserExtensions = Bot.Extensions.UserExtensions;
 
@@ -217,6 +219,37 @@ namespace Bot.Comandos
                         }
                     }
                 }
+            }
+        }
+        public async Task owoify()
+        {
+            if (!(Comando.Length == 1))
+            {
+                string input = string.Join(" ", Comando, 1, (Comando.Length - 1));
+                string[] faces = { "(・`ω´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
+                input = Regex.Replace(input, @"(?:r|l)", "w");
+                input = Regex.Replace(input, @"(?:R|L)", "W");
+                input = Regex.Replace(input, @"n([aeiou])", "ny$1");
+                input = Regex.Replace(input, @"N([aeiou])", "Ny$1");
+                input = Regex.Replace(input, @"N([AEIOU])", "NY$1");
+                input = Regex.Replace(input, @"ove", "uv");
+                input = Regex.Replace(input, @"\!+", " " + faces[new Random().Next(0, faces.Length)] + " ");
+
+                if (!(input.Length > 2048))
+                {
+                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.DarkPurple)
+                        .WithDescription(input)
+                    .Build());
+                }
+                else
+                {
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                }
+            }
+            else
+            {
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
             }
         }
     }

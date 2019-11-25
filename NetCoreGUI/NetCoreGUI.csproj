@@ -13,4 +13,10 @@
     <ProjectReference Include="..\Bot\Bot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="configDia.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
