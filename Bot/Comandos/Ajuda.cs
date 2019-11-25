@@ -217,7 +217,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(await StringCatch.GetStringAsync("weebInfo", "Este módulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, {0}owofy", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, {0}owoify", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build());
         }

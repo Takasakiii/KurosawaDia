@@ -221,7 +221,7 @@ namespace Bot.Comandos
                 }
             }
         }
-        public async Task owofy()
+        public async Task owoify()
         {
             if (!(Comando.Length == 1))
             {
@@ -234,12 +234,18 @@ namespace Bot.Comandos
                 input = Regex.Replace(input, @"N([AEIOUÃÕÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÄËÏÖÜ])", "NY$1");
                 input = Regex.Replace(input, @"ove", "uv");
                 input = Regex.Replace(input, @"\!+", " " + faces[new Random().Next(0, faces.Length)] + " ");
-               
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithColor(Color.DarkPurple)
-                    .WithDescription(input)
-                .Build());
-                
+
+                if ((input.Length >= 2048))
+                {
+                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                        .WithColor(Color.DarkPurple)
+                        .WithDescription(input)
+                    .Build());
+                }
+                else
+                {
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                }
             }
             else
             {
