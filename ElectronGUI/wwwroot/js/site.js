@@ -4,7 +4,7 @@ let video;
 function happyOnClick() {
     formulario.hidden = true;
     video.muted = false;
-    video.play();
+    video.currentTime = 0; 
 }
 
 $('document').ready(function () {
