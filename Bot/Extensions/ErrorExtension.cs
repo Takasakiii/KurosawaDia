@@ -47,8 +47,8 @@ namespace Bot.Extensions
             string exemplo = string.Empty;
             foreach(DadosErro dado in dados)
             {
-                args += $"{Prefix}{Comando} {dado.Arg}\n";
-                exemplo += $"{Prefix}{Comando} {dado.Exemplo}\n";
+                args += $"`{Prefix}{Comando} {dado.Arg}`\n";
+                exemplo += $"`{Prefix}{Comando} {dado.Exemplo}`\n";
             }
 
             Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
