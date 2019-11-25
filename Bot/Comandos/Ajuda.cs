@@ -124,16 +124,6 @@ namespace Bot.Comandos
             }
         }
 
-        //public async Task convite()
-        //{
-        //    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-        //            .WithTitle(await StringCatch.GetString("conviteTxt", "Aqui estão meus convites: "))
-        //            .WithDescription(await StringCatch.GetString("conviteConvites", "[Me convide para o seu servidor](https://ayura.com.br/links/bot)\n[Entre no meu servidor](https://ayura.com.br/dia)")) //shrug
-        //            .WithColor(Color.DarkPurple)
-        //     .Build());
-        //}
-        //RIP 😥😔
-
         public async Task info()
         {
             DiscordShardedClient client = Contexto.Client as DiscordShardedClient;
@@ -161,11 +151,15 @@ namespace Bot.Comandos
 
         private async Task modulos()
         {
-            string modulos = await StringCatch.GetStringAsync("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações.");
+            string modulos = await StringCatch.GetStringAsync("modulosString", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações");
 
-            if (Permissao == PermissoesServidores.ServidorPika)
+            if (Permissao.Equals(PermissoesServidores.ServidorPika))
             {
-                modulos = await StringCatch.GetStringAsync("modulosStringEspecial", ":one: ❓ Ajuda;\n:two: 🛠 Utilidade;\n:three: ⚖ Moderação;\n:four: 🔞 NSFW;\n:five: ❤ Weeb;\n:six: 🖼 Imagens;\n:seven: 💬 Reações Customizadas;\n:eight: ⚙ Configurações;\n:nine: 🌟 Especiais.");
+                modulos += await StringCatch.GetStringAsync("modulosStringEspecial", "\n:nine: 🌟 Especiais.");
+            }
+            else
+            {
+                modulos += ".";
             }
 
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
