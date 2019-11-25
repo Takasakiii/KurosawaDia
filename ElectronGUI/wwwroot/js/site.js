@@ -7,6 +7,12 @@ function happyOnClick() {
     video.currentTime = 0; 
 }
 
+function configuracoesOnClick() {
+    let configuracoes = document.getElementById("configuracao");
+    formulario.hidden = true;
+    configuracoes.hidden = false;
+}
+
 $('document').ready(function () {
     if (dbexiste == "False") {
         let iniciardb = document.getElementById("iniciarbt");
