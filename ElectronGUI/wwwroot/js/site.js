@@ -8,7 +8,7 @@ function happyOnClick() {
 }
 
 $('document').ready(function () {
-    if (!dbexiste) {
+    if (dbexiste == "False") {
         let iniciardb = document.getElementById("iniciarbt");
         iniciardb.hidden = true;
     }
