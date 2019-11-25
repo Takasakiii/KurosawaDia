@@ -53,8 +53,8 @@ namespace Bot.Extensions
             args += "`";
             exemplo += "`";
 
-            Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
-            Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroExM1", "Exemplos:") : await StringCatch.GetStringAsync("baseErroEx1", "Exemplo:"), exemplo);
+                Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
+                Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroExM1", "Exemplos:") : await StringCatch.GetStringAsync("baseErroEx1", "Exemplo:"), exemplo);
 
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
