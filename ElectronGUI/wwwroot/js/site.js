@@ -8,6 +8,11 @@ function happyOnClick() {
 }
 
 $('document').ready(function () {
+    if (!dbexiste) {
+        let iniciardb = document.getElementById("iniciarbt");
+        iniciardb.hidden = true;
+    }
+
     formulario = document.getElementById("formulario");
     video = document.getElementById("myVideo");
     document.getElementById('myVideo').addEventListener('ended', function () {

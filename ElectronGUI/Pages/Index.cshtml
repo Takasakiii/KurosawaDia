@@ -6,6 +6,10 @@
 
     <head>
         <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+        <script>
+            //Variaveis
+            let dbexiste = @Model.dbexiste;
+        </script>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script>if (window.module) module = window.module;</script>
@@ -29,7 +33,7 @@
                         <input name="lembrar" type="checkbox" value="lembrar"> Lembrar
                     </label>
                 </div>*@
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar</button>
+                <button id="iniciarbt" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar</button>
                 <br />
                 <button class="btn btn-sm btn-secondary btn-block">Configurações</button>
                 <button class="btn btn-sm btn-secondary btn-block" onclick="happyOnClick();">Happy 😉</button>
