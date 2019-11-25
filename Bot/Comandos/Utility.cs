@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Bot.Extensions.ErrorExtension;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 
 namespace Bot.Comandos
@@ -77,12 +78,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("avatarErro", "**{0}**, não encontrei essa pessoa.", Contexto.User.ToString()))
-                            .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("avatarUso", "`{0}avatar @pessoa`", PrefixoServidor))
-                            .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemloAvatar", "`{0}avatar @Hikari#3172`", PrefixoServidor))
-                            .WithColor(Color.Red)
-                     .Build());
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarErro", "não encontrei essa pessoa."), new DadosErro(await StringCatch.GetStringAsync("avatarUso", "`@pessoa`"), await StringCatch.GetStringAsync("exemloAvatar", "`@Hikari#3172`")));
                 }
             }
             else
