@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bot\Bot.csproj" />
+    <ProjectReference Include="..\ConfigurationControler\ConfigurationControler.csproj" />
   </ItemGroup>
 
   <ItemGroup>
