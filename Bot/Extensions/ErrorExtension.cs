@@ -21,6 +21,8 @@ namespace Bot.Extensions
             }
         }
 
+        
+
         private CommandContext Contexto;
         private string Comando;
         private string Autor;
@@ -54,6 +56,14 @@ namespace Bot.Extensions
 
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
+
+        internal async Task EnviarFaltaPermissao (string permissao)
+        {
+            Builder.WithColor(Color.Red);
+            Builder.WithTitle($"**{Autor}**, {await StringCatch.GetStringAsync("baseErPermissao", "você precisa da permissão de `{0}` para poder executar esse comando", permissao)}");
+            await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
+        }
+
 
         
     }
