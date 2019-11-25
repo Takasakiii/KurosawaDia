@@ -11,7 +11,7 @@ namespace ElectronGUI.Pages
         public bool dbexiste = false;
         public void OnGet()
         {
-            //dbexiste = ConnectionFactory.VerificarDB();
+            dbexiste = ConnectionFactory.VerificarDB();
         }
 
         public async Task OnPostAsync()

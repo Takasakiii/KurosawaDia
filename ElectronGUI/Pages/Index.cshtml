@@ -5,6 +5,7 @@
 }
 
     <head>
+        <link rel="stylesheet" href="~/css/site.css" />
         <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
         <script>
             //Variaveis
@@ -33,9 +34,9 @@
                         <input name="lembrar" type="checkbox" value="lembrar"> Lembrar
                     </label>
                 </div>*@
-                <button id="iniciarbt" class="btn btn-lg btn-primary btn-block" type="submit">Iniciar</button>
+            <button id="iniciarbt" class="btn btn-lg btn-primary btn-block" type="submit"><i class="fas fa-play fa-xs"></i> Iniciar</button>
                 <br />
-                <button class="btn btn-sm btn-secondary btn-block" onclick="configuracoesOnClick();">Configurações</button>
+                <button class="btn btn-sm btn-secondary btn-block" onclick="configuracoesOnClick();"><i class="fas fa-cog"></i> Configurações</button>
                 <button class="btn btn-sm btn-secondary btn-block" onclick="happyOnClick();">Happy 😉</button>
             </form>
             <br />
@@ -43,7 +44,44 @@
         </div>
 
         <div id="configuracao" class="content text-center" hidden>
-            <form id="confform" class="form-signin fundo" method="post">
+            <form id="confform" class="form-conf fundo" method="post">
+                <i class="fas fa-user-tag fa-2x" style="color: #845ef7;"></i>
+                <br />
+                <br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Token:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Prefixo:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">ID Dono:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <i class="fas fa-database fa-2x" style="color: #845ef7;"></i>
+                <br />
+                <br />
 
             </form>
         </div>
