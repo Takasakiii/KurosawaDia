@@ -50,8 +50,8 @@ namespace Bot.Extensions
                 args += $"{Prefix}{Comando} {dado.Arg}\n";
                 exemplo += $"{Prefix}{Comando} {dado.Exemplo}\n";
             }
-            args = "`";
-            exemplo = "`";
+            args += "`";
+            exemplo += "`";
 
             Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
             Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroExM1", "Exemplos:") : await StringCatch.GetStringAsync("baseErroEx1", "Exemplo:"), exemplo);
