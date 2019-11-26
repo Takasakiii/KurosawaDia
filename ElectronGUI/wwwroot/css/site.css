@@ -92,6 +92,14 @@ body {
     margin: auto;
 }
 
+.form-conf {
+    width: 100%;
+    max-width: 990px;
+    padding: 15px;
+    margin: auto;
+}
+
+
 .form-signin .checkbox {
     font-weight: 400;
 }
