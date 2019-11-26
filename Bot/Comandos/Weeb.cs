@@ -249,7 +249,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
                 }
             }
             else

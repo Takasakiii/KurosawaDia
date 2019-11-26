@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.Servidores;
+using static Bot.Extensions.ErrorExtension;
 
 namespace Bot.Comandos
 {
@@ -74,11 +75,7 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        embed.WithColor(Color.Red);
-                        embed.WithDescription("");
-                        embed.WithTitle(await StringCatch.GetStringAsync("magikavatarPessoa", "Eu não encontrei essa pessoa no servidor."));
-                        embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoMagikavatar", "`{0}magikavatar <pessoa>`", PrefixoServidor));
-                        embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploMagikavatar", "`{0}magikavatar @KingCerverus#2490`", PrefixoServidor));
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarPessoa", "eu não encontrei essa pessoa no servidor."), new DadosErro(await StringCatch.GetStringAsync("parametroPessoa", "@pessoa"), "@KingCerverus#2490"));
                     }
                 }
 
@@ -93,28 +90,20 @@ namespace Bot.Comandos
                     try
                     {
                         string magikReturn = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
-
                         embed.WithImageUrl(magikReturn);
                         embed.WithDescription("");
-                        await userMsg.DeleteAsync();
+                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                     catch
                     {
-                        await userMsg.DeleteAsync();
-                        embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("magikavatarErro", "**{0}** infelizmente a diretora Mari roubou a minha magia", Contexto.User.ToString()));
-                        embed.WithImageUrl(null);
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarErro", "infelizmente a diretora Mari roubou a minha magia 😔"));
                     }
                 }
             }
             else
             {
-                embed.WithColor(Color.Red);
-                embed.WithDescription(await StringCatch.GetStringAsync("magikavatarDm", "Eu so posso pegar o avatar de outras pessoas em um servidor"));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarDm", "eu só posso pegar o avatar de outras pessoas em um servidor."));
             }
-
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-
         }
 
         public async Task magik()
@@ -147,41 +136,33 @@ namespace Bot.Comandos
                     try
                     {
                         string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                        embed.WithDescription("");
                         embed.WithImageUrl(retorno);
+                        embed.WithDescription("");
+                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                     catch
                     {
-                        embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("mgikErro", "**{0}** infelizmente a diretora mari roubou a minha magia 😔", Contexto.User.ToString()));
-                        embed.WithImageUrl(null);
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("mgikErro", "infelizmente a diretora mari roubou a minha magia 😔"));
                     }
                 }
                 else
                 {
                     if (res.Item1 && res.Item2 < 102400) {
                         string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                        embed.WithDescription("");
                         embed.WithImageUrl(retorno);
+                        embed.WithDescription("");
+                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                     else
                     {
-                        embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("mgiktamanho", "**{0}** sua imagem é muito poderosa para mim. Por favor, envie gifs até 100 kb 😥", Contexto.User.ToString()));
-                        embed.WithImageUrl(null);
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("mgiktamanho", "sua imagem é muito poderosa para mim. Por favor, envie GIFs até 100kb 😥"));
                     }
                 }
-                await userMsg.DeleteAsync();
             }
             else
             {
-                embed.WithTitle(await StringCatch.GetStringAsync("magikSemImg", "Você precisa me falar com que imagem você quer que eu faça mágica."));
-                embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoMagik", "`{0}magik <imagem>`", PrefixoServidor));
-                embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploMagik", "`{0}magik https://i.imgur.com/cZDlYXr.png`", PrefixoServidor));
-                embed.WithColor(Color.Red);
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikSemImg", "bocê precisa me falar com que imagem você quer que eu faça mágica."), new DadosErro(await StringCatch.GetStringAsync("usoImagem", "<imagem>"), "https://i.imgur.com/cZDlYXr.png"));
             }
-
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public async Task loli()
