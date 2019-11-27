@@ -125,36 +125,29 @@ namespace Bot.Comandos
                 embed.WithColor(Color.DarkPurple);
                 bool parse = Emote.TryParse(Comando[1], out Emote emote);
 
+                string name, url;
+
                 if (parse)
                 {
-
-                    embed.WithTitle(emote.Name);
-                    embed.WithDescription(await StringCatch.GetStringAsync("emoteLink", "[Link Direto]({0})", emote.Url));
-                    embed.WithImageUrl(emote.Url);
+                    name = emote.Name;
+                    url = emote.Url;
                 }
                 else
                 {
                     HttpExtensions http = new HttpExtensions();
-                    string name = await http.GetSiteHttp("https://ayura.com.br/links/emojis.json", Comando[1]);
-
-                    string shortName = "";
-                    foreach (char character in name)
-                    {
-                        if (character != ':')
-                        {
-                            shortName += character;
-                        }
-                    }
-                    string unicode = await http.GetSite($"https://www.emojidex.com/api/v1/emoji/{shortName}", "unicode");
-
-                    embed.WithTitle(shortName);
-                    embed.WithDescription(await StringCatch.GetStringAsync("emoteLinkUnicode", "[Link Direto]({0})", $"https://twemoji.maxcdn.com/2/72x72/{unicode}.png"));
-                    embed.WithImageUrl($"https://twemoji.maxcdn.com/2/72x72/{unicode}.png");
+                    name = (await http.GetSiteHttp("https://ayura.com.br/links/emojis.json", Comando[1])).Replace(":", "");
+                    string unicode = await http.GetSite($"https://www.emojidex.com/api/v1/emoji/{name}", "unicode");
+                    url = $"https://twemoji.maxcdn.com/2/72x72/{unicode}.png";
                 }
-                await Contexto.Channel.SendMessageAsync(embed: embed.Build());
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithTitle(name)
+                    .WithDescription(await StringCatch.GetStringAsync("emoteLink", "[Link Direto]({0})", url))
+                    .WithImageUrl(url)
+                    .WithColor(Color.DarkPurple)
+                .Build());
             }
             catch
-            {
+            {   
                 await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "`emoji`"), await StringCatch.GetStringAsync("emoteExemplo", "`:kanna:`")));
             }
         }
