@@ -179,7 +179,7 @@ namespace Bot.Comandos
                                     await user.BanAsync(7, motivo);
                                     await Contexto.Guild.RemoveBanAsync(user);
 
-                                    embedo.WithDescription(await StringCatch.GetStringAsync("softbanMembroExpulso", "**{0}**, o membro {1} foi banido temporariamente do servidor.", Contexto.User.ToString(), user.Mention));
+                                    embedo.WithDescription(await StringCatch.GetStringAsync("softbanMembroExpulso", "**{0}**, o membro {1} foi expulso do servidor e suas mensagens fora apagadas.", Contexto.User.ToString(), user.Mention));
                                     await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                             }
@@ -194,7 +194,7 @@ namespace Bot.Comandos
                     {
                         EmbedBuilder usoEmbed = new EmbedBuilder();
                         usoEmbed.WithColor(Color.Red);
-                        usoEmbed.WithDescription(await StringCatch.GetStringAsync("moderacaoMembro", "**{0}**, você precisa mencionar um membro.", Contexto.User.ToString()));
+                        usoEmbed.WithDescription(await StringCatch.GetStringAsync("moderacaoMembro", "**{0}**, você precisa me informar um membro.", Contexto.User.ToString()));
 
                         switch (tipo)
                         {

@@ -263,12 +263,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("sugestaoFalar", "**{0}**, você precisa me falar uma sugestão.", Contexto.User.ToString()))
-                        .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoSugestao", "`{0}sugestao <sugestão>`", PrefixoServidor))
-                        .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploCmd", "`{0}sugestao fazer com que o bot fique mais tempo on`", PrefixoServidor))
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("sugestaoFalar", "você precisa me falar uma sugestão."), new DadosErro(await StringCatch.GetStringAsync("usoSugestao", "<sugestão>"), await StringCatch.GetStringAsync("exemploSugestao", "fazer com que o bot fique mais tempo on")));
             }
         }
 
@@ -276,8 +271,7 @@ namespace Bot.Comandos
         {
             string[] comando = Comando;
             string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-            string servidor = "";
-
+            string servidor;
             if (!Contexto.IsPrivate)
             {
                 servidor = Contexto.Guild.Name;
@@ -292,7 +286,7 @@ namespace Bot.Comandos
                 IMessageChannel canal = await Contexto.Client.GetChannelAsync(556598669500088320) as IMessageChannel;
 
                 await canal.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle($"Novo bug reportado por: {Contexto.User}")
+                        .WithTitle($"Novo bug reportado por {Contexto.User}")
                         .AddField("Bug: ", msg)
                         .AddField("Servidor: ", servidor)
                         .WithColor(Color.DarkPurple)
@@ -305,7 +299,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bugFalar", "você precisa falar me o bug."), new DadosErro("<bug>", await StringCatch.GetStringAsync("exemploBug", "cadê o status?")));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bugFalar", "você precisa me falar o bug."), new DadosErro("<bug>", await StringCatch.GetStringAsync("exemploBug", "cadê o status?")));
             }
         }
 
@@ -354,18 +348,12 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("perilDesativado", "**{0}**, os pontos interativos estão desativados nesse servidor.", Contexto.User.ToString()))
-                            .WithColor(Color.Red)
-                         .Build());
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("perilDesativado", "os pontos interativos estão desativados nesse servidor."));
                 }
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("perilDm", "Esse comando só pode ser usado em servidores."))
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
         }
 

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Bot.Extensions.ErrorExtension;
 
 namespace Bot.Comandos
 {
@@ -21,9 +22,6 @@ namespace Bot.Comandos
 
         public async Task acr()
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(color: Color.DarkPurple);
-
             if (!Contexto.IsPrivate)
             {
                 SocketGuildUser usuario = Contexto.User as SocketGuildUser;
@@ -60,40 +58,32 @@ namespace Bot.Comandos
                         {
                             resposta = resposta_pergunta[1].Trim();
                         }
-
-                        embed.WithDescription(await StringCatch.GetStringAsync("acrCriadaOk", "**{0}**, a reação customizada foi criada com sucesso.", Contexto.User.ToString()));
-                        embed.AddField(await StringCatch.GetStringAsync("trigger", "Trigger: "), pergunta);
-                        embed.AddField(await StringCatch.GetStringAsync("resposta", "Reposta: "), resposta);
-                        embed.AddField(await StringCatch.GetStringAsync("codigo", "Codigo: "), cr.Cod);
+                        await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                .WithDescription(await StringCatch.GetStringAsync("acrCriadaOk", "**{0}**, a reação customizada foi criada com sucesso.", Contexto.User.ToString()))
+                                .AddField(await StringCatch.GetStringAsync("trigger", "Trigger: "), pergunta)
+                                .AddField(await StringCatch.GetStringAsync("resposta", "Reposta: "), resposta)
+                                .AddField(await StringCatch.GetStringAsync("codigo", "Codigo: "), cr.Cod)
+                                .WithColor(Color.DarkPurple)
+                            .Build());
                     }
                     else
                     {
-                        embed.WithTitle(await StringCatch.GetStringAsync("acrErro", "Para adicionar uma reação customizada você precisa me falar o trigger e a resposta da reação customizada."));
-                        embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do comando: "), await StringCatch.GetStringAsync("usoAcr", "`{0}acr trigger | resposta`", PrefixoServidor));
-                        embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploAcr", "`{0}acr upei | boa corno`", PrefixoServidor));
-                        embed.WithColor(Color.Red);
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("acrErro", "para adicionar uma reação customizada você precisa me falar o trigger e a resposta da reação customizada."), new DadosErro(await StringCatch.GetStringAsync("usoAcr", "trigger | resposta"), await StringCatch.GetStringAsync("exemploAcr", "upei | boa corno")));
                     }
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("acrSemPerm", "**{0}** Você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
-                    embed.WithColor(Color.Red);
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("acrSemPerm", "você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕"));
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("acrDm", "Esse comando só pode ser usado em servidores."));
-                embed.WithColor(Color.Red);
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
-
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public async Task dcr()
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-
             if (!Contexto.IsPrivate)
             {
                 SocketGuildUser usuario = Contexto.User as SocketGuildUser;
@@ -114,48 +104,40 @@ namespace Bot.Comandos
 
                             if (await new ReacoesCustomizadasDAO().DeletarAcrAsync(acr))
                             {
-                                embed.WithDescription(await StringCatch.GetStringAsync("dcrOk", "**{0}**, a reação customizada com o codigo: `{1}` foi deletada do servidor.", Contexto.User.ToString(), codigo));
+                                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                                        .WithColor(Color.DarkPurple)
+                                        .WithDescription(await StringCatch.GetStringAsync("dcrOk", "**{0}**, a reação customizada com o codigo: `{1}` foi deletada do servidor.", Contexto.User.ToString(), codigo))
+                                    .Build());
                             }
                             else
                             {
-                                embed.WithDescription(await StringCatch.GetStringAsync("dcrNenhuma", "**{0}**, não foi possivel deletar uma reação customizada com esse código.", Contexto.User.ToString()));
+                                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrNenhuma", "não foi possivel deletar uma reação customizada com esse código."));
                             }
 
                         }
                         catch
                         {
-                            embed.WithDescription(await StringCatch.GetStringAsync("dcrNumero", "**{0}**, isso não é um numero.", Contexto.User.ToString()));
-                            embed.WithColor(Color.Red);
+                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrNumero", "isso não é um numero."));
                         }
                     }
                     else
                     {
-                        embed.WithTitle(await StringCatch.GetStringAsync("dcrSemCodio", "Você precisa me falar o código da reação customizada para que eu possa deletar ela."));
-                        embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoDcr", "`{0}dcr <codigo>`", PrefixoServidor));
-                        embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploDcr", "`{0}dcr 1`", PrefixoServidor));
-                        embed.WithColor(Color.Red);
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrSemCodigo", "você precisa me falar o código da reação customizada para que eu possa deletar ela."), new DadosErro(await StringCatch.GetStringAsync("usoDcr", "<código>"), await StringCatch.GetStringAsync("exemploDcr", "1")));
                     }
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("dcrSemPerm", "**{0}** Você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕", Contexto.User.ToString()));
-                    embed.WithColor(Color.Red);
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrSemPerm", "você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕"));
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("dcrDm", "Esse comando só pode ser usado em servidores."));
-                embed.WithColor(Color.Red);
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrDm", "esse comando só pode ser usado em servidores."));
             }
-
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
         public async Task lcr()
         {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-
             if (!Contexto.IsPrivate)
             {
                 ReacoesCustomizadas acr = new ReacoesCustomizadas();
@@ -180,16 +162,12 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("lcrNenhuma", "**{0}**, o servidor não tem nenhuma reação customizada.", Contexto.User.ToString()));
-                    embed.WithColor(Color.Red);
-                    await Contexto.Channel.SendMessageAsync(embed: embed.Build());
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("lcrNenhuma", "o servidor não tem nenhuma reação customizada."));
                 }
             }
             else
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("lcrDm", "Esse comando só pode ser usado em servidores."));
-                embed.WithColor(Color.Red);
-                await Contexto.Channel.SendMessageAsync(embed: embed.Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
         }
 
@@ -227,12 +205,12 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                 msg = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                   .WithTitle(await StringCatch.GetStringAsync("lcrTxt", "Lista das Reações Customizadas:"))
-                   .AddField(await StringCatch.GetStringAsync("lcrCods", "Codigos: "), retornoStrings.Item1, true)
-                   .AddField(await StringCatch.GetStringAsync("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
-                   .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
-                   .WithColor(Color.DarkPurple)
-                   .Build());
+                        .WithTitle(await StringCatch.GetStringAsync("lcrTxt", "Lista das Reações Customizadas:"))
+                        .AddField(await StringCatch.GetStringAsync("lcrCods", "Codigos: "), retornoStrings.Item1, true)
+                        .AddField(await StringCatch.GetStringAsync("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
+                        .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
+                        .WithColor(Color.DarkPurple)
+                    .Build());
 
             }
 

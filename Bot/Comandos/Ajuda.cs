@@ -262,7 +262,7 @@ namespace Bot.Comandos
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetStringAsync("especialModulo", "Módulo Especiais (🌟)"))
-                    .WithDescription(await StringCatch.GetStringAsync("especialInfo", "Só falo uma coisa, isso é exclusivo, e você pode ter o prazer de acessar, não é todo mundo que tem essa chance então aproveite."))
+                    .WithDescription(await StringCatch.GetStringAsync("especialInfo", "Só falo uma coisa, isso é exclusivo, e você pode ter o prazer de acessar. Não é todo mundo que tem essa chance, então aproveite."))
                     .WithColor(Color.DarkPurple)
                     .AddField(await StringCatch.GetStringAsync("especialCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("especialCmds", "`{0}insult`, `{0}criarinsulto`, `{0}fuckadd`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("especialImg", "https://i.imgur.com/bQGUGbB.gif"))
@@ -302,7 +302,7 @@ namespace Bot.Comandos
         public async Task MentionMessage(Servidores servidores)
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                .WithDescription(await StringCatch.GetStringAsync("msgEventPrefixInform", "Oii {0} meu prefixo é: `{1}` se quiser ver os meus comandos é so usar: `{1}comandos`", Contexto.User.Username, new string(servidores.Prefix)))
+                .WithDescription(await StringCatch.GetStringAsync("msgEventPrefixInform", "Oii {0}, meu prefixo é `{1}`. Se quiser ver os meus comandos é so usar `{1}comandos`!", Contexto.User.Username, new string(servidores.Prefix)))
                 .WithColor(Color.DarkPurple)
                 .Build());
         }

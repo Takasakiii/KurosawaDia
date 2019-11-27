@@ -82,7 +82,7 @@ namespace Bot.Comandos
                 if (user != null)
                 {
                     embed.WithDescription(await StringCatch.GetStringAsync("magikavatarAguarde", "**{0}**, estou fazendo mágica com o avatar. Por favor, aguarde.", Contexto.User.ToString()));
-                    embed.WithImageUrl(await StringCatch.GetStringAsync(" agikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
+                    embed.WithImageUrl(await StringCatch.GetStringAsync("magikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                     IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
@@ -190,7 +190,6 @@ namespace Bot.Comandos
             {
                 throw new NullReferenceException();
             }
-
         }
     }
 }

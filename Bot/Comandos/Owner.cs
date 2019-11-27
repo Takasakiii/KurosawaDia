@@ -71,10 +71,7 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("setEspecialNaoFoi", "Não foi possivel atualizar as permmissões do servidor."))
-                            .WithColor(Color.DarkPurple)
-                         .Build());
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("setEspecialNaoFoi", "não foi possivel atualizar as permmissões do servidor."));
                     }
                 }
                 catch
@@ -87,7 +84,7 @@ namespace Bot.Comandos
                     }
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("setEspecialErro", "Meu caro, você não digitou o comando do jeito certo 😔"))
+                        .WithDescription(await StringCatch.GetStringAsync("setEspecialErro", "Meu caro, você não usou o comando do jeito certo 😔"))
                         .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("setEspecialUso", "`{0}setespecial <id servidor> <tipo>`", PrefixoServidor))
                         .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("setEspecialExemplo", "`{0}setespecial 556580866198077451 1`", PrefixoServidor))
                         .AddField(await StringCatch.GetStringAsync("setespecialTiposTitle", "Tipos: "), await StringCatch.GetStringAsync("setespecialTipos", "{0}", opcs))

@@ -63,10 +63,10 @@ namespace Bot.Extensions
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
 
-        internal async Task EnviarFaltaPermissao (string permissao)
+        internal async Task EnviarFaltaPermissaoAsync(string permissao)
         {
             Builder.WithColor(Color.Red);
-            Builder.WithTitle($"**{Autor}**, {await StringCatch.GetStringAsync("baseErPermissao", "você precisa da permissão de `{0}` para poder executar esse comando", permissao)}");
+            Builder.WithTitle($"**{Autor}**, {await StringCatch.GetStringAsync("baseErPermissao", "você precisa da permissão `{0}` para poder usar esse comando.", permissao)}");
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
 
