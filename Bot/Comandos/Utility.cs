@@ -305,12 +305,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("bugFalar", "**{0}**, você precisa me o bug.", Contexto.User.ToString()))
-                        .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("usoBug", "`{0}bug <bug>`", PrefixoServidor))
-                        .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("exemploBug", "`{0}bug cadê o status?`", PrefixoServidor))
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bugFalar", "você precisa falar me o bug."), new DadosErro("<bug>", await StringCatch.GetStringAsync("exemploBug", "cadê o status?")));
             }
         }
 
