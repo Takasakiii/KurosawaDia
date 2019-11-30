@@ -34,7 +34,7 @@
                         <input name="lembrar" type="checkbox" value="lembrar"> Lembrar
                     </label>
                 </div>*@
-            <button id="iniciarbt" class="btn btn-lg btn-primary btn-block" type="submit"><i class="fas fa-play fa-xs"></i> Iniciar</button>
+            <button id="iniciarbt" name="btOK" class="btn btn-lg btn-primary btn-block" value="iniciar" type="submit"><i class="fas fa-play fa-xs"></i> Iniciar</button>
                 <br />
                 <button class="btn btn-sm btn-secondary btn-block" onclick="configuracoesOnClick();"><i class="fas fa-cog"></i> Configurações</button>
                 <button class="btn btn-sm btn-secondary btn-block" onclick="happyOnClick();">Happy 😉</button>
@@ -82,7 +82,56 @@
                 <i class="fas fa-database fa-2x" style="color: #845ef7;"></i>
                 <br />
                 <br />
-
+                <div class="container">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">IP:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Porta:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Usuario:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Senha:</span>
+                                </div>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button type="button" class="btn btn-success" onclick="voltarOnClick();"><i class="fas fa-chevron-left"></i> Voltar</button>
+                        </div>
+                        <div class="col-sm">
+                            <button type="submit" name="btOK" class="btn btn-secondary" value="salvar"><i class="fas fa-save"></i> Salvar</button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </body>

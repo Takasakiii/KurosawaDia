@@ -1,5 +1,6 @@
 ﻿let formulario;
 let video;
+let configuracoes;
 
 function happyOnClick() {
     formulario.hidden = true;
@@ -8,9 +9,14 @@ function happyOnClick() {
 }
 
 function configuracoesOnClick() {
-    let configuracoes = document.getElementById("configuracao");
+    
     formulario.hidden = true;
     configuracoes.hidden = false;
+}
+
+function voltarOnClick() {
+    configuracoes.hidden = true;
+    formulario.hidden = false;
 }
 
 $('document').ready(function () {
@@ -18,7 +24,7 @@ $('document').ready(function () {
         let iniciardb = document.getElementById("iniciarbt");
         iniciardb.hidden = true;
     }
-
+    configuracoes = document.getElementById("configuracao");
     formulario = document.getElementById("formulario");
     video = document.getElementById("myVideo");
     document.getElementById('myVideo').addEventListener('ended', function () {
