@@ -1,4 +1,4 @@
-class UrlExt{
+export default class UrlExt{
     static getUrlVars() {
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -11,4 +11,3 @@ class UrlExt{
     }
 }
 
-module.exports.UrlExt;
