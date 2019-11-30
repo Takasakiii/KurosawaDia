@@ -1,0 +1,16 @@
+{
+  "paginas": [
+    {
+      "nome": "conviteDia",
+      "url": "https://discordapp.com/oauth2/authorize?client_id=389917977862078484&scope=bot&permissions=8"
+    },
+    {
+      "nome": "serverDia",
+      "url": "https://discord.gg/V3VcDx5"
+    },
+    {
+      "nome": "topgg",
+      "url": "https://top.gg/bot/389917977862078484/vote"
+    }
+  ]
+}
