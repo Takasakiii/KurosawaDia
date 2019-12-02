@@ -16,8 +16,17 @@ namespace ElectronGUI.Pages
 
         public async Task OnPostAsync()
         {
-            Core core = new Core();
-            await core.CriarClienteAsync();
+            string botaovalue = Request.Form["btOK"];
+            switch (botaovalue)
+            {
+                case "iniciar":
+                    Core core = new Core();
+                    await core.CriarClienteAsync();
+                    break;
+                case "salvar":
+
+                    break;
+            }
         }
     }
 }

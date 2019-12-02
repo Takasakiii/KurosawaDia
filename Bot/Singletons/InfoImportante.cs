@@ -9,7 +9,7 @@ namespace Bot.Singletons
         public const string VersaoNumb = "1.2.4";
         public const string VersaoName = "Nozomi o micro-ondas está pegando fogo";
 
-        public const string conviteDia = "https://ayura.com.br/links/bot";
-        public const string conviteServer = "https://ayura.com.br/dia";
+        public const string conviteDia = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=conviteDia";
+        public const string conviteServer = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=serverDia";
     }
 }
