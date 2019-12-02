@@ -37,7 +37,10 @@ namespace Bot.Comandos
             }
         }
 
-
+        public async Task convite()
+        {
+            await info();
+        }
 
         public async Task ajuda()
         {

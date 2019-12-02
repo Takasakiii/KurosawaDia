@@ -127,7 +127,7 @@ namespace Bot.Nucleo.Eventos
             if (contexto.Message.HasStringPrefix(new string(servidor.Prefix), ref argPos))
             {
                 comandoSemPrefix = contexto.Message.Content.Substring(servidor.Prefix.Length);
-                return !(comandoSemPrefix == "" || comandoSemPrefix[0] == servidor.Prefix[0]);
+                return !(comandoSemPrefix == "" || comandoSemPrefix[0].ToString() == new string(servidor.Prefix));
             }
             else
             {
