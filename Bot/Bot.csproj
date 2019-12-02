@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="DiscordBotsList.Api" Version="1.4.0" />
+    <PackageReference Include="Unicode.net" Version="0.1.2" />
     <PackageReference Include="Weeb.net" Version="1.0.7" />
   </ItemGroup>
 
