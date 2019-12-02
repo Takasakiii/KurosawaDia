@@ -5,9 +5,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
+using NeoSmart.Unicode;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using static Bot.Extensions.ErrorExtension;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
@@ -119,37 +120,39 @@ namespace Bot.Comandos
 
         public async Task emoji()
         {
-            try
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(Color.DarkPurple);
+            string emojiInput = Comando[1];
+            bool parse = Emote.TryParse(emojiInput, out Emote emote);
+
+            string name, url;
+
+            if (parse)
             {
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.WithColor(Color.DarkPurple);
-                bool parse = Emote.TryParse(Comando[1], out Emote emote);
-
-                string name, url;
-
-                if (parse)
-                {
-                    name = emote.Name;
-                    url = emote.Url;
-                }
-                else
-                {
-                    HttpExtensions http = new HttpExtensions();
-                    name = (await http.GetSiteHttp("https://ayura.com.br/links/emojis.json", Comando[1])).Replace(":", "");
-                    string unicode = await http.GetSite($"https://www.emojidex.com/api/v1/emoji/{name}", "unicode");
-                    url = $"https://twemoji.maxcdn.com/2/72x72/{unicode}.png";
-                }
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(name)
-                    .WithDescription(await StringCatch.GetStringAsync("emoteLink", "[Link Direto]({0})", url))
-                    .WithImageUrl(url)
-                    .WithColor(Color.DarkPurple)
-                .Build());
+                name = emote.Name;
+                url = emote.Url;
             }
-            catch
-            {   
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "`emoji`"), await StringCatch.GetStringAsync("emoteExemplo", "`:kanna:`")));
+            else if (NeoSmart.Unicode.Emoji.IsEmoji(emojiInput, 1))
+            {
+                List<string> hexSeq = new List<string>();
+                foreach (uint seq in emojiInput.AsUnicodeSequence().AsUtf32)
+                {
+                    hexSeq.Add(seq.ToString("x"));
+                }
+                name = "";
+                url = $"https://twemoji.maxcdn.com/2/72x72/{string.Join('-', hexSeq)}.png";
             }
+            else
+            {
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "emoji"), await StringCatch.GetStringAsync("emoteExemplo", ":kanna:")));
+                return;                    
+            }
+            await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithTitle(name)
+                .WithDescription(await StringCatch.GetStringAsync("emoteLink", "[Link Direto]({0})", url))
+                .WithImageUrl(url)
+                .WithColor(Color.DarkPurple)
+            .Build());
         }
 
         public async Task say()
