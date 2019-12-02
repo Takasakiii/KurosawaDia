@@ -1,137 +1,165 @@
-﻿@page
+﻿
+@page
+@using ConfigurationControler.DAO;
+@using ConfigurationControler.Modelos;
 @model IndexModel
 @{
     ViewData["Title"] = "Iniciar Bot";
+
+    string token = "", prefixo = "", iddono = "", ip = "", porta = "", usuario = "", senha = "", db = "";
+
+    if (Model.dbexiste)
+    {
+        Tuple<ApisConfig[], DBConfig, DiaConfig> configuracoes = await new DBDAO().PegarDadosBotAsync();
+        token = configuracoes.Item3.token;
+        prefixo = configuracoes.Item3.prefix;
+        iddono = configuracoes.Item3.idDono.ToString();
+
+        ip = configuracoes.Item2.ip;
+        porta = configuracoes.Item2.porta.ToString();
+        usuario = configuracoes.Item2.login;
+        senha = configuracoes.Item2.senha;
+        db = configuracoes.Item2.database;
+    }
+
 }
 
-    <head>
-        <link rel="stylesheet" href="~/css/site.css" />
-        <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
-        <script>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+    <script>
             //Variaveis
             let dbexiste = "@Model.dbexiste";
-        </script>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script>if (window.module) module = window.module;</script>
-    </head>
-    <body>
-        <br />
-        <br />
-        <video id="myVideo" autoplay muted>
-            <source src="~/videos/video.mp4" type="video/mp4">
-        </video>
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>if (window.module) module = window.module;</script>
+</head>
+<body>
+    <br />
+    <br />
+    <video id="myVideo" autoplay muted>
+        <source src="~/videos/video.mp4" type="video/mp4">
+    </video>
 
-        <div id="formulario" class="content text-center">
-            <form id="login" class="form-signin fundo" method="post">
-                <div id="resposta">
+    <div id="formulario" class="content text-center">
+        <form id="login" class="form-signin fundo" method="post">
+            <div id="resposta">
 
-                </div>
-                <img class="mb-4 dia" src="~/images/dia.jpg">
-                <h1 class="h3 mb-3 font-weight-normal">Kudsawa Daiya</h1>
-                @*<div class="checkbox mb-3">
+            </div>
+            <img class="mb-4 dia" src="~/images/dia.jpg">
+            <h1 class="h3 mb-3 font-weight-normal">Kudsawa Daiya</h1>
+            @*<div class="checkbox mb-3">
                     <label>
                         <input name="lembrar" type="checkbox" value="lembrar"> Lembrar
                     </label>
                 </div>*@
             <button id="iniciarbt" name="btOK" class="btn btn-lg btn-primary btn-block" value="iniciar" type="submit"><i class="fas fa-play fa-xs"></i> Iniciar</button>
-                <br />
-                <button class="btn btn-sm btn-secondary btn-block" onclick="configuracoesOnClick();"><i class="fas fa-cog"></i> Configurações</button>
-                <button class="btn btn-sm btn-secondary btn-block" onclick="happyOnClick();">Happy 😉</button>
-            </form>
             <br />
-            <br />
-        </div>
+            <button class="btn btn-sm btn-secondary btn-block" type="button" onclick="configuracoesOnClick();"><i class="fas fa-cog"></i> Configurações</button>
+            <button class="btn btn-sm btn-secondary btn-block" type="button" onclick="happyOnClick();">Happy 😉</button>
+        </form>
+        <br />
+        <br />
+    </div>
 
-        <div id="configuracao" class="content text-center" hidden>
-            <form id="confform" class="form-conf fundo" method="post">
-                <i class="fas fa-user-tag fa-2x" style="color: #845ef7;"></i>
-                <br />
-                <br />
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Token:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+    <div id="configuracao" class="content text-center" hidden>
+        <form id="confform" class="form-conf fundo" method="post">
+            <i class="fas fa-user-tag fa-2x" style="color: #845ef7;"></i>
+            <br />
+            <br />
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Token:</span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Prefixo:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="col-lg">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">ID Dono:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
-                            </div>
+                            <input type="text" name="txToken" class="form-control" aria-describedby="basic-addon1" value="@token">
                         </div>
                     </div>
                 </div>
-                <br />
-                <i class="fas fa-database fa-2x" style="color: #845ef7;"></i>
-                <br />
-                <br />
-                <div class="container">
-                    <div class="row">
-                        <div class="col-10">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">IP:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                <div class="row">
+                    <div class="col-lg">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Prefixo:</span>
                             </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Porta:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
-                            </div>
+                            <input type="text" name="txPrefixo" class="form-control" aria-describedby="basic-addon1" value="@prefixo">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Usuario:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                    <div class="col-lg">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">ID Dono:</span>
                             </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Senha:</span>
-                                </div>
-                                <input type="text" class="form-control" aria-describedby="basic-addon1">
-                            </div>
+                            <input type="text" name="txIDDono" class="form-control" aria-describedby="basic-addon1" value="@iddono">
                         </div>
                     </div>
                 </div>
-                <br />
-                <br />
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <button type="button" class="btn btn-success" onclick="voltarOnClick();"><i class="fas fa-chevron-left"></i> Voltar</button>
+            </div>
+            <br />
+            <i class="fas fa-database fa-2x" style="color: #845ef7;"></i>
+            <br />
+            <br />
+            <div class="container">
+                <div class="row">
+                    <div class="col-10">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">IP:</span>
+                            </div>
+                            <input type="text" name="txIP" class="form-control" aria-describedby="basic-addon1" value="@ip">
                         </div>
-                        <div class="col-sm">
-                            <button type="submit" name="btOK" class="btn btn-secondary" value="salvar"><i class="fas fa-save"></i> Salvar</button>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Porta:</span>
+                            </div>
+                            <input type="text" name="txPorta" class="form-control" aria-describedby="basic-addon1" value="@porta">
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </body>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Usuario:</span>
+                            </div>
+                            <input type="text" name="txUsuario" class="form-control" aria-describedby="basic-addon1" value="@usuario">
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Senha:</span>
+                            </div>
+                            <input type="text" name="txSenha" class="form-control" aria-describedby="basic-addon1" value="@senha">
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Database:</span>
+                            </div>
+                            <input type="text" name="txDB" class="form-control" aria-describedby="basic-addon1" value="@db">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <button type="button" class="btn btn-success" onclick="voltarOnClick();"><i class="fas fa-chevron-left"></i> Voltar</button>
+                    </div>
+                    <div class="col-sm">
+                        <button type="submit" name="btOK" class="btn btn-secondary" value="salvar"><i class="fas fa-save"></i> Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

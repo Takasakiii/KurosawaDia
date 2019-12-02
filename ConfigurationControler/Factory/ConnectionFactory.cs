@@ -11,7 +11,7 @@ namespace ConfigurationControler.Factory
 
         internal static async Task ConectarAsync(Action<SqliteConnection> funcaoDados)
         {
-            if (!File.Exists(DB.localDB))
+            if (!File.Exists($"{AppDomain.CurrentDomain.BaseDirectory}{DB.localDB}"))
             {
                 await CriarDBAsync();
             }
@@ -24,7 +24,7 @@ namespace ConfigurationControler.Factory
 
         private static async Task CriarDBAsync()
         {
-            FileStream fs = File.Create(DB.localDB);
+            FileStream fs = File.Create($"{AppDomain.CurrentDomain.BaseDirectory}{DB.localDB}");
             fs.Close();
 
             await ConectarAsync(async (SqliteConnection) =>
@@ -39,7 +39,7 @@ namespace ConfigurationControler.Factory
 
         public static bool VerificarDB()
         {
-            return File.Exists(DB.localDB);
+            return File.Exists($"{AppDomain.CurrentDomain.BaseDirectory}{DB.localDB}");
         }
     }
 }
