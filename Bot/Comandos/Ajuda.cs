@@ -42,6 +42,11 @@ namespace Bot.Comandos
             await info();
         }
 
+        public async Task help()
+        {
+            await ajuda();
+        }
+
         public async Task ajuda()
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -75,7 +80,7 @@ namespace Bot.Comandos
 
                 if(modulo ==  ListaModulos.ajuda || msg == "ajuda")
                 {
-                    await help();
+                    await helpajuda();
                 }
                 else if (modulo == ListaModulos.utilidade || msg == "utilidade")
                 {
@@ -173,7 +178,7 @@ namespace Bot.Comandos
                     .WithColor(Color.DarkPurple)
                 .Build());
         }
-        private async Task help()
+        private async Task helpajuda()
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetStringAsync("helpModulo", "Módulo Ajuda (❓)"))
