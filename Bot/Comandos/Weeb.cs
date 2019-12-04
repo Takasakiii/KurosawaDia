@@ -15,6 +15,9 @@ using static MainDatabaseControler.Modelos.Servidores;
 using static Bot.Extensions.ErrorExtension;
 using TokenType = Weeb.net.TokenType;
 using UserExtensions = Bot.Extensions.UserExtensions;
+using System.Globalization;
+using System.Text;
+using System.Linq;
 
 namespace Bot.Comandos
 {
@@ -225,7 +228,7 @@ namespace Bot.Comandos
         {
             if (!(Comando.Length == 1))
             {
-                string input = string.Join(" ", Comando, 1, (Comando.Length - 1));
+                string input = string.Join(" ", Comando, 1, Comando.Length - 1);
                 string[] faces = { @"(・\`ω\´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
                 input = Regex.Replace(input, @"(?:r|l)", "w");
                 input = Regex.Replace(input, @"(?:R|L)", "W");
@@ -254,7 +257,61 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "texto"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+            }
+        }
+        
+        public async Task bigtext()
+        {
+            if (!(Comando.Length == 1))
+            {
+                string texto = string.Join(" ", Comando, 1, Comando.Length - 1);
+                texto = texto.ToLower();
+                texto = texto.Normalize(NormalizationForm.FormD);
+                string textFormatted = "";
+                for (int i = 0; i < texto.Length; i++)
+                {
+                    char ch = texto[i];
+                    UnicodeCategory charCategory = CharUnicodeInfo.GetUnicodeCategory(ch);
+                    if (charCategory != UnicodeCategory.NonSpacingMark)
+                    {
+                        if (charCategory == UnicodeCategory.LowercaseLetter) {
+                            textFormatted += $":regional_indicator_{ch}:";
+                        }
+                        else if (charCategory == UnicodeCategory.DecimalDigitNumber) {
+                            // 0 -> :zero:
+                            // ...
+                            // 9 -> :nine:
+                        }
+                        else if (charCategory == UnicodeCategory.LineSeparator) {
+                            textFormatted += ch;
+                        }
+                        else if (charCategory == UnicodeCategory.SpaceSeparator) {
+                            textFormatted += "   ";
+                        }
+                        else if (texto.Length - i != 1 && NeoSmart.Unicode.Emoji.IsEmoji($"{ch}{texto[i + 1]}", 1)) {
+                            textFormatted += $"{ch}{texto[i + 1]}";
+                            i++;
+                        }
+                        else
+                        {
+                            // falta arrumar o emoji de cor
+                            if (!(texto.Length - i != 1 && NeoSmart.Unicode.Emoji.SkinTones.All.All(t => t.AsUtf32.ToString() == $"{ch}{texto[i + 1]}"))) {
+                                textFormatted += "❌";
+                            }
+                        }
+
+                        textFormatted += " ";
+                    }
+                }
+                textFormatted = textFormatted.Normalize(NormalizationForm.FormC);
+
+                await Contexto.Channel.SendMessageAsync(textFormatted);
+            }
+            
+            else
+            {
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bigtextIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("bigtextUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Kurosawa Dia melhor bot")));
             }
         }
     }
