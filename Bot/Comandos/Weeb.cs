@@ -272,11 +272,11 @@ namespace Bot.Comandos
                     }
                 }
 
-                if (!(input.Length > 2048))
+                if (!(owoifiedText.Length > 2048))
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription(input)
+                        .WithDescription(owoifiedText)
                     .Build());
                 }
                 else
