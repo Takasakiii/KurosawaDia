@@ -37,7 +37,15 @@ namespace Bot.Comandos
             }
         }
 
+        public async Task convite()
+        {
+            await info();
+        }
 
+        public async Task help()
+        {
+            await ajuda();
+        }
 
         public async Task ajuda()
         {
@@ -48,6 +56,7 @@ namespace Bot.Comandos
                 + "Se você usar `{0}comandos` no chat vai aparecer tudo que eu posso fazer atualmente (isso não é demais 😁)\n"
                 + "Sério estou muito ansiosa para passar um tempo com você e também te ajudar XD\n"
                 + "Se você tem ideias de mais coisas que eu possa fazer por favor mande uma sugestão com o `{0}sugestao`\n\n"
+                + "Se você quer saber mais sobre mim, me convidar para seu servidor, ou até entrar em meu servidor de suporte use o comando `{0}info`\n\n"
                 + "E como a Mari fala Let's Go!!", PrefixoServidor))
                 .WithFooter(await StringCatch.GetStringAsync("ajudaProjeto", "Kurosawa Dia é um projeto feito com amor e carinho pelos seus desenvolvedores!"), await StringCatch.GetStringAsync("ajudaImg", "https://i.imgur.com/Cm8grM4.png"))
                 .WithImageUrl("https://i.imgur.com/PC5QDiX.png")
@@ -72,7 +81,7 @@ namespace Bot.Comandos
 
                 if(modulo ==  ListaModulos.ajuda || msg == "ajuda")
                 {
-                    await help();
+                    await helpajuda();
                 }
                 else if (modulo == ListaModulos.utilidade || msg == "utilidade")
                 {
@@ -170,7 +179,7 @@ namespace Bot.Comandos
                     .WithColor(Color.DarkPurple)
                 .Build());
         }
-        private async Task help()
+        private async Task helpajuda()
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle(await StringCatch.GetStringAsync("helpModulo", "Módulo Ajuda (❓)"))
