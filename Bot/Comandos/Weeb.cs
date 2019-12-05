@@ -10,7 +10,6 @@ using System;
 using System.Threading.Tasks;
 using Weeb.net;
 using Weeb.net.Data;
-using System.Text.RegularExpressions;
 using static MainDatabaseControler.Modelos.Servidores;
 using static Bot.Extensions.ErrorExtension;
 using TokenType = Weeb.net.TokenType;
@@ -172,7 +171,7 @@ namespace Bot.Comandos
             await GetWeeb(new WeebInfo("dance", await StringCatch.GetStringAsync("danceTxt", "está dançando com"), await StringCatch.GetStringAsync("danceSelf", "começou a dançar")));
         }
 
-        //Comando Fuck (leny face)
+        //Comando Fuck (lenny face)
         public async Task fuck()
         {
             if (!Contexto.IsPrivate)
@@ -224,23 +223,53 @@ namespace Bot.Comandos
                 }
             }
         }
+        /// <summary>
+        /// Comando OwOify
+        /// </summary>
         public async Task owoify()
         {
             if (!(Comando.Length == 1))
             {
                 string input = string.Join(" ", Comando, 1, Comando.Length - 1);
                 string[] faces = { @"(・\`ω\´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
-                input = Regex.Replace(input, @"(?:r|l)", "w");
-                input = Regex.Replace(input, @"(?:R|L)", "W");
-                input = Regex.Replace(input, @"n([aeiouãõáéíóúâêîôûàèìòùäëïöü])", "ny$1");
-                input = Regex.Replace(input, @"N([aeiouãõáéíóúâêîôûàèìòùäëïöü])", "Ny$1");
-                input = Regex.Replace(input, @"N([AEIOUÃÕÁÉÍÓÚÂÊÎÔÛÀÈÌÒÙÄËÏÖÜ])", "NY$1");
-                input = Regex.Replace(input, @"ove", "uv");
+                string owoifiedText = string.Empty;
 
                 Random rand = new Random();
-                Regex regex = new Regex(@"\!+");
-                while (regex.Match(input).Success) {
-                    input = regex.Replace(input, $" {faces[rand.Next(0, faces.Length)]} ", 1);
+
+                for (int i = 0; i < input.Length; i++) {
+                    char ch = input[i];
+
+                    if (ch == 'r' || ch == 'l') {
+                        owoifiedText += "w";
+                    }
+                    else if (input.Length - i != 1 && (ch == 'n' || ch == 'N')) {
+                        char nextNormalizated = input[i + 1].ToString().Normalize(NormalizationForm.FormD)[0];
+
+                        if (nextNormalizated == 'a' || nextNormalizated == 'e' || nextNormalizated == 'i' || nextNormalizated == 'o' || nextNormalizated == 'u') {
+                            owoifiedText += $"{ch}y";
+                        }
+                        else if (nextNormalizated == 'A' || nextNormalizated == 'E' || nextNormalizated == 'I' || nextNormalizated == 'O' || nextNormalizated == 'U') {
+                            owoifiedText += $"{ch}Y";
+                        }
+                        else {
+                            owoifiedText += ch;
+                        }
+                    }
+                    else if (ch == 'R' || ch == 'L') {
+                        owoifiedText += "W";
+                    }
+                    else if (ch == '!') {
+                        if (!(input.Length - i != 1 && input[i + 1] == '!')) {
+                            owoifiedText += $" {faces[rand.Next(0, faces.Length)]} ";
+                        }
+                    }
+                    else if (input.Length - i > 3 && input[i] == 'o' && input[i + 1] == 'v' && input[i + 2] == 'e') {
+                        owoifiedText += "uv";
+                        i += 2;
+                    }
+                    else {
+                        owoifiedText += ch;
+                    }
                 }
 
                 if (!(input.Length > 2048))
@@ -260,7 +289,9 @@ namespace Bot.Comandos
                 await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
             }
         }
-        
+        /// <summary>
+        /// Comando BigText, que transforma um texto em um texto feito de emojis do Discord.
+        /// </summary>
         public async Task bigtext()
         {
             if (!(Comando.Length == 1))
