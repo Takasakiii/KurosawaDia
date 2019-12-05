@@ -47,6 +47,20 @@ namespace Bot.Comandos
             await ajuda();
         }
 
+        public async Task newhelp()
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+
+
+            string modulos = "";
+            foreach(Type modulo in ModuleContexto.Classes)
+            {
+                modulos += $"{modulo.Name}\n";
+            }
+            await Contexto.Channel.SendMessageAsync(modulos);
+        }
+
+
         public async Task ajuda()
         {
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()

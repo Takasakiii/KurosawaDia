@@ -30,13 +30,13 @@ namespace Bot.Extensions
         private Modulos[] MethodsModules;
 
         //Array responsavel por armazenar o modelo das classes filhas / modulos
-        private Type[] Classes;
+        internal Type[] Classes { private set; get; }
 
         //Array responsavel por armazenar os parametros necessarios para instanciar as classes filhas / modulos
         private object[] Args;
 
         //Contrutor da Classe ModulesConcat e responsavel por obter todos os modulos / classes filhas da classe principal e armazenar em seus devidos arrays
-        public ModulesConcat()
+        internal ModulesConcat()
         {
             Classes = Assembly.GetAssembly(typeof(T)).GetTypes().Where(meutipo => meutipo.IsSubclassOf(typeof(T)) && meutipo.IsClass && !meutipo.IsAbstract).ToArray();
 
