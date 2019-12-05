@@ -247,9 +247,11 @@ namespace Bot.Comandos
 
                         if (nextNormalizated == 'a' || nextNormalizated == 'e' || nextNormalizated == 'i' || nextNormalizated == 'o' || nextNormalizated == 'u') {
                             owoifiedText += $"{ch}y";
+                            i++;
                         }
                         else if (nextNormalizated == 'A' || nextNormalizated == 'E' || nextNormalizated == 'I' || nextNormalizated == 'O' || nextNormalizated == 'U') {
                             owoifiedText += $"{ch}Y";
+                            i++;
                         }
                         else {
                             owoifiedText += ch;
