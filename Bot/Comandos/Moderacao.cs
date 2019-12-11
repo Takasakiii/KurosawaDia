@@ -35,6 +35,7 @@ namespace Bot.Comandos
              * 
              */
              //Quem inventa é o inventor, segue o esperado pq vc não é inventor caralho
+             //aaa
         }
 
         private async Task moderacao(int tipo) 
