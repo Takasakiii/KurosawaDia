@@ -50,12 +50,17 @@ namespace Bot.Comandos
         public async Task newhelp()
         {
             EmbedBuilder embed = new EmbedBuilder();
+            
 
-        
             string modulos = "";
             foreach(Type modulo in ModuleContexto.Classes)
             {
-                modulos += $"{modulo.Name}\n";
+                modulos += $"{modulo.Name}: ```\n";
+                MethodInfo[] arrayMetodos = modulo.GetMethods();
+                for(int i = 0; i < (arrayMetodos.Length - 4); i++){
+                    modulos += $"{arrayMetodos[i].Name}\n";
+                }
+                modulos += "```\n";
             }
             await Contexto.Channel.SendMessageAsync(modulos);
         }
