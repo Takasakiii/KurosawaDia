@@ -51,7 +51,7 @@ namespace Bot.Comandos
         {
             EmbedBuilder embed = new EmbedBuilder();
 
-
+        
             string modulos = "";
             foreach(Type modulo in ModuleContexto.Classes)
             {
