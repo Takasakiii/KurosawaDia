@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 using static MainDatabaseControler.Modelos.Servidores;
 
+//test
 namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
