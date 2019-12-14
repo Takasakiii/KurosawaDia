@@ -7,7 +7,7 @@ using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
-using System.Reflection;
+using Bot.Modelos;
 using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 using static MainDatabaseControler.Modelos.Servidores;
@@ -16,19 +16,6 @@ namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
     {
-        private enum EmojisNumberList {
-            zero = 0,
-            one = 1,
-            two = 2,
-            three = 3,
-            four = 4,
-            five = 5,
-            six = 6,
-            seven = 7,
-            eight = 8,
-            nine = 9
-        }
-
         private PermissoesServidores Permissao = PermissoesServidores.Normal;
         public Ajuda(CommandContext contexto, params object[] args) : base(contexto, args)
         {
@@ -245,7 +232,7 @@ namespace Bot.Comandos
                      .WithTitle(await StringCatch.GetStringAsync("utilidadeModulo", "Módulo Utilidade (🛠)"))
                      .WithDescription(await StringCatch.GetStringAsync("utilidadeInfo", "Este módulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
                      .WithColor(Color.DarkPurple)
-                     .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, {0}bug, `{0}perfil`", PrefixoServidor))
+                     .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}bug`, `{0}perfil`, `{0}whatsify`", PrefixoServidor))
                      .WithImageUrl(await StringCatch.GetStringAsync("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
                  .Build());
         }
@@ -276,7 +263,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(await StringCatch.GetStringAsync("weebInfo", "Este módulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, `{0}owoify`", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, `{0}owoify`, `{0}bigtext`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build());
         }

@@ -126,7 +126,7 @@ namespace Bot.Comandos
 
             if (imgUrl != "")
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", Contexto.User.ToString()));
+                embed.WithDescription(await StringCatch.GetStringAsync("magikAguarde", "**{0}**, estou fazendo magica com a imagem. Por favor, aguarde.", Contexto.User.ToString()));
                 embed.WithImageUrl(await StringCatch.GetStringAsync("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                 IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 Tuple<bool, long> res = await new HttpExtensions().PegarTamanhoArquivo(imgUrl);
