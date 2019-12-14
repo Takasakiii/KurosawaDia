@@ -1,0 +1,29 @@
+.center {
+	width: fit-content;
+	height: fit-content;
+	background-color: white;
+	border-radius: 10%;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  	
+	margin: auto;
+}
+
+div.margem{
+    margin: 20px;
+    width: 300px;
+}
+
+img.avatar{
+    border-radius: 50%;
+    width: 198px;
+    height: 100%;
+}
+
+img.emoji{
+    width: 22px;
+    height: 22px;
+}
