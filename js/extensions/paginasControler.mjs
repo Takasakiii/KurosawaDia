@@ -9,4 +9,6 @@ export default class paginasControler{
             div.innerHTML = conteudo;
         }, 'html');
     }
+
+
 }
