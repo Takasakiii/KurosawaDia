@@ -344,7 +344,7 @@ namespace Bot.Comandos
                                 if (operacaoRetorno != CargosDAO.Operacao.Incompleta) {
                                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.Green)
-                                        .WithTitle(await StringCatch.GetStringAsync("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", Contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? StringCatch.GetStringAsync("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? StringCatch.GetStringAsync("addpicargoAtualizado", "atualizado") : StringCatch.GetStringAsync("addpicargoDeletado", "removido")))
+                                        .WithTitle(await StringCatch.GetStringAsync("addpicargofoi", "**{0}**, o cargo `{1}` foi {2} com sucesso 😃", Contexto.User.Username, cargoSelecionado.Name, (operacaoRetorno == CargosDAO.Operacao.Insert) ? await StringCatch.GetStringAsync("addpicargoAdicionar", "adicionado") : (operacaoRetorno == CargosDAO.Operacao.Update) ? await StringCatch.GetStringAsync("addpicargoAtualizado", "atualizado") : await StringCatch.GetStringAsync("addpicargoDeletado", "removido")))
                                         .Build());
                                 }
                                 else {
