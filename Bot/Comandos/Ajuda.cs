@@ -46,7 +46,7 @@ namespace Bot.Comandos
         {
             await ajuda();
         }
-
+/*
         public async Task newhelp()
         {
             EmbedBuilder embed = new EmbedBuilder();
@@ -81,8 +81,8 @@ namespace Bot.Comandos
             }
             await Contexto.Channel.SendMessageAsync(modulos);
             */
-        }
-
+        //}
+        
 
         public async Task ajuda()
         {
