@@ -334,11 +334,14 @@ namespace Bot.Comandos
                                     textFormatted += $"{ch}{texto[i + 1]}";
                                     i++;
                                     break;
+                                default:
+                                    textFormatted += "❌";
+                                    break;
                             }
                         }
                         else
                         {
-                            textFormatted += ":x:";
+                            textFormatted += "❌";
                         }
 
                         textFormatted += " ";
