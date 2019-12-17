@@ -62,13 +62,15 @@ namespace Bot.Comandos
                                         while(construtor.Count < quantidade){
                                             List<IMessage> temp = (await Contexto.Channel.GetMessagesAsync(msgRef, Direction.Before).FlattenAsync()).ToList();
                                             temp = temp.FindAll(x => x.Author == resUser.Item1);
+                                            if (temp.Count == 0) break;
                                             msgRef = temp[temp.Count - 1];
                                             construtor.AddRange(temp);
                                         }
                                         mensagens = construtor;
                                     }else {
-                                        mensagens = (await Contexto.Channel.GetMessagesAsync(limit: Convert.ToInt32(quantidade) + 1).FlattenAsync()).ToList();
+                                        mensagens = (await Contexto.Channel.GetMessagesAsync(limit: Convert.ToInt32(quantidade)).FlattenAsync()).ToList();
                                     }
+                                    await Contexto.Message.DeleteAsync();
                                     await((ITextChannel)Contexto.Channel).DeleteMessagesAsync(mensagens);
                                 }catch{
                                     await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "a quantidade de mensagens informada não é um numero válido."), new DadosErro(await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaArgs", "quantidade usuario"), await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaExemp", "20 @Yummi#1281")));
