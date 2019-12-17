@@ -42,44 +42,47 @@ namespace Bot.Comandos
         }
 
 
-        public async Task limparchat(){
-            if(!Contexto.IsPrivate){
-                SocketGuildUser author = Contexto.User as SocketGuildUser;
-                if(author.GuildPermissions.ManageMessages){
-                    if(Comando.Length > 1){
-                        Tuple <IUser, string> resUser = null;
-                        if(Comando.Length > 2){
-                            resUser = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), Comando[2]);
-                        }
-                        try{
-                            uint quantidade = Convert.ToUInt32(Comando[1]);
-                            List<IMessage> mensagens = null;
-                            if(resUser != null){
-                                List<IMessage> construtor = new List<IMessage>();
-                                IMessage msgRef = Contexto.Message;
-                                while(construtor.Count < quantidade){
-                                    List<IMessage> temp = (await Contexto.Channel.GetMessagesAsync().FlattenAsync()).ToList();
-                                    construtor.AddRange(temp.FindAll(x => x.Author == resUser.Item1));
-                                }
-                                mensagens = construtor;
-                            }else {
-                                mensagens = (await Contexto.Channel.GetMessagesAsync(limit: Convert.ToInt32(quantidade)).FlattenAsync()).ToList();
+        public Task limparchat(){
+            new Thread(async() => {
+                if(!Contexto.IsPrivate){
+                    SocketGuildUser author = Contexto.User as SocketGuildUser;
+                    if(author.GuildPermissions.ManageMessages){
+                        if(Comando.Length > 1){
+                            Tuple <IUser, string> resUser = null;
+                            if(Comando.Length > 2){
+                                resUser = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), Comando[2]);
                             }
-                            await((ITextChannel)Contexto.Channel).DeleteMessagesAsync(mensagens);
-                        }catch{
-                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "A quantidade de mensagens digitada não é um numero válido"), new DadosErro(await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaArgs", "quantidade usuario"), await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaExemp", "20 @Yummi#1281")));
+                            try{
+                                uint quantidade = Convert.ToUInt32(Comando[1]);
+                                List<IMessage> mensagens = null;
+                                if(resUser != null){
+                                    List<IMessage> construtor = new List<IMessage>();
+                                    IMessage msgRef = Contexto.Message;
+                                    while(construtor.Count < quantidade){
+                                        List<IMessage> temp = (await Contexto.Channel.GetMessagesAsync().FlattenAsync()).ToList();
+                                        construtor.AddRange(temp.FindAll(x => x.Author == resUser.Item1));
+                                    }
+                                    mensagens = construtor;
+                                }else {
+                                    mensagens = (await Contexto.Channel.GetMessagesAsync(limit: Convert.ToInt32(quantidade)).FlattenAsync()).ToList();
+                                }
+                                await((ITextChannel)Contexto.Channel).DeleteMessagesAsync(mensagens);
+                            }catch{
+                                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "A quantidade de mensagens digitada não é um numero válido"), new DadosErro(await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaArgs", "quantidade usuario"), await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaExemp", "20 @Yummi#1281")));
+                            }
                         }
-                    }
-                    else
-                    {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "Você precisa por a quantidade de mensagens que deseja apagar"), new DadosErro(await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaArgs", "quantidade usuario"), await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaExemp", "20 @Yummi#1281")));
+                        else
+                        {
+                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "Você precisa por a quantidade de mensagens que deseja apagar"), new DadosErro(await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaArgs", "quantidade usuario"), await StringCatch.GetStringAsync("limparchatQuantidadeInvalidaExemp", "20 @Yummi#1281")));
+                        }
+                    }else{
+                        await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("limparchatPermissao", "Gerenciar Mensagens"));
                     }
                 }else{
-                    await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("limparchatPermissao", "Gerenciar Mensagens"));
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "Esse comando não pode ser execultado no privado"));
                 }
-            }else{
-                 await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("limparchatQuantidadeInvalida", "Esse comando não pode ser execultado no privado"));
-            }
+            }).Start();
+            return Task.CompletedTask;
         }
 
 
