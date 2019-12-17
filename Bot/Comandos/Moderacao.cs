@@ -60,8 +60,10 @@ namespace Bot.Comandos
                                         List<IMessage> construtor = new List<IMessage>();
                                         IMessage msgRef = Contexto.Message;
                                         while(construtor.Count < quantidade){
-                                            List<IMessage> temp = (await Contexto.Channel.GetMessagesAsync().FlattenAsync()).ToList();
-                                            construtor.AddRange(temp.FindAll(x => x.Author == resUser.Item1));
+                                            List<IMessage> temp = (await Contexto.Channel.GetMessagesAsync(msgRef, Direction.Before).FlattenAsync()).ToList();
+                                            temp = temp.FindAll(x => x.Author == resUser.Item1);
+                                            msgRef = temp[temp.Count - 1];
+                                            construtor.AddRange(temp);
                                         }
                                         mensagens = construtor;
                                     }else {
