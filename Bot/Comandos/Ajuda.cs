@@ -242,7 +242,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("moderacaoModulo", "Módulo Moderação (⚖)"))
                     .WithDescription(await StringCatch.GetStringAsync("moderacaoInfo", "Este módulo possui coisas para te ajudar a moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("moderacaoCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("moderacaoCmds", "`{0}kick`, `{0}ban`, `{0}softban`", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("moderacaoCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("moderacaoCmds", "`{0}kick`, `{0}ban`, `{0}softban`, `{0}limparchat`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("moderacaoImg", "https://i.imgur.com/hiu0Vh0.jpg"))
                 .Build());
 
