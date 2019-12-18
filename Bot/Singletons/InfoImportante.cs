@@ -7,5 +7,6 @@
 
         public const string conviteDia = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=conviteDia";
         public const string conviteServer = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=serverDia";
+        public const string topgg = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=topgg";
     }
 }

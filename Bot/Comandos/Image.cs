@@ -41,7 +41,7 @@ namespace Bot.Comandos
         public async Task cat()
         {
             Links links = new Links();
-            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Texto: await StringCatch.GetStringAsync("catTxt", "Meow")), links.cat);
+            await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel, Texto: "Meow"), links.cat);
         }
 
         public async Task dog()
@@ -75,14 +75,14 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarPessoa", "eu não encontrei essa pessoa no servidor."), new DadosErro(await StringCatch.GetStringAsync("parametroPessoa", "@pessoa"), "@KingCerverus#2490"));
+                        await Erro.EnviarErroAsync("eu não encontrei essa pessoa no servidor.", new DadosErro("@pessoa", "@KingCerverus#2490"));
                     }
                 }
 
                 if (user != null)
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("magikavatarAguarde", "**{0}**, estou fazendo mágica com o avatar. Por favor, aguarde.", Contexto.User.ToString()));
-                    embed.WithImageUrl(await StringCatch.GetStringAsync("magikavatarAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
+                    embed.WithDescription($"**{Contexto.User}**, estou fazendo mágica com o avatar. Por favor, aguarde.");
+                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
                     IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
 
                     string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
@@ -97,13 +97,13 @@ namespace Bot.Comandos
                     }
                     catch
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarErro", "infelizmente a diretora Mari roubou a minha magia 😔"));
+                        await Erro.EnviarErroAsync("infelizmente a diretora Mari roubou a minha magia 😔");
                     }
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikavatarDm", "eu só posso pegar o avatar de outras pessoas em um servidor."));
+                await Erro.EnviarErroAsync("eu só posso pegar o avatar de outras pessoas em um servidor.");
             }
         }
 
@@ -127,8 +127,8 @@ namespace Bot.Comandos
 
             if (imgUrl != "" && await new HttpExtensions().IsImageUrl(imgUrl))
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("magikAguarde", "**{0}**, estou fazendo magica com a imagem. Por favor, aguarde.", Contexto.User.ToString()));
-                embed.WithImageUrl(await StringCatch.GetStringAsync("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
+                embed.WithDescription($"**{Contexto.User}**, estou fazendo magica com a imagem. Por favor, aguarde.");
+                embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
                 IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 Tuple<bool, long> res = await new HttpExtensions().PegarTamanhoArquivo(imgUrl);
 
@@ -144,7 +144,7 @@ namespace Bot.Comandos
                     }
                     catch
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("mgikErro", "infelizmente a diretora mari roubou a minha magia 😔"));
+                        await Erro.EnviarErroAsync("infelizmente a diretora mari roubou a minha magia 😔");
                     }
                 }
                 else
@@ -157,13 +157,13 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("mgiktamanho", "sua imagem é muito poderosa para mim. Por favor, envie GIFs até 100kb 😥"));
+                        await Erro.EnviarErroAsync("sua imagem é muito poderosa para mim. Por favor, envie GIFs até 100kb 😥");
                     }
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikSemImg", "você precisa me falar com que imagem você quer que eu faça mágica."), new DadosErro(await StringCatch.GetStringAsync("usoImagem", "<imagem>"), "https://i.imgur.com/cZDlYXr.png"));
+                await Erro.EnviarErroAsync("você precisa me falar com que imagem você quer que eu faça mágica.", new DadosErro("<imagem>", "https://i.imgur.com/cZDlYXr.png"));
             }
         }
 

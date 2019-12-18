@@ -42,7 +42,7 @@ namespace Bot.Comandos
 
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription(await StringCatch.GetStringAsync("respostaPing", "Meu ping é {0} 🏓", client.Latency)) //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
+                        .WithDescription($"Meu ping é {client.Latency} 🏓") //pedreragem top e continua aki em av3 kkkkkkkk esperando esse comentario em av4 kkkkkkk
                     .Build());
 
             }
@@ -65,13 +65,13 @@ namespace Bot.Comandos
                     {
                         IGuild servi = Contexto.Client.GetGuildAsync(Convert.ToUInt64(comando[1])).GetAwaiter().GetResult();
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("setEspecialSetado", "O servidor `{0}` ganhou a permissão `{1}`.", servi.Name, (PermissoesServidores)Convert.ToInt32(comando[2])))
+                                .WithDescription($"O servidor `{servi.Name}` ganhou a permissão `{(PermissoesServidores)Convert.ToInt32(comando[2])}`.")
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("setEspecialNaoFoi", "não foi possivel atualizar as permmissões do servidor."));
+                        await Erro.EnviarErroAsync("não foi possivel atualizar as permmissões do servidor.");
                     }
                 }
                 catch
@@ -84,10 +84,10 @@ namespace Bot.Comandos
                     }
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("setEspecialErro", "Meu caro, você não usou o comando do jeito certo 😔"))
-                        .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando: "), await StringCatch.GetStringAsync("setEspecialUso", "`{0}setespecial <id servidor> <tipo>`", PrefixoServidor))
-                        .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo: "), await StringCatch.GetStringAsync("setEspecialExemplo", "`{0}setespecial 556580866198077451 1`", PrefixoServidor))
-                        .AddField(await StringCatch.GetStringAsync("setespecialTiposTitle", "Tipos: "), await StringCatch.GetStringAsync("setespecialTipos", "{0}", opcs))
+                        .WithDescription("Meu caro, você não usou o comando do jeito certo 😔")
+                        .AddField("Uso do Comando: ", $"`{PrefixoServidor}setespecial <id servidor> <tipo>`")
+                        .AddField("Exemplo: ", $"`{PrefixoServidor}setespecial 556580866198077451 1`")
+                        .AddField("Tipos: ", opcs)
                         .WithColor(Color.DarkPurple)
                      .Build());
                 }
@@ -127,21 +127,21 @@ namespace Bot.Comandos
                         try
                         {
                             new EmbedControl().SendMessage((canal as IMessageChannel), id_msg[1]);
-                            embed.WithTitle(await StringCatch.GetStringAsync("sendMsgEnviada", "Mensagem enviada para o canal `#{0}`.", canal.Name));
-                            embed.WithFooter(await StringCatch.GetStringAsync("sendMsgServidor", "Servidor: {0}", (canal as ITextChannel).Guild.Name));
+                            embed.WithTitle($"Mensagem enviada para o canal `#{canal.Name}`.");
+                            embed.WithFooter($"Servidor: {(canal as ITextChannel).Guild.Name}");
                             embed.WithDescription(id_msg[1]);
                         }
                         catch
                         {
                             embed.WithColor(Color.Red);
-                            embed.WithDescription(await StringCatch.GetStringAsync("sendCanalErro", "**{0}**, eu não consegui enviar a mensagem no canal `#{0}` 😔", Contexto.User.ToString(), canal.Name));
-                            embed.WithFooter(await StringCatch.GetStringAsync("sendMsgServidor", "Servidor: {0}", (canal as ITextChannel).Guild.Name));
+                            embed.WithDescription($"**{Contexto.User}**, eu não consegui enviar a mensagem no canal `#{canal.Name}` 😔");
+                            embed.WithFooter($"Servidor: {(canal as ITextChannel).Guild.Name}");
                         }
                     }
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("sendErroCanal", "**{0}**, eu não encontrei esse canal 😔", Contexto.User.ToString()));
+                        embed.WithDescription($"**{Contexto.User}**, eu não encontrei esse canal 😔");
                     }
                 }
                 else if (id_msg[0][0] == 's')
@@ -160,15 +160,15 @@ namespace Bot.Comandos
                                 try
                                 {
                                     new EmbedControl().SendMessage((canais[i] as IMessageChannel), id_msg[1]);
-                                    embed.WithTitle(await StringCatch.GetStringAsync("sendServidorEnviada", "Mensagem enviada para o canal `#{0}`.", (canais[i] as IMessageChannel).Name));
-                                    embed.WithFooter(await StringCatch.GetStringAsync("sendServidorServer", "Servidor: {0}", (canais[i] as ITextChannel).Guild.Name));
+                                    embed.WithTitle($"Mensagem enviada para o canal `#{(canais[i] as IMessageChannel).Name}`.");
+                                    embed.WithFooter($"Servidor: {(canais[i] as ITextChannel).Guild.Name}");
                                     embed.WithDescription(id_msg[1]);
                                 }
                                 catch
                                 {
                                     embed.WithColor(Color.Red);
-                                    embed.WithDescription(await StringCatch.GetStringAsync("sendServerErro", "**{0}**, eu não consegui enviar a mensagem no canal `#{0}` 😔", Contexto.User.ToString(), (canais[i] as IMessageChannel).Name));
-                                    embed.WithFooter(await StringCatch.GetStringAsync("sendServidorServer", "Servidor: {0}", (canais[i] as ITextChannel).Guild.Name));
+                                    embed.WithDescription($"**{Contexto.User}**, eu não consegui enviar a mensagem no canal `#{(canais[i] as IMessageChannel).Name}` 😔");
+                                    embed.WithFooter($"Servidor: {(canais[i] as ITextChannel).Guild.Name}");
                                 }
                                 parar = true;
                             }
@@ -176,15 +176,15 @@ namespace Bot.Comandos
                         if (i == canais.Count && !parar)
                         {
                             embed.WithColor(Color.Red);
-                            embed.WithDescription(await StringCatch.GetStringAsync("sendServidorSemPermissao", "O servidor não possui canais de texto cuja eu possa mandar essa mensagem 😔"));
-                            embed.WithFooter(await StringCatch.GetStringAsync("sendServidorServer", "Servidor: {0}", servidor.Name));
+                            embed.WithDescription("O servidor não possui canais de texto cuja eu possa mandar essa mensagem 😔");
+                            embed.WithFooter($"Servidor: {servidor.Name}");
                         }
                     }
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("sendServidorSemCanais", "O servidor não possui canais de texto 😔"));
-                        embed.WithFooter(await StringCatch.GetStringAsync("sendServidorServer", "Servidor: {0}", servidor.Name));
+                        embed.WithDescription("O servidor não possui canais de texto 😔");
+                        embed.WithFooter($"Servidor: {servidor.Name}");
                     }
                 }
                 else if (id_msg[0][0] == 'u')
@@ -196,29 +196,29 @@ namespace Bot.Comandos
                         try
                         {
                             new EmbedControl().SendMessage(await user.GetOrCreateDMChannelAsync(), id_msg[1]);
-                            embed.WithTitle(await StringCatch.GetStringAsync("sendMsgEnviada", "Mensagem enviada para {0}.", user));
+                            embed.WithTitle($"Mensagem enviada para {user}.");
                             embed.WithDescription(id_msg[1]);
                         }
                         catch
                         {
                             embed.WithColor(Color.Red);
-                            embed.WithDescription(await StringCatch.GetStringAsync("sendPvBloqueado", "**{0}**, o privado do(a) {1} está bloqueado 😔", Contexto.User.ToString(), user.Mention.ToString()));
+                            embed.WithDescription($"**{Contexto.User}**, o privado do(a) {user.Mention} está bloqueado 😔");
                         }
                     }
                     else
                     {
                         embed.WithColor(Color.Red);
-                        embed.WithDescription(await StringCatch.GetStringAsync("sendErroUsuario", "**{0}**, eu não encontrei esse usuário 😔", Contexto.User.ToString()));
+                        embed.WithDescription($"**{Contexto.User}**, eu não encontrei esse usuário 😔");
                     }
 
                 }
                 else
                 {
                     embed.WithColor(Color.Red);
-                    embed.WithTitle(await StringCatch.GetStringAsync("sendErro", "Opção inválida"));
-                    embed.WithDescription(await StringCatch.GetStringAsync("sendErroOpcs", "`c`: Envia no canal que tem o ID que você mandou; \n`s`: Envia em algum canal do servidor com o ID que você mandou; \n`u`: Envia para o usuário com o ID que você mandou."));
-                    embed.AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do Comando:"), await StringCatch.GetStringAsync("usoSend", "`{0}send opc | msg`", PrefixoServidor));
-                    embed.AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo:"), await StringCatch.GetStringAsync("exemploSend", "`{0}send c 588997126126698497 | para de salva print gay`", PrefixoServidor));
+                    embed.WithTitle("Opção inválida");
+                    embed.WithDescription("`c`: Envia no canal que tem o ID que você mandou; \n`s`: Envia em algum canal do servidor com o ID que você mandou; \n`u`: Envia para o usuário com o ID que você mandou.");
+                    embed.AddField("Uso do Comando:", $"`{PrefixoServidor}send opc | msg`");
+                    embed.AddField("Exemplo:", $"`{PrefixoServidor}send c 588997126126698497 | para de salva print gay`");
                 }
 
                 await Contexto.Channel.SendMessageAsync(embed: embed.Build());
@@ -252,7 +252,7 @@ namespace Bot.Comandos
                         await new AdmsDAO().SetAdmAsync(new Adms(new Usuarios(Convert.ToUInt64(user.Id))).SetPerms(perm));
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("setadmOk", "**{0}**, o usuário: ``{1}`` ganhou a permissão ``{2}``.", Contexto.User.ToString(), user.ToString(), perm))
+                                .WithDescription($"**{Contexto.User}**, o usuário: ``{user}`` ganhou a permissão ``{perm}``.")
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
@@ -266,8 +266,8 @@ namespace Bot.Comandos
                         }
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("setadmSemPerm", "Essa permissão não foi encontrada."))
-                                .AddField(await StringCatch.GetStringAsync("setadmTipos", "Tipos: "), await StringCatch.GetStringAsync("setadmTipos2", "{0}", opcs))
+                                .WithDescription("Essa permissão não foi encontrada.")
+                                .AddField("Tipos: ", opcs)
                                 .WithColor(Color.Red)
                             .Build());
                     }
@@ -282,10 +282,10 @@ namespace Bot.Comandos
                     }
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("setadmSemUsuario", "Não encontrei esse usuário."))
-                            .AddField(await StringCatch.GetStringAsync("usosComando", "Usos do Comando: "), await StringCatch.GetStringAsync("setadmUsos", "`{0}setadm @pessoa <tipo>`\n`{0}ban <id membro> <setadm>`", PrefixoServidor))
-                            .AddField(await StringCatch.GetStringAsync("exemplo", "Exemplos: "), await StringCatch.GetStringAsync("setadmExemplos", "`{0}setadm @Kud#4464 1`\n`{0}ban 333313177129582594 1`", PrefixoServidor))
-                            .AddField(await StringCatch.GetStringAsync("setadmTiposTitle", "Tipos: "), await StringCatch.GetStringAsync("setadmTipos", "{0}", opcs))
+                            .WithDescription("Não encontrei esse usuário.")
+                            .AddField("Usos do Comando: ", $"`{PrefixoServidor}setadm @pessoa <tipo>`\n`{PrefixoServidor}ban <id membro> <setadm>`")
+                            .AddField("Exemplos: ", $"`{PrefixoServidor}setadm @Kud#4464 1`\n`{PrefixoServidor}ban 333313177129582594 1`")
+                            .AddField("Tipos: ", opcs)
                             .WithColor(Color.Red)
                         .Build());
                 }
