@@ -59,26 +59,26 @@ namespace Bot.Comandos
                             resposta = resposta_pergunta[1].Trim();
                         }
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("acrCriadaOk", "**{0}**, a reação customizada foi criada com sucesso.", Contexto.User.ToString()))
-                                .AddField(await StringCatch.GetStringAsync("trigger", "Trigger: "), pergunta)
-                                .AddField(await StringCatch.GetStringAsync("resposta", "Reposta: "), resposta)
-                                .AddField(await StringCatch.GetStringAsync("codigo", "Codigo: "), cr.Cod)
+                                .WithDescription($"**{Contexto.User}**, a reação customizada foi criada com sucesso.")
+                                .AddField("Trigger: ", pergunta)
+                                .AddField("Reposta: ", resposta)
+                                .AddField("Codigo: ", cr.Cod)
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("acrErro", "para adicionar uma reação customizada você precisa me falar o trigger e a resposta da reação customizada."), new DadosErro(await StringCatch.GetStringAsync("usoAcr", "trigger | resposta"), await StringCatch.GetStringAsync("exemploAcr", "upei | boa corno")));
+                        await Erro.EnviarErroAsync("para adicionar uma reação customizada você precisa me falar o trigger e a resposta da reação customizada.", new DadosErro("trigger | resposta", "upei | boa corno"));
                     }
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("acrSemPerm", "você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕"));
+                    await Erro.EnviarErroAsync("você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder adicionar uma Reação Customizada nesse servidor 😕");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -106,33 +106,33 @@ namespace Bot.Comandos
                             {
                                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                         .WithColor(Color.DarkPurple)
-                                        .WithDescription(await StringCatch.GetStringAsync("dcrOk", "**{0}**, a reação customizada com o codigo: `{1}` foi deletada do servidor.", Contexto.User.ToString(), codigo))
+                                        .WithDescription($"**{Contexto.User}**, a reação customizada com o codigo: `{codigo}` foi deletada do servidor.")
                                     .Build());
                             }
                             else
                             {
-                                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrNenhuma", "não foi possivel deletar uma reação customizada com esse código."));
+                                await Erro.EnviarErroAsync("não foi possivel deletar uma reação customizada com esse código.");
                             }
 
                         }
                         catch
                         {
-                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrNumero", "isso não é um numero."));
+                            await Erro.EnviarErroAsync("isso não é um numero.");
                         }
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrSemCodigo", "você precisa me falar o código da reação customizada para que eu possa deletar ela."), new DadosErro(await StringCatch.GetStringAsync("usoDcr", "<código>"), await StringCatch.GetStringAsync("exemploDcr", "1")));
+                        await Erro.EnviarErroAsync("você precisa me falar o código da reação customizada para que eu possa deletar ela.", new DadosErro("<código>", "1"));
                     }
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrSemPerm", "você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕"));
+                    await Erro.EnviarErroAsync("você não possui a permissão `Gerenciar Servidor` ou o cargo `Ajudante de Idol` para poder remover uma Reação Customizada nesse servidor 😕");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dcrDm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -162,12 +162,12 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("lcrNenhuma", "o servidor não tem nenhuma reação customizada."));
+                    await Erro.EnviarErroAsync("o servidor não tem nenhuma reação customizada.");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -205,9 +205,9 @@ namespace Bot.Comandos
             if (retornoStrings.Item1 != "")
             {
                 msg = await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithTitle(await StringCatch.GetStringAsync("lcrTxt", "Lista das Reações Customizadas:"))
-                        .AddField(await StringCatch.GetStringAsync("lcrCods", "Codigos: "), retornoStrings.Item1, true)
-                        .AddField(await StringCatch.GetStringAsync("lcrTriggers", "Triggers: "), retornoStrings.Item2, true)
+                        .WithTitle("Lista das Reações Customizadas:")
+                        .AddField("Codigos: ", retornoStrings.Item1, true)
+                        .AddField("Triggers: ", retornoStrings.Item2, true)
                         .WithFooter($"{restricoes[0] + 1} / {restricoes[1]}")
                         .WithColor(Color.DarkPurple)
                     .Build());

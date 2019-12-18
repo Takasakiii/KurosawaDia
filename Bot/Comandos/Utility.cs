@@ -68,18 +68,18 @@ namespace Bot.Comandos
                     }
                     int rnd = new Random().Next(0, msgs.Length);
 
-                    string msgfinal = await StringCatch.GetStringAsync(msgs[rnd].identifier, msgs[rnd].msgDefault);
+                    string msgfinal = msgs[rnd].msgDefault;
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithTitle(msgfinal)
-                        .WithDescription(await StringCatch.GetStringAsync("avatarMsg", "\n\n{0}\n[Link Direto]({1})", user, avatarUrl))
+                        .WithDescription($"\n\n{user}\n[Link Direto]({avatarUrl}")
                         .WithImageUrl(avatarUrl)
                     .Build());
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarErro", "não encontrei essa pessoa."), new DadosErro(await StringCatch.GetStringAsync("avatarUso", "@pessoa"), await StringCatch.GetStringAsync("exemloAvatar", "@Hikari#3172")));
+                    await Erro.EnviarErroAsync("não encontrei essa pessoa.", new DadosErro("@pessoa", "@Hikari#3172"));
                 }
             }
             else
@@ -90,13 +90,13 @@ namespace Bot.Comandos
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithAuthor($"{Contexto.User}")
-                        .WithDescription(await StringCatch.GetStringAsync("avatarMsg", "[Link Direto]({0})", avatar))
+                        .WithDescription($"[Link Direto]({avatar})")
                         .WithImageUrl(avatar)
                     .Build());
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("avatarDm", "desculpe, mas eu não consigo pegar o avatar de outras pessoas no privado 😔"));
+                    await Erro.EnviarErroAsync("desculpe, mas eu não consigo pegar o avatar de outras pessoas no privado 😔");
                 }
             }
         }
@@ -109,12 +109,12 @@ namespace Bot.Comandos
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
-                        .WithDescription(await StringCatch.GetStringAsync("videoChamada", "Para acessar o compartilhamento de tela basta [clicar aqui](https://discordapp.com/channels/{0}/{1}) 😀", Contexto.Guild.Id, usr.VoiceChannel.Id))
+                        .WithDescription($"Para acessar o compartilhamento de tela basta [clicar aqui](https://discordapp.com/channels/{Contexto.Guild.Id}/{usr.VoiceChannel.Id}) 😀")
                 .Build());
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("videoChamadaDm", "você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"));
+                await Erro.EnviarErroAsync("você precisa estar em um canal de voz e em um servidor para usar esse comando 😔");
             }
         }
 
@@ -144,12 +144,12 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "emoji"), await StringCatch.GetStringAsync("emoteExemplo", ":kanna:")));
+                await Erro.EnviarErroAsync("desculpe, mas o emoji que você digitou é invalido.", new DadosErro("emoji", ":kanna:"));
                 return;                    
             }
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                 .WithTitle(name)
-                .WithDescription(await StringCatch.GetStringAsync("emoteLink", "[Link Direto]({0})", url))
+                .WithDescription($"[Link Direto]({url})")
                 .WithImageUrl(url)
                 .WithColor(Color.DarkPurple)
             .Build());
@@ -177,17 +177,17 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("sayErro", "você precisa me falar uma mensagem."), new DadosErro(await StringCatch.GetStringAsync("usoSay", "<mensagem>"), await StringCatch.GetStringAsync("ExemploSay", "@Sora#5614 cade o wallpaper?")));
+                        await Erro.EnviarErroAsync("você precisa me falar uma mensagem.", new DadosErro("<mensagem>", "@Sora#5614 cade o wallpaper?"));
                     }
                 }
                 else
                 {
-                    await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("manageMessages", "Gerenciar Mensagens"));
+                    await Erro.EnviarFaltaPermissaoAsync("Gerenciar Mensagens");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -200,19 +200,19 @@ namespace Bot.Comandos
                     string url = $"{Contexto.Guild.IconUrl}?size=2048";
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithTitle(Contexto.Guild.Name)
-                            .WithDescription(await StringCatch.GetStringAsync("simgTxt", "[Link Direto]({0})", url))
+                            .WithDescription($"[Link Direto]({url})")
                             .WithImageUrl(url)
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("simgIconErro", "o servidor não tem um ícone."));
+                    await Erro.EnviarErroAsync("o servidor não tem um ícone.");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -243,13 +243,13 @@ namespace Bot.Comandos
                     .Build());
 
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("sugestaoEnviada", "**{0}**, eu sou muito grata por você me dar essa sugestão! Vou usá-la para melhorar e te atender melhor ❤", Contexto.User.ToString()))
+                        .WithDescription($"**{Contexto.User}**, eu sou muito grata por você me dar essa sugestão! Vou usá-la para melhorar e te atender melhor ❤")
                         .WithColor(Color.DarkPurple)
                     .Build());
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("sugestaoFalar", "você precisa me falar uma sugestão."), new DadosErro(await StringCatch.GetStringAsync("usoSugestao", "<sugestão>"), await StringCatch.GetStringAsync("exemploSugestao", "fazer com que o bot fique mais tempo on")));
+                await Erro.EnviarErroAsync("você precisa me falar uma sugestão.", new DadosErro("<sugestão>", "fazer com que o bot fique mais tempo on"));
             }
         }
 
@@ -279,13 +279,13 @@ namespace Bot.Comandos
                     .Build());
 
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("bugEnviado", "**{0}**, eu sou muito grata por você ter achado esse bug, ajudou muito ❤", Contexto.User.ToString()))
+                        .WithDescription($"**{Contexto.User}**, eu sou muito grata por você ter achado esse bug, ajudou muito ❤")
                         .WithColor(Color.DarkPurple)
                     .Build());
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bugFalar", "você precisa me falar o bug."), new DadosErro("<bug>", await StringCatch.GetStringAsync("exemploBug", "cadê o status?")));
+                await Erro.EnviarErroAsync("você precisa me falar o bug.", new DadosErro("<bug>", "cadê o status?"));
             }
         }
 
@@ -322,24 +322,24 @@ namespace Bot.Comandos
                     }
 
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(await StringCatch.GetStringAsync("perfilTitle", user.ToString()))
+                            .WithTitle(user.ToString())
                             .WithThumbnailUrl(user.GetAvatarUrl(size: 2048) ?? user.GetDefaultAvatarUrl())
-                            .WithDescription(await StringCatch.GetStringAsync("perfilDesc", "Você tem {0}% dos pontos que faltam pra você subir de nivel.", ((pi.FragmentosPI * 100) / sucesso_total.Item2)))
-                            .AddField(await StringCatch.GetStringAsync("perilFieldTitle1", "Seus Pontos:"), await StringCatch.GetStringAsync("perilFieldValue1", pi.FragmentosPI.ToString()), true)
-                            .AddField(await StringCatch.GetStringAsync("perilFieldTitle2", "Seu Nivel:"), await StringCatch.GetStringAsync("perilFieldValue2", pi.PI.ToString()), true)
-                            .AddField(await StringCatch.GetStringAsync("perilFieldTitle3", "Seu Progresso:"), await StringCatch.GetStringAsync("perilFieldValue3", barra))
-                            .WithFooter(await StringCatch.GetStringAsync("perilFooter", "{0}/{1}", pi.FragmentosPI.ToString(), sucesso_total.Item2.ToString()))
+                            .WithDescription($"Você tem {((pi.FragmentosPI * 100) / sucesso_total.Item2)}% dos pontos que faltam pra você subir de nivel.")
+                            .AddField("Seus Pontos:",  pi.FragmentosPI.ToString(), true)
+                            .AddField("Seu Nivel:", pi.PI.ToString(), true)
+                            .AddField("Seu Progresso:", barra)
+                            .WithFooter($"{pi.FragmentosPI}/{sucesso_total.Item2}")
                             .WithColor(Color.DarkPurple)
                         .Build());
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("perilDesativado", "os pontos interativos estão desativados nesse servidor."));
+                    await Erro.EnviarErroAsync("os pontos interativos estão desativados nesse servidor.");
                 }
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -391,7 +391,7 @@ namespace Bot.Comandos
             }
             else 
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("whatsifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("paramTexto", "<texto>"), await StringCatch.GetStringAsync("whatsifyExemplo", "🙁😕☹️")));
+                await Erro.EnviarErroAsync("você precisa me falar um texto.", new DadosErro("<texto>", "🙁😕☹️"));
             }
         }
     }

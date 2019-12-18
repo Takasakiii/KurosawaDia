@@ -67,17 +67,17 @@ namespace Bot.Comandos
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                                 .WithDescription($"{user.Item1.Mention} {insulto.Insulto}")
                                 .WithColor(Color.DarkPurple)
-                                .WithFooter(await StringCatch.GetStringAsync("insultCriado", "Insulto criado por: {0}", author), icon)
+                                .WithFooter($"Insulto criado por: {author}", icon)
                             .Build());
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("insultSemPessoa", "você não me disse quem deve insultar.", new DadosErro(await StringCatch.GetStringAsync("usoPessoa", "@pessoa"), "@Brunoow#7239")));
+                        await Erro.EnviarErroAsync("você não me disse quem deve insultar.", new DadosErro("@pessoa", "@Brunoow#7239"));
                     }
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("insultFail", "infelizmente ainda não tenho nenhum insulto 😔"));
+                    await Erro.EnviarErroAsync("infelizmente ainda não tenho nenhum insulto 😔");
                 }
             }
             else
@@ -100,14 +100,14 @@ namespace Bot.Comandos
                     if (await new InsultosDAO().InserirInsultoAsync(insulto))
                     {
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("createinsultCriado", "**{0}**, o insulto foi adicionado.", Contexto.User.ToString()))
+                                .WithDescription($"**{Contexto.User}**, o insulto foi adicionado.")
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("criarinsultoErro", "você precisa me falar um insulto."), new DadosErro("insulto", "joguei uma pedra em você e ela entrou em órbita"));
+                    await Erro.EnviarErroAsync("você precisa me falar um insulto.", new DadosErro("insulto", "joguei uma pedra em você e ela entrou em órbita"));
                 }
             }
             else
@@ -132,18 +132,18 @@ namespace Bot.Comandos
                         await new FuckDAO().AddImgAsync(fuck);
 
                         await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("addFuckCriado", "**{0}**, a imagem foi adicionada.", Contexto.User.ToString()))
+                                .WithDescription($"**{Contexto.User}**, a imagem foi adicionada.")
                                 .WithColor(Color.DarkPurple)
                             .Build());
                     }
                     else
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("addFucknEhImg", "isso não é uma imagem."));
+                        await Erro.EnviarErroAsync("isso não é uma imagem.");
                     }
                 }
                 catch
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("fuckAddErro", "você precisa fornecer a url da imagem e se ela é explicita ou não."), new DadosErro("<Url Img> <Explicit>", "https://i.imgur.com/JDlJzBC.gif false"));
+                    await Erro.EnviarErroAsync("você precisa fornecer a url da imagem e se ela é explicita ou não.", new DadosErro("<Url Img> <Explicit>", "https://i.imgur.com/JDlJzBC.gif false"));
                 }
             }
             else

@@ -50,7 +50,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    Selfmsg = msg + " " + StringCatch.GetStringAsync("weebSelfDefault", "ele(a) mesmo.").GetAwaiter().GetResult();
+                    Selfmsg = msg + " " + "ele(a) mesmo.";
                 }
 
                 Tipo = tipo;
@@ -97,7 +97,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "desculpe, mas esse comando só pode ser usado em um servidor."));
+                    await Erro.EnviarErroAsync("desculpe, mas esse comando só pode ser usado em um servidor.");
                     return;
                 }
             }
@@ -111,61 +111,61 @@ namespace Bot.Comandos
         //Comando de Hug (Abraço)
         public async Task hug()
         {
-            await GetWeeb(new WeebInfo("hug", await StringCatch.GetStringAsync("hugTxt", "está abraçando"), await StringCatch.GetStringAsync("hugSelf", "está se abraçando")));
+            await GetWeeb(new WeebInfo("hug", "está abraçando", "está se abraçando"));
         }
 
         //Comando de Kiss (Beijar)
         public async Task kiss()
         {
-            await GetWeeb(new WeebInfo("kiss", await StringCatch.GetStringAsync("kissTxt", "está beijando")));
+            await GetWeeb(new WeebInfo("kiss", "está beijando"));
         }
 
         //Comando de Slap (Bater)
         public async Task slap()
         {
-            await GetWeeb(new WeebInfo("slap", await StringCatch.GetStringAsync("slapTxt", "está dando um tapa no(a)"), await StringCatch.GetStringAsync("slapSelf", "está se batendo")));
+            await GetWeeb(new WeebInfo("slap", "está dando um tapa no(a)", "está se batendo"));
         }
 
         //Comando de Punch (Socar)
         public async Task punch()
         {
-            await GetWeeb(new WeebInfo("punch", await StringCatch.GetStringAsync("punchTxt", "está socando")));
+            await GetWeeb(new WeebInfo("punch", "está socando"));
         }
 
         //Comando de Lick (Lamber)
         public async Task lick()
         {
-            await GetWeeb(new WeebInfo("lick", await StringCatch.GetStringAsync("lickTxt", "está lambendo")));
+            await GetWeeb(new WeebInfo("lick", "está lambendo"));
         }
 
         //Comando de Cry (Chorar)
         public async Task cry()
         {
-            await GetWeeb(new WeebInfo("cry", await StringCatch.GetStringAsync("cryTxt", "está chorando com"), await StringCatch.GetStringAsync("crySelf", "está chorando")));
+            await GetWeeb(new WeebInfo("cry", "está chorando com", "está chorando"));
         }
 
         //Comando Megumin (mostra uma imagem da megumin) 
         public async Task megumin()
         {
-            await GetWeeb(new WeebInfo("megumin", await StringCatch.GetStringAsync("meguminTxt", "Megumin ❤"), auto: false));
+            await GetWeeb(new WeebInfo("megumin", "Megumin ❤", auto: false));
         }
 
         //Comando Rem (Mostra uma imagem da rem)
         public async Task rem()
         {
-            await GetWeeb(new WeebInfo("rem", await StringCatch.GetStringAsync("remTxt", "rem ❤"), auto: false));
+            await GetWeeb(new WeebInfo("rem", "rem ❤", auto: false));
         }
 
         //Comando Pat (Acariciar)
         public async Task pat()
         {
-            await GetWeeb(new WeebInfo("pat", await StringCatch.GetStringAsync("patTxt", "está fazendo carinho no(a)"), await StringCatch.GetStringAsync("patSelf", "está se acariciando")));
+            await GetWeeb(new WeebInfo("pat", "está fazendo carinho no(a)", "está se acariciando"));
         }
 
         //Comando Dance (Dançar)
         public async Task dance()
         {
-            await GetWeeb(new WeebInfo("dance", await StringCatch.GetStringAsync("danceTxt", "está dançando com"), await StringCatch.GetStringAsync("danceSelf", "começou a dançar")));
+            await GetWeeb(new WeebInfo("dance", "começou a dançar"));
         }
 
         //Comando Fuck (lenny face)
@@ -203,7 +203,7 @@ namespace Bot.Comandos
                             
 
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetStringAsync("fuckTxt", "{0} está fudendo {1}.", authorNick, userNick))
+                                    .WithTitle($"{authorNick} está fudendo {userNick}.")
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
@@ -211,7 +211,7 @@ namespace Bot.Comandos
                         else
                         {
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle(await StringCatch.GetStringAsync("fuckSelf", "{0} está se masturbando.", authorNick))
+                                    .WithTitle($"{authorNick} está se masturbando.")
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
@@ -270,7 +270,7 @@ namespace Bot.Comandos
 
                     if (owoifiedText.Length > 2048)
                     {
-                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
+                        await Erro.EnviarErroAsync("desculpe, mas seu texto é muito grande para que eu possa enviar.");
                         return;
                     }
                 }
@@ -281,7 +281,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("owoifyUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Nozomi, eu estou com fome.")));
+                await Erro.EnviarErroAsync("você precisa me falar um texto.", new DadosErro("<texto>", "Nozomi, eu estou com fome."));
             }
         }
         /// <summary>
@@ -340,7 +340,7 @@ namespace Bot.Comandos
 
                         textFormatted += " ";
                         if (textFormatted.Length > 2000) {
-                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bigtextGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
+                            await Erro.EnviarErroAsync("desculpe, mas seu texto é muito grande para que eu possa enviar.");
                             return;
                         }
                     }
@@ -351,7 +351,7 @@ namespace Bot.Comandos
             
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bigtextIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("bigtextUso", "<texto>"), await StringCatch.GetStringAsync("owoifyExemplo", "Kurosawa Dia melhor bot")));
+                await Erro.EnviarErroAsync("você precisa me falar um texto.", new DadosErro("<texto>", "Kurosawa Dia melhor bot"));
             }
         }
     }

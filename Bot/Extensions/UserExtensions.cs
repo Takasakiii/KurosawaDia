@@ -63,6 +63,7 @@ namespace Bot.Extensions
             return Tuple.Create(user, txt.Substring(tamanho, txt.Length - tamanho).Trim());
         }
 
+
         public string GetNickname(IUser user, bool servidor)
         {
             string nome = "";
