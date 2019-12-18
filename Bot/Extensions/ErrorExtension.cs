@@ -56,8 +56,8 @@ namespace Bot.Extensions
                 args += "`";
                 exemplo += "`";
 
-                Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroArgsM1", "Usos do comando:") : await StringCatch.GetStringAsync("baseErroArgs1", "Uso do comando:"), args);
-                Builder.AddField((dados.Length > 1) ? await StringCatch.GetStringAsync("baseErroExM1", "Exemplos:") : await StringCatch.GetStringAsync("baseErroEx1", "Exemplo:"), exemplo);
+                Builder.AddField((dados.Length > 1) ? "Usos do comando:" : "Uso do comando:", args);
+                Builder.AddField((dados.Length > 1) ? "Exemplos:" : "Exemplo:", exemplo);
             }
 
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
@@ -66,7 +66,7 @@ namespace Bot.Extensions
         internal async Task EnviarFaltaPermissaoAsync(string permissao)
         {
             Builder.WithColor(Color.Red);
-            Builder.WithTitle($"**{Autor}**, {await StringCatch.GetStringAsync("baseErPermissao", "você precisa da permissão `{0}` para poder usar esse comando.", permissao)}");
+            Builder.WithTitle($"**{Autor}**, você precisa da permissão `{permissao}` para poder usar esse comando.");
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
 
