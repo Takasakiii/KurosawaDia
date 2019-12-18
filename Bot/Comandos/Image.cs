@@ -92,6 +92,7 @@ namespace Bot.Comandos
                         string magikReturn = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
                         embed.WithImageUrl(magikReturn);
                         embed.WithDescription("");
+                        await userMsg.DeleteAsync();
                         await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                     catch
@@ -124,9 +125,9 @@ namespace Bot.Comandos
                 imgUrl = Contexto.Message.Attachments.First().Url;
             }
 
-            if (imgUrl != "")
+            if (imgUrl != "" && await new HttpExtensions().IsImageUrl(imgUrl))
             {
-                embed.WithDescription(await StringCatch.GetStringAsync("magikAguarde", "**{0}** estou fazendo magica com a imagem por-favor aguarde", Contexto.User.ToString()));
+                embed.WithDescription(await StringCatch.GetStringAsync("magikAguarde", "**{0}**, estou fazendo magica com a imagem. Por favor, aguarde.", Contexto.User.ToString()));
                 embed.WithImageUrl(await StringCatch.GetStringAsync("magikAguardeImg", "https://i.imgur.com/EEKIQTv.gif"));
                 IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 Tuple<bool, long> res = await new HttpExtensions().PegarTamanhoArquivo(imgUrl);
@@ -138,6 +139,7 @@ namespace Bot.Comandos
                         string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
                         embed.WithImageUrl(retorno);
                         embed.WithDescription("");
+                        await userMsg.DeleteAsync();
                         await Contexto.Channel.SendMessageAsync(embed: embed.Build());
                     }
                     catch
@@ -161,7 +163,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikSemImg", "bocê precisa me falar com que imagem você quer que eu faça mágica."), new DadosErro(await StringCatch.GetStringAsync("usoImagem", "<imagem>"), "https://i.imgur.com/cZDlYXr.png"));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("magikSemImg", "você precisa me falar com que imagem você quer que eu faça mágica."), new DadosErro(await StringCatch.GetStringAsync("usoImagem", "<imagem>"), "https://i.imgur.com/cZDlYXr.png"));
             }
         }
 

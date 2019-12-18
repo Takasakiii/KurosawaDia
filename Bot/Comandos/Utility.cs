@@ -188,9 +188,9 @@ namespace Bot.Comandos
                 else
                 {
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("saySemPerm", "**{0}**, você precisa da permissão `Gerenciar Mensagens` para poder executar esse comando 😔", Contexto.User.Username))
-                        .WithColor(Color.Red)
-                    .Build());
+                            .WithDescription(await StringCatch.GetStringAsync("saySemPerm", "**{0}**, você precisa da permissão `Gerenciar Mensagens` para poder executar esse comando 😔", Contexto.User.Username))
+                            .WithColor(Color.Red)
+                        .Build());
                 }
             }
             else
@@ -397,6 +397,19 @@ namespace Bot.Comandos
                 }
             }
         }
-
+        public async Task whatsify()
+        {
+            if (Comando.Length != 1)
+            {
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithColor(Color.DarkPurple)
+                    .WithDescription($"```\n{string.Join(" ", Comando, 1, Comando.Length - 1)}```")
+                .Build());
+            }
+            else 
+            {
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("whatsifyIncompleto", "você precisa me falar um texto."), new DadosErro(await StringCatch.GetStringAsync("paramTexto", "<texto>"), await StringCatch.GetStringAsync("whatsifyExemplo", "🙁😕☹️")));
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ using UserExtensions = Bot.Extensions.UserExtensions;
 using System.Globalization;
 using System.Text;
 using System.Linq;
+using Bot.Modelos;
 
 namespace Bot.Comandos
 {
@@ -228,7 +229,7 @@ namespace Bot.Comandos
         /// </summary>
         public async Task owoify()
         {
-            if (!(Comando.Length == 1))
+            if (Comando.Length != 1)
             {
                 string input = string.Join(" ", Comando, 1, Comando.Length - 1);
                 string[] faces = { @"(・\`ω\´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
@@ -247,11 +248,9 @@ namespace Bot.Comandos
 
                         if (nextNormalizated == 'a' || nextNormalizated == 'e' || nextNormalizated == 'i' || nextNormalizated == 'o' || nextNormalizated == 'u') {
                             owoifiedText += $"{ch}y";
-                            i++;
                         }
                         else if (nextNormalizated == 'A' || nextNormalizated == 'E' || nextNormalizated == 'I' || nextNormalizated == 'O' || nextNormalizated == 'U') {
                             owoifiedText += $"{ch}Y";
-                            i++;
                         }
                         else {
                             owoifiedText += ch;
@@ -296,7 +295,7 @@ namespace Bot.Comandos
         /// </summary>
         public async Task bigtext()
         {
-            if (!(Comando.Length == 1))
+            if (Comando.Length != 1)
             {
                 string texto = string.Join(" ", Comando, 1, Comando.Length - 1);
                 texto = texto.ToLower();
@@ -312,9 +311,7 @@ namespace Bot.Comandos
                             textFormatted += $":regional_indicator_{ch}:";
                         }
                         else if (charCategory == UnicodeCategory.DecimalDigitNumber) {
-                            // 0 -> :zero:
-                            // ...
-                            // 9 -> :nine:
+                            textFormatted += $":{(EmojisNumberList) Convert.ToInt32(ch.ToString())}:";
                         }
                         else if (charCategory == UnicodeCategory.LineSeparator) {
                             textFormatted += ch;
@@ -326,20 +323,36 @@ namespace Bot.Comandos
                             textFormatted += $"{ch}{texto[i + 1]}";
                             i++;
                         }
+                        else if (texto.Length - i != 1) {
+                            switch ($"{ch}{texto[i + 1]}") {
+                                case "🏻":
+                                case "🏼":
+                                case "🏽":
+                                case "🏾":
+                                case "🏿":
+                                    textFormatted = textFormatted.Remove(textFormatted.Length - 1);
+                                    textFormatted += $"{ch}{texto[i + 1]}";
+                                    i++;
+                                    break;
+                                default:
+                                    textFormatted += "❌";
+                                    break;
+                            }
+                        }
                         else
                         {
-                            // falta arrumar o emoji de cor
-                            if (!(texto.Length - i != 1 && NeoSmart.Unicode.Emoji.SkinTones.All.All(t => t.AsUtf32.ToString() == $"{ch}{texto[i + 1]}"))) {
-                                textFormatted += "❌";
-                            }
+                            textFormatted += "❌";
                         }
 
                         textFormatted += " ";
+                        if (textFormatted.Length > 2000) {
+                            await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("bigtextGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
+                            return;
+                        }
                     }
                 }
-                textFormatted = textFormatted.Normalize(NormalizationForm.FormC);
-
-                await Contexto.Channel.SendMessageAsync(textFormatted);
+                                
+                await Contexto.Channel.SendMessageAsync(textFormatted);                
             }
             
             else

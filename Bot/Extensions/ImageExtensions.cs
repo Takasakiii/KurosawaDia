@@ -20,15 +20,14 @@ namespace Bot.Extensions
             else
             {
                 HttpExtensions http = new HttpExtensions();
+                string msg = "";
                 for (int i = 0; i < model.Quantidade; i++)
                 {
                     int random = new Random().Next(links.Length);
-                    await model.Canal.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithTitle(model.Texto)
-                            .WithColor(Color.DarkPurple)
-                            .WithImageUrl(await http.GetSite(links[random].Item1, links[random].Item2))
-                        .Build());
+                    msg += await http.GetSite(links[random].Item1, links[random].Item2) + "\n";
                 }
+      
+                await model.Canal.SendMessageAsync(msg);
             }
         }
     }

@@ -7,7 +7,7 @@ using Discord.WebSocket;
 using MainDatabaseControler.DAO;
 using MainDatabaseControler.Modelos;
 using System;
-using System.Reflection;
+using Bot.Modelos;
 using System.Threading.Tasks;
 using static MainDatabaseControler.Modelos.ConfiguracoesServidor;
 using static MainDatabaseControler.Modelos.Servidores;
@@ -16,8 +16,8 @@ namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
     {
-        private PermissoesServidores Permissao = PermissoesServidores.Normal; 
-        public Ajuda (CommandContext contexto, params object[] args) : base (contexto, args)
+        private PermissoesServidores Permissao = PermissoesServidores.Normal;
+        public Ajuda(CommandContext contexto, params object[] args) : base(contexto, args)
         {
             VerificarPermissao().Wait();
         }
@@ -46,20 +46,43 @@ namespace Bot.Comandos
         {
             await ajuda();
         }
-
+/*
         public async Task newhelp()
         {
             EmbedBuilder embed = new EmbedBuilder();
 
+            embed.WithTitle("Meus comandos vão te surpeender tenho certeza disso 😝");
+            embed.WithDescription("Para ver os comandos de cada módulo é so usar: `~comandos módulo`, exemplo: `~comandos utilidade`");
+            embed.WithColor(Color.DarkPurple);
+            embed.WithImageUrl("https://i.imgur.com/mQVFSrP.gif");
 
+            string modulos = "";
+
+
+
+            for(int i = 0; i < ModuleContexto.Classes.Length; i++)
+            {
+                modulos += $":{(EmojisNumberList) i }: {ModuleContexto.Classes[i].Name} \n";
+            }
+
+            embed.AddField("Modulos:", modulos);
+
+            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
+            /*
             string modulos = "";
             foreach(Type modulo in ModuleContexto.Classes)
             {
-                modulos += $"{modulo.Name}\n";
+                modulos += $"{modulo.Name}: ```\n";
+                MethodInfo[] arrayMetodos = modulo.GetMethods();
+                for(int i = 0; i < (arrayMetodos.Length - 4); i++){
+                    modulos += $"{arrayMetodos[i].Name}\n";
+                }
+                modulos += "```\n";
             }
             await Contexto.Channel.SendMessageAsync(modulos);
-        }
-
+            */
+        //}
+        
 
         public async Task ajuda()
         {
@@ -79,7 +102,7 @@ namespace Bot.Comandos
 
         }
 
-        enum ListaModulos { nada, ajuda, utilidade, moderacao, nsfw, weeb, imgs, cr, config, especial};
+        enum ListaModulos { nada, ajuda, utilidade, moderacao, nsfw, weeb, imgs, cr, config, especial };
         public async Task comandos()
         {
             string[] comando = Comando;
@@ -88,12 +111,12 @@ namespace Bot.Comandos
             if (!string.IsNullOrEmpty(msg))
             {
                 ListaModulos modulo = ListaModulos.nada;
-                if(int.TryParse(msg, out int result))
+                if (int.TryParse(msg, out int result))
                 {
                     modulo = (ListaModulos)result;
                 }
 
-                if(modulo ==  ListaModulos.ajuda || msg == "ajuda")
+                if (modulo == ListaModulos.ajuda || msg == "ajuda")
                 {
                     await helpajuda();
                 }
@@ -155,7 +178,7 @@ namespace Bot.Comandos
             {
                 users += servidor.Users.Count;
             }
-            
+
 
 
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -205,13 +228,13 @@ namespace Bot.Comandos
         }
         private async Task utilidade()
         {
-           await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                    .WithTitle(await StringCatch.GetStringAsync("utilidadeModulo", "Módulo Utilidade (🛠)"))
-                    .WithDescription(await StringCatch.GetStringAsync("utilidadeInfo", "Este módulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
-                    .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, {0}bug, `{0}perfil`", PrefixoServidor))
-                    .WithImageUrl(await StringCatch.GetStringAsync("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
-                .Build());
+            await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                     .WithTitle(await StringCatch.GetStringAsync("utilidadeModulo", "Módulo Utilidade (🛠)"))
+                     .WithDescription(await StringCatch.GetStringAsync("utilidadeInfo", "Este módulo possui coisas uteis pro seu dia a dia. \n\nAaaaaaa eles são tão legais ☺"))
+                     .WithColor(Color.DarkPurple)
+                     .AddField(await StringCatch.GetStringAsync("utilidadeCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("utiliidadeCmds", "`{0}videochamada`, `{0}avatar`, `{0}emoji`, `{0}say`, `{0}simg`, `{0}sugestao`, `{0}bug`, `{0}perfil`, `{0}whatsify`", PrefixoServidor))
+                     .WithImageUrl(await StringCatch.GetStringAsync("utilidadeImg", "https://i.imgur.com/TK7zmb8.jpg"))
+                 .Build());
         }
         private async Task moderacao()
         {
@@ -219,7 +242,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("moderacaoModulo", "Módulo Moderação (⚖)"))
                     .WithDescription(await StringCatch.GetStringAsync("moderacaoInfo", "Este módulo possui coisas para te ajudar a moderar seu servidor. \n\nSó não seja malvado com seus amigos 😣"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("moderacaoCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("moderacaoCmds", "`{0}kick`, `{0}ban`, `{0}softban`", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("moderacaoCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("moderacaoCmds", "`{0}kick`, `{0}ban`, `{0}softban`, `{0}limparchat`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("moderacaoImg", "https://i.imgur.com/hiu0Vh0.jpg"))
                 .Build());
 
@@ -240,7 +263,7 @@ namespace Bot.Comandos
                     .WithTitle(await StringCatch.GetStringAsync("weebModulo", "Modulo Weeb (❤)"))
                     .WithDescription(await StringCatch.GetStringAsync("weebInfo", "Este módulo é o mais amoroso de todos.  \n\nUse ele para distribuir o amor para seus amigos ❤"))
                     .WithColor(Color.DarkPurple)
-                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, `{0}owoify`", PrefixoServidor))
+                    .AddField(await StringCatch.GetStringAsync("weebCmdsTxt", "Comandos:"), await StringCatch.GetStringAsync("weebCmds", "`{0}hug`, `{0}slap`, `{0}kiss`, `{0}punch`, `{0}lick`, `{0}cry`, `{0}megumin`, `{0}rem`, `{0}dance`, `{0}pat`, `{0}fuck`, `{0}owoify`, `{0}bigtext`", PrefixoServidor))
                     .WithImageUrl(await StringCatch.GetStringAsync("weebImg", "https://i.imgur.com/FmCmErd.png"))
                 .Build());
         }
