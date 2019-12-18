@@ -368,7 +368,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser executado em servidores."));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
 
 
@@ -540,7 +540,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("administrador", "Adminsitrador"));
+                    await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("administrador", "Administrador"));
                 }
             }
             else

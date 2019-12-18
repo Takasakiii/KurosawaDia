@@ -175,7 +175,7 @@ namespace Bot.Comandos
 
                                     await user.KickAsync(motivo);
 
-                                    embedo.WithDescription(await StringCatch.GetStringAsync("kickTxt", "**{0}**, o membro `{1}` foi expulso do servidor.", Contexto.User.ToString(), user.Mention));
+                                    embedo.WithDescription(await StringCatch.GetStringAsync("kickTxt", "**{0}**, o membro `{1}` foi expulso do servidor.", Contexto.User.ToString(), user.ToString()));
                                     await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 2:
@@ -206,7 +206,7 @@ namespace Bot.Comandos
 
                                     await user.BanAsync(7, motivo);
 
-                                    embedo.WithDescription(await StringCatch.GetStringAsync("banMembroBanido", "**{0}**, o membro {1} foi banido do servidor.", Contexto.User.ToString(), user.Mention));
+                                    embedo.WithDescription(await StringCatch.GetStringAsync("banMembroBanido", "**{0}**, o membro `{1}` foi banido do servidor.", Contexto.User.ToString(), user.ToString()));
                                     await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 3:
@@ -280,7 +280,7 @@ namespace Bot.Comandos
             else
             {
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("moderacaoDm", "Você só pode usar esse comando em servidores."))
+                        .WithDescription(await StringCatch.GetStringAsync("moderacaoDm", "você só pode usar esse comando em servidores."))
                         .WithColor(Color.Red)
                     .Build());
             }

@@ -68,9 +68,9 @@ namespace Bot.Comandos
             weebClient.Authenticate(apiConfig[0].Token, TokenType.Wolke).GetAwaiter().GetResult();
             RandomData img = weebClient.GetRandomAsync(weeb.Tipo, new string[] { }, FileType.Any, false, NsfwSearch.False).GetAwaiter().GetResult();
 
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-            embed.WithImageUrl(img.Url);
+            EmbedBuilder embed = new EmbedBuilder()
+            .WithColor(Color.DarkPurple)
+            .WithImageUrl(img.Url);
 
             if (weeb.Auto)
             {
@@ -94,21 +94,17 @@ namespace Bot.Comandos
                         string user = userExtensions.GetNickname(getUser.Item1, !Contexto.IsPrivate);
                         embed.WithTitle($"{author} {weeb.Msg} {user}.");
                     }
-
-                    
                 }
                 else
                 {
-                    embed.WithDescription(await StringCatch.GetStringAsync("weebDm", "Desculpe, mas só posso executar esse comando em um servidor 😔"));
-                    embed.WithColor(Color.Red);
-                    embed.WithImageUrl(null);
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "desculpe, mas esse comando só pode ser usado em um servidor."));
+                    return;
                 }
             }
             else
             {
                 embed.WithTitle(weeb.Msg);
             }
-
             await Contexto.Channel.SendMessageAsync(embed: embed.Build());
         }
 
@@ -271,19 +267,17 @@ namespace Bot.Comandos
                     else {
                         owoifiedText += ch;
                     }
-                }
 
-                if (!(owoifiedText.Length > 2048))
-                {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithColor(Color.DarkPurple)
-                        .WithDescription(owoifiedText)
-                    .Build());
+                    if (owoifiedText.Length > 2048)
+                    {
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
+                        return;
+                    }
                 }
-                else
-                {
-                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("owoifyGrande", "desculpe, mas seu texto é muito grande para que eu possa enviar."));
-                }
+                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                    .WithColor(Color.DarkPurple)
+                    .WithDescription(owoifiedText)
+                .Build());
             }
             else
             {

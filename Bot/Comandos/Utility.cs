@@ -114,7 +114,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("videoChamadaDm", "Você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("videoChamadaDm", "você precisa estar em um canal de voz e em um servidor para usar esse comando 😔"));
             }
         }
 
@@ -144,7 +144,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "Desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "emoji"), await StringCatch.GetStringAsync("emoteExemplo", ":kanna:")));
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("emoteInvalido", "desculpe, mas o emoji que você digitou é invalido."), new DadosErro(await StringCatch.GetStringAsync("emoteUso", "emoji"), await StringCatch.GetStringAsync("emoteExemplo", ":kanna:")));
                 return;                    
             }
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -177,28 +177,17 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription(await StringCatch.GetStringAsync("sayErro", "**{0}**, você precisa me falar uma mensagem.", Contexto.User.ToString()))
-                                .AddField(await StringCatch.GetStringAsync("usoCmd", "Uso do comando:"), await StringCatch.GetStringAsync("usoSay", "`{0}say <mensagem>`", PrefixoServidor))
-                                .AddField(await StringCatch.GetStringAsync("exemploCmd", "Exemplo:"), await StringCatch.GetStringAsync("ExemploSay", "`{0}say @Sora#5614 cade o wallpaper?`", PrefixoServidor))
-                                .WithColor(Color.Red)
-                            .Build());
+                        await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("sayErro", "você precisa me falar uma mensagem."), new DadosErro(await StringCatch.GetStringAsync("usoSay", "<mensagem>"), await StringCatch.GetStringAsync("ExemploSay", "@Sora#5614 cade o wallpaper?")));
                     }
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription(await StringCatch.GetStringAsync("saySemPerm", "**{0}**, você precisa da permissão `Gerenciar Mensagens` para poder executar esse comando 😔", Contexto.User.Username))
-                            .WithColor(Color.Red)
-                        .Build());
+                    await Erro.EnviarFaltaPermissaoAsync(await StringCatch.GetStringAsync("manageMessages", "Gerenciar Mensagens"));
                 }
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("sayDm", "Você só pode usar esse comando em servidores."))
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
         }
 
@@ -218,18 +207,12 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("simgIconErro", "**{0}**, o servidor não tem um ícone.", Contexto.User.ToString()))
-                        .WithColor(Color.Red)
-                    .Build()); ;
+                    await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("simgIconErro", "o servidor não tem um ícone."));
                 }
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription(await StringCatch.GetStringAsync("simgDm", "**{0}**, esse comando só pode ser usado em servidores.", Contexto.User.ToString()))
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync(await StringCatch.GetStringAsync("dm", "esse comando só pode ser usado em servidores."));
             }
         }
 
