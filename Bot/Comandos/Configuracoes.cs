@@ -369,7 +369,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync("esse comando só pode ser executado em servidores.");
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
 
 
@@ -541,7 +541,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarFaltaPermissaoAsync("Adminsitrador");
+                    await Erro.EnviarFaltaPermissaoAsync("Administrador");
                 }
             }
             else

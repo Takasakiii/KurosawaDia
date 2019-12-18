@@ -107,7 +107,7 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Erro.EnviarErroAsync("Você precisa me falar um insulto.", new DadosErro("insulto", "joguei uma pedra em você e ela entrou em órbita"));
+                    await Erro.EnviarErroAsync("você precisa me falar um insulto.", new DadosErro("insulto", "joguei uma pedra em você e ela entrou em órbita"));
                 }
             }
             else

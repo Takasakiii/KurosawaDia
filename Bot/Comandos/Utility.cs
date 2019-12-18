@@ -114,7 +114,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync("Você precisa estar em um canal de voz e em um servidor para usar esse comando 😔");
+                await Erro.EnviarErroAsync("você precisa estar em um canal de voz e em um servidor para usar esse comando 😔");
             }
         }
 
@@ -144,7 +144,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Erro.EnviarErroAsync("Desculpe, mas o emoji que você digitou é invalido.", new DadosErro("emoji", ":kanna:"));
+                await Erro.EnviarErroAsync("desculpe, mas o emoji que você digitou é invalido.", new DadosErro("emoji", ":kanna:"));
                 return;                    
             }
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
@@ -177,28 +177,17 @@ namespace Bot.Comandos
                     }
                     else
                     {
-                        await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                .WithDescription($"**{Contexto.User}**, você precisa me falar uma mensagem.")
-                                .AddField($"Uso do comando:", $"`{PrefixoServidor}say <mensagem>`")
-                                .AddField("Exemplo:", $"`{PrefixoServidor}say @Sora#5614 cade o wallpaper?`")
-                                .WithColor(Color.Red)
-                            .Build());
+                        await Erro.EnviarErroAsync("você precisa me falar uma mensagem.", new DadosErro("<mensagem>", "@Sora#5614 cade o wallpaper?"));
                     }
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                            .WithDescription($"**{Contexto.User.Username}**, você precisa da permissão `Gerenciar Mensagens` para poder executar esse comando 😔")
-                            .WithColor(Color.Red)
-                        .Build());
+                    await Erro.EnviarFaltaPermissaoAsync("Gerenciar Mensagens");
                 }
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription("Você só pode usar esse comando em servidores.")
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 
@@ -218,18 +207,12 @@ namespace Bot.Comandos
                 }
                 else
                 {
-                    await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{Contexto.User}**, o servidor não tem um ícone.")
-                        .WithColor(Color.Red)
-                    .Build()); ;
+                    await Erro.EnviarErroAsync("o servidor não tem um ícone.");
                 }
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription($"**{Contexto.User}**, esse comando só pode ser usado em servidores.")
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 

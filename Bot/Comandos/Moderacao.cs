@@ -178,7 +178,9 @@ namespace Bot.Comandos
 
                                     await user.KickAsync(motivo);
 
-                                    embedo.WithDescription($"**{Contexto.User}**, o membro `{user.Mention}` foi expulso do servidor.");
+
+                                    embedo.WithDescription($"**{Contexto.User}**, o membro `{user}` foi expulso do servidor.");
+
                                     await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 2:
@@ -209,7 +211,8 @@ namespace Bot.Comandos
 
                                     await user.BanAsync(7, motivo);
 
-                                    embedo.WithDescription("**{Contexto.User}**, o membro {user.Mention} foi banido do servidor.");
+                                    embedo.WithDescription($"**{Contexto.User}**, o membro `{user}` foi banido do servidor.");
+
                                     await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
                                     break;
                                 case 3:
@@ -282,10 +285,7 @@ namespace Bot.Comandos
             }
             else
             {
-                await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                        .WithDescription("Você só pode usar esse comando em servidores.")
-                        .WithColor(Color.Red)
-                    .Build());
+                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
             }
         }
 

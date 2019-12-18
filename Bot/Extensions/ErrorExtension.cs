@@ -42,7 +42,7 @@ namespace Bot.Extensions
         internal async Task EnviarErroAsync(string fraseErro, params DadosErro[] dados)
         {
             Builder.WithColor(Color.Red);
-            Builder.WithTitle($"**{Autor}**, {fraseErro}");
+            Builder.WithTitle($"{Autor}, {fraseErro}");
             
             if(dados.Length >= 1)
             {
@@ -66,7 +66,7 @@ namespace Bot.Extensions
         internal async Task EnviarFaltaPermissaoAsync(string permissao)
         {
             Builder.WithColor(Color.Red);
-            Builder.WithTitle($"**{Autor}**, você precisa da permissão `{permissao}` para poder usar esse comando.");
+            Builder.WithTitle($"{Autor}, você precisa da permissão `{permissao}` para poder usar esse comando.");
             await Contexto.Channel.SendMessageAsync(embed: Builder.Build());
         }
 
