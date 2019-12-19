@@ -50,63 +50,6 @@ namespace Bot.Comandos
             await new ImageExtensions().GetImgAsync(new ImgModel(Contexto.Channel), links.dog);
         }
 
-        public async Task magikavatar()
-        {
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithColor(Color.DarkPurple);
-
-            string[] comando = Comando;
-            string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-            if (!Contexto.IsPrivate)
-            {
-                Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), msg);
-                IUser user = null;
-
-                if (getUser.Item1 != null)
-                {
-                    user = getUser.Item1;
-                }
-                else
-                {
-                    if (msg == "")
-                    {
-                        user = Contexto.User;
-                    }
-                    else
-                    {
-                        await Erro.EnviarErroAsync("eu não encontrei essa pessoa no servidor.", new DadosErro("@pessoa", "@KingCerverus#2490"));
-                    }
-                }
-
-                if (user != null)
-                {
-                    embed.WithDescription($"**{Contexto.User}**, estou fazendo mágica com o avatar. Por favor, aguarde.");
-                    embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
-                    IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
-
-                    string avatarUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
-
-                    try
-                    {
-                        string magikReturn = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={avatarUrl}&intensity=10", "message");
-                        embed.WithImageUrl(magikReturn);
-                        embed.WithDescription("");
-                        await userMsg.DeleteAsync();
-                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-                    }
-                    catch
-                    {
-                        await Erro.EnviarErroAsync("infelizmente a diretora Mari roubou a minha magia 😔");
-                    }
-                }
-            }
-            else
-            {
-                await Erro.EnviarErroAsync("eu só posso pegar o avatar de outras pessoas em um servidor.");
-            }
-        }
-
         public async Task magik()
         {
             EmbedBuilder embed = new EmbedBuilder();
@@ -118,7 +61,16 @@ namespace Bot.Comandos
 
             if (msg != "")
             {
-                imgUrl = msg;
+                IUser user = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), msg).Item1;
+
+                if (user != null)
+                {
+                    imgUrl = user.GetAvatarUrl(0, 2048) ?? user.GetDefaultAvatarUrl();
+                }
+                else
+                {
+                    imgUrl = msg;
+                }
             }
             else if (Contexto.Message.Attachments.Count != 0)
             {
@@ -127,43 +79,37 @@ namespace Bot.Comandos
 
             if (imgUrl != "" && await new HttpExtensions().IsImageUrl(imgUrl))
             {
-                embed.WithDescription($"**{Contexto.User}**, estou fazendo magica com a imagem. Por favor, aguarde.");
-                embed.WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
+                embed.WithDescription($"**{Contexto.User}**, estou fazendo magica com a imagem. Por favor, aguarde.")
+                .WithImageUrl("https://i.imgur.com/EEKIQTv.gif");
                 IUserMessage userMsg = Contexto.Channel.SendMessageAsync(embed: embed.Build()).GetAwaiter().GetResult();
                 Tuple<bool, long> res = await new HttpExtensions().PegarTamanhoArquivo(imgUrl);
+                embed.WithDescription(string.Empty);
+                string retorno;
 
-                if (!imgUrl.Contains("gif"))
+                try
                 {
-                    try
+                    if (imgUrl.Contains(".gif") && !res.Item1 && res.Item2 > 102400)
                     {
-                        string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                        embed.WithImageUrl(retorno);
-                        embed.WithDescription("");
                         await userMsg.DeleteAsync();
-                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-                    }
-                    catch
-                    {
-                        await Erro.EnviarErroAsync("infelizmente a diretora mari roubou a minha magia 😔");
-                    }
-                }
-                else
-                {
-                    if (res.Item1 && res.Item2 < 102400) {
-                        string retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
-                        embed.WithImageUrl(retorno);
-                        embed.WithDescription("");
-                        await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-                    }
-                    else
-                    {
                         await Erro.EnviarErroAsync("sua imagem é muito poderosa para mim. Por favor, envie GIFs até 100kb 😥");
+                        return;
                     }
+                    retorno = await new HttpExtensions().GetSite($"https://nekobot.xyz/api/imagegen?type=magik&image={imgUrl}&intensity=10", "message");
                 }
+                catch
+                {
+                    await userMsg.DeleteAsync();
+                    await Erro.EnviarErroAsync("infelizmente a diretora Mari roubou a minha magia 😔");
+                    return;
+                }
+
+                embed.WithImageUrl(retorno);
+                await userMsg.DeleteAsync();
+                await Contexto.Channel.SendMessageAsync(embed: embed.Build());
             }
             else
             {
-                await Erro.EnviarErroAsync("você precisa me falar com que imagem você quer que eu faça mágica.", new DadosErro("<imagem>", "https://i.imgur.com/cZDlYXr.png"));
+                await Erro.EnviarErroAsync("você precisa me falar com que imagem você quer que eu faça mágica.", new DadosErro("<imagem>", "https://i.imgur.com/cZDlYXr.png"), new DadosErro("<usuario", "@Kurosawa Dia#2439"));
             }
         }
 

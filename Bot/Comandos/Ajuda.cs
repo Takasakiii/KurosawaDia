@@ -267,10 +267,10 @@ namespace Bot.Comandos
         }
         private async Task img()
         {
-            string cmds = string.Format("`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`", PrefixoServidor);
+            string cmds = string.Format("`{0}cat`, `{0}dog`, `{0}magik`", PrefixoServidor);
             if (Permissao == PermissoesServidores.LolisEdition || Permissao == PermissoesServidores.ServidorPika)
             {
-                cmds = string.Format("`{0}cat`, `{0}dog`,`{0}magikavatar`, `{0}magik`, `{0}loli`, `{0}lolibomb`", PrefixoServidor);
+                cmds = string.Format("`{0}cat`, `{0}dog`, `{0}magik`, `{0}loli`, `{0}lolibomb`", PrefixoServidor);
             }
             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithTitle("Módulo Imagem (🖼)")
