@@ -61,8 +61,8 @@ namespace Bot.Comandos
         {
             EmbedBuilder embed = new EmbedBuilder();
 
-            embed.WithTitle("Meus comandos vão te surpeender tenho certeza disso 😝");
-            embed.WithDescription($"Para ver os comandos de cada módulo é so usar: `{PrefixoServidor}comandos módulo`, exemplo: `{PrefixoServidor}comandos utilidade`");
+            embed.WithTitle("Meus comandos vão te surpeender, tenho certeza disso! 😝");
+            embed.WithDescription($"Para ver os comandos de cada módulo é só usar `{PrefixoServidor}comandos módulo`. Exemplo: `{PrefixoServidor}comandos utilidade`.");
             embed.WithColor(Color.DarkPurple);
             embed.WithImageUrl("https://i.imgur.com/mQVFSrP.gif");
 
