@@ -1,4 +1,5 @@
-﻿ using Bot.Extensions;
+﻿using System.Reflection;
+using Bot.Extensions;
 using Bot.GenericTypes;
 using Bot.Singletons;
 using Discord;
@@ -16,10 +17,19 @@ namespace Bot.Comandos
 {
     public class Ajuda : GenericModule
     {
+
+
         private PermissoesServidores Permissao = PermissoesServidores.Normal;
         public Ajuda(CommandContext contexto, params object[] args) : base(contexto, args)
         {
             VerificarPermissao().Wait();
+        }
+
+        public static InfoModule Info(){
+            return new InfoModule{
+                Nome = "Ajuda",
+                Icon = "❓"
+            };
         }
 
         private async Task VerificarPermissao()
@@ -46,42 +56,32 @@ namespace Bot.Comandos
         {
             await ajuda();
         }
-/*
+
         public async Task newhelp()
         {
             EmbedBuilder embed = new EmbedBuilder();
 
             embed.WithTitle("Meus comandos vão te surpeender tenho certeza disso 😝");
-            embed.WithDescription("Para ver os comandos de cada módulo é so usar: `~comandos módulo`, exemplo: `~comandos utilidade`");
+            embed.WithDescription($"Para ver os comandos de cada módulo é so usar: `{PrefixoServidor}comandos módulo`, exemplo: `{PrefixoServidor}comandos utilidade`");
             embed.WithColor(Color.DarkPurple);
             embed.WithImageUrl("https://i.imgur.com/mQVFSrP.gif");
 
             string modulos = "";
 
-
-
             for(int i = 0; i < ModuleContexto.Classes.Length; i++)
             {
-                modulos += $":{(EmojisNumberList) i }: {ModuleContexto.Classes[i].Name} \n";
+                try{
+                    InfoModule info = (InfoModule) ModuleContexto.Classes[i].GetMethod("Info").Invoke(null, null);
+                    modulos += $"{((info.Icon != null) ? info.Icon : null)}:{(EmojisNumberList) i }: {((info.Nome == null)? ModuleContexto.Classes[i].Name : info.Nome)} \n";
+                } catch{
+                    modulos += $":{(EmojisNumberList) i }: {ModuleContexto.Classes[i].Name} \n";
+                }
             }
 
             embed.AddField("Modulos:", modulos);
 
             await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-            /*
-            string modulos = "";
-            foreach(Type modulo in ModuleContexto.Classes)
-            {
-                modulos += $"{modulo.Name}: ```\n";
-                MethodInfo[] arrayMetodos = modulo.GetMethods();
-                for(int i = 0; i < (arrayMetodos.Length - 4); i++){
-                    modulos += $"{arrayMetodos[i].Name}\n";
-                }
-                modulos += "```\n";
-            }
-            await Contexto.Channel.SendMessageAsync(modulos);
-            */
-        //}
+        }
         
 
         public async Task ajuda()

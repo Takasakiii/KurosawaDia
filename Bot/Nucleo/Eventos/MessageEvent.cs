@@ -165,6 +165,9 @@ namespace Bot.Nucleo.Eventos
             object[] args = CriadorDoArgs(comando, ref chamada, servidor);
             try
             {
+                if(chamada == "Info"){
+                    throw new NullReferenceException();
+                }
                 ModulesConcat.AddArgs(contexto, args[0], args[1], new ErrorExtension(contexto, chamada, (string)args[0]), ModulesConcat);
                 await (Task)ModulesConcat.InvokeMethod(chamada);
             }
