@@ -228,51 +228,49 @@ namespace Bot.Comandos
             if (Comando.Length != 1)
             {
                 string input = string.Join(" ", Comando, 1, Comando.Length - 1);
-                string[] faces = { @"(・\`ω\´・)", "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
+                if (input.Length > 800) {
+                    await Erro.EnviarErroAsync("desculpe, mas o texto não poder ser maior que 800 caracteres.");
+                    return;
+                }
+                string[] faces = { "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
                 string owoifiedText = string.Empty;
 
                 Random rand = new Random();
-
                 for (int i = 0; i < input.Length; i++) {
                     char ch = input[i];
 
-                    if (ch == 'r' || ch == 'l') {
-                        owoifiedText += "w";
-                    }
+                    if (ch == 'r' || ch == 'l')
+                        owoifiedText += 'w';
                     else if (input.Length - i != 1 && (ch == 'n' || ch == 'N')) {
                         char nextNormalizated = input[i + 1].ToString().Normalize(NormalizationForm.FormD)[0];
 
-                        if (nextNormalizated == 'a' || nextNormalizated == 'e' || nextNormalizated == 'i' || nextNormalizated == 'o' || nextNormalizated == 'u') {
+                        if (nextNormalizated == 'a' || nextNormalizated == 'e' || nextNormalizated == 'i' || nextNormalizated == 'o' || nextNormalizated == 'u')
                             owoifiedText += $"{ch}y";
-                        }
-                        else if (nextNormalizated == 'A' || nextNormalizated == 'E' || nextNormalizated == 'I' || nextNormalizated == 'O' || nextNormalizated == 'U') {
+                        else if (nextNormalizated == 'A' || nextNormalizated == 'E' || nextNormalizated == 'I' || nextNormalizated == 'O' || nextNormalizated == 'U') 
                             owoifiedText += $"{ch}Y";
-                        }
-                        else {
+                        else
                             owoifiedText += ch;
-                        }
                     }
-                    else if (ch == 'R' || ch == 'L') {
-                        owoifiedText += "W";
-                    }
+                    else if (ch == 'R' || ch == 'L')
+                        owoifiedText += 'W';
                     else if (ch == '!') {
-                        if (!(input.Length - i != 1 && input[i + 1] == '!')) {
+                        if (!(input.Length - i != 1 && input[i + 1] == '!')) 
                             owoifiedText += $" {faces[rand.Next(0, faces.Length)]} ";
+                    }
+                    else  if (input.Length - i > 2) {
+                        if (ch == 'o' && input[i + 1] == 'v' && input[i + 2] == 'e') {
+                            owoifiedText += "uv";
+                            i += 2;
                         }
+                        else if (ch == 'O' && input[i + 1] == 'V' && input[i + 2] == 'E') {
+                            owoifiedText += "UV";
+                            i += 2;
+                        }              
+                        else
+                            owoifiedText += ch;              
                     }
-                    else if (input.Length - i > 3 && input[i] == 'o' && input[i + 1] == 'v' && input[i + 2] == 'e') {
-                        owoifiedText += "uv";
-                        i += 2;
-                    }
-                    else {
+                    else 
                         owoifiedText += ch;
-                    }
-
-                    if (owoifiedText.Length > 2048)
-                    {
-                        await Erro.EnviarErroAsync("desculpe, mas seu texto é muito grande para que eu possa enviar.");
-                        return;
-                    }
                 }
                 await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                     .WithColor(Color.DarkPurple)
@@ -294,6 +292,10 @@ namespace Bot.Comandos
                 string texto = string.Join(" ", Comando, 1, Comando.Length - 1);
                 texto = texto.ToLower();
                 texto = texto.Normalize(NormalizationForm.FormD);
+                if (texto.Length > 90) {
+                    await Erro.EnviarErroAsync("o texto não pode ter mais de 90 caracteres.");
+                    return;
+                }
                 string textFormatted = "";
                 for (int i = 0; i < texto.Length; i++)
                 {
@@ -313,24 +315,26 @@ namespace Bot.Comandos
                         else if (charCategory == UnicodeCategory.SpaceSeparator) {
                             textFormatted += "   ";
                         }
-                        else if (texto.Length - i != 1 && NeoSmart.Unicode.Emoji.IsEmoji($"{ch}{texto[i + 1]}", 1)) {
-                            textFormatted += $"{ch}{texto[i + 1]}";
-                            i++;
-                        }
                         else if (texto.Length - i != 1) {
-                            switch ($"{ch}{texto[i + 1]}") {
-                                case "🏻":
-                                case "🏼":
-                                case "🏽":
-                                case "🏾":
-                                case "🏿":
-                                    textFormatted = textFormatted.Remove(textFormatted.Length - 1);
-                                    textFormatted += $"{ch}{texto[i + 1]}";
-                                    i++;
-                                    break;
-                                default:
-                                    textFormatted += "❌";
-                                    break;
+                            if (NeoSmart.Unicode.Emoji.IsEmoji($"{ch}{texto[i + 1]}", 1)) {
+                                textFormatted += $"{ch}{texto[i + 1]}";
+                                i++;    
+                            }
+                            else {
+                                switch ($"{ch}{texto[i + 1]}") {
+                                    case "🏻":
+                                    case "🏼":
+                                    case "🏽":
+                                    case "🏾":
+                                    case "🏿":
+                                        textFormatted = textFormatted.Remove(textFormatted.Length - 1);
+                                        textFormatted += $"{ch}{texto[i + 1]}";
+                                        i++;
+                                        break;
+                                    default:
+                                        textFormatted += "❌";
+                                        break;
+                                }
                             }
                         }
                         else
@@ -339,10 +343,6 @@ namespace Bot.Comandos
                         }
 
                         textFormatted += " ";
-                        if (textFormatted.Length > 2000) {
-                            await Erro.EnviarErroAsync("desculpe, mas seu texto é muito grande para que eu possa enviar.");
-                            return;
-                        }
                     }
                 }
                                 
