@@ -197,21 +197,20 @@ namespace Bot.Comandos
                         Tuple<IUser, string> user = userExtensions.GetUser(await Contexto.Guild.GetUsersAsync(), msg);
 
                         string authorNick = userExtensions.GetNickname(Contexto.User, !Contexto.IsPrivate);
-                        if (user.Item1 != null)
+                        if (user.Item1 == null || user.Item1 == Contexto.User)
                         {
-                            string userNick = userExtensions.GetNickname(user.Item1, !Contexto.IsPrivate);
-                            
-
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle($"{authorNick} está fudendo {userNick}.")
+                                    .WithTitle($"{authorNick} está se masturbando.")
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());
                         }
                         else
                         {
+                            string userNick = userExtensions.GetNickname(user.Item1, !Contexto.IsPrivate);
+
                             await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
-                                    .WithTitle($"{authorNick} está se masturbando.")
+                                    .WithTitle($"{authorNick} está fudendo {userNick}.")
                                     .WithImageUrl(fuck.Img)
                                     .WithColor(Color.DarkPurple)
                                 .Build());

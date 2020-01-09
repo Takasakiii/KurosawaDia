@@ -73,7 +73,7 @@ namespace Bot.Comandos
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                         .WithColor(Color.DarkPurple)
                         .WithTitle(msgfinal)
-                        .WithDescription($"\n\n{user}\n[Link Direto]({avatarUrl}")
+                        .WithDescription($"{user}\n[Link Direto]({avatarUrl})")
                         .WithImageUrl(avatarUrl)
                     .Build());
                 }
