@@ -197,7 +197,19 @@ namespace Bot.Comandos
             {
                 if (Contexto.Guild.IconUrl != null)
                 {
-                    string url = $"{Contexto.Guild.IconUrl}?size=2048";
+                    string url;
+                    if (Contexto.Guild.Features.Contains("ANIMATED_ICON"))
+                    {
+                        url = $"{Contexto.Guild.IconUrl.Replace(".jpg", ".gif")}?size=2048";
+                        if (!await new HttpExtensions().IsImageUrl(url))
+                        {
+                            url = $"{Contexto.Guild.IconUrl}?size=2048";
+                        }
+                    }
+                    else
+                    {
+                        url = $"{Contexto.Guild.IconUrl}?size=2048";
+                    }
                     await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
                             .WithTitle(Contexto.Guild.Name)
                             .WithDescription($"[Link Direto]({url})")
