@@ -1,0 +1,8 @@
+﻿@page "/restrito/admin"
+@model BlazorGUI.AdminModel
+@{
+    ViewData["Title"] = "Painel de Controle";
+}
+
+    <component>@(await Html.RenderComponentAsync<AdminBlazorScreen>(RenderMode.Server))</component>
+
