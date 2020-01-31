@@ -30,7 +30,7 @@ namespace NetCoreGUI
                 await LogEmiter.EnviarLogAsync(TipoCor.Erro, "O arquivo de configuração configDia está ausente");
             }
         }
-
+        
         public void Log(LogEmiter.TipoLog logType, string e)
         {
             System.Console.ForegroundColor = logType.CorNoConsole;
