@@ -56,32 +56,32 @@ namespace Bot.Comandos
         {
             await ajuda();
         }
-        /*
-        public async Task newhelp()
-        {
-            EmbedBuilder embed = new EmbedBuilder();
+        
+        //public async Task newhelp()
+        //{
+        //    EmbedBuilder embed = new EmbedBuilder();
 
-            embed.WithTitle("Meus comandos vão te surpeender, tenho certeza disso! 😝");
-            embed.WithDescription($"Para ver os comandos de cada módulo é só usar `{PrefixoServidor}comandos módulo`. Exemplo: `{PrefixoServidor}comandos utilidade`.");
-            embed.WithColor(Color.DarkPurple);
-            embed.WithImageUrl("https://i.imgur.com/mQVFSrP.gif");
+        //    embed.WithTitle("Meus comandos vão te surpeender, tenho certeza disso! 😝");
+        //    embed.WithDescription($"Para ver os comandos de cada módulo é só usar `{PrefixoServidor}comandos módulo`. Exemplo: `{PrefixoServidor}comandos utilidade`.");
+        //    embed.WithColor(Color.DarkPurple);
+        //    embed.WithImageUrl("https://i.imgur.com/mQVFSrP.gif");
 
-            string modulos = "";
+        //    string modulos = "";
 
-            for(int i = 0; i < ModuleContexto.Classes.Length; i++)
-            {
-                try{
-                    InfoModule info = (InfoModule) ModuleContexto.Classes[i].GetMethod("Info").Invoke(null, null);
-                    modulos += $"{((info.Icon != null) ? info.Icon : null)}:{(EmojisNumberList) i }: {((info.Nome == null)? ModuleContexto.Classes[i].Name : info.Nome)} \n";
-                } catch{
-                    modulos += $":{(EmojisNumberList) i }: {ModuleContexto.Classes[i].Name} \n";
-                }
-            }
+        //    for(int i = 0; i < ModuleContexto.Classes.Length; i++)
+        //    {
+        //        try{
+        //            InfoModule info = (InfoModule) ModuleContexto.Classes[i].GetMethod("Info").Invoke(null, null);
+        //            modulos += $"{((info.Icon != null) ? info.Icon : null)}:{(EmojisNumberList) i }: {((info.Nome == null)? ModuleContexto.Classes[i].Name : info.Nome)} \n";
+        //        } catch{
+        //            modulos += $":{(EmojisNumberList) i }: {ModuleContexto.Classes[i].Name} \n";
+        //        }
+        //    }
 
-            embed.AddField("Modulos:", modulos);
+        //    embed.AddField("Modulos:", modulos);
 
-            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-        }*/
+        //    await Contexto.Channel.SendMessageAsync(embed: embed.Build());
+        //}
         
 
         public async Task ajuda()
