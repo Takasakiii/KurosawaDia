@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainDatabaseControler", "Ma
 		{D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23} = {D0E6F0C9-549E-4CB0-AFF7-5E2A62503F23}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronGUI", "ElectronGUI\ElectronGUI.csproj", "{EB3A0569-79FE-48E8-9D21-FD502EA66341}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{870B3D6C-1FF6-4401-A02B-F001F9560501}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{870B3D6C-1FF6-4401-A02B-F001F9560501}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{870B3D6C-1FF6-4401-A02B-F001F9560501}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB3A0569-79FE-48E8-9D21-FD502EA66341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB3A0569-79FE-48E8-9D21-FD502EA66341}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB3A0569-79FE-48E8-9D21-FD502EA66341}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB3A0569-79FE-48E8-9D21-FD502EA66341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
