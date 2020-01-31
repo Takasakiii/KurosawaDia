@@ -14,6 +14,15 @@ namespace Bot.Comandos
 {
     public class Moderacao : GenericModule
     {
+
+        private enum TipoDeModeracao
+        {
+            kick = 0,
+            ban = 1,
+            softban = 2,
+            semperm = 3
+        }
+
         public Moderacao(CommandContext contexto, params object[] args) : base(contexto, args)
         {
              /*
@@ -99,207 +108,138 @@ namespace Bot.Comandos
         }
 
 
-        private async Task moderacao(int tipo) 
+
+        private async Task GerenciadorModeracao(TipoDeModeracao tipo)
         {
-            if (!Contexto.IsPrivate)
+            if (Contexto.IsPrivate)
             {
-                new Thread(async () =>
-                {
-                    string[] comando = Comando;
-                    string msg = string.Join(" ", comando, 1, (comando.Length - 1));
-
-                    Tuple<IUser, string> getUser = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), msg);
-
-                    if (getUser.Item1 != null)
-                    {
-                        SocketGuildUser user = getUser.Item1 as SocketGuildUser;
-                        SocketGuildUser author = Contexto.User as SocketGuildUser;
-                        SocketGuildUser bot = await Contexto.Guild.GetUserAsync(Contexto.Client.CurrentUser.Id) as SocketGuildUser;
-
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.WithColor(Color.Red);
-
-                        bool perm = false, botPerm = false;
-                        switch (tipo)
-                        {
-                            case 1:
-                                perm = author.GuildPermissions.KickMembers;
-                                botPerm = bot.GuildPermissions.KickMembers;
-                                embed.WithDescription($"**{Contexto.User}**, você não pode expulsar esse usuário.");
-                                break;
-                            case 2:
-                            case 3:
-                                perm = author.GuildPermissions.BanMembers;
-                                botPerm = bot.GuildPermissions.BanMembers;
-                                embed.WithDescription($"**{Contexto.User}**, você não pode banir esse usuário.");
-                                break;
-                        }
-
-                        if (author.Hierarchy > user.Hierarchy && user != bot && bot.Hierarchy > user.Hierarchy && perm && botPerm)
-                        {
-                            string motivo = getUser.Item2;
-                            if (motivo.Length > 1024)
-                            {
-                                motivo = motivo.Substring(0, 1024);
-                            }
-
-                            IDMChannel privado = await user.GetOrCreateDMChannelAsync();
-
-                            EmbedBuilder embedo = new EmbedBuilder();
-                            embedo.WithColor(Color.DarkPurple);
-
-                            switch (tipo)
-                            {
-                                case 1:
-                                    if(motivo == "")
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi expulso do servidor **{Contexto.Guild.Name}**.")
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = $"Responsável: {Contexto.User}";
-                                    }
-                                    else
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi expulso do servidor: **{Contexto.Guild.Name}**.")
-                                                .AddField("Motivo:", motivo)
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = "Responsável: {Contexto.User} || Motivo: {motivo}";
-                                    }
-
-                                    if (motivo.Length > 512)
-                                    {
-                                        motivo = motivo.Substring(0, 512);
-                                    }
-
-                                    Thread.Sleep(1000);
-
-                                    await user.KickAsync(motivo);
-
-
-                                    embedo.WithDescription($"**{Contexto.User}**, o membro `{user}` foi expulso do servidor.");
-
-                                    await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
-                                    break;
-                                case 2:
-                                    if (motivo == "")
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi banido do servidor **{Contexto.Guild.Name}**.")
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = $"Responsável: `{Contexto.User}`";
-                                    }
-                                    else
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi banido do servidor **{Contexto.Guild.Name}**.")
-                                                .AddField("Motivo:", motivo)
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = "Responsável: {Contexto.User} || Motivo: {motivo}";
-                                    }
-
-                                    if (motivo.Length > 512)
-                                    {
-                                        motivo = motivo.Substring(0, 512);
-                                    }
-
-                                    Thread.Sleep(1000);
-
-                                    await user.BanAsync(7, motivo);
-
-                                    embedo.WithDescription($"**{Contexto.User}**, o membro `{user}` foi banido do servidor.");
-
-                                    await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
-                                    break;
-                                case 3:
-                                    if (motivo == "")
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi expulso do servidor **{Contexto.Guild.Name}** e suas mensagens foram apagadas.")
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = "Responsável: {Contexto.User}";
-                                    }
-                                    else
-                                    {
-                                        await privado.SendMessageAsync(embed: new EmbedBuilder()
-                                                .WithDescription($"Você foi expulso do servidor **{Contexto.Guild.Name}** e suas mensagens foram apagadas.")
-                                                .AddField("Motivo:", motivo)
-                                                .WithColor(Color.DarkPurple)
-                                            .Build());
-                                        motivo = "Responsável: {Contexto.User} || Motivo: {motivo}";
-                                    }
-
-                                    if (motivo.Length > 512)
-                                    {
-                                        motivo = motivo.Substring(0, 512);
-                                    }
-
-                                    Thread.Sleep(1000);
-
-                                    await user.BanAsync(7, motivo);
-                                    await Contexto.Guild.RemoveBanAsync(user);
-
-                                    embedo.WithDescription($"**{Contexto.User}**, o membro {user.Mention} foi expulso do servidor e suas mensagens fora apagadas.");
-                                    await Contexto.Channel.SendMessageAsync(embed: embedo.Build());
-                                    break;
-                            }
-
-                        }
-                        else
-                        {
-                            await Contexto.Channel.SendMessageAsync(embed: embed.Build());
-                        }
-                    }
-                    else
-                    {
-                        EmbedBuilder usoEmbed = new EmbedBuilder();
-                        usoEmbed.WithColor(Color.Red);
-                        usoEmbed.WithDescription($"**{Contexto.User}**, você precisa me informar um membro.");
-
-                        switch (tipo)
-                        {
-                            case 1:
-                                usoEmbed.AddField("Usos do Comando: ", $"`{PrefixoServidor}kick @membro motivo`\n`{PrefixoServidor}kick <id membro> motivo`");
-                                usoEmbed.AddField("Exemplos: ", $"`{PrefixoServidor}kick @Takasaki#7072 abre o servidor`\n`{PrefixoServidor}kick 274289097689006080 abre o servidor`");
-                                break;
-                            case 2:
-                                usoEmbed.AddField("Usos do Comando: ", $"`{PrefixoServidor}ban @membro motivo`\n`{PrefixoServidor}ban <id membro> motivo`");
-                                usoEmbed.AddField("Exemplos: ", $"`{PrefixoServidor}ban @Thhrag#2527 vai pra escola`\n`{PrefixoServidor}ban 240860729027198977 vai pra escola`");
-                                break;
-                            case 3:
-                                usoEmbed.AddField("Usos do Comando: ", $"`{PrefixoServidor}softban @membro motivo`\n`{PrefixoServidor}softban <id membro> motivo`");
-                                usoEmbed.AddField("Exemplos: ", $"`{PrefixoServidor}softban @Sakurako Oomuro#5964 muito trap larissinha`\n`{PrefixoServidor}softban 234097420898664448 muito trap larissinha`");
-                                break;
-                        }
-
-                        await Contexto.Channel.SendMessageAsync(embed: usoEmbed.Build());
-                    }
-
-                }).Start();
-
+                await Erro.EnviarErroAsync("desculpe mas esse comando só funciona em servidores");
+                return;
             }
-            else
+
+
+            if (Comando.Length < 2)
             {
-                await Erro.EnviarErroAsync("esse comando só pode ser usado em servidores.");
+                await Erro.EnviarErroAsync("você precisa me informar quem você quer punir", new DadosErro("@membro motivo", "@Yummi#2728 fala mal da joaninha não!"));
+                return;
             }
+
+            SocketGuildUser autorComando = Contexto.User as SocketGuildUser;
+            SocketGuildUser bot = await Contexto.Guild.GetUserAsync(Contexto.Client.CurrentUser.Id) as SocketGuildUser;
+
+            TipoDeModeracao botPerm = (bot.GuildPermissions.BanMembers) ? TipoDeModeracao.ban : (bot.GuildPermissions.KickMembers) ? TipoDeModeracao.kick : TipoDeModeracao.semperm;
+
+            if (botPerm == TipoDeModeracao.semperm)
+            {
+                await Erro.EnviarErroAsync("sinto muito mas não possuo permissão para realizar essa tarefa");
+                return;
+            }
+
+            TipoDeModeracao userPerm = (autorComando.GuildPermissions.BanMembers) ? TipoDeModeracao.ban : (autorComando.GuildPermissions.KickMembers) ? TipoDeModeracao.kick : TipoDeModeracao.semperm;
+
+            if (userPerm == TipoDeModeracao.semperm)
+            {
+                await Erro.EnviarErroAsync("você não possui permissão para punir alguem desse servidor");
+                return;
+            }
+
+            Tuple<IUser, string> userExtensionResult = new Extensions.UserExtensions().GetUser(await Contexto.Guild.GetUsersAsync(), string.Join(" ", Comando, 1, (Comando.Length - 1)));
+
+            if (userExtensionResult.Item1 == null)
+            {
+                await Erro.EnviarErroAsync("desculpe mas não conseguir achar o usuario que você queria punir", new DadosErro("@membro motivo", "@LuckShiba#0001 vai trabalhar vagabundo!!!"));
+                return;
+            }
+
+            SocketGuildUser usuarioMensionado = userExtensionResult.Item1 as SocketGuildUser;
+
+
+            if (autorComando.Hierarchy <= usuarioMensionado.Hierarchy || usuarioMensionado == bot || bot.Hierarchy <= usuarioMensionado.Hierarchy)
+            {
+                await Erro.EnviarErroAsync("desculpe mas não posso punir alguem que tenha cargo mais alto");
+                return;
+            }
+
+            string msgMotivo = userExtensionResult.Item2;
+            if (msgMotivo.Length > 509)
+            {
+                msgMotivo = msgMotivo.Substring(0, 509) + "...";
+            }
+
+            IDMChannel privadoUsuario = await usuarioMensionado.GetOrCreateDMChannelAsync();
+
+            string tipoModeracao = "";
+            switch (tipo)
+            {
+                case TipoDeModeracao.kick:
+                    tipoModeracao = "expulso";
+                    break;
+                case TipoDeModeracao.ban:
+                    tipoModeracao = "banido";
+                    break;
+                case TipoDeModeracao.softban:
+                    tipoModeracao = "removido";
+                    break;
+            }
+
+            EmbedBuilder embedPrivado = new EmbedBuilder();
+            embedPrivado.WithTitle("**Buuuu Buuuu Desuaaaa!!!!!**");
+            embedPrivado.WithColor(Color.DarkPurple);
+            embedPrivado.WithImageUrl("https://i.imgur.com/bwifre6.jpg");
+            embedPrivado.WithDescription(string.Format("Você foi {0} do servidor **{1}**", tipoModeracao, Contexto.Guild.Name));
+
+            if (!string.IsNullOrEmpty(msgMotivo))
+            {
+                embedPrivado.AddField("Motivo:", msgMotivo);
+            }
+
+            embedPrivado.AddField("Responsavel:", Contexto.User.ToString());
+
+            try
+            {
+                await privadoUsuario.SendMessageAsync(embed: embedPrivado.Build());
+            }
+            catch (Exception e)
+            {
+                await LogEmiter.EnviarLogAsync(e);
+            }
+            await Task.Delay(1000);
+            msgMotivo = string.Format("Responsavel: {0} {1}", Contexto.User.ToString(), (!string.IsNullOrEmpty(msgMotivo)) ? "| Motivo: {msgMotivo}" : "");
+            switch (tipo)
+            {
+                case TipoDeModeracao.ban:
+                    await usuarioMensionado.BanAsync(7, msgMotivo);
+                    break;
+                case TipoDeModeracao.kick:
+                    await usuarioMensionado.KickAsync(msgMotivo);
+                    break;
+                case TipoDeModeracao.softban:
+                    await usuarioMensionado.BanAsync(7, msgMotivo);
+                    await Contexto.Guild.RemoveBanAsync(usuarioMensionado);
+                    break;
+            }
+
+            await Contexto.Channel.SendMessageAsync(embed: new EmbedBuilder()
+                .WithDescription($"Prontinhooo o {usuarioMensionado} foi {tipoModeracao} do servidor 😀")
+                .WithColor(Color.Green)
+                .Build());
         }
+
+        
+
+         
 
         public async Task kick()
         {
-            await moderacao(1); 
+            await GerenciadorModeracao(TipoDeModeracao.kick);
         }
         public async Task ban()
         {
-            await moderacao(2); 
+            await GerenciadorModeracao(TipoDeModeracao.ban); 
         }
         public async Task softban()
         {
-            await moderacao(3);
+            await GerenciadorModeracao(TipoDeModeracao.softban);
         }
     }
 }
