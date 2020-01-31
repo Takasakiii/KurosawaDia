@@ -19,7 +19,7 @@ namespace BlazorGUI.Pages
 
         public void OnGet()
         {
-
+            Response.Redirect("/restrito/admin");
         }
     }
 }

@@ -1,5 +1,25 @@
-﻿
+﻿@using BlazorGUI.Core.Extensions;
+@page "/blazor/admin"
+
+<textarea class="span6 w-100" rows="12" placeholder="What's up?" @bind="log" disabled"></textarea>
 
 @code {
 
+    string log;
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //log = LogHub.LogHistoric;
+            //LogHub.AlteracaoHub += LogEvent;
+
+            LogHub.EventManual = LogEvent;
+
+        }
+    }
+
+    public void LogEvent(string valor)
+    {
+        log += valor;
+    }
 }
