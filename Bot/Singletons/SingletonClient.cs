@@ -20,7 +20,7 @@ namespace Bot.Singletons
                 AlwaysDownloadUsers = false,
                 MessageCacheSize = 50,
                 ExclusiveBulkDelete = true,
-                TotalShards = 1,
+                TotalShards = 10,
                 LogLevel = Discord.LogSeverity.Info
             }) ;
 
