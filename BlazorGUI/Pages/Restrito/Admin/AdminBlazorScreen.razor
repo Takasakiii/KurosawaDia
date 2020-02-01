@@ -1,25 +1,41 @@
 ﻿@using BlazorGUI.Core.Extensions;
 @page "/blazor/admin"
 
-<textarea class="span6 w-100" rows="12" placeholder="What's up?" @bind="log" disabled"></textarea>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg">
+            <textarea class="span6 w-100 form-control" rows="20" value="@LogHub.LogHistoric"></textarea>
+            <br />
+        </div>
+    </div>@*
+    <div class="row">
+        <div class="col-lg">
+            <input type="text" class="form-control w-100" />
+        </div>
+        <div class="col-lg">
+            <input type="number" class="form-control w-100" />
+        </div>
+        <div class="col-sm">
+            <button type="button" class="btn btn-primary mb-2">Enviar Comando</button>
+        </div>
+    </div>
+              *@
+</div>
 
 @code {
 
-    string log;
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnInitializedAsync ()
     {
-        if (firstRender)
-        {
-            //log = LogHub.LogHistoric;
-            //LogHub.AlteracaoHub += LogEvent;
-
-            LogHub.EventManual = LogEvent;
-
-        }
+        await Refresh();
     }
 
-    public void LogEvent(string valor)
+    async Task Refresh()
     {
-        log += valor;
+        do
+        {      
+            this.StateHasChanged();
+            await Task.Delay(500);
+        } while (true);
     }
 }

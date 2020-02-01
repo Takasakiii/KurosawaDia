@@ -9,16 +9,7 @@ namespace BlazorGUI.Core.Extensions
 {
     public class LogHub
     {
-        internal static Action<string> EventManual;
-        internal static string LogHistoric
-        {
-            get { return LogHistoric; }
-            private set
-            {
-                LogHistoric = value;
-                EventManual?.Invoke(value);
-            }
-        }
+        internal static string LogHistoric { private set; get; }
 
         //public delegate void HubAlterada(string Valor);
 
@@ -30,6 +21,8 @@ namespace BlazorGUI.Core.Extensions
         {
             LogHistoric += e + "\n";
         }
+
+
     }
 
 
