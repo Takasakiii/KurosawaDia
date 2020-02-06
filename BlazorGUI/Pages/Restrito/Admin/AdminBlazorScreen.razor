@@ -25,17 +25,14 @@
 
 @code {
 
-    protected override async Task OnInitializedAsync ()
+    protected override async Task OnInitializedAsync()
     {
-        await Refresh();
+        LogHub.EventLog += Atualizar;
     }
 
-    async Task Refresh()
+    public void Atualizar()
     {
-        do
-        {      
-            this.StateHasChanged();
-            await Task.Delay(500);
-        } while (true);
+        InvokeAsync(StateHasChanged);
     }
+
 }

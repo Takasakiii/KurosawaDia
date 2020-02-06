@@ -11,15 +11,20 @@ namespace BlazorGUI.Core.Extensions
     {
         internal static string LogHistoric { private set; get; }
 
-        //public delegate void HubAlterada(string Valor);
+        internal delegate void LogAtualizado();
 
-        //public static event HubAlterada AlteracaoHub;
+        internal static event LogAtualizado EventLog;
 
 
+        internal static void OnAlteracaoHub()
+        {
+            EventLog?.Invoke();
+        }
 
         public void Log(LogEmiter.TipoLog logtype, string e)
         {
             LogHistoric += e + "\n";
+            OnAlteracaoHub();
         }
 
 
