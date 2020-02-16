@@ -204,7 +204,7 @@ namespace Bot.Comandos
                 await LogEmiter.EnviarLogAsync(e);
             }
             await Task.Delay(1000);
-            msgMotivo = string.Format("Responsavel: {0} {1}", Contexto.User.ToString(), (!string.IsNullOrEmpty(msgMotivo)) ? "| Motivo: {msgMotivo}" : "");
+            msgMotivo = string.Format("Responsavel: {0} {1}", Contexto.User.ToString(), (!string.IsNullOrEmpty(msgMotivo)) ? $"| Motivo: {msgMotivo}" : "");
             switch (tipo)
             {
                 case TipoDeModeracao.ban:
