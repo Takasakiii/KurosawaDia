@@ -1,1 +1,0 @@
-MarinaSQLPocket\MarinaSQLPocket.exe %cd%\ %cd%\Dia.sql 1 0 *_*.sql
