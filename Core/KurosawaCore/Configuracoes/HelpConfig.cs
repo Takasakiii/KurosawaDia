@@ -17,7 +17,7 @@ namespace KurosawaCore.Configuracoes
             {
                 Title = "Eu ouvi alguem pedindo ajuda?? Não se preocupe Dia a seu dispor :yum:",
                 Color = DiscordColor.Purple,
-                Description = "Para mais informações sobre um modulo ou comando digite: `help {nomeModulo/Comando}`, que eu informarei mais sobre ele :smiley:",
+                Description = "Para mais informações sobre um modulo ou comando digite: `help {Comando}`, que eu informarei mais sobre ele :smiley:",
                 ImageUrl = "https://i.imgur.com/mQVFSrP.gif"
             };
         }
@@ -49,7 +49,7 @@ namespace KurosawaCore.Configuracoes
                     tipo = $" = {{ {argumento.DefaultValue} }}";
                 temp += $"`[{argumento.Name}]: {argumento.Type.Name}{tipo}` - {argumento.Description}\n";
             }
-            EmbedBuilder.AddField("Metodos de chamada:", temp);
+            EmbedBuilder.AddField("Argumentos do Comando:", temp);
             EmbedBuilder.WithFooter("[] Nome do Argumento e {} valor padrão do mesmo");
             EmbedBuilder.WithImageUrl("https://i.imgur.com/vg0z9yT.jpg");
             return this;

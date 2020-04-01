@@ -1,9 +1,8 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
-using System;
+using KurosawaCore.Constants;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using static DSharpPlus.Entities.DiscordEmbedBuilder;
 
@@ -37,6 +36,31 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Purple
             };
             await ctx.RespondAsync(embed: eb.Build());
+        }
+
+        [Command("info")]
+        [Aliases("convite", "ping")]
+        [Description("Contem informações de suporte e algumas coisinhas pessoais")]
+        public async Task Info(CommandContext ctx)
+        {
+            DiscordEmbedBuilder builder = new DiscordEmbedBuilder
+            {
+                ThumbnailUrl = "https://i.imgur.com/L8PxTrT.jpg",
+                Title = "**Dia's Book:**",
+                Description = "Espero que não faça nada estranho com minhas informações, to zuando kkkkkk :stuck_out_tongue_closed_eyes:",
+                ImageUrl = "https://i.imgur.com/qGb6xtG.jpg",
+                Color = DiscordColor.Purple
+            };
+            ulong users = 0;
+            foreach (KeyValuePair<ulong, DiscordGuild> guild in ctx.Client.Guilds)
+            {
+                users += (ulong)guild.Value.MemberCount;
+            }
+            builder.AddField("Sobre mim:", "__Nome__: Kurosawa Dia (Dia - Chan)\n__Aniversário__: 1° de Janeiro(Quero presentes)\n__Ocupação__: Estudante e Traficante / Idol nas horas vagas");
+            builder.AddField("As pessoas que fazem tudo isso ser possivel:", "Takasaki#7072\nYummi#2708\nLuckShiba#0001\n\nE é claro você que acredita em meu potencial:orange_heart:");
+            builder.AddField("Informações chatas:", $"[Me adicione em seu Servidor]({ InfoImportante.conviteDia})\n[Entre no meu servidor para dar suporte ao projeto]({ InfoImportante.conviteServer})\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas]({ InfoImportante.topgg})");
+            builder.AddField("Informações Chatas:", $"__Ping__: {ctx.Client.Ping}\n__Servidores__: {ctx.Client.Guilds.Count}\n__Usuarios__: {users}\n__Versão__: {InfoImportante.VersaoNumb} ({InfoImportante.VersaoName})");
+            await ctx.RespondAsync(embed: builder.Build());
         }
     }
 }
