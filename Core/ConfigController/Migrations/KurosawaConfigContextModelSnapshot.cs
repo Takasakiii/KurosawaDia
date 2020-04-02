@@ -15,6 +15,29 @@ namespace ConfigController.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
+            modelBuilder.Entity("ConfigController.Models.ApiConfig", b =>
+                {
+                    b.Property<uint>("Cod")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Cod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnName("Key")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnName("Nome")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Cod");
+
+                    b.ToTable("ApiConfig");
+                });
+
             modelBuilder.Entity("ConfigController.Models.BaseConfig", b =>
                 {
                     b.Property<uint>("Cod")

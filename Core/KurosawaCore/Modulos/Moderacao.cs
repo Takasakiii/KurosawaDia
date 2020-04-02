@@ -105,7 +105,7 @@ namespace KurosawaCore.Modulos
 
                         DiscordEmbedBuilder eb = new DiscordEmbedBuilder
                         {
-                            Title = "**Buuuubuuuu desu waaaa!!!!!**",
+                            Title = "**Buuuu buuuu desu waaaa!!!!!**",
                             Description = $"Você foi {tipo} do servidor **{ctx.Guild.Name}**",
                             ImageUrl = "https://i.imgur.com/bwifre6.jpg",
                             Color = DiscordColor.Black
