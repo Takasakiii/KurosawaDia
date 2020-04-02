@@ -7,17 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{32BC4B9D-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{2E2E0E7D-A939-4691-AFEF-CAC2B69F3D39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigController", "Core\ConfigController\ConfigController.csproj", "{AC2F7C0E-ABF1-4192-9CE2-0E62127E84F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigController", "Core\ConfigController\ConfigController.csproj", "{AC2F7C0E-ABF1-4192-9CE2-0E62127E84F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseController", "Core\DataBaseController\DataBaseController.csproj", "{5FA2327C-5699-4C0E-AE3D-99C75E0A3582}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseController", "Core\DataBaseController\DataBaseController.csproj", "{5FA2327C-5699-4C0E-AE3D-99C75E0A3582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KurosawaCore", "Core\KurosawaCore\KurosawaCore.csproj", "{D63D70C3-E7C5-4707-90DB-5F9F82A13878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KurosawaCore", "Core\KurosawaCore\KurosawaCore.csproj", "{D63D70C3-E7C5-4707-90DB-5F9F82A13878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetCore", "Interfaces\ConsoleNetCore\ConsoleNetCore.csproj", "{15611B82-283C-4C51-99CB-B2D15ED7F3A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleNetCore", "Interfaces\ConsoleNetCore\ConsoleNetCore.csproj", "{15611B82-283C-4C51-99CB-B2D15ED7F3A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjetosImprementadores", "ProjetosImprementadores", "{D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityMigrations", "ProjetosImprementadores\EntityMigrations\EntityMigrations.csproj", "{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityMigrations", "ProjetosImprementadores\EntityMigrations\EntityMigrations.csproj", "{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfNetCore", "Interfaces\WpfNetCore\WpfNetCore.csproj", "{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{D63D70C3-E7C5-4707-90DB-5F9F82A13878} = {32BC4B9D-75A2-4E6C-8489-79A54FFEF181}
 		{15611B82-283C-4C51-99CB-B2D15ED7F3A9} = {2E2E0E7D-A939-4691-AFEF-CAC2B69F3D39}
 		{BF0D52E6-CA9C-47DA-A6BA-8AA2419AB107} = {D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}
+		{EFFDE2F1-140A-48EC-AF6C-9443A7EF3510} = {2E2E0E7D-A939-4691-AFEF-CAC2B69F3D39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BBEB7401-2DC2-41A7-8976-05000080A1CE}
