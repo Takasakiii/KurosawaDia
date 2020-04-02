@@ -4,6 +4,7 @@ using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,6 +69,90 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb.Build());
+        }
+
+        [Command("serverimage")]
+        [Aliases("simg")]
+        [Description("Mostrar a imagem do servidor")]
+        public async Task ServerImage(CommandContext ctx)
+        {
+            if(!ctx.Channel.IsPrivate)
+            {
+                if (ctx.Guild.IconUrl != null)
+                {
+                    string url;
+                    if (ctx.Guild.Features.Contains("ANIMATED_ICON"))
+                    {
+                        url = $"{ctx.Guild.IconUrl.Replace(".jpg", ".gif")}?size=2048";
+                    }
+                    else
+                    {
+                        url = $"{ctx.Guild.IconUrl}?size=2048";
+                    }
+
+                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder
+                    {
+                        Title = ctx.Guild.Name,
+                        Description = $"[Link Direto]({url})",
+                        ImageUrl = url,
+                        Color = DiscordColor.Green
+                    };
+                    await ctx.RespondAsync(embed: eb);
+                }
+            }
+        }
+
+        [Command("sugestao")]
+        [Description("Envie sugestões para nós")]
+        public async Task Sugestao(CommandContext ctx, [Description("A sua sugestão")][RemainingText]string mensagem)
+        {
+            await ControladorDeSugestao(ctx, mensagem, "Sugestão");
+        }
+
+        [Command("bug")]
+        [Description("Nos reporte um bug")]
+        public async Task Bug(CommandContext ctx, [Description("O bug")][RemainingText]string mensagem)
+        {
+            await ControladorDeSugestao(ctx, mensagem, "Bug");
+        }
+
+        private async Task ControladorDeSugestao(CommandContext ctx, string mensagem, string tipo)
+        {
+            if (mensagem == "") return;
+
+            DiscordChannel channel = await ctx.Client.GetChannelAsync(556598669500088320);
+
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder
+            {
+                Title = $"Nova sugestão de: {ctx.User.Username}#{ctx.User.Discriminator}",
+                Color = DiscordColor.Green
+            };
+            eb.AddField($"{tipo}: ", mensagem);
+            eb.AddField("Servidor: ", (ctx.Guild == null) ? "Privado" : ctx.Guild.Name);
+            eb.AddField("Mais informações: ", $"Channel: {ctx.Channel.Id}\n UserId: {ctx.User.Id}");
+
+            await channel.SendMessageAsync(embed: eb);
+
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+            {
+                Description = $"**{ctx.User.Username}#{ctx.User.Discriminator}**, obrigada! Vou usa-lá para melhorarmos ❤",
+                Color = DiscordColor.Green
+            });
+        }
+
+        [Command("whatsify")]
+        [Aliases("copipasta", "zapironga")]
+        [Description("Converte um texto com emoji do discord para emoji universais")]
+        public async Task Whatsify(CommandContext ctx, [Description("Texto que deseja converter")][RemainingText]string mensagem)
+        {
+            if (mensagem == "") return;
+
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder
+            {
+                Description = $"```{mensagem}```",
+                Color = DiscordColor.Green
+            };
+            await ctx.RespondAsync(embed: eb);
         }
     }
 }

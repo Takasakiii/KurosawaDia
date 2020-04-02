@@ -62,7 +62,5 @@ namespace KurosawaCore.Extensions
                 return false;
             }
         }
-
-
     }
 }
