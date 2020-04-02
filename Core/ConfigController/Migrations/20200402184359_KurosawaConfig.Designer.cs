@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfigController.Migrations
 {
     [DbContext(typeof(KurosawaConfigContext))]
-    [Migration("20200401074347_KurosawaConfig")]
+    [Migration("20200402184359_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,29 @@ namespace ConfigController.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
+
+            modelBuilder.Entity("ConfigController.Models.ApiConfig", b =>
+                {
+                    b.Property<uint>("Cod")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Cod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnName("Key")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnName("Nome")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Cod");
+
+                    b.ToTable("ApiConfig");
+                });
 
             modelBuilder.Entity("ConfigController.Models.BaseConfig", b =>
                 {

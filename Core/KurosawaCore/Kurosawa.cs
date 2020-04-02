@@ -2,9 +2,9 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using KurosawaCore.Configuracoes;
+using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace KurosawaCore
@@ -15,8 +15,9 @@ namespace KurosawaCore
         private readonly BaseConfig Config;
         private CommandsNextModule Comandos;
 
-        public Kurosawa(BaseConfig config)
+        public Kurosawa(BaseConfig config, ApiConfig[] apiConfig)
         {
+            DependencesSingleton.ApiConfigs = apiConfig;
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration
             {
@@ -26,7 +27,7 @@ namespace KurosawaCore
                 LogLevel = LogLevel.Debug
             };
             Cliente = new DiscordClient(discordConfig);
-    
+
         }
 
         public async Task Iniciar()
@@ -34,14 +35,14 @@ namespace KurosawaCore
             CommandsNextConfiguration configNext = new CommandsNextConfiguration
             {
                 StringPrefix = Config.Prefixo,
-                EnableDefaultHelp = false,
+                EnableDefaultHelp = false
             };
-            Comandos =  Cliente.UseCommandsNext(configNext);
+            Comandos = Cliente.UseCommandsNext(configNext);
             Comandos.SetHelpFormatter<HelpConfig>();
             Comandos.RegisterCommands(typeof(Kurosawa).Assembly);
-            foreach(KeyValuePair<string, Command> comando in Comandos.RegisteredCommands)
+            foreach (KeyValuePair<string, Command> comando in Comandos.RegisteredCommands)
             {
-                Cliente.DebugLogger.LogMessage(LogLevel.Debug,"Handler" , $"Comando Registrado: {comando.Key}", DateTime.Now);
+                Cliente.DebugLogger.LogMessage(LogLevel.Debug, "Handler", $"Comando Registrado: {comando.Key}", DateTime.Now);
             }
             Comandos.CommandErrored += Comandos_CommandErrored;
             await Cliente.ConnectAsync();
