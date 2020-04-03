@@ -82,7 +82,7 @@ namespace ConsoleNetCore
         {
             AConsole.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
             await CriarDB();
-            Kurosawa kud = new Kurosawa(Config, ApiConfig);
+            Kurosawa kud = new Kurosawa(Config, ApiConfig, DbConfig);
             await kud.Iniciar();
         }
     }
