@@ -3,9 +3,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
@@ -76,7 +74,7 @@ namespace KurosawaCore.Modulos
         [Description("Mostrar a imagem do servidor")]
         public async Task ServerImage(CommandContext ctx)
         {
-            if(!ctx.Channel.IsPrivate)
+            if (!ctx.Channel.IsPrivate)
             {
                 if (ctx.Guild.IconUrl != null)
                 {
