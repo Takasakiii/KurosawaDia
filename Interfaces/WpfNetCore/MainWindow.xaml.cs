@@ -10,21 +10,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfNetCore.Views
+namespace WpfNetCore
 {
     /// <summary>
-    /// Interaction logic for Inicio.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Inicio : Window
+    public partial class MainWindow : Window
     {
-        public Inicio()
+        public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Video_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            Video.Position = new TimeSpan(0);
         }
     }
 }
