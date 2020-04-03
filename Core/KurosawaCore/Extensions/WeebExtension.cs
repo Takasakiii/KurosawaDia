@@ -9,10 +9,11 @@ namespace KurosawaCore.Extensions
     internal class WeebExtension
     {
         internal DiscordUser UsuarioDestino { get; set; } = null;
-        internal string SelfMsg { get; set; } = "ele(a) mesmo.";
+        internal string SelfMsg { get; set; } = "";
         internal bool Auto { get; set; } = true;
+        internal DiscordUser Author { get; set; } = null;
 
-        internal async Task<DiscordEmbed> GetWeeb(DiscordUser author, string tipo, string msg)
+        internal async Task<DiscordEmbed> GetWeeb(string tipo, string msg)
         {
             WeebClient weeb = new WeebClient();
             await weeb.Authenticate(DependencesSingleton.GetApiWeeb().Key, TokenType.Wolke);
@@ -25,7 +26,7 @@ namespace KurosawaCore.Extensions
 
             if (Auto)
             {
-                eb.WithTitle($"{author.Username} {((UsuarioDestino == null) ? SelfMsg : msg + " " + UsuarioDestino.Username)}");
+                eb.WithTitle($"{Author.Username} {((UsuarioDestino == null) ? SelfMsg : msg + " " + UsuarioDestino.Username)}");
             }
             else
             {
