@@ -11,6 +11,7 @@ namespace ConfigController.EntityConfiguration
     {
         public DbSet<BaseConfig> BaseConfigs { get; set; }
         public DbSet<ApiConfig> ApiConfig { get; set; }
+        public DbSet<DBConfig> DBConfig { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder config)
         {
             config.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}{DBConst.ConfigName}");

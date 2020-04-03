@@ -7,7 +7,6 @@ namespace EntityMigrations
         static void Main(string[] args)
         {
             //Add-Migration KurosawaConfig -Project ConfigController -StartupProject EntityMigrations
-            Console.WriteLine("Hello World!");
         }
     }
 }

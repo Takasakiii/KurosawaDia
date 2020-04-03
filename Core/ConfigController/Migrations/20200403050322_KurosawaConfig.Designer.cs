@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfigController.Migrations
 {
     [DbContext(typeof(KurosawaConfigContext))]
-    [Migration("20200402184359_KurosawaConfig")]
+    [Migration("20200403050322_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,42 @@ namespace ConfigController.Migrations
                     b.HasKey("Cod");
 
                     b.ToTable("BaseConfig");
+                });
+
+            modelBuilder.Entity("ConfigController.Models.DBConfig", b =>
+                {
+                    b.Property<ushort>("Cod")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Cod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Database")
+                        .IsRequired()
+                        .HasColumnName("Database")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IP")
+                        .IsRequired()
+                        .HasColumnName("IP")
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("Porta")
+                        .HasColumnName("Porta")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnName("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("User")
+                        .IsRequired()
+                        .HasColumnName("User")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Cod");
+
+                    b.ToTable("DBConfig");
                 });
 #pragma warning restore 612, 618
         }

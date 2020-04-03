@@ -64,6 +64,42 @@ namespace ConfigController.Migrations
 
                     b.ToTable("BaseConfig");
                 });
+
+            modelBuilder.Entity("ConfigController.Models.DBConfig", b =>
+                {
+                    b.Property<ushort>("Cod")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Cod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Database")
+                        .IsRequired()
+                        .HasColumnName("Database")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IP")
+                        .IsRequired()
+                        .HasColumnName("IP")
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("Porta")
+                        .HasColumnName("Porta")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnName("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("User")
+                        .IsRequired()
+                        .HasColumnName("User")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Cod");
+
+                    b.ToTable("DBConfig");
+                });
 #pragma warning restore 612, 618
         }
     }
