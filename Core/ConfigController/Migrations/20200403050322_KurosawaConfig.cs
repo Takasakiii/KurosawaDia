@@ -34,6 +34,23 @@ namespace ConfigController.Migrations
                 {
                     table.PrimaryKey("PK_BaseConfig", x => x.Cod);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "DBConfig",
+                columns: table => new
+                {
+                    Cod = table.Column<ushort>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    IP = table.Column<string>(nullable: false),
+                    Porta = table.Column<uint>(nullable: false),
+                    User = table.Column<string>(nullable: false),
+                    Senha = table.Column<string>(nullable: false),
+                    Database = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DBConfig", x => x.Cod);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -43,6 +60,9 @@ namespace ConfigController.Migrations
 
             migrationBuilder.DropTable(
                 name: "BaseConfig");
+
+            migrationBuilder.DropTable(
+                name: "DBConfig");
         }
     }
 }

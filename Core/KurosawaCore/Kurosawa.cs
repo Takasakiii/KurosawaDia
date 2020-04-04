@@ -1,4 +1,5 @@
 ﻿using ConfigController.Models;
+using DataBaseController;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using KurosawaCore.Configuracoes;
@@ -15,9 +16,10 @@ namespace KurosawaCore
         private readonly BaseConfig Config;
         private CommandsNextModule Comandos;
 
-        public Kurosawa(BaseConfig config, ApiConfig[] apiConfig)
+        public Kurosawa(BaseConfig config, ApiConfig[] apiConfig, DBConfig dbconfig)
         {
             DependencesSingleton.ApiConfigs = apiConfig;
+            new DBCore(dbconfig);
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration
             {
