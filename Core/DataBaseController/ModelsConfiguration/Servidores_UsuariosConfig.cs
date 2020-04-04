@@ -10,11 +10,15 @@ namespace DataBaseController.ModelsConfiguration
         {
             //Table
             builder.ToTable("Servidores_Usuarios");
-            builder.HasKey(x => new { x.Servidor, x.Usuario });
+            builder.HasKey(x => new { x.ServidorCod, x.UsuarioCod });
+            //ServidorCod
+            builder.Property(x => x.ServidorCod).HasColumnName("Servidores_codigo_servidor").HasColumnType("bigint");
             //Servidor
-            builder.HasOne(x => x.Servidor).WithMany(x => x.ServidoresUsuarios).HasForeignKey("Servidores_codigo_servidor");
+            builder.HasOne(x => x.Servidor).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.ServidorCod);
+            //UsuarioCod
+            builder.Property(x => x.UsuarioCod).HasColumnName("Usuarios_codigo_usuario").HasColumnType("bigint");
             //Usuario
-            builder.HasOne(x => x.Usuario).WithMany(x => x.ServidoresUsuarios).HasForeignKey("Usuarios_codigo_usuario");
+            builder.HasOne(x => x.Usuario).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.UsuarioCod);
         }
     }
 }
