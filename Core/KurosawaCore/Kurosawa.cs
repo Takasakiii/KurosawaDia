@@ -12,9 +12,12 @@ namespace KurosawaCore
 {
     public sealed class Kurosawa
     {
+        public delegate void OnLogReceived(object sender, DSharpPlus.EventArgs.DebugLogMessageEventArgs e);
+        public event OnLogReceived OnLog;
         private DiscordClient Cliente;
         private readonly BaseConfig Config;
         private CommandsNextModule Comandos;
+
 
         public Kurosawa(BaseConfig config, ApiConfig[] apiConfig, DBConfig dbconfig)
         {
@@ -29,7 +32,12 @@ namespace KurosawaCore
                 LogLevel = LogLevel.Debug
             };
             Cliente = new DiscordClient(discordConfig);
+            Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
+        }
 
+        private void DebugLogger_LogMessageReceived(object sender, DSharpPlus.EventArgs.DebugLogMessageEventArgs e)
+        {
+            OnLog?.Invoke(sender, e);
         }
 
         public async Task Iniciar()
@@ -37,7 +45,7 @@ namespace KurosawaCore
             CommandsNextConfiguration configNext = new CommandsNextConfiguration
             {
                 StringPrefix = Config.Prefixo,
-                EnableDefaultHelp = false
+                EnableDefaultHelp = false,
             };
             Comandos = Cliente.UseCommandsNext(configNext);
             Comandos.SetHelpFormatter<HelpConfig>();
