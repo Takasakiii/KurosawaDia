@@ -8,6 +8,6 @@ namespace DataBaseController.Modelos
     {
         public uint Cod { get; set; }
         public string Key { get; set; }
-        public List<ConfiguracoesServidoresAplicada> Configuracoes { get; set; }
+        public virtual List<ConfiguracoesServidoresAplicada> Configuracoes { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataBaseController.ModelsConfiguration
 {
-    class UsuariosConfig : IEntityTypeConfiguration<Usuarios>
+    internal sealed class UsuariosConfig : IEntityTypeConfiguration<Usuarios>
     {
         public void Configure(EntityTypeBuilder<Usuarios> builder)
         {
@@ -17,7 +17,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.Property(x => x.ID).HasColumnName("id_usuario").HasColumnType("bigint").IsRequired();
             builder.HasIndex(x => x.ID).IsUnique();
             //Nome
-            builder.Property(x => x.Nome).HasColumnName("nome_usuario").HasColumnType("varchar(255)").IsRequired();
+            builder.Property(x => x.Nome).HasColumnName("nome_usuario").HasColumnType("varchar(255)").HasCharSet("utf8").IsRequired();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataBaseController.ModelsConfiguration
 {
-    class ConfiguracoesServidoresAplicadaConfig : IEntityTypeConfiguration<ConfiguracoesServidoresAplicada>
+    internal sealed class ConfiguracoesServidoresAplicadaConfig : IEntityTypeConfiguration<ConfiguracoesServidoresAplicada>
     {
         public void Configure(EntityTypeBuilder<ConfiguracoesServidoresAplicada> builder)
         {

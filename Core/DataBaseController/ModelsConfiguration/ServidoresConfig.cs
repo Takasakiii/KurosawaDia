@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataBaseController.ModelsConfiguration
 {
-    public class ServidoresConfig : IEntityTypeConfiguration<Servidores>
+    internal sealed class ServidoresConfig : IEntityTypeConfiguration<Servidores>
     {
         public void Configure(EntityTypeBuilder<Servidores> builder)
         {
@@ -17,9 +17,9 @@ namespace DataBaseController.ModelsConfiguration
             builder.Property(x => x.ID).HasColumnName("id_servidor").HasColumnType("bigint").IsRequired();
             builder.HasIndex(x => x.ID).IsUnique();
             //Nome
-            builder.Property(x => x.Nome).HasColumnName("nome_servidor").HasColumnType("varchar(255)").IsRequired();
+            builder.Property(x => x.Nome).HasColumnName("nome_servidor").HasColumnType("varchar(255)").HasCharSet("utf8").IsRequired();
             //Especial
-            builder.Property(x => x.Espercial).HasColumnName("especial_servidor").HasColumnType("bool").IsRequired().HasDefaultValue(false);
+            builder.Property(x => x.Espercial).HasColumnName("especial_servidor").HasColumnType("tinyint").HasConversion<byte>().IsRequired().HasDefaultValue(false);
             //Prefix
             builder.Property(x => x.Prefix).HasColumnName("prefix_servidor").HasColumnType("varchar(25)").HasDefaultValue(null);
         }

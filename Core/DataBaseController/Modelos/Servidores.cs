@@ -9,6 +9,10 @@ namespace DataBaseController.Modelos
         public string Nome { get; set; }
         public bool Espercial { get; set; }
         public string Prefix { get; set; }
-        public List<ConfiguracoesServidoresAplicada> Configuracoes { get; set; }
+        public virtual List<ConfiguracoesServidoresAplicada> Configuracoes { get; set; }
+        public virtual List<Servidores_Usuarios> ServidoresUsuarios { get; set; }
+        public virtual List<CustomReactions> CustomReactions { get; set; }
+        public virtual List<Cargos> Cargos { get; set; }
+        public virtual List<Canais> Canais { get; set; }
     }
 }
