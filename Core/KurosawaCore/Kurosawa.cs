@@ -2,7 +2,9 @@
 using DataBaseController;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
+using KurosawaCore.Modelos;
 using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ namespace KurosawaCore
 {
     public sealed class Kurosawa
     {
-        public delegate void OnLogReceived(object sender, DSharpPlus.EventArgs.DebugLogMessageEventArgs e);
+        public delegate void OnLogReceived(LogMessage e);
         public event OnLogReceived OnLog;
         private DiscordClient Cliente;
         private readonly BaseConfig Config;
@@ -35,9 +37,9 @@ namespace KurosawaCore
             Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
         }
 
-        private void DebugLogger_LogMessageReceived(object sender, DSharpPlus.EventArgs.DebugLogMessageEventArgs e)
+        private void DebugLogger_LogMessageReceived(object sender, DebugLogMessageEventArgs e)
         {
-            OnLog?.Invoke(sender, e);
+            OnLog?.Invoke(new LogMessage(e));
         }
 
         public async Task Iniciar()
