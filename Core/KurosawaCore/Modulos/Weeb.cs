@@ -2,10 +2,13 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
+using KurosawaCore.Models.Atributes;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
 {
+    [Modulo("Weeb", "❤")]
+    [Description("Este módulo é o mais amoroso de todos.")]
     public class Weeb
     {
         [Command("hug")]

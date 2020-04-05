@@ -2,12 +2,15 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
+using KurosawaCore.Models.Atributes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
 {
+    [Modulo("Utilidade", "🛠")]
+    [Description("Este módulo possui coisas uteis pro seu dia a dia.")]
     public class Utilidades
     {
         [Command("videochamada")]

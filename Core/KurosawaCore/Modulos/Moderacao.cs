@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using KurosawaCore.Models.Atributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
 {
+    [Modulo("Moderação", "⚖")]
+    [Description("Este módulo possui coisas para te ajudar a moderar seu servidor.")]
     public class Moderacao
     {
         [Command("limparchat")]
