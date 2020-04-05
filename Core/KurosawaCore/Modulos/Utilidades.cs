@@ -34,7 +34,7 @@ namespace KurosawaCore.Modulos
         [Description("Almenta o tamanho de um emote, e tambem permite você pegar a url do mesmo")]
         public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]DiscordEmoji emoji)
         {
-            if (ctx.Channel.IsPrivate)
+            if (ctx.Channel.IsPrivate || emoji == null)
                 throw new Exception();
             DiscordEmojiExtension ex = new DiscordEmojiExtension(emoji);
             string url = await ex.GetUrl();

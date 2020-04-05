@@ -8,6 +8,7 @@ using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
 using KurosawaCore.Extensions;
 using KurosawaCore.Modelos;
+using KurosawaCore.Modulos;
 using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,7 @@ namespace KurosawaCore
         }
         private async Task CallHelpNofing(CommandContext ctx)
         {
-            await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx);
+            await new Ajuda().AjudaCmd(ctx);
         }
     }
 
