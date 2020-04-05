@@ -73,19 +73,26 @@ namespace KurosawaCore
 
         private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
         {
-            ReactionsController<CommandContext> controller = new ReactionsController<CommandContext>(e.Context);
-            if (e.Exception is CommandNotFoundException)
+            try
             {
-                DiscordEmoji emoji = DiscordEmoji.FromUnicode("❓");
-                await e.Context.Message.CreateReactionAsync(emoji);
-                controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo(CallHelpNofing), emoji, e.Context.User);
+                ReactionsController<CommandContext> controller = new ReactionsController<CommandContext>(e.Context);
+                if (e.Exception is CommandNotFoundException)
+                {
+                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❓");
+                    await e.Context.Message.CreateReactionAsync(emoji);
+                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo(CallHelpNofing), emoji, e.Context.User);
+                }
+                else
+                {
+                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❌");
+                    await Message.Message.CreateReactionAsync(emoji);
+                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.Name);
+                    Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                DiscordEmoji emoji = DiscordEmoji.FromUnicode("❌");
-                await Message.Message.CreateReactionAsync(emoji);
-                controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User,  e.Command.Name);
-                Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
+                Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", ex.Message, DateTime.Now);
             }
         }
 
