@@ -13,10 +13,15 @@
     <None Remove="Resources\KurosawaDia.png" />
     <None Remove="Resources\KurosawaRuby.png" />
     <None Remove="Resources\MatsuuraKanan.png" />
+    <None Remove="Resources\Media\FundoTreinar.jpg" />
+    <None Remove="Resources\Media\Universe.jpg" />
     <None Remove="Resources\TsushimaYoshiko.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Media\FundoTreinar.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Media\KurosawaDia.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -38,10 +43,6 @@
     <None Update="Resources\Media\Logo.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Styles\" />
   </ItemGroup>
 
 </Project>

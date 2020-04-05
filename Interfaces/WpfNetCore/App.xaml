@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:WpfNetCore"
              StartupUri="Views/Inicio.xaml">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Dictionary/Colors.xaml"/>
+                <ResourceDictionary Source="/Resources/Styles/TreinarTabControl.xaml"/>
+                <ResourceDictionary Source="/Resources/Styles/TreinarTabItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
