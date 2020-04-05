@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBaseController.Migrations.DiaImprement
 {
     [DbContext(typeof(KurosawaMigrationContext))]
-    [Migration("20200404040141_KurosawaConfig")]
+    [Migration("20200405032306_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
