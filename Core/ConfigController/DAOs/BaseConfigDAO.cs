@@ -25,7 +25,7 @@ namespace ConfigController.DAOs
 
         public async Task<BaseConfig> Ler()
         {
-            using(KurosawaConfigContext contexto = new KurosawaConfigContext())
+            using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
                 return await contexto.BaseConfigs.FindAsync((uint)1);
             }

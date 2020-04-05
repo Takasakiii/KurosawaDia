@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,6 +45,10 @@ namespace KurosawaCore.Modulos
 
                     await ctx.Channel.DeleteMessagesAsync(mensagens.GetRange(0, (quantidade > mensagens.Count) ? mensagens.Count : quantidade));
                 }
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -143,7 +148,15 @@ namespace KurosawaCore.Modulos
                             Color = DiscordColor.Black
                         });
                     }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
+            }
+            else
+            {
+                throw new Exception();
             }
         }
     }
