@@ -20,7 +20,7 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" Margin="0,0,4,-1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
-            <Border x:Name="Border" Grid.Row="1" BorderThickness="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" Background="{StaticResource Rosa}" BorderBrush="White">
+            <Border x:Name="Border" Grid.Row="1" BorderThickness="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" Background="{StaticResource Vermelho}" BorderBrush="White">
                 <ContentPresenter x:Name="PART_SelectedContentHost" Margin="0" ContentSource="SelectedContent" />
             </Border>
         </Grid>
