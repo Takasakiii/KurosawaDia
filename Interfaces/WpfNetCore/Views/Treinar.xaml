@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfNetCore.Views"
         mc:Ignorable="d"
         Title="Kurosawa Dia Launcher - Treinar"  Height="720" Width="1280" WindowState="Maximized" MinHeight="720" MinWidth="1280">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -21,7 +21,45 @@
         <Image Source="/Resources/Media/FundoTreinar.jpg" Stretch="UniformToFill" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
         <TabControl Template="{StaticResource TreinarTabControl}" Grid.Column="1" Grid.Row="1">
             <TabItem Style="{StaticResource TreinarTabItem}" Header="Bot">
-                <Grid/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="70*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/Resources/Media/KurosawaDia.png" Grid.ColumnSpan="3"/>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="73*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Token:" FontSize="16" VerticalAlignment="Center" Grid.Row="1"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
+                            <TextBox x:Name="Token" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Prefix:" FontSize="16" VerticalAlignment="Center" Grid.Row="3"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3">
+                            <TextBox x:Name="Prefix" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Id Dono:" FontSize="16" VerticalAlignment="Center" Grid.Row="5"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5">
+                            <TextBox Name="IdDono" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                    </Grid>
+                </Grid>
             </TabItem>
             <TabItem Style="{StaticResource TreinarTabItem}" Header="Database">
                 <Grid/>
