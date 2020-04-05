@@ -44,7 +44,7 @@ namespace ConsoleNetCore
                 DbConfig.Porta = uint.Parse(Console.ReadLine());
                 Console.Write("Database: ");
                 DbConfig.Database = Console.ReadLine();
-                Console.WriteLine("User: ");
+                Console.Write("User: ");
                 DbConfig.User = Console.ReadLine();
                 Console.Write("Senha: ");
                 DbConfig.Senha = Console.ReadLine();

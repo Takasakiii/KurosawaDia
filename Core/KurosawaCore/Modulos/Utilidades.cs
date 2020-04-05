@@ -15,15 +15,15 @@ namespace KurosawaCore.Modulos
         [Description("Comando permite abrir uma chamada com Video de forma alternativa no servidor")]
         public async Task VideoChamada(CommandContext ctx)
         {
-            if (!ctx.Channel.IsPrivate)
+            if (ctx.Channel.IsPrivate)
+                throw new Exception();
+            DiscordEmbedBuilder builder = new DiscordEmbedBuilder
             {
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder
-                {
-                    Color = DiscordColor.Green,
-                    Description = $"Para acessar o compartilhamento de tela basta [clicar aqui](https://discordapp.com/channels/{ctx.Guild.Id}/{ctx.Member.VoiceState.Channel.Id}) :grinning:"
-                };
-                await ctx.RespondAsync(embed: builder.Build());
-            }
+                Color = DiscordColor.Green,
+                Description = $"Para acessar o compartilhamento de tela basta [clicar aqui](https://discordapp.com/channels/{ctx.Guild.Id}/{ctx.Member.VoiceState.Channel.Id}) :grinning:"
+            };
+            await ctx.RespondAsync(embed: builder.Build());
+
         }
 
         [Command("emoji")]
@@ -31,19 +31,18 @@ namespace KurosawaCore.Modulos
         [Description("Almenta o tamanho de um emote, e tambem permite você pegar a url do mesmo")]
         public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]DiscordEmoji emoji)
         {
-            if (!ctx.Channel.IsPrivate)
+            if (ctx.Channel.IsPrivate)
+                throw new Exception();
+            DiscordEmojiExtension ex = new DiscordEmojiExtension(emoji);
+            string url = await ex.GetUrl();
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
-                DiscordEmojiExtension ex = new DiscordEmojiExtension(emoji);
-                string url = await ex.GetUrl();
-                DiscordEmbedBuilder eb = new DiscordEmbedBuilder
-                {
-                    Color = DiscordColor.Green,
-                    Title = ex.Emoji.GetDiscordName().Replace(":", ""),
-                    Description = $"[Link Direto]({url})",
-                    ImageUrl = url
-                };
-                await ctx.RespondAsync(embed: eb.Build());
-            }
+                Color = DiscordColor.Green,
+                Title = ex.Emoji.GetDiscordName().Replace(":", ""),
+                Description = $"[Link Direto]({url})",
+                ImageUrl = url
+            };
+            await ctx.RespondAsync(embed: eb.Build());
         }
 
         [Command("avatar")]
@@ -97,6 +96,14 @@ namespace KurosawaCore.Modulos
                     };
                     await ctx.RespondAsync(embed: eb);
                 }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -116,7 +123,7 @@ namespace KurosawaCore.Modulos
 
         private async Task ControladorDeSugestao(CommandContext ctx, string mensagem, string tipo)
         {
-            if (mensagem == "") return;
+            if (mensagem == "") throw new Exception();
 
             DiscordChannel channel = await ctx.Client.GetChannelAsync(556598669500088320);
 
@@ -143,7 +150,7 @@ namespace KurosawaCore.Modulos
         [Description("Converte um texto com emoji do discord para emoji universais")]
         public async Task Whatsify(CommandContext ctx, [Description("Texto que deseja converter")][RemainingText]string mensagem)
         {
-            if (mensagem == "") return;
+            if (string.IsNullOrEmpty(mensagem)) throw new Exception();
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {

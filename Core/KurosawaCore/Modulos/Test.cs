@@ -1,9 +1,7 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using KurosawaCore.Extensions;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
@@ -16,7 +14,15 @@ namespace KurosawaCore.Modulos
         [Command("ping")]
         public async Task Ping(CommandContext ctx, [Description("aaaaaaaa")]bool a = false)
         {
-            await ctx.RespondAsync($"👋, {ctx.User.Mention}!");
+            //DiscordEmoji emoji = DiscordEmoji.FromUnicode("❓");
+            //await ctx.Message.CreateReactionAsync(emoji);
+            //ReactionsController<CommandContext> controler = new ReactionsController<CommandContext>(ctx);
+            //controler.AddReactionEvent(ctx.Message, TestReceiv, emoji, ctx.User);
+        }
+
+        private async Task TestReceiv(CommandContext ctx)
+        {
+            await ctx.RespondAsync("PitasGay");
         }
     }
 }
