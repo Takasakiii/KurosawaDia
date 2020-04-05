@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfNetCore.Views"
         mc:Ignorable="d"
-        Title="Kurosawa Dia - Inicio" Height="720" Width="1280" WindowState="Maximized" MinHeight="720" MinWidth="1280">
-    
+        Title="Kurosawa Dia Launcher" Height="720" Width="1280" WindowState="Maximized" MinHeight="720" MinWidth="1280">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70*"/>
@@ -22,10 +21,10 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <MediaElement x:Name="Video" Source="./Resources/Media/TelaInicial.mp4" IsMuted="True" Stretch="UniformToFill" MediaEnded="Video_MediaEnded" Grid.RowSpan="4" Grid.ColumnSpan="5"/>
-        <Border Grid.Row="2" Grid.Column="1" Background="#99F774F7" CornerRadius="25" BorderBrush="White" BorderThickness="2">
+        <Border x:Name="ButtonTreinar" Grid.Row="2" Grid.Column="1" Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="ButtonTreinar_MouseEnter" MouseLeave="ButtonTreinar_MouseLeave" MouseLeftButtonDown="ButtonTreinar_MouseLeftButtonDown">
             <TextBlock Text="Treinar" FontSize="30" FontFamily="Segoe Print" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0"/>
         </Border>
-        <Border Grid.Row="2" Grid.Column="3"  Background="#99F774F7" CornerRadius="25" BorderBrush="White" BorderThickness="2">
+        <Border x:Name="ButtonCantar" Grid.Row="2" Grid.Column="3"  Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="ButtonCantar_MouseEnter" MouseLeave="ButtonCantar_MouseLeave" MouseLeftButtonDown="ButtonCantar_MouseLeftButtonDown">
             <TextBlock Text="Cantar" FontSize="30" FontFamily="Segoe Print" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
         </Border>
         <Image Source="/Resources/Media/KurosawaRuby.png" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3"/>

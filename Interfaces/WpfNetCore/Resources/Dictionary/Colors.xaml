@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WpfNetCore.Resources.Dictionary">
+    
+    <SolidColorBrush x:Key="Rosa">#FFF774F7</SolidColorBrush>
+    <Color x:Key="ColorRosa">#FFF774F7</Color>
+    <SolidColorBrush x:Key="RosaTrasnparente">#99F774F7</SolidColorBrush>
+    <Color x:Key="ColorRosaTrasnparente">#99F774F7</Color>
+</ResourceDictionary>

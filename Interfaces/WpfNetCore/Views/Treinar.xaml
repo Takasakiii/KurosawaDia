@@ -1,0 +1,37 @@
+﻿<Window x:Class="WpfNetCore.Views.Treinar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfNetCore.Views"
+        mc:Ignorable="d"
+        Title="Kurosawa Dia Launcher - Treinar"  Height="720" Width="1280" WindowState="Maximized" MinHeight="720" MinWidth="1280">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="60*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Resources/Media/FundoTreinar.jpg" Stretch="UniformToFill" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
+        <TabControl Template="{StaticResource TreinarTabControl}" Grid.Column="1" Grid.Row="1">
+            <TabItem Style="{StaticResource TreinarTabItem}" Header="Bot">
+                <Grid/>
+            </TabItem>
+            <TabItem Style="{StaticResource TreinarTabItem}" Header="Database">
+                <Grid/>
+            </TabItem>
+            <TabItem Style="{StaticResource TreinarTabItem}" Header="Apis">
+                <Grid/>
+            </TabItem>
+            <TabItem Style="{StaticResource TreinarTabItem}" Header="Configurações">
+                <Grid/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
