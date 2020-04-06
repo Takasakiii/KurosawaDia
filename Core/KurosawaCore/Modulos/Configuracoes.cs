@@ -21,7 +21,7 @@ namespace KurosawaCore.Modulos
         [Description("Modifica o meu prefixo")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo que desejar")]string novoPrefixo)
         {
-            if (novoPrefixo == null) 
+            if (string.IsNullOrEmpty(novoPrefixo)) 
                 throw new Exception();
             DiscordMessage msg = await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
