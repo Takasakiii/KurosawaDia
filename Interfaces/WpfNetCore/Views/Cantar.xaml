@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Image Source="/Resources/Media/FundoCantar.jpg" Stretch="UniformToFill" Grid.RowSpan="4" Grid.ColumnSpan="4" />
         <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="2" Background="#FF0C0C0C">
-            <ScrollViewer>
+            <ScrollViewer x:Name="Scroll" ScrollChanged="Scroll_ScrollChanged">
                 <RichTextBox Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontFamily="Consolas">
                     <RichTextBox.Resources>
                         <Style TargetType="Paragraph">

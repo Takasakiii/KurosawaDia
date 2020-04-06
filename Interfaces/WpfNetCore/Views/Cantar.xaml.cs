@@ -29,6 +29,8 @@ namespace WpfNetCore.Views
         private ApiConfig[] ApiConfig;
         private DBConfig DbConfig;
 
+        private bool AutoScroll = true;
+
         public Cantar()
         {
             InitializeComponent();
@@ -120,9 +122,29 @@ namespace WpfNetCore.Views
             }));
         }
 
-        private void Desligar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void Desligar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            await kurosawa.Morrer();
+        }
 
+        private void Scroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange == 0)
+            {
+                if (Scroll.VerticalOffset == Scroll.ScrollableHeight)
+                {
+                    AutoScroll = true;
+                }
+                else
+                {
+                    AutoScroll = false;
+                }
+            }
+
+            if (AutoScroll && e.ExtentHeightChange != 0)
+            {
+                Scroll.ScrollToVerticalOffset(Scroll.ExtentHeight);
+            }
         }
     }
 }

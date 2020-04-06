@@ -51,6 +51,21 @@ namespace ConfigController.Migrations
                 {
                     table.PrimaryKey("PK_DBConfig", x => x.Cod);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "StatusConfig",
+                columns: table => new
+                {
+                    Cod = table.Column<uint>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StatusJogo = table.Column<string>(maxLength: 255, nullable: false),
+                    StatusUrl = table.Column<string>(maxLength: 255, nullable: true),
+                    TipoDeStatus = table.Column<long>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatusConfig", x => x.Cod);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -63,6 +78,9 @@ namespace ConfigController.Migrations
 
             migrationBuilder.DropTable(
                 name: "DBConfig");
+
+            migrationBuilder.DropTable(
+                name: "StatusConfig");
         }
     }
 }
