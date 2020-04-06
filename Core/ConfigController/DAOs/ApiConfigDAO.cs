@@ -1,6 +1,7 @@
 ﻿using ConfigController.EntityConfiguration;
 using ConfigController.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +23,15 @@ namespace ConfigController.DAOs
             using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
                 return (await contexto.ApiConfig.ToListAsync()).ToArray();
+            }
+        }
+
+        public async Task Deletar(ApiConfig apiConfig)
+        {
+            using (KurosawaConfigContext contexto = new KurosawaConfigContext())
+            {
+                contexto.ApiConfig.Remove(apiConfig);
+                await contexto.SaveChangesAsync();
             }
         }
     }

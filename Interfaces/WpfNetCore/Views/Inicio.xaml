@@ -21,10 +21,10 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <MediaElement x:Name="Video" Source="./Resources/Media/TelaInicial.mp4" IsMuted="True" Stretch="UniformToFill" MediaEnded="Video_MediaEnded" Grid.RowSpan="4" Grid.ColumnSpan="5"/>
-        <Border x:Name="ButtonTreinar" Grid.Row="2" Grid.Column="1" Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="ButtonTreinar_MouseEnter" MouseLeave="ButtonTreinar_MouseLeave" MouseLeftButtonDown="ButtonTreinar_MouseLeftButtonDown">
+        <Border x:Name="ButtonTreinar" Grid.Row="2" Grid.Column="1" Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="ButtonTreinar_MouseLeftButtonDown">
             <TextBlock Text="Treinar" FontSize="30" FontFamily="Segoe Print" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0"/>
         </Border>
-        <Border x:Name="ButtonCantar" Grid.Row="2" Grid.Column="3"  Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="ButtonCantar_MouseEnter" MouseLeave="ButtonCantar_MouseLeave" MouseLeftButtonDown="ButtonCantar_MouseLeftButtonDown">
+        <Border x:Name="ButtonCantar" Grid.Row="2" Grid.Column="3"  Background="{StaticResource RosaTrasnparente}" CornerRadius="25" BorderBrush="White" BorderThickness="2" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="ButtonCantar_MouseLeftButtonDown">
             <TextBlock Text="Cantar" FontSize="30" FontFamily="Segoe Print" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
         </Border>
         <Image Source="/Resources/Media/KurosawaRuby.png" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3"/>

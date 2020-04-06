@@ -40,6 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\ConfigController\ConfigController.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Resources\Media\Logo.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

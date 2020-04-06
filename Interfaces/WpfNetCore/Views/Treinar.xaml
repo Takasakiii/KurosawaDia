@@ -44,31 +44,199 @@
                             <RowDefinition Height="7*"/>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="7*"/>
-                            <RowDefinition Height="73*"/>
+                            <RowDefinition Height="58*"/>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="5*"/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="Token:" FontSize="16" VerticalAlignment="Center" Grid.Row="1"/>
                         <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
                             <TextBox x:Name="Token" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
                         </Border>
-                        <TextBlock Text="Prefix:" FontSize="16" VerticalAlignment="Center" Grid.Row="3"/>
+                        <TextBlock Text="Prefixo:" FontSize="16" VerticalAlignment="Center" Grid.Row="3"/>
                         <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3">
-                            <TextBox x:Name="Prefix" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                            <TextBox x:Name="Prefixo" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
                         </Border>
                         <TextBlock Text="Id Dono:" FontSize="16" VerticalAlignment="Center" Grid.Row="5"/>
                         <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5">
                             <TextBox Name="IdDono" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
                         </Border>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,20,0,0" FontFamily="Microsoft JhengHei">
+                            Olá você poderia me ajudar ?
+                            <LineBreak/>
+                            Eu preciso de algumas informaçoes para poder saber aonde vai ser o show.
+                            <LineBreak/>
+                            <LineBreak/>
+                            Qual o nosso contrato?
+                            <LineBreak/>
+                            Qual vai ser o meu apelido ?
+                            <LineBreak/>
+                            Qual é o seu numero ?
+                        </TextBlock>
+                        <Border x:Name="SalvarBot" Grid.Row="7" Grid.ColumnSpan="2" Background="#FFF99B9B" CornerRadius="10" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="SalvarBot_MouseLeftButtonDown">
+                            <TextBlock Text="Salvar" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe Print" FontSize="18" FontWeight="Bold"/>
+                        </Border>
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Style="{StaticResource TreinarTabItem}" Header="Database">
-                <Grid/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="70*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/Resources/Media/KurosawaDia.png" Grid.ColumnSpan="3"/>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="40*"/>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Ip:" FontSize="16" VerticalAlignment="Center" Grid.Row="1"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
+                            <TextBox x:Name="Ip" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Porta:" FontSize="16" VerticalAlignment="Center" Grid.Row="3"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3">
+                            <TextBox x:Name="Porta" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Database:" FontSize="16" VerticalAlignment="Center" Grid.Row="5"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5">
+                            <TextBox x:Name="Database" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Usuario:" FontSize="16" VerticalAlignment="Center" Grid.Row="7"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="7">
+                            <TextBox Name="User" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Senha:" FontSize="16" VerticalAlignment="Center" Grid.Row="9"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="9">
+                            <PasswordBox Name="Senha" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Grid.Row="10" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,20,0,0" FontFamily="Microsoft JhengHei">
+                            Poderia me dar mais algumas informações ?
+                            <LineBreak/>
+                            E bom gravar o show em algum lugar, você me daria acesso ao lugar pra eu gravar ?
+                            <LineBreak/>
+                            <LineBreak/>
+                            Qual seria o local ?
+                            <LineBreak/>
+                            Qual é o nome do lugar ?
+                            <LineBreak/>
+                            Qual é o usuario e senha ?
+                        </TextBlock>
+                        <Border x:Name="SalvarDatabase" Grid.Row="11" Grid.ColumnSpan="2" Background="#FFF99B9B" CornerRadius="10" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="SalvarDatabase_MouseLeftButtonDown">
+                            <TextBlock Text="Salvar" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe Print" FontSize="18" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                </Grid>
             </TabItem>
-            <TabItem Style="{StaticResource TreinarTabItem}" Header="Apis">
-                <Grid/>
-            </TabItem>
-            <TabItem Style="{StaticResource TreinarTabItem}" Header="Configurações">
-                <Grid/>
+            <TabItem Style="{StaticResource TreinarTabItem}" Header="APIs">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="70*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/Resources/Media/KurosawaDia.png" Grid.ColumnSpan="3"/>
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="26*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="20*"/>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="APIs:" FontSize="16" VerticalAlignment="Center" Grid.Row="1"/>
+                        <DataGrid x:Name="Apis" AutoGenerateColumns="False" Margin="10,0,0,0" Grid.Column="1" Grid.Row="1" BorderBrush="{x:Null}" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Background="White">
+                            <DataGrid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="BorderBrush" Value="Gray"/>
+                                    <Setter Property="BorderThickness" Value="1 1 1 1"/>
+                                    <Setter Property="Margin" Value="-1,-1,0,0" />
+                                    <Setter Property="Height" Value="28" />
+                                    <Setter Property="Width" Value="auto"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Cod}" Header="Cod" MinWidth="50"/>
+                                <DataGridTextColumn Binding="{Binding Nome}" Header="Nome" MinWidth="50"/>
+                                <DataGridTextColumn Binding="{Binding Key}" Header="Key" MinWidth="50"/>
+                            </DataGrid.Columns>
+                            <DataGrid.ItemContainerStyle>
+                                <Style TargetType="DataGridRow">
+                                    <EventSetter Event="MouseLeftButtonDown" Handler="DataGrid_MouseLeftButtonDown"/>
+                                </Style>
+                            </DataGrid.ItemContainerStyle>
+                        </DataGrid>
+                        <TextBlock Text="Cod:" FontSize="16" VerticalAlignment="Center" Grid.Row="3"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3">
+                            <TextBox x:Name="ApiCod" Text="0" BorderThickness="0" Background="{x:Null}" IsReadOnly="True" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Name:" FontSize="16" VerticalAlignment="Center" Grid.Row="5"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5">
+                            <TextBox x:Name="ApiName" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <TextBlock Text="Key:" FontSize="16" VerticalAlignment="Center" Grid.Row="7"/>
+                        <Border Background="White" Margin="10,0,0,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="7">
+                            <TextBox x:Name="ApiKey" BorderThickness="0" Background="{x:Null}" VerticalAlignment="Center" Margin="10,0,10,0" BorderBrush="{x:Null}"/>
+                        </Border>
+                        <Grid Grid.Row="9" Grid.Column="1" Margin="10,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Margin="0,0,10,0" Background="#FFF99B9B" CornerRadius="10" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="Limpar_MouseLeftButtonDown">
+                                <TextBlock Text="Limpar" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe Print" FontSize="18" FontWeight="Bold"/>
+                            </Border>
+                            <Border Grid.Column="1" Margin="10,0,0,0" Background="#FFF99B9B" CornerRadius="10" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="Deletar_MouseLeftButtonDown">
+                                <TextBlock Text="Deletar" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe Print" FontSize="18" FontWeight="Bold"/>
+                            </Border>
+                        </Grid>
+                        <TextBlock Grid.Row="10" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,20,0,0" FontFamily="Microsoft JhengHei">
+                            Caso quiera algo adicional so me dizer!
+                        </TextBlock>
+                        <Border Grid.Row="11" Grid.ColumnSpan="2" Background="#FFF99B9B" CornerRadius="10" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" MouseLeftButtonDown="SalvarApi_MouseLeftButtonDown">
+                            <TextBlock Text="Salvar" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe Print" FontSize="18" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
