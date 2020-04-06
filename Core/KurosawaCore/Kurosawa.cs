@@ -73,6 +73,12 @@ namespace KurosawaCore
             await Task.Delay(-1);
         }
 
+        public async Task Morrer()
+        {
+            await Cliente.DisconnectAsync();
+            Cliente.Dispose();
+        }
+
         private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
         {
             try

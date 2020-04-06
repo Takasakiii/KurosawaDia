@@ -32,22 +32,26 @@ namespace KurosawaCore.Modulos
             DiscordEmoji emoji = DiscordEmoji.FromUnicode("✅");
             await msg.CreateReactionAsync(emoji);
             ReactionsController<CommandContext> rc = new ReactionsController<CommandContext>(ctx);
-            rc.AddReactionEvent(msg, rc.ConvertToMethodInfo<string>(EmojiModificar), emoji, ctx.User, novoPrefixo);
+            rc.AddReactionEvent(msg, rc.ConvertToMethodInfo<Tuple<DiscordMessage, string>>(EmojiModificar), emoji, ctx.User, Tuple.Create(msg, novoPrefixo));
         }
 
-        private async Task EmojiModificar(CommandContext ctx, string novoprefix)
+        private async Task EmojiModificar(CommandContext ctx, Tuple<DiscordMessage, string> args)
         {
             await new ServidoresDAO().Atualizar(new Servidores
             {
                 ID = ctx.Guild.Id,
-                Prefix = novoprefix,
+                Prefix = args.Item2,
             });
-            
+
+            await args.Item1.DeleteAsync();
+
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Title = $"{ctx.User.Username}, meu prefixo foi alterado com sucesso para `{novoprefix}`!",
+                Title = $"{ctx.User.Username}, meu prefixo foi alterado com sucesso para `{args.Item2}`!",
                 Color = DiscordColor.Green
             }.Build());
         }
+
+
     }
 }

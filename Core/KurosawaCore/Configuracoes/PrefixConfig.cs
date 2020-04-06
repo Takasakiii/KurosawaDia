@@ -28,19 +28,22 @@ namespace KurosawaCore.Configuracoes
                 ID = msg.Channel.GuildId,
             }) ?? new Servidores();
 
-            await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
+            if (string.IsNullOrEmpty(s.Nome))
             {
-                Servidor = new Servidores
+                await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
                 {
-                    ID = msg.Channel.GuildId,
-                    Nome = msg.Channel.Guild.Name
-                },
-                Usuario = new Usuarios
-                {
-                    ID = msg.Author.Id,
-                    Nome = $"{msg.Author.Username} #{msg.Author.Discriminator}"
-                }
-            });
+                    Servidor = new Servidores
+                    {
+                        ID = msg.Channel.GuildId,
+                        Nome = msg.Channel.Guild.Name
+                    },
+                    Usuario = new Usuarios
+                    {
+                        ID = msg.Author.Id,
+                        Nome = $"{msg.Author.Username} #{msg.Author.Discriminator}"
+                    }
+                });
+            }
             return s.Prefix ?? DefaultPrefix;
         }
 
