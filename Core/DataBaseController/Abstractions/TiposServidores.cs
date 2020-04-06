@@ -6,8 +6,9 @@ namespace DataBaseController.Abstractions
 {
     public enum TiposServidores : byte
     {
-        Normal = 0,
-        LolisEdition = 1,
-        ServidorPika = 2
+        Inalterado = 0,
+        Normal = 1,
+        LolisEdition = 2,
+        ServidorPika = 3
     }
 }

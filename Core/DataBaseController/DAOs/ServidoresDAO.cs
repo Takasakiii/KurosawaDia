@@ -1,11 +1,9 @@
 ﻿using DataBaseController.Contexts;
 using DataBaseController.Modelos;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataBaseController.DAOs
 {
@@ -15,7 +13,17 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.Servidores.FromSqlRaw($"call GetServidor({servidor.ID})").ToListAsync()).FirstOrDefault();
+                return (await context.Servidores.FromSqlRaw("call GetServidor({0})", servidor.ID).ToListAsync()).FirstOrDefault();
+            }
+        }
+
+        public async Task Atualizar(Servidores servidor)
+        {
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            {
+                IDbContextTransaction transaction = await context.Database.BeginTransactionAsync();
+                await context.Database.ExecuteSqlRawAsync("call AtualizarServidor({0}, {1}, {2})", servidor.ID, servidor.Prefix ?? "", servidor.Espercial);
+                await transaction.CommitAsync();
             }
         }
     }

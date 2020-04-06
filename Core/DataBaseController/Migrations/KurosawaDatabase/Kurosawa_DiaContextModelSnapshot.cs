@@ -232,7 +232,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .ValueGeneratedOnAdd()
                         .HasColumnName("especial_servidor")
                         .HasColumnType("tinyint")
-                        .HasDefaultValue((sbyte)0);
+                        .HasDefaultValue((sbyte)1);
 
                     b.Property<long>("ID")
                         .HasColumnName("id_servidor")

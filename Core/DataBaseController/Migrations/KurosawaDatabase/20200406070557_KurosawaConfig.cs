@@ -16,7 +16,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     id_servidor = table.Column<long>(type: "bigint", nullable: false),
                     nome_servidor = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    especial_servidor = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)0),
+                    especial_servidor = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)1),
                     prefix_servidor = table.Column<string>(type: "varchar(25)", nullable: true)
                 },
                 constraints: table =>

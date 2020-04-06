@@ -1,4 +1,5 @@
-﻿using DataBaseController.Modelos;
+﻿using DataBaseController.Abstractions;
+using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,7 +21,7 @@ namespace DataBaseController.ModelsConfiguration
             //Nome
             builder.Property(x => x.Nome).HasColumnName("nome_servidor").HasColumnType("varchar(255)").HasCharSet("utf8mb4").IsRequired();
             //Especial
-            builder.Property(x => x.Espercial).HasColumnName("especial_servidor").HasColumnType("tinyint").HasConversion<byte>().IsRequired().HasDefaultValue(false);
+            builder.Property(x => x.Espercial).HasColumnName("especial_servidor").HasColumnType("tinyint").HasConversion<byte>().IsRequired().HasDefaultValue(TiposServidores.Normal);
             //Prefix
             builder.Property(x => x.Prefix).HasColumnName("prefix_servidor").HasColumnType("varchar(25)").HasDefaultValue(null);
         }

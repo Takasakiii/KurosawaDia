@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBaseController.Migrations.KurosawaDatabase
 {
     [DbContext(typeof(Kurosawa_DiaContext))]
-    [Migration("20200406014924_KurosawaConfig")]
+    [Migration("20200406070557_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,7 +234,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .ValueGeneratedOnAdd()
                         .HasColumnName("especial_servidor")
                         .HasColumnType("tinyint")
-                        .HasDefaultValue((sbyte)0);
+                        .HasDefaultValue((sbyte)1);
 
                     b.Property<long>("ID")
                         .HasColumnName("id_servidor")
