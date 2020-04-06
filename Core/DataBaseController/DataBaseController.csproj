@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAOs\" />
+    <Folder Include="Contexts\" />
     <Folder Include="SQLs\" />
   </ItemGroup>
 

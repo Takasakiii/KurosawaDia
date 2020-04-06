@@ -1,31 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataBaseController.Migrations.DiaImprement
+namespace DataBaseController.Migrations.KurosawaDatabase
 {
     public partial class KurosawaConfig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ConfiguracoesServidores",
-                columns: table => new
-                {
-                    cod = table.Column<int>(type: "int", nullable: false),
-                    key = table.Column<string>(type: "varchar(255)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConfiguracoesServidores", x => x.cod);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Servidores",
                 columns: table => new
                 {
-                    codigo_servidor = table.Column<long>(type: "bigint", nullable: false),
+                    codigo_servidor = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     id_servidor = table.Column<long>(type: "bigint", nullable: false),
                     nome_servidor = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8"),
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     especial_servidor = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)0),
                     prefix_servidor = table.Column<string>(type: "varchar(25)", nullable: true)
                 },
@@ -38,10 +28,11 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "Usuarios",
                 columns: table => new
                 {
-                    codigo_usuario = table.Column<long>(type: "bigint", nullable: false),
+                    codigo_usuario = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     id_usuario = table.Column<long>(type: "bigint", nullable: false),
                     nome_usuario = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -52,10 +43,11 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "Canais",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TipoCanal = table.Column<byte>(nullable: false),
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8"),
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     id = table.Column<long>(type: "bigint", nullable: false),
                     codigo_servidor = table.Column<long>(nullable: true)
                 },
@@ -74,10 +66,11 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "Cargos",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     tipoCargos = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)0),
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8"),
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     id = table.Column<long>(type: "bigint", nullable: false),
                     codigo_servidor = table.Column<long>(nullable: true)
                 },
@@ -96,20 +89,16 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "ConfiguracoesServidoresAplicada",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    configuracoes = table.Column<int>(type: "int", nullable: false),
                     servidor = table.Column<long>(nullable: true),
-                    configuracoes = table.Column<int>(nullable: true),
-                    valor = table.Column<string>(nullable: false)
+                    valor = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConfiguracoesServidoresAplicada", x => x.cod);
-                    table.ForeignKey(
-                        name: "FK_ConfiguracoesServidoresAplicada_ConfiguracoesServidores_conf~",
-                        column: x => x.configuracoes,
-                        principalTable: "ConfiguracoesServidores",
-                        principalColumn: "cod",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ConfiguracoesServidoresAplicada_Servidores_servidor",
                         column: x => x.servidor,
@@ -122,11 +111,12 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "CustomReactions",
                 columns: table => new
                 {
-                    cod_cr = table.Column<long>(type: "bigint", nullable: false),
+                    cod_cr = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     trigger_cr = table.Column<string>(type: "text", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8"),
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     resposta_cr = table.Column<string>(type: "text", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8"),
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     modo_cr = table.Column<bool>(type: "bool", nullable: false),
                     servidor_cr = table.Column<long>(nullable: true)
                 },
@@ -145,7 +135,8 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "AdmsBot",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     usuario = table.Column<long>(nullable: true),
                     permissao = table.Column<sbyte>(type: "tinyint", nullable: false)
                 },
@@ -164,7 +155,8 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "Fuck",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     codigo_usuario = table.Column<long>(nullable: true),
                     urlImage = table.Column<string>(type: "varchar(255)", nullable: false),
                     explicitImage = table.Column<bool>(type: "bool", nullable: false, defaultValue: false)
@@ -184,10 +176,11 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "Insultos",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false),
+                    cod = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     usuario = table.Column<long>(nullable: true),
                     insulto = table.Column<string>(type: "text", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -238,17 +231,6 @@ namespace DataBaseController.Migrations.DiaImprement
                 name: "IX_Cargos_codigo_servidor",
                 table: "Cargos",
                 column: "codigo_servidor");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracoesServidores_key",
-                table: "ConfiguracoesServidores",
-                column: "key",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConfiguracoesServidoresAplicada_configuracoes",
-                table: "ConfiguracoesServidoresAplicada",
-                column: "configuracoes");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConfiguracoesServidoresAplicada_servidor",
@@ -313,9 +295,6 @@ namespace DataBaseController.Migrations.DiaImprement
 
             migrationBuilder.DropTable(
                 name: "Servidores_Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "ConfiguracoesServidores");
 
             migrationBuilder.DropTable(
                 name: "Servidores");

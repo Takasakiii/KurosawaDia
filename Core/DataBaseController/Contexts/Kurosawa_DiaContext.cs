@@ -11,7 +11,6 @@ namespace DataBaseController.Contexts
         public DbSet<Servidores> Servidores { get; set; }
         public DbSet<Servidores_Usuarios> Servidores_Usuarios { get; set; }
         public DbSet<ConfiguracoesServidores> ConfiguracoesServidores { get; set; }
-        public DbSet<ConfiguracoesServidoresAplicada> ConfiguracoesServidoresAplicadas { get; set; }
         public DbSet<AdmsBot> AdmsBots { get; set; }
         public DbSet<Canais> Canais { get; set; }
         public DbSet<Cargos> Cargos { get; set; }
@@ -30,7 +29,6 @@ namespace DataBaseController.Contexts
             modelBuilder.ApplyConfiguration(new ServidoresConfig());
             modelBuilder.ApplyConfiguration(new Servidores_UsuariosConfig());
             modelBuilder.ApplyConfiguration(new ConfiguracoesServidoresConfig());
-            modelBuilder.ApplyConfiguration(new ConfiguracoesServidoresAplicadaConfig());
             modelBuilder.ApplyConfiguration(new AdmsBotConfig());
             modelBuilder.ApplyConfiguration(new CanaisConfig());
             modelBuilder.ApplyConfiguration(new CargosConfig());

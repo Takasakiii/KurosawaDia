@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace KurosawaCore.Modulos
 {
     [Group("Owner")]
-    [RequireOwner]
     [Hidden]
     [Description("kkkk o cara eh owner q corno")]
     public class Dono

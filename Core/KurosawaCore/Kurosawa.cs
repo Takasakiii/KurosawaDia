@@ -57,8 +57,9 @@ namespace KurosawaCore
         {
             CommandsNextConfiguration configNext = new CommandsNextConfiguration
             {
-                StringPrefix = Config.Prefixo,
                 EnableDefaultHelp = false,
+                EnableMentionPrefix = true,
+                CustomPrefixPredicate = new PrefixConfig().PegarPrefixo
             };
             CommandsNextModule comandos = Cliente.UseCommandsNext(configNext);
             comandos.SetHelpFormatter<HelpConfig>();
