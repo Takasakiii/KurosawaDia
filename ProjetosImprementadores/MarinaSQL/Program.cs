@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarinaSQL
 {
-    //Add-Migration KurosawaConfig -Project ConfigController -StartupProject MarinaSQL
-    //Add-Migration KurosawaConfig -Project DataBaseController -StartupProject MarinaSQL -Context KurosawaMigrationContext -OutputDir Migrations/DiaImprement
+    //Add-Migration KurosawaConfig -Project ConfigController -StartupProject EntityMigrations
     //Add-Migration KurosawaConfig -Project DataBaseController  -StartupProject MarinaSQL -Context Kurosawa_DiaContext -OutputDir Migrations/KurosawaDatabase
     //Update-Database -Project DataBaseController -StartupProject MarinaSQL -Context KurosawaMigrationContext
 
@@ -15,7 +14,7 @@ namespace MarinaSQL
     {
         static async Task Main(string[] args)
         {
-            using (KurosawaMigrationContext context = new KurosawaMigrationContext())
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
                 if (context.Database.EnsureCreated())
                 {

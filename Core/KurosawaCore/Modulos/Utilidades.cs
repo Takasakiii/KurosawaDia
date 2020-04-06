@@ -2,12 +2,15 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
+using KurosawaCore.Models.Atributes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
 {
+    [Modulo("Utilidade", "🛠")]
+    [Description("Este módulo possui coisas uteis pro seu dia a dia.")]
     public class Utilidades
     {
         [Command("videochamada")]
@@ -31,7 +34,7 @@ namespace KurosawaCore.Modulos
         [Description("Almenta o tamanho de um emote, e tambem permite você pegar a url do mesmo")]
         public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]DiscordEmoji emoji)
         {
-            if (ctx.Channel.IsPrivate)
+            if (ctx.Channel.IsPrivate || emoji == null)
                 throw new Exception();
             DiscordEmojiExtension ex = new DiscordEmojiExtension(emoji);
             string url = await ex.GetUrl();

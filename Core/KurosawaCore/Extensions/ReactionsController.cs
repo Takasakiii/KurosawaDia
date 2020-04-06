@@ -32,6 +32,12 @@ namespace KurosawaCore.Extensions
             DiscordClient cliente = conversionitem.Client;
 
             cliente.MessageReactionAdded += ClienteDiscord_MessageReactionAdded;
+            cliente.MessageReactionRemoved += Cliente_MessageReactionRemoved;
+        }
+
+        private async Task Cliente_MessageReactionRemoved(MessageReactionRemoveEventArgs e)
+        {
+            await Action(e.User, e.Emoji, e.Message);
         }
 
         internal void AddReactionEvent(DiscordMessage msg, Tuple<MethodInfo, object> exec, DiscordEmoji emoji = null, DiscordUser autor = null, params object[] args)
@@ -58,18 +64,23 @@ namespace KurosawaCore.Extensions
             return Tuple.Create(funcao.Method, funcao.Target);
         }
 
-        private Task ClienteDiscord_MessageReactionAdded(MessageReactionAddEventArgs e)
+        private async Task ClienteDiscord_MessageReactionAdded(MessageReactionAddEventArgs e)
+        {
+            await Action(e.User, e.Emoji, e.Message); 
+        }
+
+        private Task Action(DiscordUser user, DiscordEmoji emoji, DiscordMessage msg)
         {
             BufferReacoes.RemoveAll(x => x.AdicionadoEm >= x.AdicionadoEm.AddMinutes(5));
             int index = -1;
             for (int i = 0; i < BufferReacoes.Count; i++)
             {
-                if (BufferReacoes[i].Msg == e.Message)
+                if (BufferReacoes[i].Msg == msg)
                 {
                     bool validado = true;
-                    if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != e.User)
+                    if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != user)
                         validado = false;
-                    if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != e.Emoji)
+                    if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != emoji)
                         validado = false;
                     if (validado)
                     {
@@ -88,7 +99,6 @@ namespace KurosawaCore.Extensions
                 BufferReacoes.RemoveAt(index);
                 return tarefa;
             }
-
             return Task.CompletedTask;
         }
 

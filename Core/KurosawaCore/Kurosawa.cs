@@ -8,6 +8,7 @@ using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
 using KurosawaCore.Extensions;
 using KurosawaCore.Modelos;
+using KurosawaCore.Modulos;
 using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;
@@ -56,8 +57,9 @@ namespace KurosawaCore
         {
             CommandsNextConfiguration configNext = new CommandsNextConfiguration
             {
-                StringPrefix = Config.Prefixo,
                 EnableDefaultHelp = false,
+                EnableMentionPrefix = true,
+                CustomPrefixPredicate = new PrefixConfig(Config.Prefixo).PegarPrefixo
             };
             CommandsNextModule comandos = Cliente.UseCommandsNext(configNext);
             comandos.SetHelpFormatter<HelpConfig>();
@@ -102,7 +104,7 @@ namespace KurosawaCore
         }
         private async Task CallHelpNofing(CommandContext ctx)
         {
-            await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx);
+            await new Ajuda().AjudaCmd(ctx);
         }
     }
 

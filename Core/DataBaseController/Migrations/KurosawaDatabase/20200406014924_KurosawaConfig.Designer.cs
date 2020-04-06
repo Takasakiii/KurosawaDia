@@ -3,13 +3,14 @@ using System;
 using DataBaseController.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataBaseController.Migrations.DiaImprement
+namespace DataBaseController.Migrations.KurosawaDatabase
 {
-    [DbContext(typeof(KurosawaMigrationContext))]
-    [Migration("20200405032306_KurosawaConfig")]
+    [DbContext(typeof(Kurosawa_DiaContext))]
+    [Migration("20200406014924_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +25,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<sbyte>("Permissao")
                         .HasColumnName("permissao")
@@ -45,7 +47,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("ID")
                         .HasColumnName("id")
@@ -55,7 +58,7 @@ namespace DataBaseController.Migrations.DiaImprement
                         .IsRequired()
                         .HasColumnName("nome")
                         .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<byte>("TipoCanal")
                         .HasColumnType("tinyint unsigned");
@@ -75,7 +78,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("ID")
                         .HasColumnName("id")
@@ -85,7 +89,7 @@ namespace DataBaseController.Migrations.DiaImprement
                         .IsRequired()
                         .HasColumnName("nome")
                         .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<sbyte>("TipoCargo")
                         .ValueGeneratedOnAdd()
@@ -105,45 +109,26 @@ namespace DataBaseController.Migrations.DiaImprement
 
             modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidores", b =>
                 {
-                    b.Property<int>("Cod")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("cod")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnName("key")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Cod");
-
-                    b.HasIndex("Key")
-                        .IsUnique();
-
-                    b.ToTable("ConfiguracoesServidores");
-                });
-
-            modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidoresAplicada", b =>
-                {
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Configuracoes")
+                        .HasColumnName("configuracoes")
+                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnName("valor")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("configuracoes")
-                        .HasColumnType("int");
+                        .HasColumnType("text")
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<long?>("servidor")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
-
-                    b.HasIndex("configuracoes");
 
                     b.HasIndex("servidor");
 
@@ -155,7 +140,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod_cr")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Modo")
                         .HasColumnName("modo_cr")
@@ -165,13 +151,13 @@ namespace DataBaseController.Migrations.DiaImprement
                         .IsRequired()
                         .HasColumnName("resposta_cr")
                         .HasColumnType("text")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<string>("Trigger")
                         .IsRequired()
                         .HasColumnName("trigger_cr")
                         .HasColumnType("text")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<long?>("servidor_cr")
                         .HasColumnType("bigint");
@@ -188,7 +174,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Explicit")
                         .ValueGeneratedOnAdd()
@@ -216,13 +203,14 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Insulto")
                         .IsRequired()
                         .HasColumnName("insulto")
                         .HasColumnType("text")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<long?>("usuario")
                         .HasColumnType("bigint");
@@ -239,7 +227,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("codigo_servidor")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<sbyte>("Espercial")
                         .ValueGeneratedOnAdd()
@@ -255,7 +244,7 @@ namespace DataBaseController.Migrations.DiaImprement
                         .IsRequired()
                         .HasColumnName("nome_servidor")
                         .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.Property<string>("Prefix")
                         .ValueGeneratedOnAdd()
@@ -293,7 +282,8 @@ namespace DataBaseController.Migrations.DiaImprement
                     b.Property<long>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("codigo_usuario")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("ID")
                         .HasColumnName("id_usuario")
@@ -303,7 +293,7 @@ namespace DataBaseController.Migrations.DiaImprement
                         .IsRequired()
                         .HasColumnName("nome_usuario")
                         .HasColumnType("varchar(255)")
-                        .HasAnnotation("MySql:CharSet", "utf8");
+                        .HasAnnotation("MySql:CharSet", "utf8mb4");
 
                     b.HasKey("Cod");
 
@@ -334,12 +324,8 @@ namespace DataBaseController.Migrations.DiaImprement
                         .HasForeignKey("codigo_servidor");
                 });
 
-            modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidoresAplicada", b =>
+            modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidores", b =>
                 {
-                    b.HasOne("DataBaseController.Modelos.ConfiguracoesServidores", "Configuracao")
-                        .WithMany("Configuracoes")
-                        .HasForeignKey("configuracoes");
-
                     b.HasOne("DataBaseController.Modelos.Servidores", "Servidor")
                         .WithMany("Configuracoes")
                         .HasForeignKey("servidor");

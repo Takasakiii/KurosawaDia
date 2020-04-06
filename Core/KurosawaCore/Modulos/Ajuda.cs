@@ -2,12 +2,19 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Constants;
+using KurosawaCore.Extensions;
+using KurosawaCore.Models.Atributes;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using static DSharpPlus.Entities.DiscordEmbedBuilder;
 
 namespace KurosawaCore.Modulos
 {
+    [Modulo("Ajuda", "❓")]
+    [Description("Este módulo tem comandos para te ajudar na ultilização do bot.")]
     public class Ajuda
     {
         [Command("ajuda")]
@@ -15,8 +22,53 @@ namespace KurosawaCore.Modulos
         [Description("Com esse comando eu posso te fornecer informações como se comunicar comigo e as tarefas que realiso.")]
         public async Task AjudaCmd(CommandContext ctx, [Description("Comando que você precisa de ajuda")]params string[] comando)
         {
-            await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx, comando);
+            if(comando.Length == 0)
+            {
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder
+                {
+                    Color = DiscordColor.Purple,
+                    ImageUrl = "https://i.imgur.com/mQVFSrP.gif",
+                };
+
+                Type[] types = typeof(Kurosawa).Assembly.GetTypes();
+                List<DiscordEmoji> emojis = new List<DiscordEmoji>();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    Modulo moduleAttr = types[i].GetCustomAttribute<Modulo>();
+                    if (moduleAttr != null)
+                    {
+                        GroupAttribute grupo = types[i].GetCustomAttribute<GroupAttribute>();
+                        if (grupo == null)
+                        {
+                            MethodInfo[] metodos = types[i].GetMethods();
+                            for(int j = 0; j < metodos.Length; j++)
+                            {
+                                CommandAttribute comandoAtributo = metodos[j].GetCustomAttribute<CommandAttribute>();
+                                HiddenAttribute comandoHidden = metodos[j].GetCustomAttribute<HiddenAttribute>();
+                                if(comandoAtributo != null && comandoHidden == null)
+                                {
+                                    sb.Append($"`{comandoAtributo.Name}` ");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sb.Append($"`{grupo.Name}` ");
+                        }
+                        DescriptionAttribute descricao = types[i].GetCustomAttribute<DescriptionAttribute>();
+                        builder.AddField($"**{moduleAttr.Nome}** {$" {moduleAttr.Icon}" ?? ""}- *{descricao.Description}*", sb.ToString(), false);
+                    }
+                }
+                builder.WithDescription("Para mais informações sobre um modulo ou comando digite: `help {Comando}`, que eu informarei mais sobre ele :smiley:");
+                await ctx.RespondAsync(embed: builder.Build());
+            }
+            else
+            {
+                await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx, comando);
+            }
         }
+
 
         [Command("sobre")]
         [Aliases("apresentacao", "apresentação")]
