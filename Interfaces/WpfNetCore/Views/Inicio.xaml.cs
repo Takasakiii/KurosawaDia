@@ -27,16 +27,14 @@ namespace WpfNetCore.Views
             Video.Position = new TimeSpan(0);
         }
 
-        #region Treinar
-
-        private void ButtonTreinar_MouseEnter(object sender, MouseEventArgs e)
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            ButtonTreinar.Background = (Brush)new BrushConverter().ConvertFrom("#FFF774F7");
+            ((Border)sender).Background = (Brush)new BrushConverter().ConvertFrom("#FFF774F7");
         }
 
-        private void ButtonTreinar_MouseLeave(object sender, MouseEventArgs e)
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
         {
-            ButtonTreinar.Background = (Brush)new BrushConverter().ConvertFrom("#99F774F7");
+            ((Border)sender).Background = (Brush)new BrushConverter().ConvertFrom("#99F774F7");
         }
 
         private void ButtonTreinar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -47,30 +45,9 @@ namespace WpfNetCore.Views
             Show();
         }
 
-        private void Treinar_Closed(object sender, EventArgs e)
-        {
-            Show();
-        }
-
-        #endregion
-
-        #region Cantar
-
-        private void ButtonCantar_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ButtonCantar.Background = (Brush)new BrushConverter().ConvertFrom("#FFF774F7");
-        }
-
-        private void ButtonCantar_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ButtonCantar.Background = (Brush)new BrushConverter().ConvertFrom("#99F774F7");
-        }
-
         private void ButtonCantar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }
-
-        #endregion
     }
 }

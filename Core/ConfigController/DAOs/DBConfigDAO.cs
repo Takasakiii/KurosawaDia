@@ -11,7 +11,7 @@ namespace ConfigController.DAOs
             config.Cod = 1;
             using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
-                if (await contexto.DBConfig.FindAsync((ushort)config.Cod) != null)
+                if (!(await contexto.DBConfig.FindAsync((ushort)config.Cod) != null))
                 {
                     await contexto.DBConfig.AddAsync(config);
                 }
