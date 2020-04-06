@@ -77,6 +77,7 @@ namespace KurosawaCore
         {
             await Cliente.DisconnectAsync();
             Cliente.Dispose();
+            GC.Collect();
         }
 
         private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
