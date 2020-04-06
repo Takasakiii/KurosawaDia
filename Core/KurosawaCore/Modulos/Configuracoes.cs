@@ -14,10 +14,10 @@ namespace KurosawaCore.Modulos
 {
     [Modulo("Configurações", "⚙")]
     [Description("Em configurações você define preferencias de como agirei em seu servidor.")]
-    [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
     public class Configuracoes
     {
         [Command("setprefix")]
+        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Modifica o meu prefixo")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo que desejar")]string novoPrefixo)
         {
