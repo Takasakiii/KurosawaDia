@@ -47,7 +47,10 @@ namespace WpfNetCore.Views
 
         private void ButtonCantar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            Cantar cantar = new Cantar();
+            Hide();
+            cantar.ShowDialog();
+            Show();
         }
     }
 }
