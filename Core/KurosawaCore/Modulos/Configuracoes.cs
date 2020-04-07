@@ -17,11 +17,12 @@ namespace KurosawaCore.Modulos
     public class Configuracoes
     {
         [Command("setprefix")]
+        [Aliases("prefix")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Modifica o meu prefixo")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo que desejar")]string novoPrefixo)
         {
-            if (string.IsNullOrEmpty(novoPrefixo)) 
+            if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate) 
                 throw new Exception();
             DiscordMessage msg = await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
@@ -52,6 +53,28 @@ namespace KurosawaCore.Modulos
             }.Build());
         }
 
-
+        [Command("bemvindo")]
+        [Aliases("welcome", "entrada")]
+        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
+        [Description("Configura a mensagem de entrada do servidor.")]
+        public async Task SetBemVindo(CommandContext ctx, [Description("Texto ou Embed que deseja colocar como mensagem de bem-vindo.")][RemainingText] string message)
+        {
+            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
+                throw new Exception();
+            await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
+            {
+                Configuracoes = TiposConfiguracoes.BemVindoMsg,
+                Servidor = new Servidores
+                {
+                    ID = ctx.Guild.Id
+                },
+                Value = message
+            });
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+            {
+                Title = $"{ctx.User.Username}, a mensagem de entrada do servidor foi cadastrada com sucesso!",
+                Color = DiscordColor.Green
+            });
+        }
     }
 }

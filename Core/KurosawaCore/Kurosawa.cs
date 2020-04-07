@@ -75,9 +75,12 @@ namespace KurosawaCore
 
         public async Task Morrer()
         {
-            await Cliente.DisconnectAsync();
-            Cliente.Dispose();
-            GC.Collect();
+            if(Cliente != null)
+            {
+                await Cliente.DisconnectAsync();
+                Cliente.Dispose();
+                GC.Collect();
+            }
         }
 
         private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
