@@ -18,7 +18,7 @@ namespace KurosawaCore.Modulos
     public class Ajuda
     {
         [Command("ajuda")]
-        [Aliases("help")]
+        [Aliases("help", "comandos")]
         [Description("Com esse comando eu posso te fornecer informações como se comunicar comigo e as tarefas que realiso.")]
         public async Task AjudaCmd(CommandContext ctx, [Description("Comando que você precisa de ajuda")]params string[] comando)
         {
@@ -109,7 +109,7 @@ namespace KurosawaCore.Modulos
                 users += (ulong)guild.Value.MemberCount;
             }
             builder.AddField("Sobre mim:", "__Nome__: Kurosawa Dia (Dia - Chan)\n__Aniversário__: 1° de Janeiro(Quero presentes)\n__Ocupação__: Estudante e Traficante / Idol nas horas vagas");
-            builder.AddField("As pessoas que fazem tudo isso ser possivel:", "Takasaki#7072\nYummi#2708\nLuckShiba#0001\n\nE é claro você que acredita em meu potencial:orange_heart:");
+            builder.AddField("As pessoas que fazem tudo isso ser possivel:", "Takasaki#7072\nYummi#2708\nLuckShiba#0001\nVulcan#4805\n\nE é claro você que acredita em meu potencial:orange_heart:");
             builder.AddField("Informações chatas:", $"[Me adicione em seu Servidor]({ InfoImportante.conviteDia})\n[Entre no meu servidor para dar suporte ao projeto]({ InfoImportante.conviteServer})\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas]({ InfoImportante.topgg})");
             builder.AddField("Informações Chatas:", $"__Ping__: {ctx.Client.Ping}\n__Servidores__: {ctx.Client.Guilds.Count}\n__Usuarios__: {users}\n__Versão__: {InfoImportante.VersaoNumb} ({InfoImportante.VersaoName})");
             await ctx.RespondAsync(embed: builder.Build());
