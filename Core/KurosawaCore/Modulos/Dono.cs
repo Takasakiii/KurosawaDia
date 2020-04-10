@@ -48,6 +48,13 @@ namespace KurosawaCore.Modulos
             }
         }
 
-
+        [Command("sudo")]
+        [Description("shiba putinha")]
+        public async Task Sudo(CommandContext ctx, [Description("Amiguxo")] DiscordUser user, [Description("Comandos de hacker")][RemainingText] string cmd)
+        {
+            if (ctx.Channel.IsPrivate || string.IsNullOrEmpty(cmd))
+                throw new Exception();
+            await ctx.CommandsNext.SudoAsync(user, ctx.Channel, cmd);
+        }
     }
 }
