@@ -29,6 +29,7 @@ namespace KurosawaCore
         {
             DependencesSingleton.ApiConfigs = apiConfig;
             new DBCore(dbconfig);
+            BotPermissions.IDOwner = config.IdDono;
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration
             {
