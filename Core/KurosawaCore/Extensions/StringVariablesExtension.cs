@@ -69,10 +69,7 @@ namespace KurosawaCore.Extensions
 
         internal override DiscordEmbed GetJsonEmbed(ref string message)
         {
-            foreach(Variables variable in Vars)
-            {
-                message.Replace(variable.Var, variable.Value);
-            }
+            message = TrocarVariaveis(message);
 
             return base.GetJsonEmbed(ref message);
         }
@@ -86,8 +83,19 @@ namespace KurosawaCore.Extensions
             }
             catch
             {
+                msg = TrocarVariaveis(msg);
                 await canal.SendMessageAsync(msg);
             }
+        }
+
+        private string TrocarVariaveis(string message)
+        {
+            foreach (Variables variable in Vars)
+            {
+                message = message.Replace(variable.Var, variable.Value);
+            }
+
+            return message;
         }
     }
 }

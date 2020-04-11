@@ -4,6 +4,7 @@ using DataBaseController.Modelos;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using KurosawaCore.Extensions;
 using KurosawaCore.Extensions.JsonEmbedExtension;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace KurosawaCore.Events
                 if (config != null)
                 {
                     DiscordChannel canal = e.Guild.GetChannel(canalBemvindo.ID);
-                    await new JsonEmbedExtension().SendMessage(canal, config.Value);
+                    await new StringVariablesExtension(e.Member, e.Guild).SendMessage(canal, config.Value);
                 }
             }
         }

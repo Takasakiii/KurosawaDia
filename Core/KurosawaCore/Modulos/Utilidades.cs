@@ -154,7 +154,7 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate && mensagem != "") 
                 throw new Exception();
 
-            await new JsonEmbedExtension().SendMessage(ctx.Message.Channel, mensagem);
+            await new StringVariablesExtension(ctx.Member, ctx.Guild).SendMessage(ctx.Message.Channel, mensagem);
             await ctx.Message.DeleteAsync();
         }
     }
