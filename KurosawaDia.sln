@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KurosawaCore", "Core\Kurosa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleNetCore", "Interfaces\ConsoleNetCore\ConsoleNetCore.csproj", "{15611B82-283C-4C51-99CB-B2D15ED7F3A9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjetosImprementadores", "ProjetosImprementadores", "{D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjetosImplementadores", "ProjetosImplementadores", "{D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfNetCore", "Interfaces\WpfNetCore\WpfNetCore.csproj", "{A45EE9F0-B42F-489E-99A0-53EA44A7C793}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarinaSQL", "ProjetosImprementadores\MarinaSQL\MarinaSQL.csproj", "{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarinaSQL", "ProjetosImprementadores\MarinaSQL\MarinaSQL.csproj", "{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
