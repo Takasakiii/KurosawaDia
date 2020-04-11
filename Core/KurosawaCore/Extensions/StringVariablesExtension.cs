@@ -18,48 +18,50 @@ namespace KurosawaCore.Extensions
 
         internal StringVariablesExtension(DiscordMember membro, DiscordGuild servidor)
         {
+            Vars = new List<Variables>();
             Vars.Add(new Variables
             {
-                Var = "user",
+                Var = "%user%",
                 Value = $"{membro.Username}#{membro.Discriminator}"
             });
             Vars.Add(new Variables
             {
-                Var = "username",
+                Var = "%username%",
+                Value = membro.Username
             });
             Vars.Add(new Variables
             {
-                Var = "usermention",
+                Var = "%usermention%",
                 Value = membro.Mention
             });
             Vars.Add(new Variables
             {
-                Var = "id",
+                Var = "%id%",
                 Value = membro.Id.ToString()
             });
             Vars.Add(new Variables
             {
-                Var = "avatar",
+                Var = "%avatar%",
                 Value = membro.AvatarUrl
             });
             Vars.Add(new Variables
             {
-                Var = "membros",
+                Var = "%membros%",
                 Value = servidor.MemberCount.ToString()
             });
             Vars.Add(new Variables
             {
-                Var = "idservidor",
+                Var = "%idservidor%",
                 Value = servidor.Id.ToString()
             });
             Vars.Add(new Variables
             {
-                Var = "server",
+                Var = "%server%",
                 Value = servidor.Name
             });
             Vars.Add(new Variables
             {
-                Var = "icon",
+                Var = "%icon%",
                 Value = new ServerIconExtension().Get(servidor)
             });
         }
