@@ -8,6 +8,9 @@ namespace KurosawaCore.Extensions
 {
     internal class StringVariablesExtension : JsonEmbedExtension.JsonEmbedExtension
     {
+        private DiscordMember membro = null;
+        private DiscordGuild servidor = null;
+
         private struct Variables
         {
             public string Var { get; set; }
@@ -19,6 +22,12 @@ namespace KurosawaCore.Extensions
         internal StringVariablesExtension(DiscordMember membro, DiscordGuild servidor)
         {
             Vars = new List<Variables>();
+            this.membro = membro;
+            this.servidor = servidor;
+        }
+
+        private async Task SetVariable()
+        {
             Vars.Add(new Variables
             {
                 Var = "%user%",
@@ -62,7 +71,7 @@ namespace KurosawaCore.Extensions
             Vars.Add(new Variables
             {
                 Var = "%icon%",
-                Value = new ServerIconExtension().Get(servidor)
+                Value = await new ServerIconExtension().Get(servidor)
             });
         }
 
@@ -75,6 +84,8 @@ namespace KurosawaCore.Extensions
 
         internal override async Task SendMessage(DiscordChannel canal, string msg)
         {
+            await SetVariable();
+
             try
             {
                 DiscordEmbed embed = GetJsonEmbed(ref msg);

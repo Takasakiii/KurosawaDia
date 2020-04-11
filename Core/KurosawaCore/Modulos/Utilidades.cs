@@ -80,11 +80,13 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || ctx.Guild.IconUrl == null)
                 throw new Exception();
 
+            string url = await new ServerIconExtension().Get(ctx.Guild);
+
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Title = ctx.Guild.Name,
-                Description = $"[Link Direto]({new ServerIconExtension().Get(ctx.Guild)})",
-                ImageUrl = new ServerIconExtension().Get(ctx.Guild),
+                Description = $"[Link Direto]({url})",
+                ImageUrl = url,
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb);
