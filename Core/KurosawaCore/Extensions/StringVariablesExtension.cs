@@ -59,6 +59,11 @@ namespace KurosawaCore.Extensions
                 Var = "%server%",
                 Value = servidor.Name
             });
+            variaveis.Add(new Variables
+            {
+                Var = "%icon%",
+                Value = new ServerIconExtension().Get(servidor)
+            });
             Vars = variaveis.ToArray();
         }
 
