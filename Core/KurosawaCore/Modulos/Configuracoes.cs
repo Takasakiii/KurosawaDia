@@ -79,10 +79,10 @@ namespace KurosawaCore.Modulos
             });
         }
 
-        [Command("setcanalbemvindo")]
-        [Aliases("setcanalentrada", "setcanalwelcome", "greet")]
+        [Command("canalbemvindo")]
+        [Aliases("canalentrada", "canalwelcome", "greet")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Selecionar canal de bem vindo.\nSe for usado o comando novamente sera desativado a mensagem.")]
+        [Description("Define o canal de bem vindo.\nSe for usado o comando novamente sera desativado a mensagem.")]
         public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal de bem vindo")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
@@ -133,10 +133,10 @@ namespace KurosawaCore.Modulos
             });
         }
 
-        [Command("setcanalsaida")]
-        [Aliases("setcanalleave", "bye")]
+        [Command("canalsaida")]
+        [Aliases("canalleave", "canalbye", "bye")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Selecionar canal de saida.\nSe for usado o comando novamente sera desativado a mensagem.")]
+        [Description("Define o canal de saida.\nSe for usado o comando novamente sera desativado a mensagem.")]
         public async Task SetCanalSaida(CommandContext ctx, [Description("Canal de saida")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;

@@ -80,17 +80,11 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || ctx.Guild.IconUrl == null)
                 throw new Exception();
 
-            string url;
-            if (ctx.Guild.Features.Contains("ANIMATED_ICON"))
-                url = $"{ctx.Guild.IconUrl.Replace(".jpg", ".gif")}?size=2048";
-            else
-                url = $"{ctx.Guild.IconUrl}?size=2048";
-
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Title = ctx.Guild.Name,
-                Description = $"[Link Direto]({url})",
-                ImageUrl = url,
+                Description = $"[Link Direto]({new ServerIconExtension().Get(ctx.Guild)})",
+                ImageUrl = new ServerIconExtension().Get(ctx.Guild),
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb);
