@@ -66,9 +66,6 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
                     b.HasKey("Cod");
 
-                    b.HasIndex("ID")
-                        .IsUnique();
-
                     b.HasIndex("codigo_servidor");
 
                     b.ToTable("Canais");
@@ -102,9 +99,6 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
-
-                    b.HasIndex("ID")
-                        .IsUnique();
 
                     b.HasIndex("codigo_servidor");
 

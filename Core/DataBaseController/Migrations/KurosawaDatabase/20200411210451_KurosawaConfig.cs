@@ -223,21 +223,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 column: "usuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Canais_id",
-                table: "Canais",
-                column: "id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Canais_codigo_servidor",
                 table: "Canais",
                 column: "codigo_servidor");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cargos_id",
-                table: "Cargos",
-                column: "id",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cargos_codigo_servidor",
