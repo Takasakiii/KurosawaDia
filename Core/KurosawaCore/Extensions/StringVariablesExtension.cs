@@ -14,57 +14,54 @@ namespace KurosawaCore.Extensions
             public string Value { get; set; }
         }
 
-        private Variables[] Vars;
+        private List<Variables> Vars;
 
         internal StringVariablesExtension(DiscordMember membro, DiscordGuild servidor)
         {
-            List<Variables> variaveis = new List<Variables>();
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%user%",
+                Var = "user",
                 Value = $"{membro.Username}#{membro.Discriminator}"
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%username%",
-                Value = membro.Username
+                Var = "username",
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%usermention%",
+                Var = "usermention",
                 Value = membro.Mention
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%id%",
+                Var = "id",
                 Value = membro.Id.ToString()
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%avatar%",
+                Var = "avatar",
                 Value = membro.AvatarUrl
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%membros%",
+                Var = "membros",
                 Value = servidor.MemberCount.ToString()
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%idservidor%",
+                Var = "idservidor",
                 Value = servidor.Id.ToString()
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%server%",
+                Var = "server",
                 Value = servidor.Name
             });
-            variaveis.Add(new Variables
+            Vars.Add(new Variables
             {
-                Var = "%icon%",
+                Var = "icon",
                 Value = new ServerIconExtension().Get(servidor)
             });
-            Vars = variaveis.ToArray();
         }
 
         internal override DiscordEmbed GetJsonEmbed(ref string message)
@@ -90,9 +87,12 @@ namespace KurosawaCore.Extensions
 
         private string TrocarVariaveis(string message)
         {
-            foreach (Variables variable in Vars)
+            foreach (Variables tipo in Vars)
             {
-                message = message.Replace(variable.Var, variable.Value);
+                if (message.Contains(tipo.Var))
+                {
+                    message = message.Replace(tipo.Var, tipo.Value);
+                }
             }
 
             return message;
