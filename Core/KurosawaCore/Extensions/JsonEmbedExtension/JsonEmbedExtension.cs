@@ -22,8 +22,9 @@ namespace KurosawaCore.Extensions.JsonEmbedExtension
                 eb.WithAuthor(embedToBuild.Author.Name, embedToBuild.Author.Url, embedToBuild.Author.IconUrl);
             if (embedToBuild.Footer != null)
                 eb.WithFooter(embedToBuild.Footer.Text, embedToBuild.Footer.IconUrl);
-            foreach (EmbedRepresentationFilds field in embedToBuild.Fields)
-                eb.AddField(field.Name, field.Value, field.InLine);
+            if (embedToBuild.Fields != null)
+                foreach (EmbedRepresentationFilds field in embedToBuild.Fields)
+                    eb.AddField(field.Name, field.Value, field.InLine);
             message = embedToBuild.PlainText;
             return eb.Build();
         }

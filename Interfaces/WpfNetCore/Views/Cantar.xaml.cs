@@ -100,15 +100,16 @@ namespace WpfNetCore.Views
                 {
                     case KurosawaCore.Abstracoes.NivelLog.Critical:
                         paragraph.Foreground = new SolidColorBrush(Colors.Red);
+                        paragraph.Background = new SolidColorBrush(Colors.Black);
                         break;
                     case KurosawaCore.Abstracoes.NivelLog.Error:
-                        paragraph.Foreground = new SolidColorBrush(Colors.Yellow);
+                        paragraph.Foreground = new SolidColorBrush(Colors.Red);
                         break;
                     case KurosawaCore.Abstracoes.NivelLog.Warning:
                         paragraph.Foreground = new SolidColorBrush(Colors.Orange);
                         break;
                     case KurosawaCore.Abstracoes.NivelLog.Info:
-                        paragraph.Foreground = new SolidColorBrush(Colors.LightBlue);
+                        paragraph.Foreground = new SolidColorBrush(Colors.Black);
                         break;
                     case KurosawaCore.Abstracoes.NivelLog.Debug:
                         paragraph.Foreground = new SolidColorBrush(Colors.LightSeaGreen);

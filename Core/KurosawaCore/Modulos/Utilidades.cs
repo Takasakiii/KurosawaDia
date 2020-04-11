@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
+using KurosawaCore.Extensions.JsonEmbedExtension;
 using KurosawaCore.Models.Atributes;
 using System;
 using System.Linq;
@@ -76,38 +77,23 @@ namespace KurosawaCore.Modulos
         [Description("Mostrar a imagem do servidor")]
         public async Task ServerImage(CommandContext ctx)
         {
-            if (!ctx.Channel.IsPrivate)
-            {
-                if (ctx.Guild.IconUrl != null)
-                {
-                    string url;
-                    if (ctx.Guild.Features.Contains("ANIMATED_ICON"))
-                    {
-                        url = $"{ctx.Guild.IconUrl.Replace(".jpg", ".gif")}?size=2048";
-                    }
-                    else
-                    {
-                        url = $"{ctx.Guild.IconUrl}?size=2048";
-                    }
-
-                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder
-                    {
-                        Title = ctx.Guild.Name,
-                        Description = $"[Link Direto]({url})",
-                        ImageUrl = url,
-                        Color = DiscordColor.Green
-                    };
-                    await ctx.RespondAsync(embed: eb);
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            else
-            {
+            if (ctx.Channel.IsPrivate || ctx.Guild.IconUrl == null)
                 throw new Exception();
-            }
+
+            string url;
+            if (ctx.Guild.Features.Contains("ANIMATED_ICON"))
+                url = $"{ctx.Guild.IconUrl.Replace(".jpg", ".gif")}?size=2048";
+            else
+                url = $"{ctx.Guild.IconUrl}?size=2048";
+
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder
+            {
+                Title = ctx.Guild.Name,
+                Description = $"[Link Direto]({url})",
+                ImageUrl = url,
+                Color = DiscordColor.Green
+            };
+            await ctx.RespondAsync(embed: eb);
         }
 
         [Command("sugestao")]
@@ -126,7 +112,8 @@ namespace KurosawaCore.Modulos
 
         private async Task ControladorDeSugestao(CommandContext ctx, string mensagem, string tipo)
         {
-            if (mensagem == "") throw new Exception();
+            if (mensagem == "") 
+                throw new Exception();
 
             DiscordChannel channel = await ctx.Client.GetChannelAsync(556598669500088320);
 
@@ -153,7 +140,8 @@ namespace KurosawaCore.Modulos
         [Description("Converte um texto com emoji do discord para emoji universais")]
         public async Task Whatsify(CommandContext ctx, [Description("Texto que deseja converter")][RemainingText]string mensagem)
         {
-            if (string.IsNullOrEmpty(mensagem)) throw new Exception();
+            if (string.IsNullOrEmpty(mensagem)) 
+                throw new Exception();
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
@@ -161,6 +149,19 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb);
+        }
+
+        [Command("say")]
+        [Description("Cria uma mensagem no servidor")]
+        [RequirePermissions(DSharpPlus.Permissions.ManageMessages & DSharpPlus.Permissions.Administrator)]
+        [RequireUserPermissions(DSharpPlus.Permissions.ManageMessages & DSharpPlus.Permissions.Administrator)]
+        public async Task Say(CommandContext ctx, [Description("Mensagem para converter na mensagem")][RemainingText]string mensagem)
+        {
+            if (ctx.Channel.IsPrivate && mensagem != "") 
+                throw new Exception();
+
+            await new JsonEmbedExtension().SendMessage(ctx.Message.Channel, mensagem);
+            await ctx.Message.DeleteAsync();
         }
     }
 }
