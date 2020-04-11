@@ -18,25 +18,25 @@ namespace KurosawaCore.Events
 
         private async Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
         {
-            ConfiguracoesServidores config = await new ConfiguracoesServidoresDAO().Get(new ConfiguracoesServidores
+            Canais canalBemvindo = await new CanaisDAO().Get(new Canais
             {
                 Servidor = new Servidores
                 {
                     ID = e.Guild.Id
                 },
-                Configuracoes = TiposConfiguracoes.BemVindoMsg
+                TipoCanal = TiposCanais.BemVindo
             });
-            if (config != null)
+            if (canalBemvindo != null)
             {
-                Canais canalBemvindo = await new CanaisDAO().Get(new Canais
+                ConfiguracoesServidores config = await new ConfiguracoesServidoresDAO().Get(new ConfiguracoesServidores
                 {
                     Servidor = new Servidores
                     {
                         ID = e.Guild.Id
                     },
-                    TipoCanal = TiposCanais.BemVindo
+                    Configuracoes = TiposConfiguracoes.BemVindoMsg
                 });
-                if (canalBemvindo != null)
+                if (config != null)
                 {
                     DiscordChannel canal = e.Guild.GetChannel(canalBemvindo.ID);
                     await new JsonEmbedExtension().SendMessage(canal, config.Value);

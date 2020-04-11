@@ -41,6 +41,7 @@ namespace KurosawaCore
             };
             Cliente = new DiscordClient(discordConfig);
             new UserGuildEnter(ref Cliente);
+            new UserGuildExit(ref Cliente);
             Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
             Cliente.MessageCreated += Cliente_MessageCreated;
         }

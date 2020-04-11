@@ -22,7 +22,6 @@ namespace DataBaseController.ModelsConfiguration
             builder.Property(x => x.Nome).HasColumnName("nome").HasColumnType("varchar(255)").HasCharSet("utf8mb4").IsRequired();
             //ID
             builder.Property(x => x.ID).HasColumnName("id").HasColumnType("bigint").IsRequired();
-            builder.HasIndex(x => x.ID).IsUnique();
             //Servidor
             builder.HasOne(x => x.Servidor).WithMany(x => x.Cargos).HasForeignKey("codigo_servidor");
         }
