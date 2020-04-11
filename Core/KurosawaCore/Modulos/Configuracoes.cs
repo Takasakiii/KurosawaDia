@@ -80,6 +80,7 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("setcanalentrada")]
+        [Aliases("setcanalbemvindo")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Selecionar canal de bem vindo")]
         public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal de bem vindo")]DiscordChannel canal = null)
@@ -98,6 +99,11 @@ namespace KurosawaCore.Modulos
                     ID = ctx.Guild.Id,
                 },
                 TipoCanal = TiposCanais.BemVindo
+            });
+
+            await ctx.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+            {
+                Description = "O canal de bem vindo foi selecionado com sucesso"
             });
         }
 
