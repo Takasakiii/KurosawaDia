@@ -1,7 +1,8 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DataBaseController.Abstractions;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
-using KurosawaCore.Models.Atributes;
+using KurosawaCore.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System;
@@ -20,7 +21,7 @@ namespace KurosawaCore.Modulos
         [Description("shiba gay")]
         public async Task Eval(CommandContext ctx, [Description("comandos de hacker")][RemainingText]string comando)
         {
-            if (string.IsNullOrEmpty(comando))
+            if (string.IsNullOrEmpty(comando) || await BotPermissions.CheckAdm(ctx.User) != TiposAdms.Dono)
                 throw new Exception();
             string comandoformatado = comando.Replace("```", "");
             await ctx.TriggerTypingAsync();
@@ -39,7 +40,7 @@ namespace KurosawaCore.Modulos
                 Script<object> code = CSharpScript.Create(comandoformatado, escopo, typeof(CommandContext));
                 code.Compile();
                 ScriptState<object> resultado = await code.RunAsync(ctx);
-                if (resultado != null)
+                if (resultado != null && !string.IsNullOrWhiteSpace(resultado.ReturnValue.ToString()))
                     await ctx.RespondAsync(embed: eb.WithDescription($"```{resultado.ReturnValue}```").WithColor(DiscordColor.Cyan).Build());
             }
             catch (Exception e)
@@ -48,6 +49,13 @@ namespace KurosawaCore.Modulos
             }
         }
 
-
+        [Command("sudo")]
+        [Description("shiba putinha")]
+        public async Task Sudo(CommandContext ctx, [Description("Amiguxo")] DiscordUser user, [Description("Comandos de hacker")][RemainingText] string cmd)
+        {
+            if (ctx.Channel.IsPrivate || string.IsNullOrEmpty(cmd) || (byte)await BotPermissions.CheckAdm(ctx.User) < (byte)TiposAdms.Adm)
+                throw new Exception();
+            await ctx.CommandsNext.SudoAsync(user, ctx.Channel, cmd);
+        }
     }
 }

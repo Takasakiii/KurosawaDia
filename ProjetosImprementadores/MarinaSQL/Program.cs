@@ -18,7 +18,7 @@ namespace MarinaSQL
             {
                 if (context.Database.EnsureCreated())
                 {
-                    context.Database.InjectSql(await new SqlsControllers($"{AppDomain.CurrentDomain.BaseDirectory}SQLs").GetSql());
+                    context.Database.InjectSql("SET GLOBAL log_bin_trust_function_creators = 1;\n\n" + await new SqlsControllers($"{AppDomain.CurrentDomain.BaseDirectory}SQLs").GetSql());
                 }
             }    
         }

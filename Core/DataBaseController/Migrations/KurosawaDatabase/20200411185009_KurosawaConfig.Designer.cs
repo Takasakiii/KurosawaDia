@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBaseController.Migrations.KurosawaDatabase
 {
     [DbContext(typeof(Kurosawa_DiaContext))]
-    [Migration("20200406070557_KurosawaConfig")]
+    [Migration("20200411185009_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
                     b.HasKey("Cod");
 
+                    b.HasIndex("ID")
+                        .IsUnique();
+
                     b.HasIndex("codigo_servidor");
 
                     b.ToTable("Canais");
@@ -101,6 +104,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
+
+                    b.HasIndex("ID")
+                        .IsUnique();
 
                     b.HasIndex("codigo_servidor");
 

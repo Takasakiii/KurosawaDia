@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataBaseController.Abstractions
+﻿namespace DataBaseController.Abstractions
 {
     public enum TiposAdms : byte
     {
         Nenhuma = 0,
-        Dono = 1
+        Moderador = 1,
+        Adm = 2,
+        Dono = 3
     }
 }

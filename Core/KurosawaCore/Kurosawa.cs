@@ -6,6 +6,7 @@ using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
+using KurosawaCore.Events;
 using KurosawaCore.Extensions;
 using KurosawaCore.Modelos;
 using KurosawaCore.Modulos;
@@ -29,6 +30,7 @@ namespace KurosawaCore
         {
             DependencesSingleton.ApiConfigs = apiConfig;
             new DBCore(dbconfig);
+            BotPermissions.IDOwner = config.IdDono;
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration
             {
@@ -38,6 +40,7 @@ namespace KurosawaCore
                 LogLevel = LogLevel.Debug
             };
             Cliente = new DiscordClient(discordConfig);
+            new UserGuildEnter(ref Cliente);
             Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
             Cliente.MessageCreated += Cliente_MessageCreated;
         }
