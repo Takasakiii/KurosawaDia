@@ -24,6 +24,7 @@ namespace KurosawaCore.Modulos
         {
             if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate) 
                 throw new Exception();
+
             DiscordMessage msg = await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
                 Color = DiscordColor.Yellow,
@@ -61,6 +62,7 @@ namespace KurosawaCore.Modulos
         {
             if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
                 throw new Exception();
+
             await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
             {
                 Configuracoes = TiposConfiguracoes.BemVindoMsg,
@@ -75,6 +77,36 @@ namespace KurosawaCore.Modulos
                 Title = $"{ctx.User.Username}, a mensagem de entrada do servidor foi cadastrada com sucesso!",
                 Color = DiscordColor.Green
             });
+        }
+
+        [Command("setcanalentrada")]
+        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
+        [Description("Selecionar canal de bem vindo")]
+        public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal de bem vindo")]DiscordChannel canal = null)
+        {
+            canal ??= ctx.Channel;
+
+            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id)
+                throw new Exception();
+
+            await new CanaisDAO().Adicionar(new Canais
+            {
+                ID = canal.Id,
+                Nome = canal.Name,
+                Servidor = new Servidores
+                {
+                    ID = ctx.Guild.Id,
+                },
+                TipoCanal = TiposCanais.BemVindo
+            });
+        }
+
+        [Command("setcanalsaida")]
+        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
+        [Description("Selecionar canal de saida")]
+        public async Task SetCanalSaida(CommandContext ctx, [Description("Canal de saida")]DiscordChannel channel = null)
+        {
+
         }
     }
 }
