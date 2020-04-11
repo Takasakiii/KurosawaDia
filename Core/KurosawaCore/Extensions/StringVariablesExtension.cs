@@ -68,11 +68,6 @@ namespace KurosawaCore.Extensions
                 Var = "%server%",
                 Value = servidor.Name
             });
-            Vars.Add(new Variables
-            {
-                Var = "%icon%",
-                Value = await new ServerIconExtension().Get(servidor)
-            });
         }
 
         internal override DiscordEmbed GetJsonEmbed(ref string message)
