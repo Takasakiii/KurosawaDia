@@ -16,6 +16,6 @@ create procedure AddCanal(
 	if((select count(cod) from Canais where codigo_servidor = _codServ and TipoCanal = _tipo) = 0) then 
 		insert into Canais (codigo_servidor, id, nome, TipoCanal) values (_codServ, _id, _nome, _tipo);
 	else
-		update Canais set nome = _nome, id = _id where codigo_servidor = _codServ and TipoCanal = _tipo;
+		delete from Canais where codigo_servidor = _codServ and TipoCanal = _tipo;
 	end if;
 end;
