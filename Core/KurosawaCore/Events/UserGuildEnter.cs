@@ -5,9 +5,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions.JsonEmbedExtension;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Events
@@ -29,7 +26,7 @@ namespace KurosawaCore.Events
                 },
                 Configuracoes = TiposConfiguracoes.BemVindoMsg
             });
-            if(config != null)
+            if (config != null)
             {
                 Canais canalBemvindo = await new CanaisDAO().Get(new Canais
                 {
@@ -39,7 +36,7 @@ namespace KurosawaCore.Events
                     },
                     TipoCanal = TiposCanais.BemVindo
                 });
-                if(canalBemvindo != null)
+                if (canalBemvindo != null)
                 {
                     DiscordChannel canal = e.Guild.GetChannel(canalBemvindo.ID);
                     await new JsonEmbedExtension().SendMessage(canal, config.Value);
