@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace KurosawaCore
 {
-    public sealed class Kurosawa
+    public sealed class Kurosawa : IAsyncDisposable
     {
         public delegate void OnLogReceived(LogMessage e);
         public event OnLogReceived OnLog;
@@ -77,15 +77,6 @@ namespace KurosawaCore
             await Task.Delay(-1);
         }
 
-        public async Task Morrer()
-        {
-            if(Cliente != null)
-            {
-                await Cliente.DisconnectAsync();
-                Cliente.Dispose();
-                GC.Collect();
-            }
-        }
 
         private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
         {
@@ -119,6 +110,16 @@ namespace KurosawaCore
         private async Task CallHelpNofing(CommandContext ctx)
         {
             await new Ajuda().AjudaCmd(ctx);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (Cliente != null)
+            {
+                await Cliente.DisconnectAsync();
+                Cliente.Dispose();
+                GC.Collect();
+            }
         }
     }
 
