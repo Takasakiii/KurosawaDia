@@ -48,8 +48,3 @@ create procedure CadastrarUsuarioServidor(
 		end if;
 	end while;
 end;
-
-
-#SELECT b FROM a 
-#WHERE 'aaaaaaaaaashibaputinha' LIKE
-# CONCAT('%', b, '%');

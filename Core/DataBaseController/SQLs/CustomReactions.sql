@@ -6,3 +6,12 @@ create procedure AddCR (
 ) begin
 	insert into CustomReactions (modo_cr, resposta_cr, servidor_cr, trigger_cr) values (_modo, _resposta, (select GetCodServidor(_servidor )), _t );
 end;
+
+
+create procedure CREvent(
+	in _servidor bigint,
+	in _msg text
+)begin
+	select * from CustomReactions where servidor_cr = GetCodServidor(_servidor) and if(modo_cr, _msg like (concat('%', trigger_cr, '%')), (trigger_cr = _msg)) order by rand() limit 1;
+end;
+

@@ -18,5 +18,13 @@ namespace DataBaseController.DAOs
                 await transation.CommitAsync();
             }
         }
+
+        public async Task<CustomReactions> Get(CustomReactions cr)
+        {
+            using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            {
+                return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
+            }
+        }
     }
 }
