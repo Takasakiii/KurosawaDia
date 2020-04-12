@@ -10,10 +10,10 @@ create procedure AtualizarServidor(
 	in _especial tinyint
 ) begin
 	if(_prefix <> "") then
-		update Servidores set prefix_servidor = _prefix;
+		update Servidores set prefix_servidor = _prefix where id_servidor = _servidor;
 	end if;
 	if(_especial <> 0) then
-		update Servidores set especial_servidor = _especial;
+		update Servidores set especial_servidor = _especial where id_servidor = _servidor;
 	end if;
 end;
 
