@@ -21,7 +21,7 @@ namespace DataBaseController.ModelsConfiguration
             //Modo
             builder.Property(x => x.Modo).HasColumnName("modo_cr").HasColumnType("bool").IsRequired();
             //Servidor
-            builder.HasOne(x => x.Servidor).WithMany(x => x.CustomReactions).HasForeignKey("servidor_cr");
+            builder.HasOne(x => x.Servidor).WithMany(x => x.CustomReactions).HasForeignKey("servidor_cr").IsRequired();
         }
     }
 }
