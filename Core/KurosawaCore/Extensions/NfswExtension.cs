@@ -1,4 +1,7 @@
-﻿using KurosawaCore.Extensions.HttpExtension;
+﻿using DataBaseController.Abstractions;
+using DataBaseController.DAOs;
+using DataBaseController.Modelos;
+using KurosawaCore.Extensions.HttpExtension;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -8,26 +11,40 @@ namespace KurosawaCore.Extensions
 {
     internal class NfswExtension
     {
-        const string urlBaseNekoBot = "https://nekobot.xyz/api/image?type=";
-        const string urlBaseNekosLife = "https://nekos.life/api/v2/img/";
+        private const string urlBaseNekoBot = "https://nekobot.xyz/api/image?type=";
+        private const string urlBaseNekosLife = "https://nekos.life/api/v2/img/";
+        private const string urlBaseLolisLife = "https://api.lolis.life/random?category=";
 
-        internal enum NekoBotType
+        private enum NekoBotType
         {
             hentai,
             hanal
         }
 
-        internal enum NekosLifeType
+        private enum NekosLifeType
         {
             lewdk,
             nsfw_neko_gif
         }
 
-        internal async Task<string> GetHentai()
+        private enum LolisLifeType
+        {
+            slave,
+            lewd,
+            monster
+        }
+
+        internal async Task<string> GetHentai(ulong guilId)
         {
             string url;
+            int escolha;
+            if ((await new ServidoresDAO().Get(new Servidores { ID = guilId})).Espercial == TiposServidores.LolisEdition)
+                escolha = new Random().Next(3);
+            else
+                escolha = new Random().Next(2);
+            
 
-            if (new Random().Next(2) == 1)
+            if (escolha == 1)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -43,7 +60,7 @@ namespace KurosawaCore.Extensions
                     }
                 }
             }
-            else
+            else if (escolha == 2)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -59,17 +76,33 @@ namespace KurosawaCore.Extensions
                     }
                 }
             }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage httpResponseMessage = await client.GetAsync($"{urlBaseLolisLife}{(LolisLifeType)new Random().Next(4)}");
+                    if (httpResponseMessage.IsSuccessStatusCode)
+                    {
+                        string json = await httpResponseMessage.Content.ReadAsStringAsync();
+                        url = JsonConvert.DeserializeObject<LolisLife>(json).Url;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
 
             return url;
         }
 
-        internal async Task<string> GetHentais()
+        internal async Task<string> GetHentais(ulong guilId)
         {
             string urls = "";
 
             for (int i = 0; i < 5; i++)
             {
-                urls += await GetHentai() + "\n";
+                urls += await GetHentai(guilId) + "\n";
             }
 
             return urls;

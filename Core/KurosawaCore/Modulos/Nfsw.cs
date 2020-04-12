@@ -13,22 +13,18 @@ namespace KurosawaCore.Modulos
     {
         [Command("hentai")]
         [Description("Consiga uma bela imagem aqui")]
+        [RequireNsfw]
         public async Task Hentai(CommandContext ctx)
         {
-            if (!ctx.Channel.IsNSFW)
-                throw new Exception();
-
-            await ctx.RespondAsync(await new NfswExtension().GetHentai());
+            await ctx.RespondAsync(await new NfswExtension().GetHentai(ctx.Guild.Id));
         }
 
         [Command("hentaibomb")]
         [Description("Consiga belas imagens aqui")]
+        [RequireNsfw]
         public async Task HentaiBomb(CommandContext ctx)
         {
-            if (!ctx.Channel.IsNSFW)
-                throw new Exception();
-
-            await ctx.RespondAsync(await new NfswExtension().GetHentais());
+            await ctx.RespondAsync(await new NfswExtension().GetHentais(ctx.Guild.Id));
         }
     }
 }
