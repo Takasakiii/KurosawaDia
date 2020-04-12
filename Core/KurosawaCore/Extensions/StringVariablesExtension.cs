@@ -1,15 +1,13 @@
 ﻿using DSharpPlus.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Extensions
 {
     internal class StringVariablesExtension : JsonEmbedExtension.JsonEmbedExtension
     {
-        private DiscordMember membro = null;
-        private DiscordGuild servidor = null;
+        private readonly DiscordMember membro = null;
+        private readonly DiscordGuild servidor = null;
 
         private struct Variables
         {
@@ -17,7 +15,7 @@ namespace KurosawaCore.Extensions
             public string Value { get; set; }
         }
 
-        private List<Variables> Vars;
+        private readonly List<Variables> Vars;
 
         internal StringVariablesExtension(DiscordMember membro, DiscordGuild servidor)
         {
