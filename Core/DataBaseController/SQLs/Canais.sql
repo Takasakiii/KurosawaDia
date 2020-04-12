@@ -19,3 +19,4 @@ create procedure AddCanal(
 		delete from Canais where codigo_servidor = _codServ and TipoCanal = _tipo;
 	end if;
 end;
+
