@@ -15,3 +15,16 @@ create procedure CREvent(
 	select * from CustomReactions where servidor_cr = GetCodServidor(_servidor) and if(modo_cr, _msg like (concat('%', trigger_cr, '%')), (trigger_cr = _msg)) order by rand() limit 1;
 end;
 
+create procedure Lcr(
+	in _servidor bigint,
+	in _pesquisa text,
+	in _page int
+) begin
+	set _page = ((_page - 1) * 10);
+	if(_pesquisa <> "") then
+		SELECT * from CustomReactions where servidor_cr = GetCodServidor(_servidor ) and trigger_cr = _pesquisa LIMIT _page, 10;
+	ELSE 
+		SELECT * from CustomReactions where servidor_cr = GetCodServidor(_servidor ) LIMIT _page, 10;
+	end if;
+end;
+
