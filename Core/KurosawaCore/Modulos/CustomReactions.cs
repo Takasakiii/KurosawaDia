@@ -38,15 +38,13 @@ namespace KurosawaCore.Modulos
         [Description("Lista as Custom Reactions ou Pesquisa uma Custom Reaction Especifica")]
         public async Task ListCR(CommandContext ctx, [Description("Objeto de pesquisa ou pagina")][RemainingText] params string[] pesquisa)
         {
-            uint page = 1;
             if (pesquisa.Length == 0)
-                pesquisa = new string[] { "1" };
+                pesquisa = new string[] { "", "1" };
 
-            if (!uint.TryParse(pesquisa.Last(), out page))
-            {
+            if (!uint.TryParse(pesquisa.Last(), out uint page))
                 page = 1;
-                //pesquisa = new string { "1"}
-            }
+            else
+                pesquisa = pesquisa[..^1];
 
             Model[] crs = await new CustomReactionsDAO().GetPage(new Model
             {
@@ -54,14 +52,14 @@ namespace KurosawaCore.Modulos
                 {
                     ID = ctx.Guild.Id
                 },
-                Trigger = string.Concat(pesquisa[0..(pesquisa.Length - 1)])
+                Trigger = string.Join(" " , pesquisa)
             }, page);
-            StringBuilder sb = new StringBuilder("```");
+            string res = "```\n";
             if (crs != null)
                 foreach (Model modelo in crs)
-                    sb.Append($"{modelo.Trigger}\n");
-            sb.Append("```");
-            await ctx.RespondAsync(sb.ToString());
+                    res += $"{modelo.Trigger}\n";
+            res += $"\n```";
+            await ctx.RespondAsync(res);
         }
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)
