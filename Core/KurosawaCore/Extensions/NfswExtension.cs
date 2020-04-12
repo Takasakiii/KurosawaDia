@@ -38,13 +38,13 @@ namespace KurosawaCore.Extensions
         {
             string url;
             int escolha;
-            if ((await new ServidoresDAO().Get(new Servidores { ID = guilId})).Espercial == TiposServidores.LolisEdition)
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = guilId})).Espercial >= (byte)TiposServidores.LolisEdition)
                 escolha = new Random().Next(3);
             else
                 escolha = new Random().Next(2);
             
 
-            if (escolha == 1)
+            if (escolha == 0)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -60,7 +60,7 @@ namespace KurosawaCore.Extensions
                     }
                 }
             }
-            else if (escolha == 2)
+            else if (escolha == 1)
             {
                 using (HttpClient client = new HttpClient())
                 {
@@ -80,7 +80,7 @@ namespace KurosawaCore.Extensions
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    HttpResponseMessage httpResponseMessage = await client.GetAsync($"{urlBaseLolisLife}{(LolisLifeType)new Random().Next(4)}");
+                    HttpResponseMessage httpResponseMessage = await client.GetAsync($"{urlBaseLolisLife}{(LolisLifeType)new Random().Next(3)}");
                     if (httpResponseMessage.IsSuccessStatusCode)
                     {
                         string json = await httpResponseMessage.Content.ReadAsStringAsync();

@@ -1,4 +1,6 @@
 ﻿using DataBaseController.Abstractions;
+using DataBaseController.DAOs;
+using DataBaseController.Modelos;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
@@ -56,6 +58,20 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || string.IsNullOrEmpty(cmd) || (byte)await BotPermissions.CheckAdm(ctx.User) < (byte)TiposAdms.Adm)
                 throw new Exception();
             await ctx.CommandsNext.SudoAsync(user, ctx.Channel, cmd);
+        }
+
+        [Command("setespecial")]
+        [Description("shiba furro")]
+        public async Task SetEspecial(CommandContext ctx, [Description("O fdp")]DiscordGuild guild, [Description("\nInal = 0\nNor = 1\nLoli = 2\nPikachu = 3")]int tipo = 0)
+        {
+            if (ctx.Channel.IsPrivate || await BotPermissions.CheckAdm(ctx.User) != TiposAdms.Dono)
+                throw new Exception();
+
+            await new ServidoresDAO().Atualizar(new Servidores
+            {
+                ID = guild.Id,
+                Espercial = (TiposServidores)tipo
+            });
         }
     }
 }
