@@ -72,6 +72,27 @@ namespace KurosawaCore.Modulos
                 ID = guild.Id,
                 Espercial = (TiposServidores)tipo
             });
+
+            await ctx.RespondAsync("mais um para o porão ?");
+        }
+
+        [Command("setadm")]
+        [Description("shiba chupa rola")]
+        public async Task SetAdm(CommandContext ctx, [Description("Mais um corno")]DiscordUser user, [Description("\nNada = 0\nMod = 1\nAdm = 2\nDono = 3")]int tipo = 0)
+        {
+            if (ctx.Channel.IsPrivate || await BotPermissions.CheckAdm(ctx.User) != TiposAdms.Dono)
+                throw new Exception();
+
+            await new AdmsBotDAO().Atualizar(new AdmsBot
+            {
+                Usuario = new Usuarios
+                {
+                    ID = user.Id
+                },
+                Permissao = (TiposAdms)tipo
+            });
+
+            await ctx.RespondAsync("kkk mais um corno");
         }
     }
 }

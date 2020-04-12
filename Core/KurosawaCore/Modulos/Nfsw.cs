@@ -2,7 +2,6 @@
 using DSharpPlus.CommandsNext.Attributes;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
-using System;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
