@@ -49,7 +49,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    codigo_servidor = table.Column<long>(nullable: true)
+                    codigo_servidor = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,7 +59,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.codigo_servidor,
                         principalTable: "Servidores",
                         principalColumn: "codigo_servidor",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,7 +72,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     id = table.Column<long>(type: "bigint", nullable: false),
-                    codigo_servidor = table.Column<long>(nullable: true)
+                    codigo_servidor = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.codigo_servidor,
                         principalTable: "Servidores",
                         principalColumn: "codigo_servidor",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +92,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     cod = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     configuracoes = table.Column<int>(type: "int", nullable: false),
-                    servidor = table.Column<long>(nullable: true),
+                    servidor = table.Column<long>(nullable: false),
                     valor = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -104,7 +104,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.servidor,
                         principalTable: "Servidores",
                         principalColumn: "codigo_servidor",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,7 +118,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     resposta_cr = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     modo_cr = table.Column<bool>(type: "bool", nullable: false),
-                    servidor_cr = table.Column<long>(nullable: true)
+                    servidor_cr = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,7 +128,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.servidor_cr,
                         principalTable: "Servidores",
                         principalColumn: "codigo_servidor",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,7 +137,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 {
                     cod = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    usuario = table.Column<long>(nullable: true),
+                    usuario = table.Column<long>(nullable: false),
                     permissao = table.Column<sbyte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
@@ -148,7 +148,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.usuario,
                         principalTable: "Usuarios",
                         principalColumn: "codigo_usuario",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,7 +157,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 {
                     cod = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    codigo_usuario = table.Column<long>(nullable: true),
+                    codigo_usuario = table.Column<long>(nullable: false),
                     urlImage = table.Column<string>(type: "varchar(255)", nullable: false),
                     explicitImage = table.Column<bool>(type: "bool", nullable: false, defaultValue: false)
                 },
@@ -169,7 +169,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.codigo_usuario,
                         principalTable: "Usuarios",
                         principalColumn: "codigo_usuario",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,7 +178,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 {
                     cod = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    usuario = table.Column<long>(nullable: true),
+                    usuario = table.Column<long>(nullable: false),
                     insulto = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -190,7 +190,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         column: x => x.usuario,
                         principalTable: "Usuarios",
                         principalColumn: "codigo_usuario",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

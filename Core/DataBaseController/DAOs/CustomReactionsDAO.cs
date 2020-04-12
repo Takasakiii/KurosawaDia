@@ -26,5 +26,13 @@ namespace DataBaseController.DAOs
                 return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
             }
         }
+
+        public async Task<CustomReactions[]> GetPage(CustomReactions cr, uint page)
+        {
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            {
+                return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.ID, cr.Trigger, page).ToListAsync()).ToArray();
+            }
+        }
     }
 }

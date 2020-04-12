@@ -15,7 +15,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.HasKey(x => x.Cod);
             builder.Property(x => x.Cod).HasColumnName("cod").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Usuario
-            builder.HasOne(x => x.Usuario).WithMany(x => x.Fuck).HasForeignKey("codigo_usuario");
+            builder.HasOne(x => x.Usuario).WithMany(x => x.Fuck).HasForeignKey("codigo_usuario").IsRequired();
             //URL
             builder.Property(x => x.Url).HasColumnName("urlImage").HasColumnType("varchar(255)").IsRequired();
             //Explicit

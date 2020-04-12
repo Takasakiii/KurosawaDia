@@ -7,6 +7,7 @@ using DSharpPlus.Entities;
 using KurosawaCore.Models.Atributes;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Model = DataBaseController.Modelos.CustomReactions;
 
@@ -30,6 +31,37 @@ namespace KurosawaCore.Modulos
         public async Task AdicionarECR(CommandContext ctx, [Description("\"pergunta\" | \"resposta\" da custom reaction.")][RemainingText] string args)
         {
             await CAcr(ctx, args, true);
+        }
+
+        [Command("listcr")]
+        [Aliases("lcr")]
+        [Description("Lista as Custom Reactions ou Pesquisa uma Custom Reaction Especifica")]
+        public async Task ListCR(CommandContext ctx, [Description("Objeto de pesquisa ou pagina")][RemainingText] params string[] pesquisa)
+        {
+            uint page = 1;
+            if (pesquisa.Length == 0)
+                pesquisa = new string[] { "1" };
+
+            if (!uint.TryParse(pesquisa.Last(), out page))
+            {
+                page = 1;
+                //pesquisa = new string { "1"}
+            }
+
+            Model[] crs = await new CustomReactionsDAO().GetPage(new Model
+            {
+                Servidor = new Servidores
+                {
+                    ID = ctx.Guild.Id
+                },
+                Trigger = string.Concat(pesquisa[0..(pesquisa.Length - 1)])
+            }, page);
+            StringBuilder sb = new StringBuilder("```");
+            if (crs != null)
+                foreach (Model modelo in crs)
+                    sb.Append($"{modelo.Trigger}\n");
+            sb.Append("```");
+            await ctx.RespondAsync(sb.ToString());
         }
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)

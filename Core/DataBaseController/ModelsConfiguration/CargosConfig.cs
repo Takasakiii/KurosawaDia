@@ -23,7 +23,7 @@ namespace DataBaseController.ModelsConfiguration
             //ID
             builder.Property(x => x.ID).HasColumnName("id").HasColumnType("bigint").IsRequired();
             //Servidor
-            builder.HasOne(x => x.Servidor).WithMany(x => x.Cargos).HasForeignKey("codigo_servidor");
+            builder.HasOne(x => x.Servidor).WithMany(x => x.Cargos).HasForeignKey("codigo_servidor").IsRequired();
         }
     }
 }

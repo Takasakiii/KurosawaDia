@@ -30,7 +30,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnName("permissao")
                         .HasColumnType("tinyint");
 
-                    b.Property<long?>("usuario")
+                    b.Property<long>("usuario")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -61,7 +61,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     b.Property<byte>("TipoCanal")
                         .HasColumnType("tinyint unsigned");
 
-                    b.Property<long?>("codigo_servidor")
+                    b.Property<long>("codigo_servidor")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -95,7 +95,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("tinyint")
                         .HasDefaultValue((sbyte)0);
 
-                    b.Property<long?>("codigo_servidor")
+                    b.Property<long>("codigo_servidor")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -123,7 +123,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long?>("servidor")
+                    b.Property<long>("servidor")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -157,7 +157,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long?>("servidor_cr")
+                    b.Property<long>("servidor_cr")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -186,7 +186,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnName("urlImage")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long?>("codigo_usuario")
+                    b.Property<long>("codigo_usuario")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -210,7 +210,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long?>("usuario")
+                    b.Property<long>("usuario")
                         .HasColumnType("bigint");
 
                     b.HasKey("Cod");
@@ -305,49 +305,63 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 {
                     b.HasOne("DataBaseController.Modelos.Usuarios", "Usuario")
                         .WithMany("AdmsBots")
-                        .HasForeignKey("usuario");
+                        .HasForeignKey("usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.Canais", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Servidores", "Servidor")
                         .WithMany("Canais")
-                        .HasForeignKey("codigo_servidor");
+                        .HasForeignKey("codigo_servidor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.Cargos", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Servidores", "Servidor")
                         .WithMany("Cargos")
-                        .HasForeignKey("codigo_servidor");
+                        .HasForeignKey("codigo_servidor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidores", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Servidores", "Servidor")
                         .WithMany("Configuracoes")
-                        .HasForeignKey("servidor");
+                        .HasForeignKey("servidor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.CustomReactions", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Servidores", "Servidor")
                         .WithMany("CustomReactions")
-                        .HasForeignKey("servidor_cr");
+                        .HasForeignKey("servidor_cr")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.Fuck", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Usuarios", "Usuario")
                         .WithMany("Fuck")
-                        .HasForeignKey("codigo_usuario");
+                        .HasForeignKey("codigo_usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.Insultos", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Usuarios", "Usuario")
                         .WithMany("Insultos")
-                        .HasForeignKey("usuario");
+                        .HasForeignKey("usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBaseController.Modelos.Servidores_Usuarios", b =>

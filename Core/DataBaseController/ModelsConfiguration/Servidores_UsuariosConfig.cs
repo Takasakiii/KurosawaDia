@@ -14,11 +14,11 @@ namespace DataBaseController.ModelsConfiguration
             //ServidorCod
             builder.Property(x => x.ServidorCod).HasColumnName("Servidores_codigo_servidor").HasColumnType("bigint");
             //Servidor
-            builder.HasOne(x => x.Servidor).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.ServidorCod);
+            builder.HasOne(x => x.Servidor).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.ServidorCod).IsRequired();
             //UsuarioCod
             builder.Property(x => x.UsuarioCod).HasColumnName("Usuarios_codigo_usuario").HasColumnType("bigint");
             //Usuario
-            builder.HasOne(x => x.Usuario).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.UsuarioCod);
+            builder.HasOne(x => x.Usuario).WithMany(x => x.ServidoresUsuarios).HasForeignKey(x => x.UsuarioCod).IsRequired();
         }
     }
 }
