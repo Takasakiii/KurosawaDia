@@ -82,7 +82,7 @@ namespace KurosawaCore.Modulos
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
                 Title = "Custom Reaction adicionada com sucesso 😃",
-                Color = DiscordColor.Green
+                Color = DiscordColor.Orange
             });
         }
     }
