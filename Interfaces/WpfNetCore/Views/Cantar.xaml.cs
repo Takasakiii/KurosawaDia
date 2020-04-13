@@ -125,7 +125,7 @@ namespace WpfNetCore.Views
 
         private async void Desligar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            await kurosawa.Morrer();
+            await kurosawa.DisposeAsync();
         }
 
         private void Scroll_ScrollChanged(object sender, ScrollChangedEventArgs e)

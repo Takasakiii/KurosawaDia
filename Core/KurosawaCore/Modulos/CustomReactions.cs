@@ -54,12 +54,35 @@ namespace KurosawaCore.Modulos
                 },
                 Trigger = string.Join(" " , pesquisa)
             }, page);
-            string res = "```\n";
-            if (crs != null)
+
+            string description = $"**Página {page}**\n```md\n";
+
+            if (crs?.Length != 0)
+            {
                 foreach (Model modelo in crs)
-                    res += $"{modelo.Trigger}\n";
-            res += $"\n```";
-            await ctx.RespondAsync(res);
+                {
+                    string trigger = modelo.Trigger;
+                    if (trigger.Length > 20) 
+                        trigger = trigger.Substring(0, 17) + "...";
+                    if (modelo.Modo)
+                        trigger = $"*{trigger}*";
+                    
+                    description += string.Format("{0, -7}{1}\n", modelo.Cod.ToString() + '.', trigger);
+                }
+
+                await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
+                    Color = DiscordColor.Green,
+                    Description = description + "```",
+                    Title = "Lista das Reações Customizadas"
+                }.WithFooter("As Reações Customizadas marcadas *assim* são as especiais."));
+            }
+            else
+            {
+                await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
+                    Color = DiscordColor.Green,
+                    Title = "Não encontrei nenhuma Reação Customizada."
+                });
+            }
         }
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)

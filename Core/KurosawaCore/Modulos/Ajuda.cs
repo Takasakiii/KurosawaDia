@@ -2,7 +2,6 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Constants;
-using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
 using System;
 using System.Collections.Generic;
@@ -28,6 +27,7 @@ namespace KurosawaCore.Modulos
                 {
                     Color = DiscordColor.Purple,
                     ImageUrl = "https://i.imgur.com/mQVFSrP.gif",
+                    Title = "Comandos atacaaaaar 😁"
                 };
 
                 Type[] types = typeof(Kurosawa).Assembly.GetTypes();
