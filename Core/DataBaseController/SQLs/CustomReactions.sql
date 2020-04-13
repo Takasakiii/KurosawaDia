@@ -28,3 +28,10 @@ create procedure Lcr(
 	end if;
 end;
 
+
+create procedure DeleteCR(
+	in _servidor bigint,
+	in _cod bigint
+)begin
+	delete from CustomReactions where cod_cr = _cod and servidor_cr = GetCodServidor(_servidor);
+end;

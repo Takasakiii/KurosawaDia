@@ -34,5 +34,17 @@ namespace DataBaseController.DAOs
                 return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.ID, cr.Trigger, page).ToListAsync()).ToArray();
             }
         }
+
+        public async Task<int> Delete (CustomReactions cr)
+        {
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            {
+                int res = 0;
+                IDbContextTransaction transaction = await context.Database.BeginTransactionAsync();
+                res = await context.Database.ExecuteSqlRawAsync("call DeleteCR({0}, {1})", cr.Servidor.ID, cr.Cod);
+                await transaction.CommitAsync();
+                return res;
+            }
+        }
     }
 }

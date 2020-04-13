@@ -71,7 +71,7 @@ namespace KurosawaCore.Modulos
                 }
 
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
-                    Color = DiscordColor.Green,
+                    Color = DiscordColor.Orange,
                     Description = description + "```",
                     Title = "Lista das Reações Customizadas"
                 }.WithFooter("As Reações Customizadas marcadas *assim* são as especiais."));
@@ -79,7 +79,7 @@ namespace KurosawaCore.Modulos
             else
             {
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
-                    Color = DiscordColor.Green,
+                    Color = DiscordColor.Orange,
                     Title = "Não encontrei nenhuma Reação Customizada."
                 });
             }
@@ -107,6 +107,29 @@ namespace KurosawaCore.Modulos
                 Title = "Custom Reaction adicionada com sucesso 😃",
                 Color = DiscordColor.Orange
             });
+        }
+
+
+        [Command("deletecr")]
+        [Aliases("dcr")]
+        [Description("Remove uma Reação Customizada especifica")]
+        public async Task Dcr(CommandContext ctx, [Description("Codigo da Reação Customizada")] uint codigo)
+        {
+            if (await new CustomReactionsDAO().Delete(new Model
+            {
+                Cod = codigo,
+                Servidor = new Servidores
+                {
+                    ID = ctx.Guild.Id
+                }
+            }) != 0)
+                await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+                {
+                    Title = "Reação foi removida com sucesso 😃",
+                    Color = DiscordColor.Orange
+                });
+            else
+                throw new Exception();
         }
     }
 }
