@@ -1,4 +1,7 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DataBaseController.Abstractions;
+using DataBaseController.DAOs;
+using DataBaseController.Modelos;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
@@ -133,6 +136,33 @@ namespace KurosawaCore.Modulos
             {
                 Auto = false
             }.GetWeeb("rem", "rem ❤"));
+        }
+
+        [Command("fuck")]
+        [Description("( ͡° ͜ʖ ͡°)")]
+        public async Task Fuck(CommandContext ctx, [Description("Colega")][RemainingText]DiscordUser usuario = null)
+        {
+            bool especial = false;
+            if (ctx.Guild != null)
+            {
+                Servidores servidor = await new ServidoresDAO().Get(new Servidores
+                {
+                    ID = ctx.Guild.Id
+                });
+                especial = ((byte)servidor.Espercial >= (byte)TiposServidores.LolisEdition);
+            }
+            
+            Fuck fuck = await new FuckDAO().Get(new Fuck
+            {
+                Explicit = especial
+            });
+
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+            {
+                Color = DiscordColor.HotPink,
+                ImageUrl = fuck.Url,
+                Title = (usuario == null) ? $"{ctx.User.Username} está se masturbando." : $"{ctx.User.Username} está fodendo {usuario.Username}"
+            });
         }
     }
 }

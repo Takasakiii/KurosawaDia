@@ -46,25 +46,29 @@ namespace KurosawaCore.Configuracoes
 
         private async Task<string> GetPrefix(DiscordMessage msg)
         {
-            Servidores s = await new ServidoresDAO().Get(new Servidores
+            if (!msg.Channel.IsPrivate)
             {
-                ID = msg.Channel.GuildId,
-            }) ?? new Servidores();
-
-            await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
-            {
-                Servidor = new Servidores
+                Servidores s = await new ServidoresDAO().Get(new Servidores
                 {
                     ID = msg.Channel.GuildId,
-                    Nome = msg.Channel.Guild.Name
-                },
-                Usuario = new Usuarios
+                }) ?? new Servidores();
+
+                await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
                 {
-                    ID = msg.Author.Id,
-                    Nome = $"{msg.Author.Username} #{msg.Author.Discriminator}"
-                }
-            });
-            return s.Prefix ?? DefaultPrefix;
+                    Servidor = new Servidores
+                    {
+                        ID = msg.Channel.GuildId,
+                        Nome = msg.Channel.Guild.Name
+                    },
+                    Usuario = new Usuarios
+                    {
+                        ID = msg.Author.Id,
+                        Nome = $"{msg.Author.Username} #{msg.Author.Discriminator}"
+                    }
+                });
+                return s.Prefix ?? DefaultPrefix;
+            }
+            return DefaultPrefix;
         }
 
         private int GetStringPrefixLength(DiscordMessage msg, string str, StringComparison comparisonType = StringComparison.Ordinal)
