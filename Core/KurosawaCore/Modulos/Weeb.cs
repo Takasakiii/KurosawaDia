@@ -6,6 +6,9 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
+using System;
+using System.Globalization;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
@@ -139,6 +142,7 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("fuck")]
+        [Aliases("foder")]
         [Description("( ͡° ͜ʖ ͡°)")]
         public async Task Fuck(CommandContext ctx, [Description("Colega")][RemainingText]DiscordUser usuario = null)
         {
@@ -162,6 +166,79 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.HotPink,
                 ImageUrl = fuck.Url,
                 Title = (usuario == null) ? $"{ctx.User.Username} está se masturbando." : $"{ctx.User.Username} está fodendo {usuario.Username}"
+            });
+        }
+
+        [Command("owoify")]
+        [Aliases("furroify", "furrofy", "furrar")]
+        [Description("Transforma uma frase em câncer")]
+        public async Task Owoify(CommandContext ctx, [Description("Texto para arruinar (não pode ser maior que 800 caracteres)")][RemainingText]string texto)
+        {
+            if (texto.Length > 800)
+                throw new Exception();
+
+            string owoifiedText = string.Empty;
+
+            string[] faces = { "OwO", "owo", "oωo", "òωó", "°ω°", "UwU", ">w<", "^w^" };
+
+            Random rand = new Random();
+            for (int i = 0; i < texto.Length; i++)
+            {
+                char ch = texto[i];
+
+                if (ch == 'r' || ch == 'l')
+                    owoifiedText += 'w';
+                else if (texto.Length - i != 1 && (ch == 'n' || ch == 'N'))
+                {
+                    char nextNormalizated = texto[i + 1].ToString().Normalize(NormalizationForm.FormD)[0];
+                    char nextNormalizatedLower = nextNormalizated.ToString().ToLowerInvariant()[0];
+                    switch (nextNormalizatedLower)
+                    {
+                        case 'a':
+                        case 'e':
+                        case 'i':
+                        case 'o':
+                        case 'u':
+                            if (nextNormalizatedLower == nextNormalizated)
+                                owoifiedText += $"{ch}y";
+                            else
+                                owoifiedText += $"{ch}Y";
+                            break;
+                        default:
+                            owoifiedText += ch;
+                            break;
+                    }
+                }
+                else if (ch == 'R' || ch == 'R')
+                    owoifiedText += 'W';
+                else if (ch == '!')
+                {
+                    if (i != 0 && texto[i - 1] == '@')
+                        owoifiedText += ch;
+                    else if (texto.Length - i != 1 && texto[i + 1] != '!')
+                        owoifiedText += $" {faces[rand.Next(0, faces.Length)]} ";
+                }
+                else if (texto.Length - i > 2)
+                    if (ch == 'o' && texto[i + 1] == 'v' && texto[i + 2] == 'e')
+                    {
+                        owoifiedText += "uv";
+                        i += 2;
+                    }
+                    else if (ch == 'O' && texto[i + 1] == 'V' && texto[i + 2] == 'E')
+                    {
+                        owoifiedText += "UV";
+                        i += 2;
+                    }
+                    else
+                        owoifiedText += ch;
+                else
+                    owoifiedText += ch;
+            }
+
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+            {
+                Color = DiscordColor.HotPink,
+                Description = owoifiedText
             });
         }
     }
