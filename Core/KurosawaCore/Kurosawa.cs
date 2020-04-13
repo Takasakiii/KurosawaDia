@@ -24,7 +24,6 @@ namespace KurosawaCore
 
         private DiscordClient Cliente;
         private readonly BaseConfig Config;
-        private MessageCreateEventArgs Message;
 
         public Kurosawa(BaseConfig config, ApiConfig[] apiConfig, DBConfig dbconfig)
         {
@@ -43,13 +42,6 @@ namespace KurosawaCore
             new UserGuildEnter(ref Cliente);
             new UserGuildExit(ref Cliente);
             Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
-            Cliente.MessageCreated += Cliente_MessageCreated;
-        }
-
-        private Task Cliente_MessageCreated(MessageCreateEventArgs e)
-        {
-            Message = e;
-            return Task.CompletedTask;
         }
 
         private void DebugLogger_LogMessageReceived(object sender, DebugLogMessageEventArgs e)
@@ -92,7 +84,7 @@ namespace KurosawaCore
                 else
                 {
                     DiscordEmoji emoji = DiscordEmoji.FromUnicode("❌");
-                    await Message.Message.CreateReactionAsync(emoji);
+                    await e.Context.Message.CreateReactionAsync(emoji);
                     controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.Name);
                     Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
                 }
