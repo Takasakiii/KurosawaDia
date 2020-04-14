@@ -19,8 +19,8 @@ namespace KurosawaCore.Modulos
         [Command("setprefix")]
         [Aliases("prefix")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Modifica o meu prefixo.")]
-        public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo que desejar")]string novoPrefixo)
+        [Description("Modifica o meu prefixo em um servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo no servidor.")]string novoPrefixo)
         {
             if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate) 
                 throw new Exception();
@@ -57,8 +57,8 @@ namespace KurosawaCore.Modulos
         [Command("bemvindo")]
         [Aliases("welcome", "entrada", "greetmsg")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Configura a mensagem de entrada do servidor.")]
-        public async Task SetBemVindo(CommandContext ctx, [Description("Texto ou Embed que deseja colocar como mensagem de bem-vindo.")][RemainingText] string message)
+        [Description("Define a mensagem de bem-vindo do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        public async Task SetBemVindo(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de bem-vindo.")][RemainingText] string message)
         {
             if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
                 throw new Exception();
@@ -74,7 +74,7 @@ namespace KurosawaCore.Modulos
             });
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Title = $"{ctx.User.Username}, a mensagem de entrada do servidor foi cadastrada com sucesso!",
+                Title = $"{ctx.User.Username}, a mensagem de bem-vindo do servidor foi definida com sucesso!",
                 Color = DiscordColor.Green
             });
         }
@@ -82,8 +82,8 @@ namespace KurosawaCore.Modulos
         [Command("canalbemvindo")]
         [Aliases("canalentrada", "canalwelcome", "greet")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Define o canal de bem vindo.\nSe for usado o comando novamente sera desativado a mensagem.")]
-        public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal de bem vindo")]DiscordChannel canal = null)
+        [Description("Define o canal de bem vindo.\nSe usado novamente, a mensagem será desativada.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal onde será enviada a mensagem de bem-vindo.")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
 
@@ -103,16 +103,16 @@ namespace KurosawaCore.Modulos
 
             await ctx.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
             {
-                Title = "O canal de bem vindo foi selecionado com sucesso",
+                Title = $"{ctx.User.Username}, o canal de bem-vindo foi definido com sucesso!",
                 Color = DiscordColor.Green
             });
         }
 
         [Command("saida")]
-        [Aliases("leave", "byemsg")]
+        [Aliases("leave", "byemsg", "saída")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Configura a mensagem de saida do servidor.")]
-        public async Task SetSaida(CommandContext ctx, [Description("Texto ou Embed que deseja colocar como mensagem de saida.")][RemainingText] string message)
+        [Description("Define a mensagem de saída do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        public async Task SetSaida(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de saída.")][RemainingText] string message)
         {
             if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
                 throw new Exception();
@@ -128,16 +128,16 @@ namespace KurosawaCore.Modulos
             });
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Title = $"{ctx.User.Username}, a mensagem de saída do servidor foi cadastrada com sucesso!",
+                Title = $"{ctx.User.Username}, a mensagem de saída do servidor foi definida com sucesso!",
                 Color = DiscordColor.Green
             });
         }
 
         [Command("canalsaida")]
-        [Aliases("canalleave", "canalbye", "bye")]
+        [Aliases("canalleave", "canalbye", "bye", "canalsaída")]
         [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
-        [Description("Define o canal de saida.\nSe for usado o comando novamente sera desativado a mensagem.")]
-        public async Task SetCanalSaida(CommandContext ctx, [Description("Canal de saida")]DiscordChannel canal = null)
+        [Description("Define o canal de saída.\nSe usado novamente, a mensagem será desativada.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        public async Task SetCanalSaida(CommandContext ctx, [Description("Canal onde será enviada a mensagem de bem-vindo.")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
 
@@ -157,7 +157,7 @@ namespace KurosawaCore.Modulos
 
             await ctx.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
             {
-                Title = "O canal de saida foi selecionado com sucesso",
+                Title = $"{ctx.User.Username}, o canal de saída foi definido com sucesso!",
                 Color = DiscordColor.Green
             });
         }

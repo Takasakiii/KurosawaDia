@@ -15,11 +15,11 @@ namespace KurosawaCore.Modulos
     public class Moderacao
     {
         [Command("limparchat")]
-        [Aliases("prune")]
-        [Description("Limpar o chat")]
+        [Aliases("prune", "clear")]
+        [Description("Limpa o chat.")]
         [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
         [RequireUserPermissions(Permissions.ManageMessages & Permissions.Administrator)]
-        public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens")]int quantidade = 10, [Description("Usuario que deseja apagar as mensagens")][RemainingText]DiscordUser usuario = null)
+        public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens para apagar.")]int quantidade = 10, [Description("Usuário que você deseja que as mensagens sejam apagadas.")][RemainingText]DiscordUser usuario = null)
         {
             if (ctx.Channel.IsPrivate)
                 throw new Exception();
@@ -60,28 +60,28 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("kick")]
-        [Description("Expulsar o usuario")]
+        [Description("Expulsa um usuário.")]
         [RequirePermissions(Permissions.KickMembers & Permissions.Administrator)]
         [RequireUserPermissions(Permissions.KickMembers & Permissions.Administrator)]
-        public async Task Kick(CommandContext ctx, [Description("Usuario que deseja expulsar")]DiscordUser usuario, [Description("Motivo")][RemainingText]string motivo)
+        public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
             await Eliminar(ctx, usuario, motivo, TipoEliminar.expulso);
         }
 
         [Command("ban")]
-        [Description("Banir o usuario")]
+        [Description("Banir um usuário.")]
         [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
         [RequireUserPermissions(Permissions.BanMembers & Permissions.Administrator)]
-        public async Task Ban(CommandContext ctx, [Description("Usuario que deseja banir")]DiscordUser usuario, [Description("Motivo")][RemainingText]string motivo)
+        public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
             await Eliminar(ctx, usuario, motivo, TipoEliminar.banido);
         }
 
         [Command("softban")]
-        [Description("Remover o usuario")]
+        [Description("Expulsa um usuário e apaga suas mensagens.")]
         [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
         [RequireUserPermissions(Permissions.BanMembers & Permissions.Administrator)]
-        public async Task SoftBan(CommandContext ctx, [Description("Usuario que deseja remover")]DiscordUser usuario, [Description("Motivo")][RemainingText]string motivo)
+        public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
             await Eliminar(ctx, usuario, motivo, TipoEliminar.removido);
         }
@@ -136,10 +136,10 @@ namespace KurosawaCore.Modulos
                     await membro.RemoveAsync($"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     break;
                 case TipoEliminar.banido:
-                    await membro.BanAsync(reason: $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     break;
                 case TipoEliminar.removido:
-                    await membro.BanAsync(reason: $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     await ctx.Guild.UnbanMemberAsync(membro);
                     break;
                 default:

@@ -153,7 +153,7 @@ namespace KurosawaCore.Modulos
                 {
                     ID = ctx.Guild.Id
                 });
-                especial = ((byte)servidor.Espercial >= (byte)TiposServidores.LolisEdition);
+                especial = ((byte)servidor.Especial >= (byte)TiposServidores.LolisEdition);
             }
             
             Fuck fuck = await new FuckDAO().Get(new Fuck
@@ -215,7 +215,7 @@ namespace KurosawaCore.Modulos
                 {
                     if (i != 0 && texto[i - 1] == '@')
                         owoifiedText += ch;
-                    else if (texto.Length - i != 1 && texto[i + 1] != '!')
+                    else if (!(texto.Length - i != 1 && texto[i + 1] == '!'))
                         owoifiedText += $" {faces[rand.Next(0, faces.Length)]} ";
                 }
                 else if (texto.Length - i > 2)

@@ -8,7 +8,7 @@ namespace DataBaseController.Modelos
         public ulong Cod { get; set; }
         public ulong ID { get; set; }
         public string Nome { get; set; }
-        public TiposServidores Espercial { get; set; }
+        public TiposServidores Especial { get; set; }
         public string Prefix { get; set; }
         public virtual List<ConfiguracoesServidores> Configuracoes { get; set; }
         public virtual List<Servidores_Usuarios> ServidoresUsuarios { get; set; }

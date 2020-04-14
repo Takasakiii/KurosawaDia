@@ -21,7 +21,7 @@ namespace DataBaseController.ModelsConfiguration
             //Nome
             builder.Property(x => x.Nome).HasColumnName("nome_servidor").HasColumnType("varchar(255)").HasCharSet("utf8mb4").IsRequired();
             //Especial
-            builder.Property(x => x.Espercial).HasColumnName("especial_servidor").HasColumnType("tinyint").HasConversion<byte>().IsRequired().HasDefaultValue(TiposServidores.Normal);
+            builder.Property(x => x.Especial).HasColumnName("especial_servidor").HasColumnType("tinyint").HasConversion<byte>().IsRequired().HasDefaultValue(TiposServidores.Normal);
             //Prefix
             builder.Property(x => x.Prefix).HasColumnName("prefix_servidor").HasColumnType("varchar(25)").HasDefaultValue(null);
         }

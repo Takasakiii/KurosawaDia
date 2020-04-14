@@ -16,7 +16,7 @@ namespace KurosawaCore.Modulos
     public class Image
     {
         [Command("cat")]
-        [Description("Nyann")]
+        [Description("Mostra uma imagem aleatória de um gato.")]
         public async Task Cat(CommandContext ctx)
         {
             string url = await new ImageExtension().GetCat();
@@ -30,7 +30,7 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("dog")]
-        [Description("LuckShiba")]
+        [Description("Mostra uma imagem aleatória de um cachorro.")]
         public async Task Dog(CommandContext ctx)
         {
             Random random = new Random();
@@ -51,8 +51,8 @@ namespace KurosawaCore.Modulos
                 DiscordUser user = await ctx.Client.GetUserAsync(355750436424384524);
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder
                 {
-                    Title = "Se ta procurando um cachorinho ? Me adote",
-                    Description = $"Me adote no discord **{user.Username}#{user.Discriminator}** Woof Woof",
+                    Title = "Você está procurando um cachorinho? Me adote.",
+                    Description = $"Me adote no Discord `{user.Username}#{user.Discriminator}` Woof Woof",
                     ThumbnailUrl = user.AvatarUrl,
                     Color = DiscordColor.Turquoise
                 });
@@ -60,16 +60,16 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("loli")]
-        [Description("Manda uma imagem para que você seja preso")]
+        [Description("Manda uma imagem para que você seja preso.")]
         public async Task Loli(CommandContext ctx)
         {
-            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Espercial < (byte)TiposServidores.LolisEdition)
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Especial < (byte)TiposServidores.LolisEdition)
                 throw new Exception();
 
             string url = await new ImageExtension().GetLoli();
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder 
             {
-                Title = "S-Senpai",
+                Title = "",
                 Description = $"[Link Direto]({url})",
                 ImageUrl = url,
                 Color = DiscordColor.Turquoise
@@ -77,10 +77,10 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("lolibomb")]
-        [Description("Manda varias imagens para você ser preso imediatamente")]
+        [Description("Manda varias imagens para você ser preso imediatamente.")]
         public async Task LoliBomb(CommandContext ctx)
         {
-            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Espercial < (byte)TiposServidores.LolisEdition)
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Especial < (byte)TiposServidores.LolisEdition)
                 throw new Exception();
 
             await ctx.RespondAsync(await new ImageExtension().GetLoliBomb());

@@ -70,7 +70,7 @@ namespace KurosawaCore.Modulos
             await new ServidoresDAO().Atualizar(new Servidores
             {
                 ID = guild.Id,
-                Espercial = (TiposServidores)tipo
+                Especial = (TiposServidores)tipo
             });
 
             await ctx.RespondAsync("mais um para o porão ?");

@@ -18,9 +18,10 @@ namespace KurosawaCore.Events
             Status = status;
         }
 
-        private async Task Cliente_Ready(ReadyEventArgs e)
+        private Task Cliente_Ready(ReadyEventArgs e)
         {
             new Thread(Read).Start();
+            return Task.CompletedTask;
         }
 
         private async void Read()

@@ -6,7 +6,7 @@ using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
 using KurosawaCore.Events;
 using KurosawaCore.Extensions;
-using KurosawaCore.Modelos;
+using KurosawaCore.Models.Abstract;
 using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;

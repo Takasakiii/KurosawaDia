@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KurosawaCore.Modelos
+namespace KurosawaCore.Models.Abstract
 {
     public class LogMessage : EventArgs
     {

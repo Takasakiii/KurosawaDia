@@ -14,28 +14,28 @@ using Model = DataBaseController.Modelos.CustomReactions;
 namespace KurosawaCore.Modulos
 {
     [Modulo("Reações Customizadas", "💬")]
-    [Description("Este módulo possui comandos para você controlar as minhas Reações Customizadas")]
+    [Description("Este módulo possui comandos para você controlar as minhas Reações Customizadas.")]
     public class CustomReactions
     {
-        [Command("adicionarcr")]
-        [Aliases("acr")]
-        [Description("Adiciona uma Reação Customizada ao Servidor. (Observação: para usar o mesmo precisa ser administrador ou ter um cargo chamado Ajudante de Idol)")]
-        public async Task AdicionarCR(CommandContext ctx, [Description("\"pergunta\" | \"resposta\" da custom reaction.")][RemainingText] string args)
+        [Command("adicionarrc")]
+        [Aliases("acr", "arc", "adicionarcr")]
+        [Description("Adiciona uma Reação Customizada ao servidor.\n\n(Observação: para usar o mesmo, você precisa ser administrador ou ter um cargo chamado Ajudante de Idol.)")]
+        public async Task AdicionarCR(CommandContext ctx, [Description("\"pergunta\" | \"resposta\" da Reação Customizada.")][RemainingText] string args)
         {
             await CAcr(ctx, args);
         }
 
-        [Command("adicionarespecialcr")]
-        [Aliases("aecr")]
-        [Description("Adiciona uma Reação Customizada Especial ao Servidor. (Observação: para usar o mesmo precisa ser administrador ou ter um cargo chamado Ajudante de Idol)")]
-        public async Task AdicionarECR(CommandContext ctx, [Description("\"pergunta\" | \"resposta\" da custom reaction.")][RemainingText] string args)
+        [Command("adicionarrcespecial")]
+        [Aliases("aecr", "arce")]
+        [Description("Adiciona uma Reação Customizada Especial ao servidor.\n\n(Observação: para usar o mesmo, você precisa ser administrador ou ter um cargo chamado Ajudante de Idol.)")]
+        public async Task AdicionarECR(CommandContext ctx, [Description("\"pergunta\" | \"resposta\" da Reação Customizada.")][RemainingText] string args)
         {
             await CAcr(ctx, args, true);
         }
 
-        [Command("listcr")]
-        [Aliases("lcr")]
-        [Description("Lista as Custom Reactions ou Pesquisa uma Custom Reaction Especifica")]
+        [Command("listrc")]
+        [Aliases("lcr", "listarrc", "listcr")]
+        [Description("Lista as Reações Customizadas ou pesquisa uma Reação Customizada específica.")]
         public async Task ListCR(CommandContext ctx, [Description("Objeto de pesquisa ou pagina")][RemainingText] params string[] pesquisa)
         {
             if (pesquisa.Length == 0)
