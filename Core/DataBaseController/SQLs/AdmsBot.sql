@@ -1,7 +1,7 @@
 create procedure LerAdms(
 	in _usuario bigint
 )begin
-	SELECT * from AdmsBot where cod = GetCodUser(_usuario);
+	SELECT * from AdmsBot where usuario = GetCodUser(_usuario);
 end;
 
 create procedure AtualizarAdm(
