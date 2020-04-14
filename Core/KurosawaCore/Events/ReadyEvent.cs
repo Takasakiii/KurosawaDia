@@ -2,6 +2,7 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Events
@@ -18,6 +19,11 @@ namespace KurosawaCore.Events
         }
 
         private async Task Cliente_Ready(ReadyEventArgs e)
+        {
+            new Thread(Read).Start();
+        }
+
+        private async void Read()
         {
             if (Status != null && Status.Length > 0)
                 while (true)
