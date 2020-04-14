@@ -15,6 +15,7 @@ namespace ConsoleNetCore
         private BaseConfig Config;
         private ApiConfig[] ApiConfig;
         private DBConfig DbConfig;
+        private StatusConfig[] Status;
 
         public static async Task Main(string[] args)
         {
@@ -67,12 +68,28 @@ namespace ConsoleNetCore
                 }
                 ApiConfig = temp.ToArray();
                 await api.Adicionar(ApiConfig);
+
+                AConsole.WriteLine("Definindo as Configurações dos Status (0 no nome termina as adições):", Color.Yellow);
+                StatusConfigDAO statusdao = new StatusConfigDAO();
+                List<StatusConfig> status = new List<StatusConfig>();
+                while (true)
+                {
+                    StatusConfig configtemp = new StatusConfig();
+                    Console.Write("Nome do Status: ");
+                    configtemp.StatusJogo = Console.ReadLine();
+                    if (configtemp.StatusJogo == "0")
+                        break;
+                    status.Add(configtemp);
+                }
+                Status = status.ToArray();
+                await statusdao.Adicionar(Status);
             }
             else
             {
                 Config = await new BaseConfigDAO().Ler();
                 ApiConfig = await new ApiConfigDAO().Ler();
                 DbConfig = await new DBConfigDAO().Ler();
+                Status = await new StatusConfigDAO().Ler();
             }
 
             Console.ResetColor();
@@ -82,7 +99,7 @@ namespace ConsoleNetCore
         {
             AConsole.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
             await CriarDB();
-            Kurosawa kud = new Kurosawa(Config, ApiConfig, DbConfig);
+            Kurosawa kud = new Kurosawa(Config, ApiConfig, DbConfig, Status);
             await kud.Iniciar();
         }
     }

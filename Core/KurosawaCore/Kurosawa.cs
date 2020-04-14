@@ -2,14 +2,11 @@
 using DataBaseController;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Exceptions;
-using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Configuracoes;
 using KurosawaCore.Events;
 using KurosawaCore.Extensions;
 using KurosawaCore.Modelos;
-using KurosawaCore.Modulos;
 using KurosawaCore.Singletons;
 using System;
 using System.Collections.Generic;
@@ -25,7 +22,7 @@ namespace KurosawaCore
         private DiscordClient Cliente;
         private readonly BaseConfig Config;
 
-        public Kurosawa(BaseConfig config, ApiConfig[] apiConfig, DBConfig dbconfig)
+        public Kurosawa(BaseConfig config, ApiConfig[] apiConfig, DBConfig dbconfig, StatusConfig[] status)
         {
             DependencesSingleton.ApiConfigs = apiConfig;
             new DBCore(dbconfig);
@@ -41,6 +38,8 @@ namespace KurosawaCore
             Cliente = new DiscordClient(discordConfig);
             new UserGuildEnter(ref Cliente);
             new UserGuildExit(ref Cliente);
+            new MessageReceived(ref Cliente);
+            new ReadyEvent(ref Cliente, status);
             Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
         }
 
@@ -64,44 +63,9 @@ namespace KurosawaCore
             {
                 Cliente.DebugLogger.LogMessage(LogLevel.Debug, "Kurosawa Dia - Handler", $"Comando Registrado: {comando.Key}", DateTime.Now);
             }
-            comandos.CommandErrored += Comandos_CommandErrored;
+            new CommandErrored(ref comandos);
             await Cliente.ConnectAsync();
             await Task.Delay(-1);
-        }
-
-
-        private async Task Comandos_CommandErrored(CommandErrorEventArgs e)
-        {
-            try
-            {
-                ReactionsController<CommandContext> controller = new ReactionsController<CommandContext>(e.Context);
-                if (e.Exception is CommandNotFoundException)
-                {
-                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❓");
-                    await e.Context.Message.CreateReactionAsync(emoji);
-                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo(CallHelpNofing), emoji, e.Context.User);
-                }
-                else
-                {
-                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❌");
-                    await e.Context.Message.CreateReactionAsync(emoji);
-                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.Name);
-                    Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
-                }
-            }
-            catch(Exception ex)
-            {
-                Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", ex.Message, DateTime.Now);
-            }
-        }
-
-        private async Task CallHelp(CommandContext ctx, string arg)       
-        {
-            await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx, arg);
-        }
-        private async Task CallHelpNofing(CommandContext ctx)
-        {
-            await new Ajuda().AjudaCmd(ctx);
         }
 
         public async ValueTask DisposeAsync()

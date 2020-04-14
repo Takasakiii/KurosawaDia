@@ -2,27 +2,24 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace KurosawaCore.Extensions
+namespace KurosawaCore.Events
 {
-    internal sealed class StatusExtension
+    internal sealed class ReadyEvent
     {
         private StatusConfig[] Status;
-        private DiscordClient Client;
-        internal StatusExtension(DiscordClient client, StatusConfig[] status)
+        private DiscordClient Cliente;
+        internal ReadyEvent(ref DiscordClient cliente, StatusConfig[] status)
         {
-            Client = client;
-            Client.Ready += Client_Ready;
+            cliente.Ready += Cliente_Ready;
+            Cliente = cliente;
             Status = status;
         }
 
-        private async Task Client_Ready(ReadyEventArgs e)
+        private async Task Cliente_Ready(ReadyEventArgs e)
         {
-            if(Status != null && Status.Length > 0)
+            if (Status != null && Status.Length > 0)
                 while (true)
                     foreach (StatusConfig status in Status)
                     {
@@ -30,10 +27,9 @@ namespace KurosawaCore.Extensions
                         {
                             Name = status.StatusJogo
                         };
-                        await Client.UpdateStatusAsync(game);
+                        await Cliente.UpdateStatusAsync(game);
                         await Task.Delay(10000);
                     }
-                    
         }
     }
 }
