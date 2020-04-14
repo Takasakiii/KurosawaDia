@@ -12,7 +12,7 @@ namespace ConfigController.DAOs
             using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
                 config.Cod = 1;
-                if (await contexto.BaseConfigs.AsNoTracking().FirstAsync(x => x.Cod == 1) != null)
+                if (await contexto.BaseConfigs.AsNoTracking().FirstOrDefaultAsync(x => x.Cod == 1) != null)
                 {
                     contexto.BaseConfigs.Update(config);
                 }
