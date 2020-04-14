@@ -1,5 +1,6 @@
 ﻿using ConfigController.EntityConfiguration;
 using ConfigController.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace ConfigController.DAOs
@@ -8,16 +9,16 @@ namespace ConfigController.DAOs
     {
         public async Task Adicionar(DBConfig config)
         {
-            config.Cod = 1;
             using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
-                if (!(await contexto.DBConfig.FindAsync((ushort)config.Cod) != null))
+                config.Cod = 1;
+                if (await contexto.DBConfig.AsNoTracking().FirstAsync(x => x.Cod == 1) != null)
                 {
-                    await contexto.DBConfig.AddAsync(config);
+                    contexto.DBConfig.Update(config);
                 }
                 else
                 {
-                    contexto.DBConfig.Update(config);
+                    await contexto.DBConfig.AddAsync(config);
                 }
                 await contexto.SaveChangesAsync();
             }

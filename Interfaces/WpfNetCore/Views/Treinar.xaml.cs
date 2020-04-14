@@ -24,6 +24,7 @@ namespace WpfNetCore.Views
         private BaseConfig Config;
         private ApiConfig[] ApiConfig;
         private DBConfig DbConfig;
+        private StatusConfig[] StatusConfig;
 
         public Treinar()
         {
@@ -40,6 +41,8 @@ namespace WpfNetCore.Views
                 await DbConfigLer();
 
                 await ApisConfigLer();
+
+                await StatusConfigLer();
             }
         }
 
@@ -73,6 +76,16 @@ namespace WpfNetCore.Views
             if (ApiConfig != null)
             {
                 Apis.ItemsSource = ApiConfig;
+            }
+        }
+
+        private async Task StatusConfigLer()
+        {
+            StatusConfig = await new StatusConfigDAO().Ler();
+            if (StatusConfig != null)
+            {
+                Status.ItemsSource = StatusConfig;
+                StatusTipo.ItemsSource = new string[] { "Jogando (0)", "Live (1)", "Ouvindo (2)", "Assistindo (3)" };
             }
         }
 
@@ -150,14 +163,14 @@ namespace WpfNetCore.Views
             ApiKey.Text = apiConfig.Key;
         }
 
-        private void Limpar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void LimparApi_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ApiCod.Text = "0";
             ApiName.Text = "";
             ApiKey.Text = "";
         }
 
-        private async void Deletar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void DeletarApi_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (ApiCod.Text != "" && ApiCod.Text != "0" && ApiName.Text != "" && ApiKey.Text != "")
             {
@@ -195,6 +208,45 @@ namespace WpfNetCore.Views
                         Key = ApiKey.Text
                     }});
                     await ApisConfigLer();
+                }
+                else
+                {
+                    MessageBox.Show("Esse é mesmo um numero ?", "Kurosawa Dia - Alerta", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Acho que esqueceu de me dizer alguma coisa.", "Kurosawa Dia - Alerta", MessageBoxButton.OK);
+            }
+        }
+
+        private void LimparStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StatusCod.Text = "0";
+            StatusName.Text = "";
+            StatusUrl.Text = "";
+            StatusTipo.SelectedIndex = -1;
+        }
+
+        private void DeletarStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private async void SalvarStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (StatusCod.Text == "0" && StatusName.Text != "" && StatusTipo.SelectedIndex != -1)
+            {
+                if (uint.TryParse(StatusCod.Text, out uint cod))
+                {
+                    await new StatusConfigDAO().Adicionar(new StatusConfig[] { new StatusConfig
+                    {
+                        Cod = cod,
+                        StatusJogo = StatusName.Text,
+                        StatusUrl = StatusUrl.Text,
+                        TipoDeStatus = (TipoDeStatus)StatusTipo.SelectedIndex
+                    }});
+                    await StatusConfigLer();
                 }
                 else
                 {

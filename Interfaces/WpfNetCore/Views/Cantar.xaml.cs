@@ -28,6 +28,7 @@ namespace WpfNetCore.Views
         private BaseConfig Config;
         private ApiConfig[] ApiConfig;
         private DBConfig DbConfig;
+        private StatusConfig[] StatusConfig;
 
         private bool AutoScroll = true;
 
@@ -46,6 +47,8 @@ namespace WpfNetCore.Views
                 DbConfig = await new DBConfigDAO().Ler();
 
                 ApiConfig = await new ApiConfigDAO().Ler();
+
+                StatusConfig = await new StatusConfigDAO().Ler();
             }
         }
 
@@ -62,7 +65,7 @@ namespace WpfNetCore.Views
         private async void Iniciar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             AdicionarLogo();
-            kurosawa = new Kurosawa(Config, ApiConfig, DbConfig);
+            kurosawa = new Kurosawa(Config, ApiConfig, DbConfig, StatusConfig);
             kurosawa.OnLog += Kurosawa_OnLog;
             await kurosawa.Iniciar();
             

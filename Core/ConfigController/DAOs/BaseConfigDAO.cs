@@ -1,5 +1,6 @@
 ﻿using ConfigController.EntityConfiguration;
 using ConfigController.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace ConfigController.DAOs
@@ -11,7 +12,7 @@ namespace ConfigController.DAOs
             using (KurosawaConfigContext contexto = new KurosawaConfigContext())
             {
                 config.Cod = 1;
-                if (await contexto.BaseConfigs.FindAsync((uint)1) != null)
+                if (await contexto.BaseConfigs.AsNoTracking().FirstAsync(x => x.Cod == 1) != null)
                 {
                     contexto.BaseConfigs.Update(config);
                 }
