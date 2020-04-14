@@ -17,5 +17,9 @@ namespace ConfigController.EntityConfiguration
         {
             config.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}{DBConst.ConfigName}");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StatusConfig>().Property(x => x.TipoDeStatus).HasConversion<int>();
+        }
     }
 }
