@@ -43,24 +43,7 @@ namespace KurosawaCore.Extensions
 
         internal async Task<bool> GetAnimated()
         {
-            return await IsImageUrl(string.Format(BaseUrl, $"{Emoji.Id.ToString(CultureInfo.InvariantCulture)}.gif"));
-        }
-
-        private async Task<bool> IsImageUrl(string URL)
-        {
-            try
-            {
-                WebRequest req = WebRequest.Create(URL);
-                req.Method = "HEAD";
-                using (WebResponse resp = await req.GetResponseAsync())
-                {
-                    return resp.ContentType.ToLower(CultureInfo.InvariantCulture).StartsWith("image/");
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return await new HttpsExtension().IsImage(string.Format(BaseUrl, $"{Emoji.Id.ToString(CultureInfo.InvariantCulture)}.gif"));
         }
     }
 }
