@@ -60,10 +60,10 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("loli")]
-        [Description("Manda uma imagem para que vc seja preso")]
+        [Description("Manda uma imagem para que você seja preso")]
         public async Task Loli(CommandContext ctx)
         {
-            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Espercial <= (byte)TiposServidores.LolisEdition)
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Espercial < (byte)TiposServidores.LolisEdition)
                 throw new Exception();
 
             string url = await new ImageExtension().GetLoli();
@@ -74,6 +74,16 @@ namespace KurosawaCore.Modulos
                 ImageUrl = url,
                 Color = DiscordColor.Turquoise
             });
+        }
+
+        [Command("lolibomb")]
+        [Description("Manda varias imagens para você ser preso imediatamente")]
+        public async Task LoliBomb(CommandContext ctx)
+        {
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Espercial < (byte)TiposServidores.LolisEdition)
+                throw new Exception();
+
+            await ctx.RespondAsync(await new ImageExtension().GetLoliBomb());
         }
     }
 }
