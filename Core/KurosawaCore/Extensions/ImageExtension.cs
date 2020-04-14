@@ -54,7 +54,7 @@ namespace KurosawaCore.Extensions
                         throw new Exception();
                     }
                 }
-            } while (url.Contains(".mp4"));
+            } while (!await new HttpsExtension().IsImage(url));
 
             return url;
         }
