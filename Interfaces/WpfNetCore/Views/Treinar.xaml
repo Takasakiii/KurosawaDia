@@ -201,7 +201,7 @@
                             </DataGrid.Columns>
                             <DataGrid.ItemContainerStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseLeftButtonDown" Handler="DataGrid_MouseLeftButtonDown"/>
+                                    <EventSetter Event="MouseLeftButtonDown" Handler="ApiDataGrid_MouseLeftButtonDown"/>
                                 </Style>
                             </DataGrid.ItemContainerStyle>
                         </DataGrid>
@@ -294,7 +294,7 @@
                             </DataGrid.Columns>
                             <DataGrid.ItemContainerStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseLeftButtonDown" Handler="DataGrid_MouseLeftButtonDown"/>
+                                    <EventSetter Event="MouseLeftButtonDown" Handler="StatusDataGrid_MouseLeftButtonDown"/>
                                 </Style>
                             </DataGrid.ItemContainerStyle>
                         </DataGrid>

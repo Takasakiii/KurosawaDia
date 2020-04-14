@@ -155,7 +155,7 @@ namespace WpfNetCore.Views
             }
         }
 
-        private void DataGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ApiDataGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ApiConfig apiConfig = (ApiConfig)((DataGridRow)sender).Item;
             ApiCod.Text = apiConfig.Cod.ToString();
@@ -172,15 +172,13 @@ namespace WpfNetCore.Views
 
         private async void DeletarApi_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ApiCod.Text != "" && ApiCod.Text != "0" && ApiName.Text != "" && ApiKey.Text != "")
+            if (ApiCod.Text != "0")
             {
                 if (uint.TryParse(ApiCod.Text, out uint cod))
                 {
                     await new ApiConfigDAO().Deletar(new ApiConfig 
                     { 
-                        Cod = cod, 
-                        Nome = ApiName.Text, 
-                        Key = ApiKey.Text
+                        Cod = cod
                     });
                     await ApisConfigLer();
                 }
@@ -220,6 +218,15 @@ namespace WpfNetCore.Views
             }
         }
 
+        private void StatusDataGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StatusConfig statusConfigs = (StatusConfig)((DataGridRow)sender).Item;
+            StatusCod.Text = statusConfigs.Cod.ToString();
+            StatusName.Text = statusConfigs.StatusJogo;
+            StatusUrl.Text = statusConfigs.StatusUrl;
+            StatusTipo.SelectedIndex = (int)statusConfigs.TipoDeStatus;
+        }
+
         private void LimparStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             StatusCod.Text = "0";
@@ -228,15 +235,39 @@ namespace WpfNetCore.Views
             StatusTipo.SelectedIndex = -1;
         }
 
-        private void DeletarStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void DeletarStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (StatusCod.Text != "0")
+            {
+                if (uint.TryParse(StatusCod.Text, out uint cod))
+                {
+                    await new StatusConfigDAO().Deletar(new StatusConfig
+                    {
+                        Cod = cod
+                    });
+                    await StatusConfigLer();
+                }
+                else
+                {
+                    MessageBox.Show("Esse é mesmo um numero ?", "Kurosawa Dia - Alerta", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Acho que esqueceu de me dizer alguma coisa.", "Kurosawa Dia - Alerta", MessageBoxButton.OK);
+            }
         }
 
         private async void SalvarStatus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (StatusCod.Text == "0" && StatusName.Text != "" && StatusTipo.SelectedIndex != -1)
             {
+                if (StatusTipo.SelectedIndex == 1 && StatusUrl.Text == "")
+                {
+                    MessageBox.Show("Acho que esqueceu de me dizer alguma coisa.", "Kurosawa Dia - Alerta", MessageBoxButton.OK);
+                    return;
+                }
+
                 if (uint.TryParse(StatusCod.Text, out uint cod))
                 {
                     await new StatusConfigDAO().Adicionar(new StatusConfig[] { new StatusConfig
