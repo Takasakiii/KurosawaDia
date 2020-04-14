@@ -10,15 +10,9 @@ namespace KurosawaCore.Extensions
 {
     internal class ImageExtension
     {
-        private const string urlBaseNekosLife = "https://nekos.life/api/v2/img/";
+        private const string urlBaseNekosLife = "https://nekos.life/api/v2/img/meow";
         private const string urlBaseRandomDog = "https://random.dog/woof.json";
         private const string urlBaseLolisLife = "https://api.lolis.life/random";
-
-        private enum NekosLifeType
-        {
-            neko,
-            meow
-        }
 
         internal async Task<string> GetCat()
         {
@@ -26,7 +20,7 @@ namespace KurosawaCore.Extensions
 
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage httpResponseMessage = await client.GetAsync($"{urlBaseNekosLife}{(NekosLifeType)new Random().Next(2)}");
+                HttpResponseMessage httpResponseMessage = await client.GetAsync(urlBaseNekosLife);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     string json = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -84,6 +78,18 @@ namespace KurosawaCore.Extensions
             }
 
             return url;
+        }
+
+        internal async Task<string> GetLoliBomb()
+        {
+            string urls = "";
+
+            for (int i = 0; i < 5; i++)
+            {
+                urls += await GetLoli() + "\n";
+            }
+
+            return urls;
         }
     }
 }
