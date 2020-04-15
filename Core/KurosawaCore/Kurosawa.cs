@@ -64,6 +64,7 @@ namespace KurosawaCore
                 Cliente.DebugLogger.LogMessage(LogLevel.Debug, "Kurosawa Dia - Handler", $"Comando Registrado: {comando.Key}", DateTime.Now);
             }
             new CommandErrored(ref comandos);
+            Cliente.MessageCreated -= comandos.HandleCommandsAsync;
             await Cliente.ConnectAsync();
             await Task.Delay(-1);
         }

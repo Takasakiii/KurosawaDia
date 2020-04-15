@@ -48,7 +48,7 @@ namespace KurosawaCore.Configuracoes
 
         private int GetStringPrefixLength(DiscordMessage msg, string str, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            var content = msg.Content;
+            string content = msg.Content ?? "";
             if (str.Length >= content.Length)
                 return -1;
 
