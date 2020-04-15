@@ -14,7 +14,7 @@ namespace DataBaseController.DAOs
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
 
-                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
+                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
                 await context.Database.ExecuteSqlRawAsync("call CadastrarUsuarioServidor({0}, {1}, {2}, {3})", su.Servidor.ID, su.Usuario.ID, su.Servidor.Nome, su.Usuario.Nome);
                 await transation.CommitAsync();
                 //context.AdmsBots.fro

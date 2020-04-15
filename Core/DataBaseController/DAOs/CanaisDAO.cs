@@ -22,7 +22,7 @@ namespace DataBaseController.DAOs
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
+                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
                 await context.Database.ExecuteSqlRawAsync("call AddCanal({0}, {1}, {2}, {3})", canal.TipoCanal, canal.Nome, canal.ID, canal.Servidor.ID);
                 await transation.CommitAsync();
             }
