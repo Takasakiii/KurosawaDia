@@ -25,13 +25,9 @@ namespace KurosawaCore.Extensions
             };
 
             if (Auto)
-            {
-                eb.WithTitle($"{Author.Username} {((UsuarioDestino == null) ? SelfMsg : msg + " " + UsuarioDestino.Username)}");
-            }
+                eb.WithTitle($"{Author.Username} {((UsuarioDestino == null) ? SelfMsg : msg + " " + UsuarioDestino.Username)}.");
             else
-            {
                 eb.WithTitle(msg);
-            }
 
             return eb.Build();
         }

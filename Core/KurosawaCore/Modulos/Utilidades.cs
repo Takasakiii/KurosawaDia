@@ -16,7 +16,7 @@ namespace KurosawaCore.Modulos
     {
         [Command("videochamada")]
         [Aliases("webcam", "chamadadevideo")]
-        [Description("Comando permite abrir uma chamada com Video de forma alternativa no servidor")]
+        [Description("Permite abrir uma chamada com vídeo de forma alternativa no servidor.")]
         public async Task VideoChamada(CommandContext ctx)
         {
             if (ctx.Channel.IsPrivate)
@@ -42,8 +42,8 @@ namespace KurosawaCore.Modulos
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Color = DiscordColor.Green,
-                Title = ex.Emoji.GetDiscordName().Replace(":", ""),
-                Description = $"[Link Direto]({url})",
+                Title = ex.Emoji.Name,
+                Description = $"[Link direto]({url})",
                 ImageUrl = url
             };
             await ctx.RespondAsync(embed: eb.Build());
@@ -51,8 +51,8 @@ namespace KurosawaCore.Modulos
 
         [Command("avatar")]
         [Aliases("uimg")]
-        [Description("Mostra a imagem de  perfil um usuario")]
-        public async Task Avatar(CommandContext ctx, [Description("Usuario da pessoa que deseja pegar o avatar")][RemainingText]DiscordUser alvo = null)
+        [Description("Mostra o avatar de um usuário.")]
+        public async Task Avatar(CommandContext ctx, [Description("Usuário da pessoa que você deseja pegar o avatar.")][RemainingText]DiscordUser alvo = null)
         {
             string[] frases;
             if (alvo == null)
@@ -65,7 +65,7 @@ namespace KurosawaCore.Modulos
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Title = frases[rnd],
-                Description = $"{alvo.Username}#{alvo.Discriminator}\n[Link Direto]({alvo.AvatarUrl})",
+                Description = $"{alvo.Username}#{alvo.Discriminator}\n[Link direto]({alvo.AvatarUrl})",
                 ImageUrl = alvo.AvatarUrl,
                 Color = DiscordColor.Green
             };
@@ -74,7 +74,7 @@ namespace KurosawaCore.Modulos
 
         [Command("serverimage")]
         [Aliases("simg")]
-        [Description("Mostrar a imagem do servidor")]
+        [Description("Mostra o ícone do servidor.")]
         public async Task ServerImage(CommandContext ctx)
         {
             if (ctx.Channel.IsPrivate || ctx.Guild.IconUrl == null)
@@ -85,7 +85,7 @@ namespace KurosawaCore.Modulos
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Title = ctx.Guild.Name,
-                Description = $"[Link Direto]({url})",
+                Description = $"[Link direto]({url})",
                 ImageUrl = url,
                 Color = DiscordColor.Green
             };
@@ -93,15 +93,15 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("sugestao")]
-        [Description("Envie sugestões para nós")]
-        public async Task Sugestao(CommandContext ctx, [Description("A sua sugestão")][RemainingText]string mensagem)
+        [Description("Nos envie uma sugestão.")]
+        public async Task Sugestao(CommandContext ctx, [Description("A sua sugestão.")][RemainingText]string mensagem)
         {
             await ControladorDeSugestao(ctx, mensagem, "Sugestão");
         }
 
         [Command("bug")]
-        [Description("Nos reporte um bug")]
-        public async Task Bug(CommandContext ctx, [Description("O bug")][RemainingText]string mensagem)
+        [Description("Nos reporte um bug.")]
+        public async Task Bug(CommandContext ctx, [Description("O bug para ser reportado.")][RemainingText]string mensagem)
         {
             await ControladorDeSugestao(ctx, mensagem, "Bug");
         }
@@ -126,7 +126,7 @@ namespace KurosawaCore.Modulos
 
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Description = $"**{ctx.User.Username}#{ctx.User.Discriminator}**, obrigada! Vou usa-lá para melhorarmos ❤",
+                Description = $"**{ctx.User.Username}#{ctx.User.Discriminator}**, obrigada! Vou usá-l{((tipo == "Bug") ? 'o' : 'a')} para melhorarmos ❤",
                 Color = DiscordColor.Green
             });
         }

@@ -23,7 +23,7 @@ namespace KurosawaCore.Modulos
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
                 Title = "Meow",
-                Description = $"[Link Direto]({url})",
+                Description = $"[Link direto]({url})",
                 ImageUrl = url,
                 Color = DiscordColor.Turquoise
             });
@@ -41,7 +41,7 @@ namespace KurosawaCore.Modulos
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder
                 {
                     Title = "Woof",
-                    Description = $"[Link Direto]({url})",
+                    Description = $"[Link direto]({url})",
                     ImageUrl = url,
                     Color = DiscordColor.Turquoise
                 });
@@ -69,8 +69,8 @@ namespace KurosawaCore.Modulos
             string url = await new ImageExtension().GetLoli();
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder 
             {
-                Title = "",
-                Description = $"[Link Direto]({url})",
+                Title = "Por favor, não me entregue para a polícia!",
+                Description = $"[Link direto]({url})",
                 ImageUrl = url,
                 Color = DiscordColor.Turquoise
             });

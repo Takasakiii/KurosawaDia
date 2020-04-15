@@ -7,7 +7,6 @@ using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
 using System;
-using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,12 +18,12 @@ namespace KurosawaCore.Modulos
     {
         [Command("hug")]
         [Aliases("abraço", "abraco")]
-        [Description("Abraça o seu amiguinho")]
-        public async Task Hug(CommandContext ctx, [Description("Usuario que deseja abraçar")][RemainingText]DiscordUser usuario = null)
+        [Description("Dê um abraço em si mesmo(a) ou em seu amiguinho.")]
+        public async Task Hug(CommandContext ctx, [Description("Usuário que você deseja abraçar.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se abraçando",
+                SelfMsg = "está se abraçando.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("hug", "está abraçando"));
@@ -32,12 +31,12 @@ namespace KurosawaCore.Modulos
 
         [Command("kiss")]
         [Aliases("beijo")]
-        [Description("Beija o amiguinho")]
-        public async Task Kiss(CommandContext ctx, [Description("Usuario que deseja beijar")][RemainingText]DiscordUser usuario = null)
+        [Description("Dê um beijo em si mesmo(a) ou em seu amiguinho.")]
+        public async Task Kiss(CommandContext ctx, [Description("Usuário que você deseja beijar.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está beijando ele(a) mesmo",
+                SelfMsg = "está se beijando.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("kiss", "está beijando"));
@@ -45,25 +44,25 @@ namespace KurosawaCore.Modulos
 
         [Command("slap")]
         [Aliases("bater")]
-        [Description("Bater no seu amiguinho")]
-        public async Task Slap(CommandContext ctx, [Description("Usuario que deseja bater")][RemainingText]DiscordUser usuario = null)
+        [Description("Dê um tapa em si mesmo(a) ou em seu amiguinho.")]
+        public async Task Slap(CommandContext ctx, [Description("Usuário que você deseja bater.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se batendo",
+                SelfMsg = "está se batendo.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
-            }.GetWeeb("slap", "está dando um tapa no(a)"));
+            }.GetWeeb("slap", "está dando um tapa em"));
         }
 
         [Command("punch")]
         [Aliases("socar")]
-        [Description("Socar o amiguinho")]
-        public async Task Punch(CommandContext ctx, [Description("Usuario que deseja socar")][RemainingText]DiscordUser usuario = null)
+        [Description("Dê um soco em si mesmo ou em seu amiguinho.")]
+        public async Task Punch(CommandContext ctx, [Description("Usuário que você deseja socar.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está socando ele(a) mesmo",
+                SelfMsg = "está se socando.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("punch", "está socando"));
@@ -71,12 +70,12 @@ namespace KurosawaCore.Modulos
 
         [Command("lick")]
         [Aliases("lamber")]
-        [Description("Lamber a gasosa")]
-        public async Task Lick(CommandContext ctx, [Description("Usuario que deseja lamber")][RemainingText]DiscordUser usuario = null)
+        [Description("Dê uma lambida em si mesmo ou em seu amiguinho!")]
+        public async Task Lick(CommandContext ctx, [Description("Usuário que você deseja lamber.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está lambendo ele(a) mesmo",
+                SelfMsg = "está se lambendo.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("lick", "está lambendo"));
@@ -84,12 +83,12 @@ namespace KurosawaCore.Modulos
 
         [Command("cry")]
         [Aliases("chorar")]
-        [Description("Chorar com o amiguinho")]
-        public async Task Cry(CommandContext ctx, [Description("Usuario que deseja chorar junto")][RemainingText]DiscordUser usuario = null)
+        [Description("Chore sozinho(a) ou junto com alguém!")]
+        public async Task Cry(CommandContext ctx, [Description("Usuário que você deseja chorar junto com ele.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está chorando",
+                SelfMsg = "está chorando.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("cry", "está chorando com"));
@@ -98,31 +97,31 @@ namespace KurosawaCore.Modulos
         [Command("pat")]
         [Aliases("acariciar")]
         [Description("Fazer carinho no amiguinho")]
-        public async Task Pat(CommandContext ctx, [Description("Usuario que deseja acariciar")][RemainingText]DiscordUser usuario = null)
+        public async Task Pat(CommandContext ctx, [Description("Usuário que você deseja acariciar.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se acariciando",
+                SelfMsg = "está carente.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
-            }.GetWeeb("pat", "está fazendo carinho no(a)"));
+            }.GetWeeb("pat", "está fazendo carinho em"));
         }
 
         [Command("dance")]
         [Aliases("dancar")]
         [Description("Dançar com seu amiguinho")]
-        public async Task Dance(CommandContext ctx, [Description("Usuario que deseja dançar junto")][RemainingText]DiscordUser usuario = null)
+        public async Task Dance(CommandContext ctx, [Description("Usuário que você deseja dançar junto com ele.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "começou a dançar com a vasoura",
+                SelfMsg = "começou a dançar com a vassoura.",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("dance", "começou a dançar com"));
         }
 
         [Command("megumin")]
-        [Description("Mostra imagens da megumin")]
+        [Description("Mostra uma imagem da Megumin.")]
         public async Task Megumin(CommandContext ctx)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
@@ -132,19 +131,19 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("rem")]
-        [Description("Mostra imagens da Rem")]
+        [Description("Mostra uma imagem da Rem.")]
         public async Task Rem(CommandContext ctx)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
                 Auto = false
-            }.GetWeeb("rem", "rem ❤"));
+            }.GetWeeb("rem", "Rem ❤"));
         }
 
         [Command("fuck")]
         [Aliases("foder")]
         [Description("( ͡° ͜ʖ ͡°)")]
-        public async Task Fuck(CommandContext ctx, [Description("Colega")][RemainingText]DiscordUser usuario = null)
+        public async Task Fuck(CommandContext ctx, [Description("Usuário que você quer... brincar com ele!")][RemainingText]DiscordUser usuario = null)
         {
             bool especial = false;
             if (ctx.Guild != null)
@@ -165,14 +164,14 @@ namespace KurosawaCore.Modulos
             {
                 Color = DiscordColor.HotPink,
                 ImageUrl = fuck.Url,
-                Title = (usuario == null) ? $"{ctx.User.Username} está se masturbando." : $"{ctx.User.Username} está fodendo {usuario.Username}"
+                Title = (usuario == null) ? $"{ctx.User.Username} está se masturbando." : $"{ctx.User.Username} está fodendo {usuario.Username}."
             });
         }
 
         [Command("owoify")]
         [Aliases("furroify", "furrofy", "furrar")]
-        [Description("Transforma uma frase em câncer")]
-        public async Task Owoify(CommandContext ctx, [Description("Texto para arruinar (não pode ser maior que 800 caracteres)")][RemainingText]string texto)
+        [Description("Transforma uma frase em câncer.")]
+        public async Task Owoify(CommandContext ctx, [Description("Texto para arruinar (não pode ser maior que 800 caracteres).")][RemainingText]string texto)
         {
             if (texto.Length > 800)
                 throw new Exception();
