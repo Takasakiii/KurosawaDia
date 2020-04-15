@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
 using KurosawaCore.Extensions.JsonEmbedExtension;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Events
@@ -17,8 +18,15 @@ namespace KurosawaCore.Events
             client.GuildMemberAdded += Client_GuildMemberAdded;
         }
 
-        private async Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
+        private Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
         {
+            new Thread(Session).Start(e);
+            return Task.CompletedTask;
+        }
+
+        private async void Session(object note)
+        {
+            GuildMemberAddEventArgs e = (GuildMemberAddEventArgs)note;
             Canais canalBemvindo = await new CanaisDAO().Get(new Canais
             {
                 Servidor = new Servidores

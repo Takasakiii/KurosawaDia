@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
 using KurosawaCore.Extensions.JsonEmbedExtension;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Events
@@ -17,8 +18,15 @@ namespace KurosawaCore.Events
             client.GuildMemberRemoved += Client_GuildMemberRemoved;
         }
 
-        private async Task Client_GuildMemberRemoved(GuildMemberRemoveEventArgs e)
+        private Task Client_GuildMemberRemoved(GuildMemberRemoveEventArgs e)
         {
+            new Thread(Session).Start(e);
+            return Task.CompletedTask;
+        }
+
+        private async void Session(object note)
+        {
+            GuildMemberRemoveEventArgs e = (GuildMemberRemoveEventArgs)note;
             Canais canalSaida = await new CanaisDAO().Get(new Canais
             {
                 Servidor = new Servidores
