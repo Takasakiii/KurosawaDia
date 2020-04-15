@@ -10,7 +10,7 @@ namespace DataBaseController.DAOs
 {
     public class CustomReactionsDAO
     {
-        public async Task Adicionar(CustomReactions cr)
+        public void Adicionar(CustomReactions cr)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

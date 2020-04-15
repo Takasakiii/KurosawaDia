@@ -18,7 +18,7 @@ namespace DataBaseController.DAOs
             }
         }
 
-        public async Task Atualizar(AdmsBot adms)
+        public void Atualizar(AdmsBot adms)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

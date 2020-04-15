@@ -92,7 +92,7 @@ namespace KurosawaCore.Modulos
             string[] split = args.Split("|");
             if (split.Length < 2)
                 throw new Exception();
-            await new CustomReactionsDAO().Adicionar(new Model
+            new CustomReactionsDAO().Adicionar(new Model
             {
                 Modo = modo,
                 Resposta = split[1].TrimStart(),

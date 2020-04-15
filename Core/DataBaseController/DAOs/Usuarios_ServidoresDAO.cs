@@ -9,7 +9,7 @@ namespace DataBaseController.DAOs
 {
     public sealed class Usuarios_ServidoresDAO
     {
-        public async Task Add(Servidores_Usuarios su)
+        public void Add(Servidores_Usuarios su)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

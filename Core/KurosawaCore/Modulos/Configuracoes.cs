@@ -39,7 +39,7 @@ namespace KurosawaCore.Modulos
 
         private async Task EmojiModificar(CommandContext ctx, Tuple<DiscordMessage, string> args)
         {
-            await new ServidoresDAO().Atualizar(new Servidores
+            new ServidoresDAO().Atualizar(new Servidores
             {
                 ID = ctx.Guild.Id,
                 Prefix = args.Item2,
@@ -63,7 +63,7 @@ namespace KurosawaCore.Modulos
             if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
                 throw new Exception();
 
-            await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
+            new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
             {
                 Configuracoes = TiposConfiguracoes.BemVindoMsg,
                 Servidor = new Servidores
@@ -90,7 +90,7 @@ namespace KurosawaCore.Modulos
             if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id)
                 throw new Exception();
 
-            await new CanaisDAO().Adicionar(new Canais
+            new CanaisDAO().Adicionar(new Canais
             {
                 ID = canal.Id,
                 Nome = canal.Name,
@@ -117,7 +117,7 @@ namespace KurosawaCore.Modulos
             if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
                 throw new Exception();
 
-            await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
+            new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
             {
                 Configuracoes = TiposConfiguracoes.SaidaMsg,
                 Servidor = new Servidores
@@ -144,7 +144,7 @@ namespace KurosawaCore.Modulos
             if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id)
                 throw new Exception();
 
-            await new CanaisDAO().Adicionar(new Canais
+            new CanaisDAO().Adicionar(new Canais
             {
                 ID = canal.Id,
                 Nome = canal.Name,

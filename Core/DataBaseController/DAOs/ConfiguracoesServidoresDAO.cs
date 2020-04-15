@@ -18,7 +18,7 @@ namespace DataBaseController.DAOs
             }
         }
 
-        public async Task Add(ConfiguracoesServidores config)
+        public void Add(ConfiguracoesServidores config)
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

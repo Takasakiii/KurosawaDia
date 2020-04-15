@@ -18,7 +18,7 @@ namespace DataBaseController.DAOs
             }
         }
 
-        public async Task Atualizar(Servidores servidor)
+        public void Atualizar(Servidores servidor)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

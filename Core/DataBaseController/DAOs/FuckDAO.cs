@@ -16,7 +16,7 @@ namespace DataBaseController.DAOs {
             }
         }
 
-        public async Task Add(Fuck fuck)
+        public void Add(Fuck fuck)
         { 
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {

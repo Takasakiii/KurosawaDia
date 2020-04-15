@@ -20,7 +20,7 @@ namespace KurosawaCore.Extensions
                     ID = msg.Channel.GuildId,
                 }) ?? new Servidores();
 
-                await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
+                new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
                 {
                     Servidor = new Servidores
                     {

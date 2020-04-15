@@ -18,7 +18,7 @@ namespace DataBaseController.DAOs
             }
         }
 
-        public async Task Adicionar(Canais canal)
+        public void Adicionar(Canais canal)
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
