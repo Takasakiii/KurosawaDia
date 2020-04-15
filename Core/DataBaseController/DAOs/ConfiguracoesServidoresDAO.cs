@@ -2,6 +2,7 @@
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +22,9 @@ namespace DataBaseController.DAOs
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                IDbContextTransaction transaction = await context.Database.BeginTransactionAsync();
+                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
                 await context.Database.ExecuteSqlRawAsync("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
-                await transaction.CommitAsync();
+                await transation.CommitAsync();
             }
         }
     }

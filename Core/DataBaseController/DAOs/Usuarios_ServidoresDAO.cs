@@ -2,6 +2,7 @@
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace DataBaseController.DAOs
@@ -13,9 +14,9 @@ namespace DataBaseController.DAOs
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
 
-                IDbContextTransaction transacao = await context.Database.BeginTransactionAsync();
+                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
                 await context.Database.ExecuteSqlRawAsync("call CadastrarUsuarioServidor({0}, {1}, {2}, {3})", su.Servidor.ID, su.Usuario.ID, su.Servidor.Nome, su.Usuario.Nome);
-                await transacao.CommitAsync();
+                await transation.CommitAsync();
                 //context.AdmsBots.fro
                 //MySqlCommand cmd = await context.GetMysqlCommand();
                 //cmd.CommandText = "call CadastrarUsuarioServidor(@si, @ui, @sn, @un)";
