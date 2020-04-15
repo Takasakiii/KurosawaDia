@@ -47,4 +47,5 @@ create procedure CadastrarUsuarioServidor(
 			insert into Servidores_Usuarios values ((select GetCodServidor(_servidor)), (select GetCodUser(_usuario)));
 		end if;
 	end while;
+	call GetServidor(_servidor); 
 end;

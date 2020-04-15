@@ -29,20 +29,27 @@ namespace KurosawaCore.Events
 
         private async void Session(object comcertezanehoe)
         {
-            MessageCreateEventArgs e = (MessageCreateEventArgs)comcertezanehoe;
-            if (e.Message.Content == $"<@!{e.Client.CurrentUser.Id}>" || e.Message.Content == $"<@{e.Client.CurrentUser.Id}>")
+            try
             {
-                string prefix = await PrefixExtension.GetPrefix(e.Message);
-                await e.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                MessageCreateEventArgs e = (MessageCreateEventArgs)comcertezanehoe;
+                if (e.Message.Content == $"<@!{e.Client.CurrentUser.Id}>" || e.Message.Content == $"<@{e.Client.CurrentUser.Id}>")
                 {
-                    Color = DiscordColor.PhthaloBlue,
-                    Title = $"Oii {e.Author.Username}, meu prefixo é `{prefix}`, se quiser ver os meus comandos é so usar `{prefix}help`!"
-                });
+                    string prefix = await PrefixExtension.GetPrefix(e.Message);
+                    await e.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Color = DiscordColor.PhthaloBlue,
+                        Title = $"Oii {e.Author.Username}, meu prefixo é `{prefix}`, se quiser ver os meus comandos é so usar `{prefix}help`!"
+                    });
+                }
+                else
+                {
+                    CommandsNextModule comandos = Cliente.GetCommandsNext();
+                    await comandos.HandleCommandsAsync(e);
+                }
             }
-            else
+            catch(Exception e)
             {
-                CommandsNextModule comandos = Cliente.GetCommandsNext();
-                await comandos.HandleCommandsAsync(e);
+                Cliente.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Message, DateTime.Now);
             }
         }
     }

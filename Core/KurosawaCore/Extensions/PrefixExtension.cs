@@ -14,13 +14,8 @@ namespace KurosawaCore.Extensions
         internal static async Task<string> GetPrefix(DiscordMessage msg)
         {
             if (!msg.Channel.IsPrivate)
-            {
-                Servidores s = await new ServidoresDAO().Get(new Servidores
-                {
-                    ID = msg.Channel.GuildId,
-                }) ?? new Servidores();
-
-                new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
+            {              
+                Servidores s = await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
                 {
                     Servidor = new Servidores
                     {
@@ -32,7 +27,7 @@ namespace KurosawaCore.Extensions
                         ID = msg.Author.Id,
                         Nome = $"{msg.Author.Username} #{msg.Author.Discriminator}"
                     }
-                });
+                }) ?? new Servidores();
                 return s.Prefix ?? DefaultPrefix;
             }
             return DefaultPrefix;

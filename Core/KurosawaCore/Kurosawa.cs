@@ -54,7 +54,7 @@ namespace KurosawaCore
             {
                 EnableDefaultHelp = false,
                 EnableMentionPrefix = true,
-                CustomPrefixPredicate = new PrefixConfig(Config.Prefixo).PegarPrefixo
+                CustomPrefixPredicate = new PrefixConfig(Config.Prefixo).PegarPrefixo,
             };
             CommandsNextModule comandos = Cliente.UseCommandsNext(configNext);
             comandos.SetHelpFormatter<HelpConfig>();
