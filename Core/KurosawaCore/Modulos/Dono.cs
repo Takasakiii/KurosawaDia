@@ -67,7 +67,7 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || await BotPermissions.CheckAdm(ctx.User) != TiposAdms.Dono)
                 throw new Exception();
 
-            new ServidoresDAO().Atualizar(new Servidores
+            await new ServidoresDAO().Atualizar(new Servidores
             {
                 ID = guild.Id,
                 Especial = (TiposServidores)tipo
@@ -83,7 +83,7 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || await BotPermissions.CheckAdm(ctx.User) != TiposAdms.Dono)
                 throw new Exception();
 
-            new AdmsBotDAO().Atualizar(new AdmsBot
+            await new AdmsBotDAO().Atualizar(new AdmsBot
             {
                 Usuario = new Usuarios
                 {
