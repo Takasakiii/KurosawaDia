@@ -36,5 +36,6 @@ namespace DataBaseController.Contexts
             modelBuilder.ApplyConfiguration(new FuckConfig());
             modelBuilder.ApplyConfiguration(new InsultosConfig());
         }
+
     }
 }
