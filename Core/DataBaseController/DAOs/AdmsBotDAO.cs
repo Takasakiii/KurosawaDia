@@ -22,9 +22,10 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
-                await context.Database.ExecuteSqlRawAsync("call AtualizarAdm({0}, {1})", adms.Usuario.ID, adms.Permissao);
-                await transation.CommitAsync();
+                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
+                //await context.Database.ExecuteSqlRawAsync("call AtualizarAdm({0}, {1})", adms.Usuario.ID, adms.Permissao);
+                _ = context.AdmsBots.FromSqlRaw("call AtualizarAdm({0}, {1})", adms.Usuario.ID, adms.Permissao);
+                //await transation.CommitAsync();
             }
         }
     }

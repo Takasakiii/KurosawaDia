@@ -22,9 +22,10 @@ namespace DataBaseController.DAOs
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
-                await context.Database.ExecuteSqlRawAsync("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
-                await transation.CommitAsync();
+                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
+                //await context.Database.ExecuteSqlRawAsync("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
+                _ = context.ConfiguracoesServidores.FromSqlRaw("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
+                //await transation.CommitAsync();
             }
         }
     }

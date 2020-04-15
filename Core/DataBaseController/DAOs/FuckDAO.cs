@@ -20,9 +20,10 @@ namespace DataBaseController.DAOs {
         { 
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
-                await context.Database.ExecuteSqlRawAsync("call AddFuck({0}, {1}, {2})", fuck.Usuario.ID, fuck.Url, fuck.Explicit);
-                await transation.CommitAsync();
+                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
+                //await context.Database.ExecuteSqlRawAsync("call AddFuck({0}, {1}, {2})", fuck.Usuario.ID, fuck.Url, fuck.Explicit);
+                _ = context.Fuck.FromSqlRaw("call AddFuck({0}, {1}, {2})", fuck.Usuario.ID, fuck.Url, fuck.Explicit);
+                //await transation.CommitAsync();
             }
         }
     }
