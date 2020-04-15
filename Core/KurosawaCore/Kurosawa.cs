@@ -66,6 +66,7 @@ namespace KurosawaCore
             new CommandErrored(ref comandos);
             Cliente.MessageCreated -= comandos.HandleCommandsAsync;
             await Cliente.ConnectAsync();
+
             await Task.Delay(-1);
         }
 

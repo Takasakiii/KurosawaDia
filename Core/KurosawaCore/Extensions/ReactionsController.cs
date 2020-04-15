@@ -5,6 +5,7 @@ using DSharpPlus.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Extensions
@@ -27,18 +28,18 @@ namespace KurosawaCore.Extensions
         internal ReactionsController(Item contexto)
         {
             Contexto = contexto;
-
             dynamic conversionitem = Convert.ChangeType(contexto, typeof(Item));
             DiscordClient cliente = conversionitem.Client;
-
             cliente.MessageReactionAdded += ClienteDiscord_MessageReactionAdded;
             cliente.MessageReactionRemoved += Cliente_MessageReactionRemoved;
         }
 
-        private async Task Cliente_MessageReactionRemoved(MessageReactionRemoveEventArgs e)
+        private Task Cliente_MessageReactionRemoved(MessageReactionRemoveEventArgs e)
         {
-            await Action(e.User, e.Emoji, e.Message);
+            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji });
+            return Task.CompletedTask;
         }
+    
 
         internal void AddReactionEvent(DiscordMessage msg, Tuple<MethodInfo, object> exec, DiscordEmoji emoji = null, DiscordUser autor = null, params object[] args)
         {
@@ -64,23 +65,24 @@ namespace KurosawaCore.Extensions
             return Tuple.Create(funcao.Method, funcao.Target);
         }
 
-        private async Task ClienteDiscord_MessageReactionAdded(MessageReactionAddEventArgs e)
+        private Task ClienteDiscord_MessageReactionAdded(MessageReactionAddEventArgs e)
         {
-            await Action(e.User, e.Emoji, e.Message); 
+            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji });
+            return Task.CompletedTask;
         }
 
-        private Task Action(DiscordUser user, DiscordEmoji emoji, DiscordMessage msg)
+        private void Action(object args)
         {
             BufferReacoes.RemoveAll(x => x.AdicionadoEm >= x.AdicionadoEm.AddMinutes(5));
             int index = -1;
             for (int i = 0; i < BufferReacoes.Count; i++)
             {
-                if (BufferReacoes[i].Msg == msg)
+                if (BufferReacoes[i].Msg == (DiscordMessage)((object[])args)[1])
                 {
                     bool validado = true;
-                    if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != user)
+                    if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != (DiscordUser) ((object[]) args)[0])
                         validado = false;
-                    if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != emoji)
+                    if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != (DiscordEmoji)((object[])args)[2])
                         validado = false;
                     if (validado)
                     {
@@ -95,11 +97,9 @@ namespace KurosawaCore.Extensions
                 List<object> obj = new List<object>();
                 obj.Add(Contexto);
                 obj.AddRange(BufferReacoes[index].Args);
-                Task tarefa = (Task)BufferReacoes[index].FunctionResultante.Item1.Invoke(BufferReacoes[index].FunctionResultante.Item2, obj.ToArray());
+                BufferReacoes[index].FunctionResultante.Item1.Invoke(BufferReacoes[index].FunctionResultante.Item2, obj.ToArray());
                 BufferReacoes.RemoveAt(index);
-                return tarefa;
             }
-            return Task.CompletedTask;
         }
 
 
