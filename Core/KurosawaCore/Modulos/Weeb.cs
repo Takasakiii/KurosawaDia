@@ -23,7 +23,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se abraçando.",
+                SelfMsg = "está se abraçando",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("hug", "está abraçando"));
@@ -36,7 +36,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se beijando.",
+                SelfMsg = "está se beijando",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("kiss", "está beijando"));
@@ -49,7 +49,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se batendo.",
+                SelfMsg = "está se batendo",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("slap", "está dando um tapa em"));
@@ -62,7 +62,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se socando.",
+                SelfMsg = "está se socando",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("punch", "está socando"));
@@ -75,7 +75,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está se lambendo.",
+                SelfMsg = "está se lambendo",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("lick", "está lambendo"));
@@ -88,7 +88,7 @@ namespace KurosawaCore.Modulos
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está chorando.",
+                SelfMsg = "está chorando",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("cry", "está chorando com"));
@@ -96,12 +96,12 @@ namespace KurosawaCore.Modulos
 
         [Command("pat")]
         [Aliases("acariciar")]
-        [Description("Fazer carinho no amiguinho")]
+        [Description("Faça carinho em seu amiguinho (a não ser que você esteja carente).")]
         public async Task Pat(CommandContext ctx, [Description("Usuário que você deseja acariciar.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "está carente.",
+                SelfMsg = "está carente",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("pat", "está fazendo carinho em"));
@@ -109,12 +109,12 @@ namespace KurosawaCore.Modulos
 
         [Command("dance")]
         [Aliases("dancar")]
-        [Description("Dançar com seu amiguinho")]
+        [Description("Dance sozinho(a) ou com o seu amiguinho.")]
         public async Task Dance(CommandContext ctx, [Description("Usuário que você deseja dançar junto com ele.")][RemainingText]DiscordUser usuario = null)
         {
             await ctx.RespondAsync(embed: await new WeebExtension
             {
-                SelfMsg = "começou a dançar com a vassoura.",
+                SelfMsg = "começou a dançar com a vassoura",
                 UsuarioDestino = usuario,
                 Author = ctx.User
             }.GetWeeb("dance", "começou a dançar com"));
@@ -143,7 +143,7 @@ namespace KurosawaCore.Modulos
         [Command("fuck")]
         [Aliases("foder")]
         [Description("( ͡° ͜ʖ ͡°)")]
-        public async Task Fuck(CommandContext ctx, [Description("Usuário que você quer... brincar com ele!")][RemainingText]DiscordUser usuario = null)
+        public async Task Fuck(CommandContext ctx, [Description("Usuário que você quer foder.")][RemainingText]DiscordUser usuario = null)
         {
             bool especial = false;
             if (ctx.Guild != null)
