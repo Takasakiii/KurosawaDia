@@ -97,10 +97,23 @@ namespace ConsoleNetCore
 
         private async Task LigarBot()
         {
-            AConsole.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
+            bool exception;
             await CriarDB();
             Kurosawa kud = new Kurosawa(Config, ApiConfig, DbConfig, Status);
-            await kud.Iniciar();
+            do
+            {
+                exception = false;
+                try
+                {
+                    AConsole.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
+                    await kud.Iniciar();
+                }
+                catch(Exception)
+                {
+                    exception = true;
+                    await Task.Delay(10000);
+                }
+            } while (exception);
         }
     }
 }

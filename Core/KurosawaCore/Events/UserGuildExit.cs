@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
 using KurosawaCore.Extensions.JsonEmbedExtension;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,30 +28,40 @@ namespace KurosawaCore.Events
         private async void Session(object note)
         {
             GuildMemberRemoveEventArgs e = (GuildMemberRemoveEventArgs)note;
-            Canais canalSaida = await new CanaisDAO().Get(new Canais
+
+            try
             {
-                Servidor = new Servidores
-                {
-                    ID = e.Guild.Id
-                },
-                TipoCanal = TiposCanais.Sair
-            });
-            if (canalSaida != null)
-            {
-                ConfiguracoesServidores config = await new ConfiguracoesServidoresDAO().Get(new ConfiguracoesServidores
+                Canais canalSaida = await new CanaisDAO().Get(new Canais
                 {
                     Servidor = new Servidores
                     {
                         ID = e.Guild.Id
                     },
-                    Configuracoes = TiposConfiguracoes.SaidaMsg
+                    TipoCanal = TiposCanais.Sair
                 });
-                if (config != null)
+                if (canalSaida != null)
                 {
-                    DiscordChannel canal = e.Guild.GetChannel(canalSaida.ID);
-                    await new StringVariablesExtension(e.Member, e.Guild).SendMessage(canal, config.Value);
+                    ConfiguracoesServidores config = await new ConfiguracoesServidoresDAO().Get(new ConfiguracoesServidores
+                    {
+                        Servidor = new Servidores
+                        {
+                            ID = e.Guild.Id
+                        },
+                        Configuracoes = TiposConfiguracoes.SaidaMsg
+                    });
+                    if (config != null)
+                    {
+                        DiscordChannel canal = e.Guild.GetChannel(canalSaida.ID);
+                        await new StringVariablesExtension(e.Member, e.Guild).SendMessage(canal, config.Value);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                e.Client.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
+            }
+
+            
         }
     }
 }

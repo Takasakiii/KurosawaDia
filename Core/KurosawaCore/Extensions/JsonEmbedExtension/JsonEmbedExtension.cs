@@ -1,6 +1,7 @@
 ﻿using DSharpPlus.Entities;
 using KurosawaCore.Extensions.JsonEmbedExtension.Models;
 using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Extensions.JsonEmbedExtension
@@ -36,7 +37,7 @@ namespace KurosawaCore.Extensions.JsonEmbedExtension
                 DiscordEmbed embed = GetJsonEmbed(ref msg);
                 await canal.SendMessageAsync(msg, embed: embed);
             }
-            catch
+            catch (Exception)
             {
                 await canal.SendMessageAsync(msg);
             }

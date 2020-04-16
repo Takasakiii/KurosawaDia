@@ -5,6 +5,7 @@ using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,19 +31,26 @@ namespace KurosawaCore.Events
         private async void Session(object comcertezanehoe)
         {
             MessageCreateEventArgs e = (MessageCreateEventArgs)comcertezanehoe;
-            if (e.Message.Content == $"<@!{e.Client.CurrentUser.Id}>" || e.Message.Content == $"<@{e.Client.CurrentUser.Id}>")
+            try
             {
-                string prefix = await PrefixExtension.GetPrefix(e.Message);
-                await e.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                if (e.Message.Content == $"<@!{e.Client.CurrentUser.Id}>" || e.Message.Content == $"<@{e.Client.CurrentUser.Id}>")
                 {
-                    Color = DiscordColor.PhthaloBlue,
-                    Title = $"Oii {e.Author.Username}, meu prefixo é `{prefix}`, se quiser ver os meus comandos é so usar `{prefix}help`!"
-                });
+                    string prefix = await PrefixExtension.GetPrefix(e.Message);
+                    await e.Channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Color = DiscordColor.PhthaloBlue,
+                        Title = $"Oii {e.Author.Username}, meu prefixo é `{prefix}`, se quiser ver os meus comandos é so usar `{prefix}help`!"
+                    });
+                }
+                else
+                {
+                    CommandsNextModule comandos = Cliente.GetCommandsNext();
+                    await comandos.HandleCommandsAsync(e);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                CommandsNextModule comandos = Cliente.GetCommandsNext();
-                await comandos.HandleCommandsAsync(e);
+                e.Client.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
             }
         }
     }
