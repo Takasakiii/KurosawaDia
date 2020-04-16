@@ -2,7 +2,7 @@
 using ConfigController.EntityConfiguration;
 using ConfigController.Models;
 using KurosawaCore;
-using KurosawaCore.Modelos;
+using KurosawaCore.Models.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;
