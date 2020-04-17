@@ -87,7 +87,7 @@ namespace KurosawaCore.Modulos
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)
         {
-            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|") || (!ctx.Member.IsOwner && ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && ctx.Member.PermissionsIn(ctx.Channel) != Permissions.Administrator))
+            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|") || (!ctx.Member.IsOwner && ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && ctx.Channel.PermissionsFor(ctx.Member) != Permissions.Administrator))
                 throw new Exception();
             string[] split = args.Split("|");
             if (split.Length < 2)
