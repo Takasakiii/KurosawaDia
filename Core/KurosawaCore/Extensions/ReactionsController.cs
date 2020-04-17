@@ -36,7 +36,7 @@ namespace KurosawaCore.Extensions
 
         private Task Cliente_MessageReactionRemoved(MessageReactionRemoveEventArgs e)
         {
-            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji });
+            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji, e.Client });
             return Task.CompletedTask;
         }
     
@@ -67,38 +67,44 @@ namespace KurosawaCore.Extensions
 
         private Task ClienteDiscord_MessageReactionAdded(MessageReactionAddEventArgs e)
         {
-            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji });
+            new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji, e.Client });
             return Task.CompletedTask;
         }
 
         private void Action(object args)
         {
-            BufferReacoes.RemoveAll(x => x.AdicionadoEm >= x.AdicionadoEm.AddMinutes(5));
-            int index = -1;
-            for (int i = 0; i < BufferReacoes.Count; i++)
+            try
             {
-                if (BufferReacoes[i].Msg == (DiscordMessage)((object[])args)[1])
+                BufferReacoes.RemoveAll(x => x.AdicionadoEm >= x.AdicionadoEm.AddMinutes(5));
+                int index = -1;
+                for (int i = 0; i < BufferReacoes.Count; i++)
                 {
-                    bool validado = true;
-                    if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != (DiscordUser) ((object[]) args)[0])
-                        validado = false;
-                    if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != (DiscordEmoji)((object[])args)[2])
-                        validado = false;
-                    if (validado)
+                    if (BufferReacoes[i].Msg == (DiscordMessage)((object[])args)[1])
                     {
-                        index = i;
-                        break;
+                        bool validado = true;
+                        if (BufferReacoes[i].Autor != null && BufferReacoes[i].Autor != (DiscordUser)((object[])args)[0])
+                            validado = false;
+                        if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != (DiscordEmoji)((object[])args)[2])
+                            validado = false;
+                        if (validado) {
+                            index = i;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (index >= 0)
+                if (index >= 0)
+                {
+                    List<object> obj = new List<object>();
+                    obj.Add(Contexto);
+                    obj.AddRange(BufferReacoes[index].Args);
+                    BufferReacoes[index].FunctionResultante.Item1.Invoke(BufferReacoes[index].FunctionResultante.Item2, obj.ToArray());
+                    BufferReacoes.RemoveAt(index);
+                }
+            }
+            catch (Exception ex)
             {
-                List<object> obj = new List<object>();
-                obj.Add(Contexto);
-                obj.AddRange(BufferReacoes[index].Args);
-                BufferReacoes[index].FunctionResultante.Item1.Invoke(BufferReacoes[index].FunctionResultante.Item2, obj.ToArray());
-                BufferReacoes.RemoveAt(index);
+                ((BaseDiscordClient)((object[])args)[3]).DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
             }
         }
 
