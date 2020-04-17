@@ -21,7 +21,6 @@ namespace KurosawaCore.Events
 
         private Task Cliente_Ready(ReadyEventArgs e)
         {
-            //await (await Cliente.GetChannelAsync(698297280696025182)).Guild.LeaveAsync();
             new Thread(Read).Start();
             return Task.CompletedTask;
         }
