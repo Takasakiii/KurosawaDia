@@ -2,6 +2,7 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,24 +21,29 @@ namespace KurosawaCore.Events
 
         private Task Cliente_Ready(ReadyEventArgs e)
         {
-            //await (await Cliente.GetChannelAsync(698297280696025182)).Guild.LeaveAsync();
             new Thread(Read).Start();
             return Task.CompletedTask;
         }
 
         private async void Read()
         {
-            if (Status != null && Status.Length > 0)
-                while (true)
-                    foreach (StatusConfig status in Status)
-                    {
-                        DiscordGame game = new DiscordGame
+            try {
+                if (Status != null && Status.Length > 0)
+                    while (true)
+                        foreach (StatusConfig status in Status)
                         {
-                            Name = status.StatusJogo
-                        };
-                        await Cliente.UpdateStatusAsync(game);
-                        await Task.Delay(10000);
-                    }
+                            DiscordGame game = new DiscordGame
+                            {
+                                Name = status.StatusJogo
+                            };
+                            await Cliente.UpdateStatusAsync(game);
+                            await Task.Delay(10000);
+                        }
+            }
+            catch (Exception ex)
+            {
+                Cliente.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
+            }
         }
     }
 }
