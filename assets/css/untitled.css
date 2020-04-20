@@ -1,0 +1,10 @@
+.nav-item > a:hover, .navbar-nav > li.nav-item > a.nav-link.active, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:active, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:focus, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:hover {
+  color: white;
+  background-color: rgb(113, 54, 138);
+  cursor: pointer;
+}
+
+.nav-item > a:hover {
+  color: white!important;
+}
+

@@ -1,0 +1,11 @@
+.text-primary {
+  color: rgb(113, 54, 138)!important;
+}
+
+#mainNav .navbar-nav > li.nav-item > a.nav-link.active, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:active {
+  background: #f8f9fa;
+}
+
+header.masthead h1 {
+}
+
