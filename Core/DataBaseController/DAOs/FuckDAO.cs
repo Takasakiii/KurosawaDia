@@ -29,7 +29,7 @@ namespace DataBaseController.DAOs {
 
                 MySqlCommand command = await context.GetMysqlCommand();
                 command.CommandText = "call AddFuck(@ui, @u, @e)";
-                command.Parameters.AddWithValue("@ui", fuck.Usuario.ID);
+                command.Parameters.AddWithValue("@ui", fuck.Usuario.Cod);
                 command.Parameters.AddWithValue("@u", fuck.Url);
                 command.Parameters.AddWithValue("@e", fuck.Explicit);
                 await command.ExecuteNonQueryAsync();

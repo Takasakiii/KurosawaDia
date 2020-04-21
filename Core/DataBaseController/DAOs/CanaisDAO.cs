@@ -16,7 +16,7 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.Canais.FromSqlRaw("call GetCanal({0}, {1})", canal.Servidor.ID, canal.TipoCanal).ToListAsync()).FirstOrDefault();
+                return (await context.Canais.FromSqlRaw("call GetCanal({0}, {1})", canal.Servidor.Cod, canal.TipoCanal).ToListAsync()).FirstOrDefault();
             }
         }
 
@@ -34,7 +34,7 @@ namespace DataBaseController.DAOs
                 command.Parameters.AddWithValue("@ct", canal.TipoCanal);
                 command.Parameters.AddWithValue("@cn", canal.Nome);
                 command.Parameters.AddWithValue("@ci", canal.ID);
-                command.Parameters.AddWithValue("@csi", canal.Servidor.ID);
+                command.Parameters.AddWithValue("@csi", canal.Servidor.Cod);
                 await command.ExecuteNonQueryAsync();
             }
         }

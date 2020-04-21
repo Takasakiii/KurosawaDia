@@ -16,7 +16,7 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.ConfiguracoesServidores.FromSqlRaw("call GetServerConfig({0}, {1})", config.Servidor.ID, config.Configuracoes).ToArrayAsync()).FirstOrDefault();
+                return (await context.ConfiguracoesServidores.FromSqlRaw("call GetServerConfig({0}, {1})", config.Servidor.Cod, config.Configuracoes).ToArrayAsync()).FirstOrDefault();
             }
         }
 
@@ -31,7 +31,7 @@ namespace DataBaseController.DAOs
 
                 MySqlCommand command = await context.GetMysqlCommand();
                 command.CommandText = "call SetServerConfig (@si, @c, @v)";
-                command.Parameters.AddWithValue("@si", config.Servidor.ID);
+                command.Parameters.AddWithValue("@si", config.Servidor.Cod);
                 command.Parameters.AddWithValue("@c", config.Configuracoes);
                 command.Parameters.AddWithValue("@v", config.Value);
                 await command.ExecuteNonQueryAsync();

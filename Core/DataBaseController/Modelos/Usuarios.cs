@@ -9,7 +9,7 @@ namespace DataBaseController.Modelos
         public string Nome { get; set; }
         public virtual List<Servidores_Usuarios> ServidoresUsuarios { get; set; }
         public virtual List<Insultos> Insultos { get; set; }
-        public virtual List<AdmsBot> AdmsBots { get; set; }
+        public virtual  AdmsBot AdmsBots { get; set; }
         public virtual List<Fuck> Fuck { get; set; }
     }
 }

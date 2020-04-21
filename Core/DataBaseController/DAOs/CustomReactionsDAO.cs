@@ -26,7 +26,7 @@ namespace DataBaseController.DAOs
                 command.Parameters.AddWithValue("@t", cr.Trigger);
                 command.Parameters.AddWithValue("@r", cr.Resposta);
                 command.Parameters.AddWithValue("@m", cr.Modo);
-                command.Parameters.AddWithValue("@si", cr.Servidor.ID);
+                command.Parameters.AddWithValue("@si", cr.Servidor.Cod);
                 await command.ExecuteNonQueryAsync();
             }
         }
@@ -35,7 +35,7 @@ namespace DataBaseController.DAOs
         {
             using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
+                return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.Cod, cr.Trigger).ToListAsync()).FirstOrDefault();
             }
         }
 
@@ -43,7 +43,7 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.ID, cr.Trigger, page).ToListAsync()).ToArray();
+                return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.Cod, cr.Trigger, page).ToListAsync()).ToArray();
             }
         }
 
@@ -58,7 +58,7 @@ namespace DataBaseController.DAOs
 
                 MySqlCommand command = await context.GetMysqlCommand();
                 command.CommandText = "call DeleteCR(@si, @c)";
-                command.Parameters.AddWithValue("@si", cr.Servidor.ID);
+                command.Parameters.AddWithValue("@si", cr.Servidor.Cod);
                 command.Parameters.AddWithValue("@c", cr.Cod);
                 res = await command.ExecuteNonQueryAsync();
 

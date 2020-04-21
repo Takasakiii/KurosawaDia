@@ -2,7 +2,7 @@ create procedure GetCanal(
 	in _servidor bigint,
 	in _tipo tinyint
 )begin
-	select * from Canais where codigo_servidor = GetCodServidor(_servidor) and TipoCanal = _tipo;
+	select * from Canais  where codigo_servidor = _servidor and TipoCanal = _tipo limit 1;
 end;
 
 create procedure AddCanal(
@@ -11,12 +11,10 @@ create procedure AddCanal(
 	in _id bigint,
 	in _servidor bigint
 )begin
-	declare _codServ bigint;
-	set _codServ = (select GetCodServidor(_servidor));
-	if((select count(cod) from Canais where codigo_servidor = _codServ and TipoCanal = _tipo) = 0) then 
-		insert into Canais (codigo_servidor, id, nome, TipoCanal) values (_codServ, _id, _nome, _tipo);
+	if((select count(cod) from Canais where codigo_servidor = _servidor and TipoCanal = _tipo) = 0) then 
+		insert into Canais (codigo_servidor, id, nome, TipoCanal) values (_servidor, _id, _nome, _tipo);
 	else
-		delete from Canais where codigo_servidor = _codServ and TipoCanal = _tipo;
+		delete from Canais where codigo_servidor = _servidor and TipoCanal = _tipo;
 	end if;
 end;
 

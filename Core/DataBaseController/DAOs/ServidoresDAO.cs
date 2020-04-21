@@ -16,7 +16,7 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.Servidores.FromSqlRaw("call GetServidor({0})", servidor.ID).ToListAsync()).FirstOrDefault();
+                return (await context.Servidores.FromSqlRaw("call GetServidor({0})", servidor.Cod).ToListAsync()).FirstOrDefault();
             }
         }
 
@@ -33,7 +33,7 @@ namespace DataBaseController.DAOs
 
                 MySqlCommand command = await context.GetMysqlCommand();
                 command.CommandText = "call AtualizarServidor(@si, @sp, @se)";
-                command.Parameters.AddWithValue("@si", servidor.ID);
+                command.Parameters.AddWithValue("@si", servidor.Cod);
                 command.Parameters.AddWithValue("@sp", servidor.Prefix ?? "");
                 command.Parameters.AddWithValue("@se", servidor.Especial);
                 await command.ExecuteNonQueryAsync();

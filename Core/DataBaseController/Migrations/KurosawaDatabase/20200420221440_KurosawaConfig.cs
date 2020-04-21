@@ -137,7 +137,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 {
                     cod = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    usuario = table.Column<long>(nullable: false),
+                    usuario = table.Column<long>(type: "bigint", nullable: false),
                     permissao = table.Column<sbyte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
@@ -220,7 +220,8 @@ namespace DataBaseController.Migrations.KurosawaDatabase
             migrationBuilder.CreateIndex(
                 name: "IX_AdmsBot_usuario",
                 table: "AdmsBot",
-                column: "usuario");
+                column: "usuario",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Canais_codigo_servidor",

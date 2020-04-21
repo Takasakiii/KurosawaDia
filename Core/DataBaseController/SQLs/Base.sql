@@ -1,13 +1,13 @@
 CREATE function GetCodUser(
 	_usuario bigint
 )returns bigint begin
-	return (select codigo_usuario from Usuarios where id_usuario = _usuario);
+	return (select codigo_usuario from Usuarios where id_usuario = _usuario limit 1);
 end;
 
 CREATE  function GetCodServidor(
 	_servidor bigint
 ) returns bigint begin
-	return (select codigo_servidor from Servidores where id_servidor = _servidor);
+	return (select codigo_servidor from Servidores where id_servidor = _servidor limit 1);
 end;
 
 

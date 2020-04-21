@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataBaseController.Migrations.KurosawaDatabase
 {
     [DbContext(typeof(Kurosawa_DiaContext))]
-    [Migration("20200412213744_KurosawaConfig")]
+    [Migration("20200420221440_KurosawaConfig")]
     partial class KurosawaConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,16 +28,18 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("bigint")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CodUsuario")
+                        .HasColumnName("usuario")
+                        .HasColumnType("bigint");
+
                     b.Property<sbyte>("Permissao")
                         .HasColumnName("permissao")
                         .HasColumnType("tinyint");
 
-                    b.Property<long>("usuario")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Cod");
 
-                    b.HasIndex("usuario");
+                    b.HasIndex("CodUsuario")
+                        .IsUnique();
 
                     b.ToTable("AdmsBot");
                 });
@@ -230,7 +232,7 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("bigint")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<sbyte>("Espercial")
+                    b.Property<sbyte>("Especial")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("especial_servidor")
                         .HasColumnType("tinyint")
@@ -306,8 +308,8 @@ namespace DataBaseController.Migrations.KurosawaDatabase
             modelBuilder.Entity("DataBaseController.Modelos.AdmsBot", b =>
                 {
                     b.HasOne("DataBaseController.Modelos.Usuarios", "Usuario")
-                        .WithMany("AdmsBots")
-                        .HasForeignKey("usuario")
+                        .WithOne("AdmsBots")
+                        .HasForeignKey("DataBaseController.Modelos.AdmsBot", "CodUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
