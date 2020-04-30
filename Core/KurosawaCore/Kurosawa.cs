@@ -2,7 +2,7 @@
 using DataBaseController;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.EventArgs;
+using DSharpPlus.Interactivity;
 using KurosawaCore.Configuracoes;
 using KurosawaCore.Events;
 using KurosawaCore.Extensions;
@@ -40,12 +40,12 @@ namespace KurosawaCore
             new UserGuildExit(ref Cliente);
             new MessageReceived(ref Cliente);
             new ReadyEvent(ref Cliente, status);
-            Cliente.DebugLogger.LogMessageReceived += DebugLogger_LogMessageReceived;
+            new LogMessageReceived(ref Cliente, InvokeLog);
         }
 
-        private void DebugLogger_LogMessageReceived(object sender, DebugLogMessageEventArgs e)
+        private void InvokeLog(LogMessage e)
         {
-            OnLog?.Invoke(new LogMessage(e));
+            OnLog?.Invoke(e);
         }
 
         public async Task Iniciar()
@@ -64,6 +64,10 @@ namespace KurosawaCore
                 Cliente.DebugLogger.LogMessage(LogLevel.Debug, "Kurosawa Dia - Handler", $"Comando Registrado: {comando.Key}", DateTime.Now);
             }
             new CommandErrored(ref comandos);
+            Cliente.UseInteractivity(new InteractivityConfiguration
+            {
+                Timeout = TimeSpan.FromMinutes(5)
+            });
             Cliente.MessageCreated -= comandos.HandleCommandsAsync;
             await Cliente.ConnectAsync();
 

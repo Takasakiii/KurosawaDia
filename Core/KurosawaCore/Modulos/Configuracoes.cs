@@ -5,6 +5,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
 using System;
@@ -18,11 +19,10 @@ namespace KurosawaCore.Modulos
     {
         [Command("setprefix")]
         [Aliases("prefix")]
-        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Modifica o meu prefixo em um servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo no servidor.")]string novoPrefixo)
         {
-            if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate) 
+            if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
                 throw new Exception();
 
             DiscordMessage msg = await ctx.RespondAsync(embed: new DiscordEmbedBuilder
@@ -33,34 +33,36 @@ namespace KurosawaCore.Modulos
             }.Build());
             DiscordEmoji emoji = DiscordEmoji.FromUnicode("✅");
             await msg.CreateReactionAsync(emoji);
-            ReactionsController<CommandContext> rc = new ReactionsController<CommandContext>(ctx);
-            rc.AddReactionEvent(msg, rc.ConvertToMethodInfo<Tuple<DiscordMessage, string>>(EmojiModificar), emoji, ctx.User, Tuple.Create(msg, novoPrefixo));
+            ReactionContext contexto = await ctx.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, message: msg, user: ctx.User);
+            if(contexto != null)
+            {
+                await EmojiModificar(ctx, msg, novoPrefixo);
+            }
         }
 
-        private async Task EmojiModificar(CommandContext ctx, Tuple<DiscordMessage, string> args)
+        private async Task EmojiModificar(CommandContext ctx, DiscordMessage msg, string args)
         {
             await new ServidoresDAO().Atualizar(new Servidores
             {
                 ID = ctx.Guild.Id,
-                Prefix = args.Item2,
+                Prefix = args,
             });
 
-            await args.Item1.DeleteAsync();
+            await msg.DeleteAsync();
 
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Title = $"{ctx.User.Username}, meu prefixo foi alterado com sucesso para `{args.Item2}`!",
+                Title = $"{ctx.User.Username}, meu prefixo foi alterado com sucesso para `{args}`!",
                 Color = DiscordColor.Green
             }.Build());
         }
 
         [Command("bemvindo")]
         [Aliases("welcome", "entrada", "greetmsg")]
-        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Define a mensagem de bem-vindo do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetBemVindo(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de bem-vindo.")][RemainingText] string message)
         {
-            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
+            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
                 throw new Exception();
 
             await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
@@ -81,13 +83,12 @@ namespace KurosawaCore.Modulos
 
         [Command("canalbemvindo")]
         [Aliases("canalentrada", "canalwelcome", "greet")]
-        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Define o canal de bem vindo.\nSe usado novamente, a mensagem será desativada.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetCanalBemVindo(CommandContext ctx, [Description("Canal onde será enviada a mensagem de bem-vindo.")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
 
-            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id)
+            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
                 throw new Exception();
 
             await new CanaisDAO().Adicionar(new Canais
@@ -110,11 +111,10 @@ namespace KurosawaCore.Modulos
 
         [Command("saida")]
         [Aliases("leave", "byemsg", "saída")]
-        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Define a mensagem de saída do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetSaida(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de saída.")][RemainingText] string message)
         {
-            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate)
+            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild) || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
                 throw new Exception();
 
             await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
@@ -135,13 +135,11 @@ namespace KurosawaCore.Modulos
 
         [Command("canalsaida")]
         [Aliases("canalleave", "canalbye", "bye", "canalsaída")]
-        [RequireUserPermissions(Permissions.Administrator & Permissions.ManageGuild)]
         [Description("Define o canal de saída.\nSe usado novamente, a mensagem será desativada.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetCanalSaida(CommandContext ctx, [Description("Canal onde será enviada a mensagem de bem-vindo.")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
-
-            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id)
+            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
                 throw new Exception();
 
             await new CanaisDAO().Adicionar(new Canais

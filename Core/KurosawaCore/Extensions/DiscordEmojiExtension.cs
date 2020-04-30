@@ -1,49 +1,64 @@
-﻿using DSharpPlus.Entities;
+﻿using NeoSmart.Unicode;
 using System;
-using System.Globalization;
-using System.Net;
-using Neo = NeoSmart.Unicode.Emoji;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using NeoSmart.Unicode;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using Neo = NeoSmart.Unicode.Emoji;
 
 namespace KurosawaCore.Extensions
 {
     internal class DiscordEmojiExtension
     {
         private const string BaseUrl = "https://cdn.discordapp.com/emojis/{0}";
-        internal DiscordEmoji Emoji { private set; get; }
-        internal DiscordEmojiExtension(DiscordEmoji emoji)
-        {
-            Emoji = emoji;
-        }
+        internal ulong ID { private set; get; }
+        internal string Nome { private set; get; }
 
+        internal bool IsGuildEmoji { private set; get; } = true;
 
-        internal async Task<string> GetUrl()
+        internal bool Animated { private set; get; } = false;
+
+        internal DiscordEmojiExtension(string emoji)
         {
-            if(!Neo.IsEmoji(Emoji, 1))
+            Nome = emoji;
+            Regex r = new Regex(@"<a?:(?<nome>\w{1,32}):(?<id>\d{18})>");
+            Match match = r.Match(emoji);
+            if (match.Success)
             {
-                if (Emoji.Id == 0)
-                    throw new InvalidOperationException("Cannot get URL of unicode emojis.");
-
-                if (await GetAnimated())
-                    return string.Format(BaseUrl, $"{Emoji.Id.ToString(CultureInfo.InvariantCulture)}.gif");
-                return string.Format(BaseUrl, $"{Emoji.Id.ToString(CultureInfo.InvariantCulture)}.png");
+                ID = ulong.Parse(match.Groups["id"].Value);
+                Nome = match.Groups["nome"].Value;
+                if (emoji[1] == 'a')
+                {
+                    Animated = true;
+                }
             }
             else
             {
-                List<string> hexSeq = new List<string>();
-                foreach (uint seq in Emoji.ToString().AsUnicodeSequence().AsUtf32)
-                {
-                    hexSeq.Add(seq.ToString("x"));
-                }
-                return $"https://twemoji.maxcdn.com/2/72x72/{string.Join('-', hexSeq)}.png";
+                IsGuildEmoji = false;
             }
         }
 
-        internal async Task<bool> GetAnimated()
+
+        internal string GetUrl()
         {
-            return await new HttpsExtension().IsImage(string.Format(BaseUrl, $"{Emoji.Id.ToString(CultureInfo.InvariantCulture)}.gif"));
+            if (!IsGuildEmoji)
+                if (Neo.IsEmoji(Nome))
+                {
+                    List<string> hexSeq = new List<string>();
+                    foreach (uint seq in Nome.AsUnicodeSequence().AsUtf32)
+                    {
+                        hexSeq.Add(seq.ToString("x"));
+                    }
+                    return $"https://twemoji.maxcdn.com/2/72x72/{string.Join('-', hexSeq)}.png";
+                }
+
+            if (ID == 0)
+                throw new Exception("Emoji invalido");
+
+            if (Animated)
+                return string.Format(BaseUrl, $"{ID.ToString(CultureInfo.InvariantCulture)}.gif");
+            else
+                return string.Format(BaseUrl, $"{ID.ToString(CultureInfo.InvariantCulture)}.png");
         }
+
     }
 }
