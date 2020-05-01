@@ -60,6 +60,7 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("loli")]
+        [Hidden]
         [Description("Manda uma imagem para que você seja preso.")]
         public async Task Loli(CommandContext ctx)
         {
@@ -77,6 +78,7 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("lolibomb")]
+        [Hidden]
         [Description("Manda varias imagens para você ser preso imediatamente.")]
         public async Task LoliBomb(CommandContext ctx)
         {

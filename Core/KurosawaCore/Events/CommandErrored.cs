@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
 using KurosawaCore.Extensions;
 using KurosawaCore.Modulos;
 using System;
@@ -20,35 +21,43 @@ namespace KurosawaCore.Events
         {
             try
             {
-                ReactionsController<CommandContext> controller = new ReactionsController<CommandContext>(e.Context);
+                DiscordEmoji emoji;
+                bool rota = false;
+                //ReactionsController<CommandContext> controller = new ReactionsController<CommandContext>(e.Context);
+
                 if (e.Exception is CommandNotFoundException)
                 {
-                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❓");
+                    emoji = DiscordEmoji.FromUnicode("❓");
                     await e.Context.Message.CreateReactionAsync(emoji);
-                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo(CallHelpNofing), emoji, e.Context.User);
+                    rota = true;
+                    //controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo(CallHelpNofing), emoji, e.Context.User);
                 }
                 else
                 {
-                    DiscordEmoji emoji = DiscordEmoji.FromUnicode("❌");
+                    emoji = DiscordEmoji.FromUnicode("❌");
                     await e.Context.Message.CreateReactionAsync(emoji);
-                    controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.QualifiedName);
+                    //controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.QualifiedName);
                     e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
+                }
+
+                ReactionContext recebimento = await e.Context.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, user: e.Context.User, message: e.Context.Message);
+
+                if(recebimento != null)
+                {
+                    if (rota)
+                    {
+                        await new Ajuda().AjudaCmd(e.Context);
+                    }
+                    else
+                    {
+                        await e.Context.Client.GetCommandsNext().DefaultHelpAsync(e.Context, e.Command.QualifiedName);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", ex.Message, DateTime.Now);
             }
-        }
-
-        private async Task CallHelp(CommandContext ctx, string arg)
-        {
-            await ctx.Client.GetCommandsNext().DefaultHelpAsync(ctx, arg);
-        }
-
-        private async Task CallHelpNofing(CommandContext ctx)
-        {
-            await new Ajuda().AjudaCmd(ctx);
         }
 
     }

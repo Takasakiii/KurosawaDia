@@ -1,10 +1,11 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
-using KurosawaCore.Extensions.JsonEmbedExtension;
 using KurosawaCore.Models.Atributes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,16 +34,16 @@ namespace KurosawaCore.Modulos
         [Command("emoji")]
         [Aliases("emote", "emogi")]
         [Description("Almenta o tamanho de um emote, e tambem permite você pegar a url do mesmo")]
-        public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]DiscordEmoji emoji)
+        public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]string emoji)
         {
             if (ctx.Channel.IsPrivate || emoji == null)
                 throw new Exception();
             DiscordEmojiExtension ex = new DiscordEmojiExtension(emoji);
-            string url = await ex.GetUrl();
+            string url = ex.GetUrl();
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Color = DiscordColor.Green,
-                Title = ex.Emoji.Name,
+                Title = ex.Nome,
                 Description = $"[Link direto]({url})",
                 ImageUrl = url
             };
@@ -108,7 +109,7 @@ namespace KurosawaCore.Modulos
 
         private async Task ControladorDeSugestao(CommandContext ctx, string mensagem, string tipo)
         {
-            if (mensagem == "") 
+            if (mensagem == "")
                 throw new Exception();
 
             DiscordChannel channel = await ctx.Client.GetChannelAsync(556598669500088320);
@@ -136,7 +137,7 @@ namespace KurosawaCore.Modulos
         [Description("Converte um texto com emoji do discord para emoji universais")]
         public async Task Whatsify(CommandContext ctx, [Description("Texto que deseja converter")][RemainingText]string mensagem)
         {
-            if (string.IsNullOrEmpty(mensagem)) 
+            if (string.IsNullOrEmpty(mensagem))
                 throw new Exception();
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
@@ -149,15 +150,35 @@ namespace KurosawaCore.Modulos
 
         [Command("say")]
         [Description("Cria uma mensagem no servidor")]
-        [RequirePermissions(DSharpPlus.Permissions.ManageMessages & DSharpPlus.Permissions.Administrator)]
-        [RequireUserPermissions(DSharpPlus.Permissions.ManageMessages & DSharpPlus.Permissions.Administrator)]
+        [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
         public async Task Say(CommandContext ctx, [Description("Mensagem para converter na mensagem")][RemainingText]string mensagem)
         {
-            if (ctx.Channel.IsPrivate && mensagem != "") 
+            if (ctx.Channel.IsPrivate || mensagem == "" || !PermissionExtension.ValidarPermissoes(ctx, Permissions.Administrator, Permissions.ManageMessages))
                 throw new Exception();
 
             await new StringVariablesExtension(ctx.Member, ctx.Guild).SendMessage(ctx.Message.Channel, mensagem);
             await ctx.Message.DeleteAsync();
+        }
+
+        [Command("mentionrandom")]
+        [Aliases("someone", "mensionaraleatorio")]
+        [Description("Mensiona alguem random do seu servidor, like @someone\n\n(Observação: você precisa de permissão pra enviar um everyone ou here para poder usar esse comando)")]
+        public async Task Someone(CommandContext ctx, [Description("Cargo que deseja filtrar o comando")][RemainingText]DiscordRole cargo = null)
+        {
+            if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.MentionEveryone))
+                throw new Exception("Comando execultado no privado");
+            List<DiscordMember> membros;
+            if(cargo != null)
+            {
+                membros = ctx.Guild.Members.Where(x => x.Roles.Contains(cargo)).ToList();
+            }
+            else
+            {
+                membros = ctx.Guild.Members.ToList();
+            }
+            string[] frases = { "eu te invoco", "acorde!!!!", "vamos o show vai começar!", "seu amigo ta te chamando." };
+            Random rnd = new Random();
+            await ctx.RespondAsync($"🎲{membros[rnd.Next(0, membros.Count)].Mention}, {frases[rnd.Next(0, frases.Length)]}🎲");
         }
     }
 }
