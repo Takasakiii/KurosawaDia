@@ -27,7 +27,8 @@ namespace KurosawaCore.Events
 
         private async void Read()
         {
-            try {
+            try
+            {
                 if (Status != null && Status.Length > 0)
                     while (true)
                         foreach (StatusConfig status in Status)

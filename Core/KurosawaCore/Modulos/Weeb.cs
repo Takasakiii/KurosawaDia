@@ -154,7 +154,7 @@ namespace KurosawaCore.Modulos
                 });
                 especial = ((byte)servidor.Especial >= (byte)TiposServidores.LolisEdition);
             }
-            
+
             Fuck fuck = await new FuckDAO().Get(new Fuck
             {
                 Explicit = especial

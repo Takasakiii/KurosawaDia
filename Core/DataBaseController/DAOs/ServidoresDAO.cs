@@ -2,9 +2,7 @@
 using DataBaseController.Factory;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using MySql.Data.MySqlClient;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 

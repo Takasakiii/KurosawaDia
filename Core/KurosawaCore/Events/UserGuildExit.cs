@@ -5,7 +5,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
-using KurosawaCore.Extensions.JsonEmbedExtension;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +60,7 @@ namespace KurosawaCore.Events
                 e.Client.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
             }
 
-            
+
         }
     }
 }

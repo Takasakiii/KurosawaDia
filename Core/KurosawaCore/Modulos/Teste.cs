@@ -1,13 +1,8 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
-using KurosawaCore.Extensions;
+using KurosawaCore.Extensions.NHentai;
 using KurosawaCore.Models.Atributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
@@ -19,17 +14,27 @@ namespace KurosawaCore.Modulos
     {
         [Command("page")]
         [Description("testa paginators")]
-        public async Task PaginatorTest(CommandContext ctx)
+        public async Task PaginatorTest(CommandContext ctx, uint codigo)
         {
             InteractivityModule interativy = ctx.Client.GetInteractivityModule();
 
-            PagesExtensions pgs = new PagesExtensions();
-            pgs.AdicionarPaginaString("pg 1");
-            pgs.AdicionarPaginaString("pg 2");
-            pgs.AdicionarPaginaString("pg 3");
+            await new NHentaiExtension(ctx).LerDoujin(codigo);
+            //PagesExtensions pgs = new PagesExtensions();
+            //pgs.AdicionarPaginaString("pg 1");
+            //pgs.AdicionarPaginaString("pg 2");
+            //pgs.AdicionarPaginaString("pg 3");
 
-            // send the paginator
-            await interativy.SendPaginatedMessage(ctx.Channel, ctx.User, pgs.Paginador, TimeSpan.FromMinutes(5), TimeoutBehaviour.Delete);
+            //// send the paginator
+            //await interativy.SendPaginatedMessage(ctx.Channel, ctx.User, pgs.Paginador, TimeSpan.FromMinutes(5), TimeoutBehaviour.Delete);
+
+            //DiscordMessage msg = await ctx.RespondAsync("pitas é gay?");
+            //List<DiscordEmoji> emojis = new List<DiscordEmoji>
+            //{
+            //    DiscordEmoji.FromUnicode("✅"),
+            //    DiscordEmoji.FromUnicode("❌")
+            //};
+            //ReactionCollectionContext rc = await interativy.CreatePollAsync(msg, emojis, TimeSpan.FromSeconds(10));
+            //await msg.ModifyAsync((rc.Reactions[emojis[0]] >= rc.Reactions[emojis[1]]) ? "Sabia" : "Como assim pitas não é gay");
         }
     }
 }

@@ -68,7 +68,7 @@ namespace KurosawaCore.Modulos
                 throw new Exception();
 
             string url = await new ImageExtension().GetLoli();
-            await ctx.RespondAsync(embed: new DiscordEmbedBuilder 
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
                 Title = "Por favor, não me entregue para a polícia!",
                 Description = $"[Link direto]({url})",

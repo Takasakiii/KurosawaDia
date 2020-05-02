@@ -1,8 +1,6 @@
 ﻿using DSharpPlus.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Extensions
@@ -15,7 +13,7 @@ namespace KurosawaCore.Extensions
             if (guild.Features.Contains("ANIMATED_ICON"))
             {
                 url = guild.IconUrl.Replace(".jpg", ".gif");
-                if (!await new HttpsExtension().IsImage(url))
+                if (!await HttpsExtension.IsImage(url))
                     url = guild.IconUrl;
             }
             else

@@ -2,9 +2,7 @@
 using DataBaseController.Factory;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using MySql.Data.MySqlClient;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +20,7 @@ namespace DataBaseController.DAOs
 
         public async Task Adicionar(Canais canal)
         {
-            using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
                 //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
                 //await context.Database.ExecuteSqlRawAsync("call AddCanal({0}, {1}, {2}, {3})", canal.TipoCanal, canal.Nome, canal.ID, canal.Servidor.ID);

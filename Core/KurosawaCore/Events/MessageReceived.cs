@@ -4,9 +4,6 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,7 +45,7 @@ namespace KurosawaCore.Events
                     await comandos.HandleCommandsAsync(e);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 e.Client.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
             }

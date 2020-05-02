@@ -168,7 +168,7 @@ namespace KurosawaCore.Modulos
             if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.MentionEveryone))
                 throw new Exception("Comando executado no privado.");
             List<DiscordMember> membros;
-            if(cargo != null)
+            if (cargo != null)
             {
                 membros = ctx.Guild.Members.Where(x => x.Roles.Contains(cargo)).ToList();
             }

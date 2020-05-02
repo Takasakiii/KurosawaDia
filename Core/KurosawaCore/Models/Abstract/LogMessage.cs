@@ -1,8 +1,6 @@
 ﻿using DSharpPlus.EventArgs;
 using KurosawaCore.Abstracoes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KurosawaCore.Models.Abstract
 {

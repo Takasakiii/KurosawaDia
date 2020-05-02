@@ -1,15 +1,15 @@
 ﻿using DataBaseController.Contexts;
+using DataBaseController.Factory;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
-using DataBaseController.Factory;
 using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DataBaseController.DAOs {
-    public sealed class FuckDAO {
+namespace DataBaseController.DAOs
+{
+    public sealed class FuckDAO
+    {
         public async Task<Fuck> Get(Fuck fuck)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
@@ -19,7 +19,7 @@ namespace DataBaseController.DAOs {
         }
 
         public async Task Add(Fuck fuck)
-        { 
+        {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
                 //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);

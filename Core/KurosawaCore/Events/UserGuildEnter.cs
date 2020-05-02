@@ -5,7 +5,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using KurosawaCore.Extensions;
-using KurosawaCore.Extensions.JsonEmbedExtension;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace KurosawaCore.Events
         {
             GuildMemberAddEventArgs e = (GuildMemberAddEventArgs)note;
             try
-            { 
+            {
                 Canais canalBemvindo = await new CanaisDAO().Get(new Canais
                 {
                     Servidor = new Servidores
@@ -55,7 +54,7 @@ namespace KurosawaCore.Events
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 e.Client.DebugLogger.LogMessage(LogLevel.Info, "Kurosawa Dia - Event", ex.Message, DateTime.Now);
             }

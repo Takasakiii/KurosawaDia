@@ -3,7 +3,6 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
-using KurosawaCore.Extensions;
 using KurosawaCore.Modulos;
 using System;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace KurosawaCore.Events
 
                 ReactionContext recebimento = await e.Context.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, user: e.Context.User, message: e.Context.Message);
 
-                if(recebimento != null)
+                if (recebimento != null)
                 {
                     if (rota)
                     {

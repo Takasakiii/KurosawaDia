@@ -1,8 +1,6 @@
 ﻿using DataBaseController.Contexts;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace DataBaseController.DAOs
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
-                return (await context.Servidores.FromSqlRaw("call CadastrarUsuarioServidor({0}, {1}, {2}, {3})", su.Servidor.ID, su.Usuario.ID, su.Servidor.Nome, su.Usuario.Nome).ToListAsync()).FirstOrDefault();      
+                return (await context.Servidores.FromSqlRaw("call CadastrarUsuarioServidor({0}, {1}, {2}, {3})", su.Servidor.ID, su.Usuario.ID, su.Servidor.Nome, su.Usuario.Nome).ToListAsync()).FirstOrDefault();
             }
         }
     }

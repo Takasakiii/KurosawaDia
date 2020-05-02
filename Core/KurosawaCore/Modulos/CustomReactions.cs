@@ -1,6 +1,5 @@
 ﻿using DataBaseController.DAOs;
 using DataBaseController.Modelos;
-using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
@@ -8,7 +7,6 @@ using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Model = DataBaseController.Modelos.CustomReactions;
 
@@ -53,7 +51,7 @@ namespace KurosawaCore.Modulos
                 {
                     ID = ctx.Guild.Id
                 },
-                Trigger = string.Join(" " , pesquisa)
+                Trigger = string.Join(" ", pesquisa)
             }, page);
 
             string description = $"**Página {page}**\n```md\n";
@@ -63,15 +61,16 @@ namespace KurosawaCore.Modulos
                 foreach (Model modelo in crs)
                 {
                     string trigger = modelo.Trigger;
-                    if (trigger.Length > 20) 
+                    if (trigger.Length > 20)
                         trigger = trigger.Substring(0, 17) + "...";
                     if (modelo.Modo)
                         trigger = $"*{trigger}*";
-                    
+
                     description += string.Format("{0, -7}{1}\n", modelo.Cod.ToString() + '.', trigger);
                 }
 
-                await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
+                await ctx.RespondAsync(embed: new DiscordEmbedBuilder()
+                {
                     Color = DiscordColor.Orange,
                     Description = description + "```",
                     Title = "Lista das Reações Customizadas"
@@ -79,7 +78,8 @@ namespace KurosawaCore.Modulos
             }
             else
             {
-                await ctx.RespondAsync(embed: new DiscordEmbedBuilder() {
+                await ctx.RespondAsync(embed: new DiscordEmbedBuilder()
+                {
                     Color = DiscordColor.Orange,
                     Title = "Não encontrei nenhuma Reação Customizada."
                 });
@@ -88,7 +88,7 @@ namespace KurosawaCore.Modulos
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)
         {
-            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|")  || (ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && !PermissionExtension.ValidarPermissoes(ctx)))
+            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|") || (ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && !PermissionExtension.ValidarPermissoes(ctx)))
                 throw new Exception();
             string[] split = args.Split("|");
             if (split.Length < 2)

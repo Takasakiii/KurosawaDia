@@ -1,5 +1,4 @@
 ﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using System;
@@ -39,7 +38,7 @@ namespace KurosawaCore.Extensions
             new Thread(Action).Start(new object[] { e.User, e.Message, e.Emoji, e.Client });
             return Task.CompletedTask;
         }
-    
+
 
         internal void AddReactionEvent(DiscordMessage msg, Tuple<MethodInfo, object> exec, DiscordEmoji emoji = null, DiscordUser autor = null, params object[] args)
         {
@@ -55,7 +54,7 @@ namespace KurosawaCore.Extensions
             BufferReacoes.Add(reacao);
         }
 
-        internal Tuple<MethodInfo, object> ConvertToMethodInfo<ArgType> (Func<Item, ArgType, Task> funcao) where ArgType : class
+        internal Tuple<MethodInfo, object> ConvertToMethodInfo<ArgType>(Func<Item, ArgType, Task> funcao) where ArgType : class
         {
             return Tuple.Create(funcao.Method, funcao.Target);
         }
@@ -86,7 +85,8 @@ namespace KurosawaCore.Extensions
                             validado = false;
                         if (BufferReacoes[i].Emoji != null && BufferReacoes[i].Emoji != (DiscordEmoji)((object[])args)[2])
                             validado = false;
-                        if (validado) {
+                        if (validado)
+                        {
                             index = i;
                             break;
                         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataBaseController.Modelos
+﻿namespace DataBaseController.Modelos
 {
     public class CustomReactions
     {

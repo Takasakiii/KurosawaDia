@@ -34,7 +34,7 @@ namespace KurosawaCore.Modulos
             DiscordEmoji emoji = DiscordEmoji.FromUnicode("✅");
             await msg.CreateReactionAsync(emoji);
             ReactionContext contexto = await ctx.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, message: msg, user: ctx.User);
-            if(contexto != null)
+            if (contexto != null)
             {
                 await EmojiModificar(ctx, msg, novoPrefixo);
             }

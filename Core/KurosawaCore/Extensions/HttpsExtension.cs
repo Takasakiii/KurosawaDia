@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ namespace KurosawaCore.Extensions
 {
     internal class HttpsExtension
     {
-        internal async Task<bool> IsImage(string url)
+        internal static async Task<bool> IsImage(string url)
         {
             try
             {
@@ -24,6 +24,12 @@ namespace KurosawaCore.Extensions
             {
                 return false;
             }
+        }
+
+        internal static async Task<ObjResultante> PegarJsonGET<ObjResultante>(string url, params string[] args)
+        {
+            string json = await new WebClient().DownloadStringTaskAsync(string.Format(url, args));
+            return JsonConvert.DeserializeObject<ObjResultante>(json);
         }
     }
 }

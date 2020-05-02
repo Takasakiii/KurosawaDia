@@ -16,7 +16,8 @@ namespace KurosawaCore.Modulos
         [RequireNsfw]
         public async Task Hentai(CommandContext ctx)
         {
-            await ctx.RespondAsync(embed: new DiscordEmbedBuilder {
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder
+            {
                 ImageUrl = await new NfswExtension().GetHentai(ctx.Guild.Id),
                 Color = DiscordColor.Lilac
             });

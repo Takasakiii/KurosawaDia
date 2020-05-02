@@ -21,7 +21,7 @@ namespace KurosawaCore.Modulos
         [Description("Com esse comando eu posso te fornecer informações, como se comunicar comigo e as tarefas que realizo.")]
         public async Task AjudaCmd(CommandContext ctx, [Description("Comando que você precisa de ajuda")]params string[] comando)
         {
-            if(comando.Length == 0)
+            if (comando.Length == 0)
             {
                 DiscordEmbedBuilder builder = new DiscordEmbedBuilder
                 {
@@ -41,11 +41,11 @@ namespace KurosawaCore.Modulos
                         if (grupo == null)
                         {
                             MethodInfo[] metodos = types[i].GetMethods();
-                            for(int j = 0; j < metodos.Length; j++)
+                            for (int j = 0; j < metodos.Length; j++)
                             {
                                 CommandAttribute comandoAtributo = metodos[j].GetCustomAttribute<CommandAttribute>();
                                 HiddenAttribute comandoHidden = metodos[j].GetCustomAttribute<HiddenAttribute>();
-                                if(comandoAtributo != null && comandoHidden == null)
+                                if (comandoAtributo != null && comandoHidden == null)
                                 {
                                     sb.Append($"`{comandoAtributo.Name}` ");
                                 }

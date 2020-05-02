@@ -1,12 +1,10 @@
 ﻿using DataBaseController.Contexts;
-using DataBaseController.Modelos;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
 using DataBaseController.Factory;
+using DataBaseController.Modelos;
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataBaseController.DAOs
 {
@@ -33,7 +31,7 @@ namespace DataBaseController.DAOs
 
         public async Task<CustomReactions> Get(CustomReactions cr)
         {
-            using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
                 return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
             }
@@ -47,7 +45,7 @@ namespace DataBaseController.DAOs
             }
         }
 
-        public async Task<int> Delete (CustomReactions cr)
+        public async Task<int> Delete(CustomReactions cr)
         {
             using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
             {
