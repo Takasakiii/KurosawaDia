@@ -1,4 +1,7 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DataBaseController.Abstractions;
+using DataBaseController.DAOs;
+using DataBaseController.Modelos;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using KurosawaCore.Extensions.NHentai.Modelos;
@@ -6,6 +9,7 @@ using KurosawaCore.Extensions.NHentai.Modelos.DoujinAtributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,12 +38,26 @@ namespace KurosawaCore.Extensions.NHentai
         internal async Task LerDoujin(uint codigo)
         {
             await Task.Yield();
+            bool permissao = false;
 
             Doujin dou = await HttpsExtension.PegarJsonGET<Doujin>(BaseURL + Doujin, codigo.ToString());
-            Relacionados relacionados = await HttpsExtension.PegarJsonGET<Relacionados>(BaseURL + Relacionados, codigo.ToString());
+
+            permissao = (byte)(await new ServidoresDAO().Get(new Servidores
+            {
+                ID = Context.Guild.Id
+            })).Especial >= (byte)TiposServidores.LolisEdition;
+
+            if (!permissao && dou.Tags.Where(x => x.Id == 19440 || x.Id == 32241).Count() > 0)
+                throw new Exception("Sem permissao loli");
+
+            IEnumerable<Doujin> relacionados;
+            if (!permissao)
+                relacionados = (await HttpsExtension.PegarJsonGET<Relacionados>(BaseURL + Relacionados, codigo.ToString())).Doujins.Where(x =>x.Tags.Where(y => y.Id != 19440 && y.Id != 32241).Count() == 0);
+            else
+                relacionados = (await HttpsExtension.PegarJsonGET<Relacionados>(BaseURL + Relacionados, codigo.ToString())).Doujins;
 
             StringBuilder sb = new StringBuilder();
-            foreach (Doujin temp in relacionados.Doujins)
+            foreach (Doujin temp in relacionados)
             {
                 sb.AppendLine($"- [{temp.Titulo.Abreviacao} ({temp.Id})]({BaseURL}/g/{temp.Id})");
             }
@@ -57,9 +75,17 @@ namespace KurosawaCore.Extensions.NHentai
 
             IEnumerable<Tags> tags = dou.Tags.Where(x => x.Tipo == "artist" || x.Tipo == "group");
             eb.AddField("Autor:", tags.Where(x => x.Tipo == "artist").FirstOrDefault().Nome, true);
-            eb.AddField("Grupo:", tags.Where(x => x.Tipo == "group").FirstOrDefault().Nome, true);
+            Tags grupo;
+            if ((grupo = tags.Where(x => x.Tipo == "group").FirstOrDefault()) != null)
+            {
+                eb.AddField("Grupo:", grupo.Nome, true);
+            }
             eb.AddField("Votos:", dou.Favoritos.ToString(), true);
-            eb.AddField("Relacionados:", sb.ToString(), true);
+            string srela = sb.ToString();
+            if (!string.IsNullOrEmpty(srela))
+            {
+                eb.AddField("Relacionados:", srela, true);
+            }
             pages.AdicionarEmbed(eb);
 
             for (ulong i = 2; i < dou.TotalPaginas; i++)
