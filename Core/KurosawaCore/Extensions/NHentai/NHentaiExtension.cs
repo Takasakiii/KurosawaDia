@@ -6,7 +6,6 @@ using KurosawaCore.Extensions.NHentai.Modelos.DoujinAtributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,7 +39,7 @@ namespace KurosawaCore.Extensions.NHentai
             Relacionados relacionados = await HttpsExtension.PegarJsonGET<Relacionados>(BaseURL + Relacionados, codigo.ToString());
 
             StringBuilder sb = new StringBuilder();
-            foreach(Doujin temp in relacionados.Doujins)
+            foreach (Doujin temp in relacionados.Doujins)
             {
                 sb.AppendLine($"- [{temp.Titulo.Abreviacao} ({temp.Id})]({BaseURL}/g/{temp.Id})");
             }
