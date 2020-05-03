@@ -74,7 +74,12 @@ namespace KurosawaCore.Extensions.NHentai
 
 
             IEnumerable<Tags> tags = dou.Tags.Where(x => x.Tipo == "artist" || x.Tipo == "group");
-            eb.AddField("Autor:", tags.Where(x => x.Tipo == "artist").FirstOrDefault().Nome, true);
+            string artistName = tags.Where(x => x.Tipo == "artist").FirstOrDefault()?.Nome;
+            if (!string.IsNullOrWhiteSpace(artistName))
+            {
+                eb.AddField("Autor:", artistName, true);
+            }
+
             Tags grupo;
             if ((grupo = tags.Where(x => x.Tipo == "group").FirstOrDefault()) != null)
             {
