@@ -109,8 +109,8 @@ namespace KurosawaCore.Modulos
             }
             builder.AddField("Sobre mim:", "__Nome__: Kurosawa Dia (Dia-chan)\n__Aniversário__: 1° de Janeiro (Quero presentes!)\n__Ocupação__: Estudante e traficante/idol nas horas vagas");
             builder.AddField("As pessoas que fazem tudo isso ser possível:", "Takasaki#7072\nYummi#2708\nLuckShiba#0001\nVulcan#4805\n\nE é claro você que acredita em meu potencial :orange_heart:");
-            builder.AddField("Informações chatas:", $"[Me adicione em seu servidor]({ InfoImportante.conviteDia})\n[Entre no meu servidor para dar suporte ao projeto]({ InfoImportante.conviteServer })\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas]({ InfoImportante.topgg})");
-            builder.AddField("Informações Chatas:", $"__Ping__: {ctx.Client.Ping}\n__Servidores__: {ctx.Client.Guilds.Count}\n__Usuarios__: {users}\n__Versão__: {InfoImportante.VersaoNumb} ({InfoImportante.VersaoName})");
+            builder.AddField("Links úteis:", $"[Me adicione em seu servidor]({ InfoImportante.conviteDia})\n[Entre no meu servidor para dar suporte ao projeto]({ InfoImportante.conviteServer })\n[Vote em mim no DiscordBotList para que eu possa ajudar mais pessoas]({ InfoImportante.topgg})");
+            builder.AddField("Informações chatas:", $"__Ping__: {ctx.Client.Ping}\n__Servidores__: {ctx.Client.Guilds.Count}\n__Usuarios__: {users}\n__Versão__: {InfoImportante.VersaoNumb} ({InfoImportante.VersaoName})");
             await ctx.RespondAsync(embed: builder.Build());
         }
     }
