@@ -38,7 +38,7 @@ namespace KurosawaCore.Events
                                 Name = status.StatusJogo
                             };
                             await Cliente.UpdateStatusAsync(game);
-                            await Task.Delay(10000);
+                            Thread.Sleep(10000);
                         }
             }
             catch (Exception ex)
