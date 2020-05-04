@@ -10,7 +10,14 @@ namespace KurosawaCore.Extensions
         private long Permissoes;
         internal PermissionExtension(DiscordChannel canal, DiscordMember membro)
         {
-            Permissoes = (long)canal.PermissionsFor(membro);
+            if (membro.IsOwner)
+            {
+                Permissoes = (long)Permissions.Administrator;
+            }
+            else
+            {
+                Permissoes = (long)canal.PermissionsFor(membro);
+            }
         }
 
         internal bool ValidarPermissoes(params Permissions[] permissoes)
