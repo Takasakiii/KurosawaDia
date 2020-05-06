@@ -11,6 +11,8 @@ namespace KurosawaCore.Extensions.NHentai.Modelos
         internal string MediaId { get; set; }
         [JsonProperty("title")]
         internal Title Titulo { get; set; }
+        [JsonProperty("images")]
+        internal Images Imagens { get; set; }
         [JsonProperty("tags")]
         internal Tags[] Tags { get; set; }
         [JsonProperty("num_pages")]
