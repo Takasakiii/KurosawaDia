@@ -3,6 +3,8 @@ using DataBaseController.Factory;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,29 +14,38 @@ namespace DataBaseController.DAOs
     {
         public async Task Adicionar(CustomReactions cr)
         {
-            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
-            {
-                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
-                //await context.Database.ExecuteSqlRawAsync("call AddCR({0}, {1}, {2}, {3})", cr.Trigger, cr.Resposta, cr.Modo, cr.Servidor.ID);
-                //_ = context.CustomReactions.FromSqlRaw("call AddCR({0}, {1}, {2}, {3})", cr.Trigger, cr.Resposta, cr.Modo, cr.Servidor.ID);
-                //await transation.CommitAsync();
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-                MySqlCommand command = await context.GetMysqlCommand();
-                command.CommandText = "call AddCR(@t, @r, @m, @si)";
-                command.Parameters.AddWithValue("@t", cr.Trigger);
-                command.Parameters.AddWithValue("@r", cr.Resposta);
-                command.Parameters.AddWithValue("@m", cr.Modo);
-                command.Parameters.AddWithValue("@si", cr.Servidor.ID);
-                await command.ExecuteNonQueryAsync();
-            }
+            cr.Servidor = await context.Servidores.SingleOrDefaultAsync(x => x.ID == cr.Servidor.ID);
+
+            await context.CustomReactions.AddAsync(cr);
+            await context.SaveChangesAsync();
+
+            //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
+            //await context.Database.ExecuteSqlRawAsync("call AddCR({0}, {1}, {2}, {3})", cr.Trigger, cr.Resposta, cr.Modo, cr.Servidor.ID);
+            //_ = context.CustomReactions.FromSqlRaw("call AddCR({0}, {1}, {2}, {3})", cr.Trigger, cr.Resposta, cr.Modo, cr.Servidor.ID);
+            //await transation.CommitAsync();
+
+            //MySqlCommand command = await context.GetMysqlCommand();
+            //command.CommandText = "call AddCR(@t, @r, @m, @si)";
+            //command.Parameters.AddWithValue("@t", cr.Trigger);
+            //command.Parameters.AddWithValue("@r", cr.Resposta);
+            //command.Parameters.AddWithValue("@m", cr.Modo);
+            //command.Parameters.AddWithValue("@si", cr.Servidor.ID);
+            //await command.ExecuteNonQueryAsync();
         }
 
         public async Task<CustomReactions> Get(CustomReactions cr)
         {
-            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
-            {
-                return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
-            }
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
+
+            List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && x.Trigger.Contains(cr.Trigger)).ToListAsync();
+
+            Random random = new Random();
+
+            crs[random.Next(crs.Count)]
+
+            //return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
         }
 
         public async Task<CustomReactions[]> GetPage(CustomReactions cr, uint page)
