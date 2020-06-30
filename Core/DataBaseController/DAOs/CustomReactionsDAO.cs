@@ -39,40 +39,69 @@ namespace DataBaseController.DAOs
         {
             using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-            List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && x.Trigger.Contains(cr.Trigger)).ToListAsync();
+            List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && EF.Functions.Like(cr.Trigger.ToLower(), "%" + x.Trigger + "%")).ToListAsync();
 
             Random random = new Random();
 
-            crs[random.Next(crs.Count)]
+            CustomReactions customReactions = crs[random.Next(crs.Count)];
+
+            if (!customReactions.Modo)
+            {
+                if (customReactions.Trigger.ToLower() == cr.Trigger.ToLower())
+                {
+                    return customReactions;
+                }
+
+                return null;
+            }
+            else
+            {
+                return customReactions;
+            }
 
             //return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
         }
 
         public async Task<CustomReactions[]> GetPage(CustomReactions cr, uint page)
         {
-            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
+
+            page = (page - 1) * 10;
+
+            if (cr.Trigger != "")
             {
-                return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.ID, cr.Trigger, page).ToListAsync()).ToArray();
+                return await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && x.Trigger == cr.Trigger).Skip((int)page).Take(10).ToArrayAsync();
             }
+            else
+            {
+                return await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID).Skip((int)page).Take(10).ToArrayAsync();
+            }
+
+            //return (await context.CustomReactions.FromSqlRaw("call Lcr({0}, {1}, {2})", cr.Servidor.ID, cr.Trigger, page).ToListAsync()).ToArray();
         }
 
         public async Task<int> Delete(CustomReactions cr)
         {
-            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
-            {
-                int res = 0;
-                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
-                //res = await context.Database.ExecuteSqlRawAsync("call DeleteCR({0}, {1})", cr.Servidor.ID, cr.Cod);
-                //await transation.CommitAsync();
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-                MySqlCommand command = await context.GetMysqlCommand();
-                command.CommandText = "call DeleteCR(@si, @c)";
-                command.Parameters.AddWithValue("@si", cr.Servidor.ID);
-                command.Parameters.AddWithValue("@c", cr.Cod);
-                res = await command.ExecuteNonQueryAsync();
+            CustomReactions customReactions = await context.CustomReactions.SingleOrDefaultAsync(x => x.Cod == cr.Cod && x.Servidor.ID == cr.Servidor.ID);
 
-                return res;
-            }
+            context.CustomReactions.Remove(customReactions);
+
+            return await context.SaveChangesAsync();
+
+            //int res = 0;
+            ////IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.ReadUncommitted);
+            ////res = await context.Database.ExecuteSqlRawAsync("call DeleteCR({0}, {1})", cr.Servidor.ID, cr.Cod);
+            ////await transation.CommitAsync();
+
+            //MySqlCommand command = await context.GetMysqlCommand();
+            //command.CommandText = "call DeleteCR(@si, @c)";
+            //command.Parameters.AddWithValue("@si", cr.Servidor.ID);
+            //command.Parameters.AddWithValue("@c", cr.Cod);
+            //res = await command.ExecuteNonQueryAsync();
+
+            //return res;
         }
     }
 }
