@@ -18,10 +18,9 @@ namespace KurosawaCore.Modulos
         [Command("limparchat")]
         [Aliases("prune", "clear")]
         [Description("Limpa o chat.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
-        [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
         public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens para apagar.")]int quantidade = 10, [Description("Usuário que você deseja que as mensagens sejam apagadas.")][RemainingText]DiscordUser usuario = null)
         {
-            if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageMessages))
+            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageMessages))
                 throw new Exception();
 
             if (usuario == null)
@@ -61,30 +60,27 @@ namespace KurosawaCore.Modulos
 
         [Command("kick")]
         [Description("Expulsa um usuário.\n\n(Observação: você precisa da permissão de expulsar membros para poder usar esse comando.)")]
-        [RequirePermissions(Permissions.KickMembers & Permissions.Administrator)]
         public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.KickMembers))
+            if (!ctx.HasPermissions(Permissions.KickMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.expulso);
         }
 
         [Command("ban")]
         [Description("Bane um usuário.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
-        [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
         public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.BanMembers))
+            if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.banido);
         }
 
         [Command("softban")]
         [Description("Expulsa um usuário e apaga suas mensagens.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
-        [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
         public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.BanMembers))
+            if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.removido);
         }

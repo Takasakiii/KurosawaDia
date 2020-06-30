@@ -150,10 +150,9 @@ namespace KurosawaCore.Modulos
 
         [Command("say")]
         [Description("Faz eu falar algo à sua vontade.")]
-        [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
         public async Task Say(CommandContext ctx, [Description("Mensagem para eu falar.")][RemainingText]string mensagem)
         {
-            if (ctx.Channel.IsPrivate || mensagem == "" || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageMessages))
+            if (ctx.Channel.IsPrivate || mensagem == "" || !ctx.HasPermissions(Permissions.ManageMessages))
                 throw new Exception();
 
             await new StringVariablesExtension(ctx.Member, ctx.Guild).SendMessage(ctx.Message.Channel, mensagem);
@@ -165,7 +164,7 @@ namespace KurosawaCore.Modulos
         [Description("Menciona alguém escolhido aleatóriamente do seu servidor (like @someone).\n\n(Observação: você precisa de permissão pra enviar um everyone ou here no canal para poder usar este comando).")]
         public async Task Someone(CommandContext ctx, [Description("Cargo que o usuário escolhido deva ter (caso não informado, o bot escolherá um aleatório do servidor).")][RemainingText]DiscordRole cargo = null)
         {
-            if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.MentionEveryone))
+            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.MentionEveryone))
                 throw new Exception("Comando executado no privado.");
             List<DiscordMember> membros;
             if (cargo != null)
