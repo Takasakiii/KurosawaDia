@@ -18,7 +18,8 @@ namespace KurosawaCore.Extensions
                 {
                     ID = usuario.Id
                 }
-            }) ?? new AdmsBot { 
+            }) ?? new AdmsBot
+            {
                 Permissao = (usuario.Id == IDOwner) ? TiposAdms.Dono : TiposAdms.Nenhuma
             };
 

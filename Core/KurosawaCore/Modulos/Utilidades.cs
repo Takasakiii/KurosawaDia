@@ -33,8 +33,8 @@ namespace KurosawaCore.Modulos
 
         [Command("emoji")]
         [Aliases("emote", "emogi")]
-        [Description("Almenta o tamanho de um emote, e tambem permite você pegar a url do mesmo")]
-        public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar")][RemainingText]string emoji)
+        [Description("Aumenta o tamanho de um emoji e também permite você pegar a url do mesmo.")]
+        public async Task Emoji(CommandContext ctx, [Description("Emoji que você deseja visualizar.")][RemainingText]string emoji)
         {
             if (ctx.Channel.IsPrivate || emoji == null)
                 throw new Exception();
@@ -134,8 +134,8 @@ namespace KurosawaCore.Modulos
 
         [Command("whatsify")]
         [Aliases("copipasta", "zapironga")]
-        [Description("Converte um texto com emoji do discord para emoji universais")]
-        public async Task Whatsify(CommandContext ctx, [Description("Texto que deseja converter")][RemainingText]string mensagem)
+        [Description("Converte um texto com emoji do Discord para um texto com emojis universais.")]
+        public async Task Whatsify(CommandContext ctx, [Description("O texto que deseja converter.")][RemainingText]string mensagem)
         {
             if (string.IsNullOrEmpty(mensagem))
                 throw new Exception();
@@ -149,11 +149,10 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("say")]
-        [Description("Cria uma mensagem no servidor")]
-        [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
-        public async Task Say(CommandContext ctx, [Description("Mensagem para converter na mensagem")][RemainingText]string mensagem)
+        [Description("Faz eu falar algo à sua vontade.")]
+        public async Task Say(CommandContext ctx, [Description("Mensagem para eu falar.")][RemainingText]string mensagem)
         {
-            if (ctx.Channel.IsPrivate || mensagem == "" || !PermissionExtension.ValidarPermissoes(ctx, Permissions.Administrator, Permissions.ManageMessages))
+            if (ctx.Channel.IsPrivate || mensagem == "" || !ctx.HasPermissions(Permissions.ManageMessages))
                 throw new Exception();
 
             await new StringVariablesExtension(ctx.Member, ctx.Guild).SendMessage(ctx.Message.Channel, mensagem);
@@ -161,14 +160,14 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("mentionrandom")]
-        [Aliases("someone", "mensionaraleatorio")]
-        [Description("Mensiona alguem random do seu servidor, like @someone\n\n(Observação: você precisa de permissão pra enviar um everyone ou here para poder usar esse comando)")]
-        public async Task Someone(CommandContext ctx, [Description("Cargo que deseja filtrar o comando")][RemainingText]DiscordRole cargo = null)
+        [Aliases("someone", "mencionaraleatorio")]
+        [Description("Menciona alguém escolhido aleatóriamente do seu servidor (like @someone).\n\n(Observação: você precisa de permissão pra enviar um everyone ou here no canal para poder usar este comando).")]
+        public async Task Someone(CommandContext ctx, [Description("Cargo que o usuário escolhido deva ter (caso não informado, o bot escolherá um aleatório do servidor).")][RemainingText]DiscordRole cargo = null)
         {
-            if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.MentionEveryone))
-                throw new Exception("Comando execultado no privado");
+            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.MentionEveryone))
+                throw new Exception("Comando executado no privado.");
             List<DiscordMember> membros;
-            if(cargo != null)
+            if (cargo != null)
             {
                 membros = ctx.Guild.Members.Where(x => x.Roles.Contains(cargo)).ToList();
             }
@@ -176,7 +175,7 @@ namespace KurosawaCore.Modulos
             {
                 membros = ctx.Guild.Members.ToList();
             }
-            string[] frases = { "eu te invoco", "acorde!!!!", "vamos o show vai começar!", "seu amigo ta te chamando." };
+            string[] frases = { "eu te invoco!", "acorde!!!!", "vamos, o show vai começar!", "seu amigo está te chamando." };
             Random rnd = new Random();
             await ctx.RespondAsync($"🎲{membros[rnd.Next(0, membros.Count)].Mention}, {frases[rnd.Next(0, frases.Length)]}🎲");
         }

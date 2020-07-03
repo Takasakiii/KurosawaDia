@@ -1,9 +1,6 @@
 ﻿using DataBaseController.DAOs;
 using DataBaseController.Modelos;
 using DSharpPlus.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Extensions
@@ -14,7 +11,7 @@ namespace KurosawaCore.Extensions
         internal static async Task<string> GetPrefix(DiscordMessage msg)
         {
             if (!msg.Channel.IsPrivate)
-            {              
+            {
                 Servidores s = await new Usuarios_ServidoresDAO().Add(new Servidores_Usuarios
                 {
                     Servidor = new Servidores

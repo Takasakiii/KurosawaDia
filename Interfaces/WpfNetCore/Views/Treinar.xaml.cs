@@ -1,18 +1,11 @@
 ﻿using ConfigController.DAOs;
 using ConfigController.EntityConfiguration;
 using ConfigController.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfNetCore.Views
 {
@@ -176,8 +169,8 @@ namespace WpfNetCore.Views
             {
                 if (uint.TryParse(ApiCod.Text, out uint cod))
                 {
-                    await new ApiConfigDAO().Deletar(new ApiConfig 
-                    { 
+                    await new ApiConfigDAO().Deletar(new ApiConfig
+                    {
                         Cod = cod
                     });
                     await ApisConfigLer();
@@ -195,7 +188,7 @@ namespace WpfNetCore.Views
 
         private async void SalvarApi_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ApiCod.Text == "0"  && ApiName.Text != "" && ApiKey.Text != "")
+            if (ApiCod.Text == "0" && ApiName.Text != "" && ApiKey.Text != "")
             {
                 if (uint.TryParse(ApiCod.Text, out uint cod))
                 {

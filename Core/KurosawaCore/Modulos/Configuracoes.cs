@@ -22,7 +22,7 @@ namespace KurosawaCore.Modulos
         [Description("Modifica o meu prefixo em um servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo no servidor.")]string novoPrefixo)
         {
-            if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
+            if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageGuild))
                 throw new Exception();
 
             DiscordMessage msg = await ctx.RespondAsync(embed: new DiscordEmbedBuilder
@@ -34,7 +34,7 @@ namespace KurosawaCore.Modulos
             DiscordEmoji emoji = DiscordEmoji.FromUnicode("✅");
             await msg.CreateReactionAsync(emoji);
             ReactionContext contexto = await ctx.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, message: msg, user: ctx.User);
-            if(contexto != null)
+            if (contexto != null)
             {
                 await EmojiModificar(ctx, msg, novoPrefixo);
             }
@@ -62,7 +62,7 @@ namespace KurosawaCore.Modulos
         [Description("Define a mensagem de bem-vindo do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetBemVindo(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de bem-vindo.")][RemainingText] string message)
         {
-            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
+            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageGuild))
                 throw new Exception();
 
             await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
@@ -88,7 +88,7 @@ namespace KurosawaCore.Modulos
         {
             canal ??= ctx.Channel;
 
-            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
+            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !ctx.HasPermissions(Permissions.ManageGuild))
                 throw new Exception();
 
             await new CanaisDAO().Adicionar(new Canais
@@ -114,7 +114,7 @@ namespace KurosawaCore.Modulos
         [Description("Define a mensagem de saída do servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetSaida(CommandContext ctx, [Description("Texto ou embed que deseja definir como mensagem de saída.")][RemainingText] string message)
         {
-            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild) || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
+            if (string.IsNullOrEmpty(message) || ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageGuild))
                 throw new Exception();
 
             await new ConfiguracoesServidoresDAO().Add(new ConfiguracoesServidores
@@ -139,7 +139,7 @@ namespace KurosawaCore.Modulos
         public async Task SetCanalSaida(CommandContext ctx, [Description("Canal onde será enviada a mensagem de bem-vindo.")]DiscordChannel canal = null)
         {
             canal ??= ctx.Channel;
-            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageGuild))
+            if (canal.IsPrivate || canal.Type != ChannelType.Text || canal.GuildId != ctx.Guild.Id || !ctx.HasPermissions(Permissions.ManageGuild))
                 throw new Exception();
 
             await new CanaisDAO().Adicionar(new Canais

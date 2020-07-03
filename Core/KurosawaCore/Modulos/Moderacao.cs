@@ -17,11 +17,10 @@ namespace KurosawaCore.Modulos
     {
         [Command("limparchat")]
         [Aliases("prune", "clear")]
-        [Description("Limpa o chat.")]
-        [RequirePermissions(Permissions.ManageMessages & Permissions.Administrator)]
+        [Description("Limpa o chat.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
         public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens para apagar.")]int quantidade = 10, [Description("Usuário que você deseja que as mensagens sejam apagadas.")][RemainingText]DiscordUser usuario = null)
         {
-            if (ctx.Channel.IsPrivate || !PermissionExtension.ValidarPermissoes(ctx, Permissions.ManageMessages))
+            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageMessages))
                 throw new Exception();
 
             if (usuario == null)
@@ -60,31 +59,28 @@ namespace KurosawaCore.Modulos
         }
 
         [Command("kick")]
-        [Description("Expulsa um usuário.")]
-        [RequirePermissions(Permissions.KickMembers & Permissions.Administrator)]
+        [Description("Expulsa um usuário.\n\n(Observação: você precisa da permissão de expulsar membros para poder usar esse comando.)")]
         public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.KickMembers))
+            if (!ctx.HasPermissions(Permissions.KickMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.expulso);
         }
 
         [Command("ban")]
-        [Description("Banir um usuário.")]
-        [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
+        [Description("Bane um usuário.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
         public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.BanMembers))
+            if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.banido);
         }
 
         [Command("softban")]
-        [Description("Expulsa um usuário e apaga suas mensagens.")]
-        [RequirePermissions(Permissions.BanMembers & Permissions.Administrator)]
+        [Description("Expulsa um usuário e apaga suas mensagens.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
         public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
         {
-            if (!PermissionExtension.ValidarPermissoes(ctx, Permissions.BanMembers))
+            if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.removido);
         }
@@ -117,7 +113,7 @@ namespace KurosawaCore.Modulos
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
                 Title = "**Buuuu buuuu desu waaaa!!!!!**",
-                Description = $"Você foi {tipo} do servidor **{ctx.Guild.Name}**",
+                Description = $"Você foi {tipo} do servidor **{ctx.Guild.Name}**.",
                 ImageUrl = "https://i.imgur.com/bwifre6.jpg",
                 Color = DiscordColor.Black
             };
@@ -127,7 +123,7 @@ namespace KurosawaCore.Modulos
                 eb.AddField("Motivo: ", motivo);
             }
 
-            eb.AddField("Responsavel: ", $"{ctx.User.Username}#{ctx.User.Discriminator}");
+            eb.AddField("Responsável: ", $"{ctx.User.Username}#{ctx.User.Discriminator}");
 
             await dm.SendMessageAsync(embed: eb);
 
@@ -136,13 +132,13 @@ namespace KurosawaCore.Modulos
             switch (tipo)
             {
                 case TipoEliminar.expulso:
-                    await membro.RemoveAsync($"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.RemoveAsync($"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     break;
                 case TipoEliminar.banido:
-                    await membro.BanAsync(7, $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, $"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     break;
                 case TipoEliminar.removido:
-                    await membro.BanAsync(7, $"Responsavel: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, $"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
                     await ctx.Guild.UnbanMemberAsync(membro);
                     break;
                 default:

@@ -13,7 +13,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("CustomReactions");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("cod_cr").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("cod_cr").HasColumnType("bigint unsigned").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Trigger
             builder.Property(x => x.Trigger).HasColumnName("trigger_cr").HasColumnType("text").HasCharSet("utf8mb4").IsRequired();
             //Resposta

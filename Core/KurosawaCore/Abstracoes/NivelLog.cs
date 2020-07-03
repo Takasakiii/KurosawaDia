@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KurosawaCore.Abstracoes
+﻿namespace KurosawaCore.Abstracoes
 {
     public enum NivelLog : byte
     {

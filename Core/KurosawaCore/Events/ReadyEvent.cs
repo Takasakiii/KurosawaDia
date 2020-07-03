@@ -27,7 +27,8 @@ namespace KurosawaCore.Events
 
         private async void Read()
         {
-            try {
+            try
+            {
                 if (Status != null && Status.Length > 0)
                     while (true)
                         foreach (StatusConfig status in Status)
@@ -37,7 +38,7 @@ namespace KurosawaCore.Events
                                 Name = status.StatusJogo
                             };
                             await Cliente.UpdateStatusAsync(game);
-                            await Task.Delay(10000);
+                            Thread.Sleep(10000);
                         }
             }
             catch (Exception ex)

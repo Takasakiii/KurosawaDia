@@ -1,7 +1,7 @@
 ﻿using DataBaseController.Contexts;
+using DataBaseController.Injections;
 using MarinaSQL.Controllers;
 using System;
-using DataBaseController.Injections;
 using System.Threading.Tasks;
 
 namespace MarinaSQL
@@ -20,7 +20,7 @@ namespace MarinaSQL
                 {
                     context.Database.InjectSql("SET GLOBAL log_bin_trust_function_creators = 1;\n\n" + await new SqlsControllers($"{AppDomain.CurrentDomain.BaseDirectory}SQLs").GetSql());
                 }
-            }    
+            }
         }
     }
 }

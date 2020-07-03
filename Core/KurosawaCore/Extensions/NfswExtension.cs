@@ -38,11 +38,11 @@ namespace KurosawaCore.Extensions
         {
             string url;
             int escolha;
-            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = guilId})).Especial >= (byte)TiposServidores.LolisEdition)
+            if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = guilId })).Especial >= (byte)TiposServidores.LolisEdition)
                 escolha = new Random().Next(3);
             else
                 escolha = new Random().Next(2);
-            
+
 
             if (escolha == 0)
             {

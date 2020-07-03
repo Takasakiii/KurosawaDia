@@ -55,7 +55,7 @@ namespace ConsoleNetCore
                 AConsole.WriteLine("Definindo as Configurações das Apis (0 no nome termina as adições):", Color.Yellow);
                 ApiConfigDAO api = new ApiConfigDAO();
                 List<ApiConfig> temp = new List<ApiConfig>();
-                while(true)
+                while (true)
                 {
                     ApiConfig configapi = new ApiConfig();
                     Console.Write("Nome da Api: ");
@@ -108,7 +108,7 @@ namespace ConsoleNetCore
                     AConsole.WriteAscii("Kurosawa Dia <3", Color.DarkMagenta);
                     await kud.Iniciar();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     exception = true;
                     await Task.Delay(10000);

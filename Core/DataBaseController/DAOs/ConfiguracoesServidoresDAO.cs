@@ -2,9 +2,7 @@
 using DataBaseController.Factory;
 using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using MySql.Data.MySqlClient;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,28 +12,48 @@ namespace DataBaseController.DAOs
     {
         public async Task<ConfiguracoesServidores> Get(ConfiguracoesServidores config)
         {
-            using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
-            {
-                return (await context.ConfiguracoesServidores.FromSqlRaw("call GetServerConfig({0}, {1})", config.Servidor.ID, config.Configuracoes).ToArrayAsync()).FirstOrDefault();
-            }
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
+
+            return await context.ConfiguracoesServidores.SingleOrDefaultAsync(x => x.Servidor.ID == config.Servidor.ID && x.Configuracoes == config.Configuracoes);
+
+            //using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            //{
+            //    return (await context.ConfiguracoesServidores.FromSqlRaw("call GetServerConfig({0}, {1})", config.Servidor.ID, config.Configuracoes).ToArrayAsync()).FirstOrDefault();
+            //}
         }
 
         public async Task Add(ConfiguracoesServidores config)
         {
-            using(Kurosawa_DiaContext context = new Kurosawa_DiaContext())
-            {
-                //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
-                //await context.Database.ExecuteSqlRawAsync("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
-                //_ = context.ConfiguracoesServidores.FromSqlRaw("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
-                //await transation.CommitAsync();
+            using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-                MySqlCommand command = await context.GetMysqlCommand();
-                command.CommandText = "call SetServerConfig (@si, @c, @v)";
-                command.Parameters.AddWithValue("@si", config.Servidor.ID);
-                command.Parameters.AddWithValue("@c", config.Configuracoes);
-                command.Parameters.AddWithValue("@v", config.Value);
-                await command.ExecuteNonQueryAsync();
+            ConfiguracoesServidores configuracoesServidores = await context.ConfiguracoesServidores.SingleOrDefaultAsync(x => x.Servidor.ID == config.Servidor.ID && x.Configuracoes == config.Configuracoes);
+
+            if (configuracoesServidores == null)
+            {
+                await context.ConfiguracoesServidores.AddAsync(config);
+                await context.SaveChangesAsync();
             }
+            else
+            {
+                config.Cod = configuracoesServidores.Cod;
+                context.Update(config);
+                await context.SaveChangesAsync();
+            }
+
+            //using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
+            //{
+            //    //IDbContextTransaction transation = await context.Database.BeginTransactionAsync(IsolationLevel.Snapshot);
+            //    //await context.Database.ExecuteSqlRawAsync("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
+            //    //_ = context.ConfiguracoesServidores.FromSqlRaw("call SetServerConfig ({0}, {1}, {2})", config.Servidor.ID, config.Configuracoes, config.Value);
+            //    //await transation.CommitAsync();
+
+            //    MySqlCommand command = await context.GetMysqlCommand();
+            //    command.CommandText = "call SetServerConfig (@si, @c, @v)";
+            //    command.Parameters.AddWithValue("@si", config.Servidor.ID);
+            //    command.Parameters.AddWithValue("@c", config.Configuracoes);
+            //    command.Parameters.AddWithValue("@v", config.Value);
+            //    await command.ExecuteNonQueryAsync();
+            //}
         }
     }
 }
