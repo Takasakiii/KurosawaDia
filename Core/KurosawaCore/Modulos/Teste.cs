@@ -16,9 +16,8 @@ namespace KurosawaCore.Modulos
         [Description("testa paginators")]
         public async Task PaginatorTest(CommandContext ctx, uint codigo)
         {
-            InteractivityModule interativy = ctx.Client.GetInteractivityModule();
 
-            await new NHentaiExtension(ctx).LerDoujin(codigo);
+            //await new NHentaiExtension(ctx).LerDoujin(codigo);
             //PagesExtensions pgs = new PagesExtensions();
             //pgs.AdicionarPaginaString("pg 1");
             //pgs.AdicionarPaginaString("pg 2");
