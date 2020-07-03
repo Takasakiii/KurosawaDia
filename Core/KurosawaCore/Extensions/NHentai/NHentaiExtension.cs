@@ -111,12 +111,12 @@ namespace KurosawaCore.Extensions.NHentai
             return BaseCdnUrl + string.Format(Pagina, doujin.MediaId, posicao, (doujin.Imagens.Paginas[posicao - 1].Tipo == "j") ? "jpg" : "png");
         }
 
-        internal async Task Pesquisar (string query)
-        {
-            await Task.Yield();
+        //internal async Task Pesquisar (string query)
+        //{
+        //    await Task.Yield();
 
 
-        }
+        //}
 
     }
 }
