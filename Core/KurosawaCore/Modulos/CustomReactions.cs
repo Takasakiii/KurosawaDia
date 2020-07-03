@@ -1,5 +1,6 @@
 ﻿using DataBaseController.DAOs;
 using DataBaseController.Modelos;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
@@ -88,7 +89,7 @@ namespace KurosawaCore.Modulos
 
         private async Task CAcr(CommandContext ctx, string args, bool modo = false)
         {
-            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|") || (ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && !PermissionExtension.ValidarPermissoes(ctx)))
+            if (string.IsNullOrEmpty(args) || ctx.Channel.IsPrivate || !args.Contains("|") || (ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() == 0 && !ctx.HasPermissions(Permissions.ManageGuild)))
                 throw new Exception();
             string[] split = args.Split("|");
             if (split.Length < 2)
@@ -116,7 +117,7 @@ namespace KurosawaCore.Modulos
         [Description("Remove uma Reação Customizada especifica")]
         public async Task Dcr(CommandContext ctx, [Description("Codigo da Reação Customizada")] uint codigo)
         {
-            if ((ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() != 0 || PermissionExtension.ValidarPermissoes(ctx)) && await new CustomReactionsDAO().Delete(new Model
+            if ((ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() != 0 || ctx.HasPermissions(Permissions.None)) && await new CustomReactionsDAO().Delete(new Model
             {
                 Cod = codigo,
                 Servidor = new Servidores
