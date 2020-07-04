@@ -41,7 +41,7 @@ namespace DataBaseController.DAOs
 
             List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && EF.Functions.Like(cr.Trigger.ToLower(), "%" + x.Trigger.ToLower() + "%")).ToListAsync();
 
-            if (crs == null)
+            if (crs.Count == 0)
             {
                 return null;
             }
