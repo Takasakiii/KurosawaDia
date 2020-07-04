@@ -21,7 +21,7 @@ namespace DataBaseController.Contexts
         public DbSet<Insultos> Insultos { get; set; }
 
 #if DEBUG
-        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        public static readonly ILoggerFactory Logger = LoggerFactory.Create(builder => { builder.AddConsole(); });
 #endif
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +29,7 @@ namespace DataBaseController.Contexts
             optionsBuilder.UseMySql($"Server = {DBDataSingleton.ConfigDB.IP}; Port = {DBDataSingleton.ConfigDB.Porta}; Database = {DBDataSingleton.ConfigDB.Database}; Uid = {DBDataSingleton.ConfigDB.User}; Pwd = {DBDataSingleton.ConfigDB.Senha};");
 
 #if DEBUG
-            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            optionsBuilder.UseLoggerFactory(Logger);
 #endif
         }
 

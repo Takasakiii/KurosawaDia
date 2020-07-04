@@ -39,25 +39,37 @@ namespace DataBaseController.DAOs
         {
             using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-            List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && EF.Functions.Like(cr.Trigger.ToLower(), "%" + x.Trigger + "%")).ToListAsync();
+            List<CustomReactions> crs = await context.CustomReactions.Where(x => x.Servidor.ID == cr.Servidor.ID && EF.Functions.Like(cr.Trigger.ToLower(), "%" + x.Trigger.ToLower() + "%")).ToListAsync();
+
+            if (crs == null)
+            {
+                return null;
+            }
 
             Random random = new Random();
 
-            CustomReactions customReactions = crs[random.Next(crs.Count)];
-
-            if (!customReactions.Modo)
+            do
             {
-                if (customReactions.Trigger.ToLower() == cr.Trigger.ToLower())
+                int crIndex = random.Next(crs.Count);
+
+                CustomReactions customReactions = crs[crIndex];
+                crs.RemoveAt(crIndex);
+
+                if (!customReactions.Modo)
+                {
+                    if (customReactions.Trigger.ToLower() == cr.Trigger.ToLower())
+                    {
+                        return customReactions;
+                    }
+                }
+                else
                 {
                     return customReactions;
                 }
 
-                return null;
-            }
-            else
-            {
-                return customReactions;
-            }
+            } while (crs.Count != 0);
+
+            return null;
 
             //return (await context.CustomReactions.FromSqlRaw("call CREvent({0}, {1})", cr.Servidor.ID, cr.Trigger).ToListAsync()).FirstOrDefault();
         }
