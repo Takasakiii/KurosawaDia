@@ -17,37 +17,63 @@ namespace KurosawaCore.Modulos
     {
         [Command("limparchat")]
         [Aliases("prune", "clear")]
-        [Description("Limpa o chat.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
+        [Description("Limpa as mensagens de até 13 dias atras.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
         public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens para apagar.")]int quantidade = 10, [Description("Usuário que você deseja que as mensagens sejam apagadas.")][RemainingText]DiscordUser usuario = null)
         {
-            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageMessages))
+            if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageMessages) || quantidade > 1000)
                 throw new Exception();
-
             if (usuario == null)
             {
-                IReadOnlyList<DiscordMessage> mensagens = await ctx.Channel.GetMessagesAsync(quantidade);
-                await ctx.Channel.DeleteMessagesAsync(mensagens);
+                do
+                {
+                    IReadOnlyList<DiscordMessage> mensagens = await ctx.Channel.GetMessagesAsync((quantidade < 75) ? quantidade : 75);
+                    quantidade -= 75;
+                    if(mensagens.Count > 0)
+                    {
+                        await ctx.Channel.DeleteMessagesAsync(mensagens);
+                    }
+                    await Task.Delay(1000);
+                } while (quantidade > 0);
             }
             else
             {
-                List<DiscordMessage> mensagens = new List<DiscordMessage>();
-                ulong referencia = (await ctx.Channel.GetMessageAsync(ctx.Channel.LastMessageId)).Id;
-
+                DiscordMessage referencia = await ctx.Channel.GetMessageAsync(ctx.Channel.LastMessageId);
                 int vezes = 0;
 
                 do
                 {
-                    mensagens.AddRange((await ctx.Channel.GetMessagesAsync(before: referencia)).Where(x => x.Author == usuario));
-                    referencia = mensagens.Last().Id;
+                    
+                    DiscordMessage[] msgsnaotratadas = (await ctx.Channel.GetMessagesAsync(before: referencia.Id)).ToArray();
+                    IEnumerable<DiscordMessage> msgs = msgsnaotratadas[..^1]
+                        .Where(x => x.Author == usuario && x.Id != referencia.Id && x.Timestamp.CompareTo(DateTimeOffset.UtcNow.AddDays(-13)) > 0);
+                    if (referencia.Author.Id == usuario.Id)
+                    {
+                        await referencia.DeleteAsync();
+                    }
+                    referencia = msgsnaotratadas.Last();
                     vezes++;
+                    
+                    if (msgs.Count() > 0)
+                    {
+                        if(msgs.Count() > quantidade)
+                        {
+                            List<DiscordMessage> temp = new List<DiscordMessage>();
+                            for(int i = 0; i < quantidade; i++)
+                            {
+                                temp.Add(msgs.ElementAt(i));
+                            }
+                            msgs = temp;
+                        }
+                        quantidade -= msgs.Count();
+                        await ctx.Channel.DeleteMessagesAsync(msgs);
+                    }
                     if (vezes >= 3)
                     {
                         break;
                     }
-                } while (mensagens.Count < quantidade);
-
-                await ctx.Channel.DeleteMessagesAsync(mensagens.GetRange(0, (quantidade > mensagens.Count) ? mensagens.Count : quantidade));
-                await ctx.Message.DeleteAsync();
+                    await Task.Delay(1500);
+                } while (quantidade > 0);              
+               
             }
         }
 
