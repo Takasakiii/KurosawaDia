@@ -17,6 +17,11 @@ namespace DataBaseController.DAOs
             {
                 Fuck[] fucks = await context.Fuck.ToArrayAsync();
 
+                if (fucks.Count() == 0)
+                {
+                    return null;
+                }
+
                 Random random = new Random();
 
                 return fucks[random.Next(fucks.Length)];
@@ -24,6 +29,11 @@ namespace DataBaseController.DAOs
             else
             {
                 Fuck[] fucks = await context.Fuck.Where(x => !x.Explicit).ToArrayAsync();
+
+                if (fucks.Count() == 0)
+                {
+                    return null;
+                }
 
                 Random random = new Random();
 
