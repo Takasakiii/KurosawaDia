@@ -117,7 +117,7 @@ namespace KurosawaCore.Modulos
         [Description("Remove uma Reação Customizada especifica")]
         public async Task Dcr(CommandContext ctx, [Description("Codigo da Reação Customizada")] uint codigo)
         {
-            if ((ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() != 0 || ctx.HasPermissions(Permissions.None)) && await new CustomReactionsDAO().Delete(new Model
+            if ((ctx.Member.Roles.Where(x => x.Name == "Ajudante de Idol").Count() != 0 || ctx.HasPermissions()) && await new CustomReactionsDAO().Delete(new Model
             {
                 Cod = codigo,
                 Servidor = new Servidores
