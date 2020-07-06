@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
 {
-    [Modulo("Teste Modulo")]
-    [Description("Parte de teste e instavel, use por sua conta em risco")]
-    [Hidden]
     public class Teste
     {
         [Command("page")]
