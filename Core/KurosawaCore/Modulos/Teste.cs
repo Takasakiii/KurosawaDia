@@ -13,7 +13,7 @@ namespace KurosawaCore.Modulos
     public class Teste
     {
         [Command("page")]
-        [Description("testa paginators")]
+        [Description("testa paginators\n\n(Observação: precisa ser mt gay pra usar isso.)")]
         public async Task PaginatorTest(CommandContext ctx, uint codigo)
         {
 

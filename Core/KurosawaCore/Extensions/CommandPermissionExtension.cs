@@ -14,5 +14,15 @@ namespace KurosawaCore.Extensions
 
             return false;
         }
+
+        internal static bool HasPermissions(this CommandContext context)
+        {
+            if (context.Member.IsOwner || context.Channel.PermissionsFor(context.Member).HasPermission(Permissions.Administrator))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

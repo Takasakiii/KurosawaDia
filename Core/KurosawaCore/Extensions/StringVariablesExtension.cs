@@ -80,6 +80,20 @@ namespace KurosawaCore.Extensions
             }
         }
 
+        internal async Task ModifyMessage(DiscordMessage message, string msg)
+        {
+            try
+            {
+                DiscordEmbed embed = GetJsonEmbed(ref msg);
+                await message.ModifyAsync(msg, embed: embed);
+            }
+            catch
+            {
+                msg = TrocarVariaveis(msg);
+                await message.ModifyAsync(msg);
+            }
+        }
+
         private string TrocarVariaveis(string message)
         {
             foreach (Variables tipo in Vars)
