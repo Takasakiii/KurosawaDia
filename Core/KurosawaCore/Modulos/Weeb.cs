@@ -263,11 +263,15 @@ namespace KurosawaCore.Modulos
                         textoFormatado += $":regional_indicator_{ch}:";
                     else if (charCategoria == UnicodeCategory.DecimalDigitNumber)
                         textoFormatado += $":{(NumberToText)Convert.ToByte(ch.ToString())}:";
-                    else if (charCategoria == UnicodeCategory.LineSeparator)
+                    else if (ch == '\n')
                         textoFormatado += ch;
                     else if (charCategoria == UnicodeCategory.SpaceSeparator)
                         textoFormatado += "   ";
-                    else if(texto.Length - i != 1)
+                    else if (ch == '?')
+                        textoFormatado += "❓";
+                    else if (ch == '!')
+                        textoFormatado += "❗";
+                    else if (texto.Length - i != 1)
                     {
                         if (Emoji.IsEmoji($"{ch}{texto[i + 1]}", 1))
                         {
@@ -275,7 +279,7 @@ namespace KurosawaCore.Modulos
                             i++;
                         }
                         else
-                            switch($"{ch}{texto[i + 1]}")
+                            switch ($"{ch}{texto[i + 1]}")
                             {
                                 case "🏻":
                                 case "🏼":
