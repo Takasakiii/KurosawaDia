@@ -13,11 +13,11 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("Canais");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("cod").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("cod").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Nome
             builder.Property(x => x.Nome).HasColumnName("nome").HasColumnType("varchar(255)").HasCharSet("utf8mb4").IsRequired();
             //ID
-            builder.Property(x => x.ID).HasColumnName("id").HasColumnType("bigint").IsRequired();
+            builder.Property(x => x.ID).HasColumnName("id").IsRequired();
             //Servidor
             builder.HasOne(x => x.Servidor).WithMany(x => x.Canais).HasForeignKey("codigo_servidor").IsRequired();
         }

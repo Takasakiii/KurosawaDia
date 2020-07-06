@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataBaseController.Migrations.KurosawaDatabase
+namespace DataBaseController.Migrations
 {
-    public partial class KurosawaConfig : Migration
+    public partial class Base : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +11,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Servidores",
                 columns: table => new
                 {
-                    codigo_servidor = table.Column<long>(type: "bigint", nullable: false)
+                    codigo_servidor = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    id_servidor = table.Column<long>(type: "bigint", nullable: false),
+                    id_servidor = table.Column<ulong>(nullable: false),
                     nome_servidor = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     especial_servidor = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)1),
@@ -28,9 +28,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Usuarios",
                 columns: table => new
                 {
-                    codigo_usuario = table.Column<long>(type: "bigint", nullable: false)
+                    codigo_usuario = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    id_usuario = table.Column<long>(type: "bigint", nullable: false),
+                    id_usuario = table.Column<ulong>(nullable: false),
                     nome_usuario = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -43,13 +43,13 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Canais",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TipoCanal = table.Column<byte>(nullable: false),
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    id = table.Column<long>(type: "bigint", nullable: false),
-                    codigo_servidor = table.Column<long>(nullable: false)
+                    id = table.Column<ulong>(nullable: false),
+                    codigo_servidor = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,13 +66,13 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Cargos",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     tipoCargos = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)0),
                     nome = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    id = table.Column<long>(type: "bigint", nullable: false),
-                    codigo_servidor = table.Column<long>(nullable: false)
+                    id = table.Column<ulong>(nullable: false),
+                    codigo_servidor = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,10 +89,10 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "ConfiguracoesServidoresAplicada",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     configuracoes = table.Column<int>(type: "int", nullable: false),
-                    servidor = table.Column<long>(nullable: false),
+                    servidor = table.Column<ulong>(nullable: false),
                     valor = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -111,14 +111,14 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "CustomReactions",
                 columns: table => new
                 {
-                    cod_cr = table.Column<long>(type: "bigint", nullable: false)
+                    cod_cr = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     trigger_cr = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     resposta_cr = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     modo_cr = table.Column<bool>(type: "bool", nullable: false),
-                    servidor_cr = table.Column<long>(nullable: false)
+                    servidor_cr = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,9 +135,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "AdmsBot",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    usuario = table.Column<long>(nullable: false),
+                    usuario = table.Column<ulong>(nullable: false),
                     permissao = table.Column<sbyte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
@@ -155,9 +155,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Fuck",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    codigo_usuario = table.Column<long>(nullable: false),
+                    codigo_usuario = table.Column<ulong>(nullable: false),
                     urlImage = table.Column<string>(type: "varchar(255)", nullable: false),
                     explicitImage = table.Column<bool>(type: "bool", nullable: false, defaultValue: false)
                 },
@@ -176,9 +176,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Insultos",
                 columns: table => new
                 {
-                    cod = table.Column<long>(type: "bigint", nullable: false)
+                    cod = table.Column<ulong>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    usuario = table.Column<long>(nullable: false),
+                    usuario = table.Column<ulong>(nullable: false),
                     insulto = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -197,8 +197,8 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                 name: "Servidores_Usuarios",
                 columns: table => new
                 {
-                    Servidores_codigo_servidor = table.Column<long>(type: "bigint", nullable: false),
-                    Usuarios_codigo_usuario = table.Column<long>(type: "bigint", nullable: false)
+                    Servidores_codigo_servidor = table.Column<ulong>(nullable: false),
+                    Usuarios_codigo_usuario = table.Column<ulong>(nullable: false)
                 },
                 constraints: table =>
                 {
