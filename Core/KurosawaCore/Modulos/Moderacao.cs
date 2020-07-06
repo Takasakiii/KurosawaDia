@@ -86,7 +86,7 @@ namespace KurosawaCore.Modulos
 
         [Command("kick")]
         [Description("Expulsa um usuário.\n\n(Observação: você precisa da permissão de expulsar membros para poder usar esse comando.)")]
-        public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
+        public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.KickMembers))
                 throw new Exception("Sem permissoes");
@@ -95,7 +95,7 @@ namespace KurosawaCore.Modulos
 
         [Command("ban")]
         [Description("Bane um usuário.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
-        public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
+        public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
@@ -104,7 +104,7 @@ namespace KurosawaCore.Modulos
 
         [Command("softban")]
         [Description("Expulsa um usuário e apaga suas mensagens.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)")]
-        public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo)
+        public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.BanMembers))
                 throw new Exception("Sem permissoes");
@@ -144,7 +144,7 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Black
             };
 
-            if (motivo != "")
+            if (!string.IsNullOrEmpty(motivo))
             {
                 eb.AddField("Motivo: ", motivo);
             }
@@ -155,16 +155,18 @@ namespace KurosawaCore.Modulos
 
             await Task.Delay(1000);
 
+            string auditLog = $"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} {((!string.IsNullOrEmpty(motivo)) ? $"| Motivo: {motivo}" : "")}";
+
             switch (tipo)
             {
                 case TipoEliminar.expulso:
-                    await membro.RemoveAsync($"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.RemoveAsync(auditLog);
                     break;
                 case TipoEliminar.banido:
-                    await membro.BanAsync(7, $"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, auditLog);
                     break;
                 case TipoEliminar.removido:
-                    await membro.BanAsync(7, $"Responsável: {ctx.User.Username}#{ctx.User.Discriminator} | Motivo: {motivo}");
+                    await membro.BanAsync(7, auditLog);
                     await ctx.Guild.UnbanMemberAsync(membro);
                     break;
                 default:

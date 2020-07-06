@@ -19,7 +19,9 @@ namespace DataBaseController.ModelsConfiguration
             //ID
             builder.Property(x => x.ID).HasColumnName("id").IsRequired();
             //Servidor
-            builder.HasOne(x => x.Servidor).WithMany(x => x.Canais).HasForeignKey("codigo_servidor").IsRequired();
+            builder.HasOne(x => x.Servidor).WithMany(x => x.Canais).HasForeignKey(x => x.CodServidor).IsRequired();
+            //CodServidor
+            builder.Property(x => x.CodServidor).HasColumnName("codigo_servidor");
         }
     }
 }

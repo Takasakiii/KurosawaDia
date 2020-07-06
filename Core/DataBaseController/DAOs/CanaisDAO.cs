@@ -30,7 +30,13 @@ namespace DataBaseController.DAOs
 
             if (canal == null)
             {
-                await context.Canais.AddAsync(c);
+                await context.Canais.AddAsync(new Canais
+                {
+                    CodServidor = (await context.Servidores.AsNoTracking().FirstOrDefaultAsync(x => x.ID == c.Servidor.ID)).Cod,
+                    ID = c.ID,
+                    Nome = c.Nome,
+                    TipoCanal = c.TipoCanal
+                });
                 await context.SaveChangesAsync();
             }
             else

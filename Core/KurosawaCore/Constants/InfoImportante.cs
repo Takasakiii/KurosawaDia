@@ -2,8 +2,8 @@
 {
     internal static class InfoImportante
     {
-        internal const string VersaoNumb = "1.3.2";
-        internal const string VersaoName = "New Horizons - Patch 2";
+        internal const string VersaoNumb = "1.3.3";
+        internal const string VersaoName = "New Horizons - Patch 3";
 
         internal const string conviteDia = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=conviteDia";
         internal const string conviteServer = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=serverDia";

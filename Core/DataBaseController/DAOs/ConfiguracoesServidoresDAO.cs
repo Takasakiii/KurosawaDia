@@ -4,6 +4,7 @@ using DataBaseController.Modelos;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace DataBaseController.DAOs
@@ -26,17 +27,26 @@ namespace DataBaseController.DAOs
         {
             using Kurosawa_DiaContext context = new Kurosawa_DiaContext();
 
-            ConfiguracoesServidores configuracoesServidores = await context.ConfiguracoesServidores.SingleOrDefaultAsync(x => x.Servidor.ID == config.Servidor.ID && x.Configuracoes == config.Configuracoes);
+            ConfiguracoesServidores configuracoesServidores = await context.ConfiguracoesServidores
+                .SingleOrDefaultAsync(x => x.Servidor.ID == config.Servidor.ID && x.Configuracoes == config.Configuracoes);
 
+
+            
             if (configuracoesServidores == null)
             {
-                await context.ConfiguracoesServidores.AddAsync(config);
+                ConfiguracoesServidores configuracoes = new ConfiguracoesServidores
+                {
+                    Value = config.Value,
+                    Configuracoes = config.Configuracoes,
+                    CodServidor = (await context.Servidores.AsNoTracking().FirstOrDefaultAsync(x => x.ID == config.Servidor.ID)).Cod
+                };
+                await context.ConfiguracoesServidores.AddAsync(configuracoes);
                 await context.SaveChangesAsync();
             }
             else
             {
-                config.Cod = configuracoesServidores.Cod;
-                context.Update(config);
+                configuracoesServidores.Value = config.Value;
+                context.Update(configuracoesServidores);
                 await context.SaveChangesAsync();
             }
 

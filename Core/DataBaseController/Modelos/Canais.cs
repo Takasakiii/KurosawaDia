@@ -9,5 +9,6 @@ namespace DataBaseController.Modelos
         public string Nome { get; set; }
         public ulong ID { get; set; }
         public Servidores Servidor { get; set; }
+        public ulong CodServidor { get; set; }
     }
 }

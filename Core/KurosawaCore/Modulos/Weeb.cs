@@ -211,7 +211,7 @@ namespace KurosawaCore.Modulos
                             break;
                     }
                 }
-                else if (ch == 'R' || ch == 'R')
+                else if (ch == 'R' || ch == 'L')
                     owoifiedText += 'W';
                 else if (ch == '!')
                 {
