@@ -6,7 +6,10 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Atributes;
+using KurosawaCore.Models.Enums;
+using NeoSmart.Unicode;
 using System;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -239,6 +242,64 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.HotPink,
                 Description = owoifiedText
             });
+        }
+
+        [Command("bigtext")]
+        [Aliases("bt", "emojify")]
+        [Description("Transforma um texto em sua versão emoji, bom pra chamar atenção no chat XD\n\n(Os textos não podem ser muito grandes por conta da limitação do discord)")]
+        public async Task BigText(CommandContext ctx, [RemainingText][Description("Texto que você deseja transformar em emoji")] string texto)
+        {
+            if (texto.Length < 1)
+                throw new Exception("Texto vazio");
+            texto = texto.ToLower().Normalize(NormalizationForm.FormD);
+            string textoFormatado = "";
+            for (int i = 0; i < texto.Length; i++)
+            {
+                char ch = texto[i];
+                UnicodeCategory charCategoria = CharUnicodeInfo.GetUnicodeCategory(ch);
+                if(charCategoria != UnicodeCategory.NonSpacingMark)
+                {
+                    if (charCategoria == UnicodeCategory.LowercaseLetter)
+                        textoFormatado += $":regional_indicator_{ch}:";
+                    else if (charCategoria == UnicodeCategory.DecimalDigitNumber)
+                        textoFormatado += $":{(NumberToText)Convert.ToByte(ch.ToString())}:";
+                    else if (charCategoria == UnicodeCategory.LineSeparator)
+                        textoFormatado += ch;
+                    else if (charCategoria == UnicodeCategory.SpaceSeparator)
+                        textoFormatado += "   ";
+                    else if(texto.Length - i != 1)
+                    {
+                        if (Emoji.IsEmoji($"{ch}{texto[i + 1]}", 1))
+                        {
+                            textoFormatado += $"{ch}{texto[i + 1]}";
+                            i++;
+                        }
+                        else
+                            switch($"{ch}{texto[i + 1]}")
+                            {
+                                case "🏻":
+                                case "🏼":
+                                case "🏽":
+                                case "🏾":
+                                case "🏿":
+                                    textoFormatado = textoFormatado.Remove(textoFormatado.Length - 1);
+                                    textoFormatado += $"{ch}{texto[i + 1]}";
+                                    i++;
+                                    break;
+                                default:
+                                    textoFormatado += "❌";
+                                    break;
+                            }
+                    }
+                    else
+                        textoFormatado += "❌";
+                    textoFormatado += " ";
+                    if (textoFormatado.Length > 2000)
+                        throw new Exception("Texto passou de 2k caractere");
+                }
+            }
+
+            await ctx.RespondAsync(textoFormatado);
         }
     }
 }

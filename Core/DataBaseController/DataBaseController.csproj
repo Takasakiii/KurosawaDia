@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\KurosawaDatabase\20200706030857_AdmsBotColumnType.cs" />
+    <Compile Remove="Migrations\KurosawaDatabase\20200706030857_AdmsBotColumnType.Designer.cs" />
+    <Compile Remove="Migrations\KurosawaDatabase\20200706031023_Confirm.cs" />
+    <Compile Remove="Migrations\KurosawaDatabase\20200706031023_Confirm.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConfigController\ConfigController.csproj" />
   </ItemGroup>
 

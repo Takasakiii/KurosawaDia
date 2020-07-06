@@ -13,7 +13,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("AdmsBot");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("cod").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("cod").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Usuario
             builder.HasOne(x => x.Usuario).WithMany(x => x.AdmsBots).HasForeignKey("usuario").IsRequired();
             //Permissao
