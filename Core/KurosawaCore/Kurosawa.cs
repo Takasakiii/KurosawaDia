@@ -28,14 +28,6 @@ namespace KurosawaCore
         {
             DependencesSingleton.ApiConfigs = apiConfig;
             new DBCore(dbconfig);
-            using (Kurosawa_DiaContext ctx = new Kurosawa_DiaContext())
-            {
-#if (DEBUG)
-                ctx.Database.Migrate();
-#else
-                await ctx.Database.MigrateAsync();
-#endif
-            }
             BotPermissions.IDOwner = config.IdDono;
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration
@@ -79,6 +71,14 @@ namespace KurosawaCore
                 Timeout = TimeSpan.FromMinutes(5)
             });
             Cliente.MessageCreated -= comandos.HandleCommandsAsync;
+            using (Kurosawa_DiaContext ctx = new Kurosawa_DiaContext())
+            {
+#if (DEBUG)
+                ctx.Database.Migrate();
+#else
+                await ctx.Database.MigrateAsync();
+#endif
+            }
             await Cliente.ConnectAsync();
 
             await Task.Delay(-1);
