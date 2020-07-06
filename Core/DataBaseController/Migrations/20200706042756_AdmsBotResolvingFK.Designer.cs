@@ -4,14 +4,16 @@ using DataBaseController.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataBaseController.Migrations
 {
     [DbContext(typeof(Kurosawa_DiaContext))]
-    partial class Kurosawa_DiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200706042756_AdmsBotResolvingFK")]
+    partial class AdmsBotResolvingFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

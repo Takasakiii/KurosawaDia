@@ -36,7 +36,7 @@ namespace KurosawaCore.Events
                     emoji = DiscordEmoji.FromUnicode("❌");
                     await e.Context.Message.CreateReactionAsync(emoji);
                     //controller.AddReactionEvent(e.Context.Message, controller.ConvertToMethodInfo<string>(CallHelp), emoji, e.Context.User, e.Command.QualifiedName);
-                    e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.Message, DateTime.Now);
+                    e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", e.Exception.ToString(), DateTime.Now);
                 }
 
                 ReactionContext recebimento = await e.Context.Client.GetInteractivityModule().WaitForMessageReactionAsync(predicate: x => x == emoji, user: e.Context.User, message: e.Context.Message);
@@ -55,7 +55,7 @@ namespace KurosawaCore.Events
             }
             catch (Exception ex)
             {
-                e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", ex.Message, DateTime.Now);
+                e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "Kurosawa Dia - Handler", ex.ToString(), DateTime.Now);
             }
         }
 

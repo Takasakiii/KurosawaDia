@@ -15,7 +15,9 @@ namespace DataBaseController.ModelsConfiguration
             builder.HasKey(x => x.Cod);
             builder.Property(x => x.Cod).HasColumnName("cod").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Usuario
-            builder.HasOne(x => x.Usuario).WithMany(x => x.AdmsBots).HasForeignKey("usuario").IsRequired();
+            builder.HasOne(x => x.Usuario).WithMany(x => x.AdmsBots).HasForeignKey(x => x.CodUsuario).IsRequired();
+            //CodUsuario
+            builder.Property(x => x.CodUsuario).HasColumnName("usuario");
             //Permissao
             builder.Property(x => x.Permissao).HasColumnName("permissao").HasColumnType("tinyint").HasConversion<byte>().IsRequired();
         }

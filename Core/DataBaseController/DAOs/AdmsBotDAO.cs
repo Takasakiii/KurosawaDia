@@ -37,12 +37,10 @@ namespace DataBaseController.DAOs
             {
                 await context.AdmsBots.AddAsync(new AdmsBot
                 {
-                    Usuario = new Usuarios
-                    {
-                        Cod = (await context.Usuarios.SingleOrDefaultAsync(x => x.ID == adms.Usuario.ID)).Cod
-                    },
+                    CodUsuario = (await context.Usuarios.AsNoTracking().SingleOrDefaultAsync(x => x.ID == adms.Usuario.ID)).Cod,
                     Permissao = adms.Permissao
                 });
+                await context.SaveChangesAsync();
             }
 
             //using (Kurosawa_DiaContext context = new Kurosawa_DiaContext())
