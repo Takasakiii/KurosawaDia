@@ -26,7 +26,7 @@ namespace DataBaseController.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql($"Server = {DBDataSingleton.ConfigDB.IP}; Port = {DBDataSingleton.ConfigDB.Porta}; Database = {DBDataSingleton.ConfigDB.Database}; Uid = {DBDataSingleton.ConfigDB.User}; Pwd = {DBDataSingleton.ConfigDB.Senha};");
+            optionsBuilder.UseMySql(DBDataSingleton.ConnectionString);
 
 //#if DEBUG
 //            optionsBuilder.UseLoggerFactory(MyLoggerFactory);

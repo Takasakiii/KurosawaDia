@@ -1,5 +1,6 @@
 ﻿using ConfigController.Models;
 using DataBaseController;
+using DataBaseController.Contexts;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
@@ -8,6 +9,7 @@ using KurosawaCore.Events;
 using KurosawaCore.Extensions;
 using KurosawaCore.Models.Abstract;
 using KurosawaCore.Singletons;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,6 +28,14 @@ namespace KurosawaCore
         {
             DependencesSingleton.ApiConfigs = apiConfig;
             new DBCore(dbconfig);
+            using (Kurosawa_DiaContext ctx = new Kurosawa_DiaContext())
+            {
+#if (DEBUG)
+                ctx.Database.Migrate();
+#else
+                await ctx.Database.MigrateAsync();
+#endif
+            }
             BotPermissions.IDOwner = config.IdDono;
             Config = config;
             DiscordConfiguration discordConfig = new DiscordConfiguration

@@ -7,7 +7,7 @@ namespace DataBaseController
     {
         public DBCore(DBConfig dBConfig)
         {
-            DBDataSingleton.ConfigDB = dBConfig;
+            DBDataSingleton.SetConnectionString(dBConfig);
         }
     }
 }

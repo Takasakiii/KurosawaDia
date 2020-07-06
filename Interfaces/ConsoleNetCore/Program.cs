@@ -1,7 +1,9 @@
 ﻿using ConfigController.DAOs;
 using ConfigController.EntityConfiguration;
 using ConfigController.Models;
+using DataBaseController.Contexts;
 using KurosawaCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

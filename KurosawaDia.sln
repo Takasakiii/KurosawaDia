@@ -15,11 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KurosawaCore", "Core\Kurosa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleNetCore", "Interfaces\ConsoleNetCore\ConsoleNetCore.csproj", "{15611B82-283C-4C51-99CB-B2D15ED7F3A9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjetosImplementadores", "ProjetosImplementadores", "{D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfNetCore", "Interfaces\WpfNetCore\WpfNetCore.csproj", "{A45EE9F0-B42F-489E-99A0-53EA44A7C793}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarinaSQL", "ProjetosImprementadores\MarinaSQL\MarinaSQL.csproj", "{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +43,6 @@ Global
 		{A45EE9F0-B42F-489E-99A0-53EA44A7C793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A45EE9F0-B42F-489E-99A0-53EA44A7C793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A45EE9F0-B42F-489E-99A0-53EA44A7C793}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,7 +53,6 @@ Global
 		{D63D70C3-E7C5-4707-90DB-5F9F82A13878} = {32BC4B9D-75A2-4E6C-8489-79A54FFEF181}
 		{15611B82-283C-4C51-99CB-B2D15ED7F3A9} = {2E2E0E7D-A939-4691-AFEF-CAC2B69F3D39}
 		{A45EE9F0-B42F-489E-99A0-53EA44A7C793} = {2E2E0E7D-A939-4691-AFEF-CAC2B69F3D39}
-		{3669F7EF-FC95-442C-A91E-C4DE6B7AFBB1} = {D467FEAF-5E8B-47B1-A14A-B6130F6C10C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BBEB7401-2DC2-41A7-8976-05000080A1CE}
