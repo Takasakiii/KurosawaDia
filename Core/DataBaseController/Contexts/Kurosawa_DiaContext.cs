@@ -4,6 +4,7 @@ using DataBaseController.Singletons;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using System.Diagnostics;
 
 namespace DataBaseController.Contexts
 {
@@ -20,17 +21,16 @@ namespace DataBaseController.Contexts
         public DbSet<Fuck> Fuck { get; set; }
         public DbSet<Insultos> Insultos { get; set; }
 
-//#if DEBUG
-//        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
-//#endif
+        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(DBDataSingleton.ConnectionString);
 
-//#if DEBUG
-//            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
-//#endif
+            if (Debugger.IsAttached)
+            {
+                optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

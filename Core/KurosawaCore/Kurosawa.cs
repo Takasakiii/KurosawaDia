@@ -12,6 +12,7 @@ using KurosawaCore.Singletons;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace KurosawaCore
@@ -73,11 +74,15 @@ namespace KurosawaCore
             Cliente.MessageCreated -= comandos.HandleCommandsAsync;
             using (Kurosawa_DiaContext ctx = new Kurosawa_DiaContext())
             {
-#if (DEBUG)
-                ctx.Database.Migrate();
-#else
-                await ctx.Database.MigrateAsync();
-#endif
+                if (Debugger.IsAttached)
+                {
+                    ctx.Database.Migrate();
+                }
+                else
+                {
+                    await ctx.Database.MigrateAsync();
+
+                }
             }
             await Cliente.ConnectAsync();
 
