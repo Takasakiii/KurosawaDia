@@ -13,7 +13,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("ConfiguracoesServidoresAplicada");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("cod").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("cod").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Servidor
             builder.HasOne(x => x.Servidor).WithMany(x => x.Configuracoes).HasForeignKey("servidor").IsRequired();
             //Configuracoes

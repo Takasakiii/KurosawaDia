@@ -4,34 +4,37 @@ using DataBaseController.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataBaseController.Migrations.KurosawaDatabase
+namespace DataBaseController.Migrations
 {
     [DbContext(typeof(Kurosawa_DiaContext))]
-    partial class Kurosawa_DiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200706034228_Base")]
+    partial class Base
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("DataBaseController.Modelos.AdmsBot", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<sbyte>("Permissao")
                         .HasColumnName("permissao")
                         .HasColumnType("tinyint");
 
-                    b.Property<long>("usuario")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("usuario")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -42,15 +45,15 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Canais", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ID")
+                    b.Property<ulong>("ID")
                         .HasColumnName("id")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -61,8 +64,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                     b.Property<byte>("TipoCanal")
                         .HasColumnType("tinyint unsigned");
 
-                    b.Property<long>("codigo_servidor")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("codigo_servidor")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -73,15 +77,15 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Cargos", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ID")
+                    b.Property<ulong>("ID")
                         .HasColumnName("id")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -95,8 +99,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("tinyint")
                         .HasDefaultValue((sbyte)0);
 
-                    b.Property<long>("codigo_servidor")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("codigo_servidor")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -107,10 +112,10 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.ConfiguracoesServidores", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Configuracoes")
@@ -123,8 +128,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long>("servidor")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("servidor")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -135,10 +141,10 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.CustomReactions", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod_cr")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Modo")
@@ -157,8 +163,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long>("servidor_cr")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("servidor_cr")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -169,10 +176,10 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Fuck", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Explicit")
@@ -186,8 +193,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnName("urlImage")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<long>("codigo_usuario")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("codigo_usuario")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -198,10 +206,10 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Insultos", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("cod")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Insulto")
@@ -210,8 +218,9 @@ namespace DataBaseController.Migrations.KurosawaDatabase
                         .HasColumnType("text")
                         .HasAnnotation("MySql:CharSet", "utf8mb4");
 
-                    b.Property<long>("usuario")
-                        .HasColumnType("bigint");
+                    b.Property<ulong?>("usuario")
+                        .IsRequired()
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("Cod");
 
@@ -222,21 +231,21 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Servidores", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("codigo_servidor")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<sbyte>("Espercial")
+                    b.Property<sbyte>("Especial")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("especial_servidor")
                         .HasColumnType("tinyint")
                         .HasDefaultValue((sbyte)1);
 
-                    b.Property<long>("ID")
+                    b.Property<ulong>("ID")
                         .HasColumnName("id_servidor")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -260,13 +269,13 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Servidores_Usuarios", b =>
                 {
-                    b.Property<long>("ServidorCod")
+                    b.Property<ulong>("ServidorCod")
                         .HasColumnName("Servidores_codigo_servidor")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<long>("UsuarioCod")
+                    b.Property<ulong>("UsuarioCod")
                         .HasColumnName("Usuarios_codigo_usuario")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("ServidorCod", "UsuarioCod");
 
@@ -277,15 +286,15 @@ namespace DataBaseController.Migrations.KurosawaDatabase
 
             modelBuilder.Entity("DataBaseController.Modelos.Usuarios", b =>
                 {
-                    b.Property<long>("Cod")
+                    b.Property<ulong>("Cod")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("codigo_usuario")
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ID")
+                    b.Property<ulong>("ID")
                         .HasColumnName("id_usuario")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<string>("Nome")
                         .IsRequired()

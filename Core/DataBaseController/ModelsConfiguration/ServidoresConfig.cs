@@ -14,9 +14,9 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("Servidores");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("codigo_servidor").HasColumnType("bigint unsigned").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("codigo_servidor").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //ID
-            builder.Property(x => x.ID).HasColumnName("id_servidor").HasColumnType("bigint unsigned").IsRequired();
+            builder.Property(x => x.ID).HasColumnName("id_servidor").IsRequired();
             builder.HasIndex(x => x.ID).IsUnique();
             //Nome
             builder.Property(x => x.Nome).HasColumnName("nome_servidor").HasColumnType("varchar(255)").HasCharSet("utf8mb4").IsRequired();

@@ -13,7 +13,7 @@ namespace DataBaseController.ModelsConfiguration
             builder.ToTable("Insultos");
             //Cod
             builder.HasKey(x => x.Cod);
-            builder.Property(x => x.Cod).HasColumnName("cod").HasColumnType("bigint").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+            builder.Property(x => x.Cod).HasColumnName("cod").HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
             //Usuario
             builder.HasOne(x => x.Usuario).WithMany(x => x.Insultos).HasForeignKey("usuario").IsRequired();
             //Insulto
