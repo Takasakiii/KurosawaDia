@@ -6,8 +6,11 @@ using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
 using KurosawaCore.Extensions.MessagesExtensions;
 using KurosawaCore.Models.Atributes;
+using NCalc;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -195,6 +198,19 @@ namespace KurosawaCore.Modulos
             string[] frases = { "eu te invoco!", "acorde!!!!", "vamos, o show vai começar!", "seu amigo está te chamando." };
             Random rnd = new Random();
             await ctx.RespondAsync($"🎲{membros[rnd.Next(0, membros.Count)].Mention}, {frases[rnd.Next(0, frases.Length)]}🎲");
+        }
+
+        [Command("calc")]
+        [Aliases("math", "calcular")]
+        [Description("Te fornece o resultado da conta solicitada")]
+        public async Task Calc (CommandContext ctx, [Description("Conta matematica")][RemainingText] string conta)
+        {
+            if (string.IsNullOrEmpty(conta))
+                throw new Exception("conta é nulo");
+            await ctx.RespondAsync(embed: new DiscordEmbedBuilder { 
+                Color = DiscordColor.Green,
+                Description = $"Resultado: {new Expression(conta).Evaluate()}"
+            });
         }
     }
 }
