@@ -90,7 +90,7 @@ namespace KurosawaCore.Extensions
             catch
             {
                 msg = TrocarVariaveis(msg);
-                await message.ModifyAsync(msg);
+                await message.ModifyAsync(msg, embed: null);
             }
         }
 

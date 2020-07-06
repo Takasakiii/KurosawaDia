@@ -1,8 +1,10 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
 using KurosawaCore.Extensions;
+using KurosawaCore.Extensions.MessagesExtensions;
 using KurosawaCore.Models.Atributes;
 using System;
 using System.Collections.Generic;
@@ -159,17 +161,20 @@ namespace KurosawaCore.Modulos
             await ctx.Message.DeleteAsync();
         }
 
-        //[Command("editsay")]
-        //[Aliases("esay")]
-        //[Description("Faz eu editar algo que eu ja disse.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.\nA mensagem a editar precisa ser uma mensagem feita por mim")]
-        //public async Task EditSay(CommandContext ctx, [Description("Mensagem que eu editarei")]DiscordMessage refMessage, [Description("Mensagem para eu falar.")][RemainingText] string mensagem)
-        //{
-        //    if (refMessage.Author.Id != ctx.Client.CurrentUser.Id || ctx.Channel.IsPrivate || mensagem == "" || !ctx.HasPermissions(Permissions.ManageMessages))
-        //        throw new Exception();
+        [Command("editsay")]
+        [Aliases("esay")]
+        [Description("Faz eu editar algo que eu ja disse.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.\nA mensagem a editar precisa ser uma mensagem feita por mim")]
+        public async Task EditSay(CommandContext ctx, [Description("Mensagem que eu editarei")] string message, [Description("Mensagem para eu falar.")][RemainingText] string texto)
+        {
+            MessageExtension msgex = new MessageExtension(ctx, message);
+            if (!msgex.Success || msgex.Message.Author.Id != ctx.Client.CurrentUser.Id || msgex.Message.Channel.GuildId != ctx.Guild.Id || ctx.Channel.IsPrivate
+                || texto == "" || !ctx.HasPermissions(Permissions.ManageMessages))
+                throw new Exception();
 
-        //    await new StringVariablesExtension(ctx.Member, ctx.Guild).ModifyMessage(refMessage, mensagem);
-        //    await ctx.Message.DeleteAsync();
-        //}
+            await new StringVariablesExtension(ctx.Member, ctx.Guild).ModifyMessage(msgex.Message, texto);
+            await ctx.Message.DeleteAsync();
+
+        }
 
         [Command("mentionrandom")]
         [Aliases("someone", "mencionaraleatorio")]
