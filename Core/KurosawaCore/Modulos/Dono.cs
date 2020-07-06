@@ -55,7 +55,7 @@ namespace KurosawaCore.Modulos
         [Description("shiba putinha")]
         public async Task Sudo(CommandContext ctx, [Description("Amiguxo")] DiscordUser user, [Description("Comandos de hacker")][RemainingText] string cmd)
         {
-            if (ctx.Channel.IsPrivate || string.IsNullOrEmpty(cmd) || (byte)await BotPermissions.CheckAdm(ctx.User) < (byte)TiposAdms.Adm)
+            if (ctx.Channel.IsPrivate || string.IsNullOrEmpty(cmd) || (byte)await BotPermissions.CheckAdm(ctx.User) != (byte)TiposAdms.Dono)
                 throw new Exception();
             await ctx.CommandsNext.SudoAsync(user, ctx.Channel, cmd);
         }
