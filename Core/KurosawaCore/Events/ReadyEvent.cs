@@ -12,17 +12,19 @@ namespace KurosawaCore.Events
     {
         private StatusConfig[] Status;
         private DiscordClient Cliente;
+        private Thread StatusThread;
         internal ReadyEvent(ref DiscordClient cliente, StatusConfig[] status)
         {
             cliente.Ready += Cliente_Ready;
             Cliente = cliente;
             Status = status;
+            StatusThread = new Thread(Read);
         }
 
-        private Task Cliente_Ready(ReadyEventArgs e)
+        private async Task Cliente_Ready(ReadyEventArgs e)
         {
-            new Thread(Read).Start();
-            return Task.CompletedTask;
+            await Task.Yield();
+            StatusThread.Start();
         }
 
         private async void Read()
