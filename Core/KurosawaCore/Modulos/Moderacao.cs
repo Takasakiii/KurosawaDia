@@ -17,7 +17,7 @@ namespace KurosawaCore.Modulos
     {
         [Command("limparchat")]
         [Aliases("prune", "clear")]
-        [Description("Limpa as mensagens de até 13 dias atras.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
+        [Description("Limpa as mensagens de até 13 dias atrás.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.)")]
         public async Task LimparChat(CommandContext ctx, [Description("Quantidade de mensagens para apagar.")]int quantidade = 10, [Description("Usuário que você deseja que as mensagens sejam apagadas.")][RemainingText]DiscordUser usuario = null)
         {
             if (ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageMessages) || quantidade > 1000)
@@ -175,7 +175,7 @@ namespace KurosawaCore.Modulos
 
             await ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {
-                Description = $"Prontinhooo o {usuario.Username}#{usuario.Discriminator} foi {tipo} do servidor 😀",
+                Description = $"Prontinhooo! O {usuario.Username}#{usuario.Discriminator} foi {tipo} do servidor 😀",
                 Color = DiscordColor.Black
             });
         }
