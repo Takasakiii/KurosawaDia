@@ -79,7 +79,7 @@ namespace KurosawaCore.Modulos
 
         [Command("lolibomb")]
         [Hidden]
-        [Description("Manda varias imagens para você ser preso imediatamente.")]
+        [Description("Manda várias imagens para você ser preso imediatamente.")]
         public async Task LoliBomb(CommandContext ctx)
         {
             if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Especial < (byte)TiposServidores.LolisEdition)

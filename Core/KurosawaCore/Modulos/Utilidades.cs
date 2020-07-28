@@ -66,7 +66,7 @@ namespace KurosawaCore.Modulos
             if (alvo == ctx.Client.CurrentUser)
                 frases = ArrayExtension.CriarArray("Ownt, que amor, você realmente quer me ver 😍", "Assim você me deixa sem jeito 😊");
             else
-                frases = ArrayExtension.CriarArray("Nossa, que avatar bonito, agora sei porque você queria vê-lo 🤣", "Vocês são realmente criativos para avatares 😂", "Com um avatar assim seria um desperdício não se tornar idol 😃", "Talvez se você colocasse um filtro ficaria melhor... 🤐");
+                frases = ArrayExtension.CriarArray("Nossa, que avatar bonito! Agora sei porque você queria vê-lo 🤣", "Vocês são realmente criativos para avatares 😂", "Com um avatar assim seria um desperdício não se tornar uma idol 😃", "Talvez se você colocasse um filtro ficaria melhor... 🤐");
             int rnd = new Random().Next(0, frases.Length);
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
