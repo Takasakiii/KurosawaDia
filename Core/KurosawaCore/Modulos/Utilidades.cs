@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KurosawaCore.Modulos
@@ -157,6 +159,13 @@ namespace KurosawaCore.Modulos
         [Description("Faz eu falar algo à sua vontade.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.")]
         public async Task Say(CommandContext ctx, [Description("Mensagem para eu falar.")][RemainingText]string mensagem)
         {
+            if (ctx.Message.Attachments?.Count > 0 && ctx.Message.Attachments[0].FileName.EndsWith(".txt"))
+            {
+                using HttpClient client = new HttpClient();
+                byte[] file = await client.GetByteArrayAsync(ctx.Message.Attachments[0].Url);
+                mensagem = Encoding.UTF8.GetString(file);
+            }
+
             if (ctx.Channel.IsPrivate || mensagem == "" || !ctx.HasPermissions(Permissions.ManageMessages))
                 throw new Exception();
 
@@ -169,6 +178,13 @@ namespace KurosawaCore.Modulos
         [Description("Faz eu editar algo que eu ja disse.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.\nA mensagem a editar precisa ser uma mensagem feita por mim")]
         public async Task EditSay(CommandContext ctx, [Description("Mensagem que eu editarei")] string message, [Description("Mensagem para eu falar.")][RemainingText] string texto)
         {
+            if (ctx.Message.Attachments?.Count > 0 && ctx.Message.Attachments[0].FileName.EndsWith(".txt"))
+            {
+                using HttpClient client = new HttpClient();
+                byte[] file = await client.GetByteArrayAsync(ctx.Message.Attachments[0].Url);
+                texto = Encoding.UTF8.GetString(file);
+            }
+
             MessageExtension msgex = new MessageExtension(ctx, message);
             if (!msgex.Success || msgex.Message.Author.Id != ctx.Client.CurrentUser.Id || msgex.Message.Channel.GuildId != ctx.Guild.Id || ctx.Channel.IsPrivate
                 || texto == "" || !ctx.HasPermissions(Permissions.ManageMessages))
