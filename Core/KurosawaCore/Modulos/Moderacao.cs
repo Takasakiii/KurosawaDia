@@ -89,7 +89,7 @@ namespace KurosawaCore.Modulos
         public async Task Kick(CommandContext ctx, [Description("Usuário que deseja expulsar.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.KickMembers))
-                throw new Exception("Sem permissoes");
+                throw new Exception("Sem permissões");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.expulso);
         }
 
@@ -98,7 +98,7 @@ namespace KurosawaCore.Modulos
         public async Task Ban(CommandContext ctx, [Description("Usuário que deseja banir.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.BanMembers))
-                throw new Exception("Sem permissoes");
+                throw new Exception("Sem permissões");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.banido);
         }
 
@@ -107,7 +107,7 @@ namespace KurosawaCore.Modulos
         public async Task SoftBan(CommandContext ctx, [Description("Usuário que deseja remover.")]DiscordUser usuario, [Description("Motivo da punição.")][RemainingText]string motivo = "")
         {
             if (!ctx.HasPermissions(Permissions.BanMembers))
-                throw new Exception("Sem permissoes");
+                throw new Exception("Sem permissões");
             await Eliminar(ctx, usuario, motivo, TipoEliminar.removido);
         }
 
