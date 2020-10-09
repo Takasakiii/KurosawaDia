@@ -52,7 +52,7 @@ namespace KurosawaCore.Modulos
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder
                 {
                     Title = "Você está procurando um cachorinho? Me adote.",
-                    Description = $"Me adote no Discord `{user.Username}#{user.Discriminator}` Woof Woof",
+                    Description = $"Me adote no Discord, `{user.Username}#{user.Discriminator}`! Woof Woof",
                     ThumbnailUrl = user.AvatarUrl,
                     Color = DiscordColor.Turquoise
                 });
