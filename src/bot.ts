@@ -19,6 +19,12 @@ export default class KurosawaDia {
             console.log('bot iniciado')
         })
 
+        this.client.on('message', msg => {
+            if (msg.content == 'ping') {
+                msg.channel.send('pong')
+            }
+        })
+
         this.client.login(this.token)
     }
 }
