@@ -10,4 +10,4 @@ out/
 
 # Arquivos de config
 
-bot.json
+config/

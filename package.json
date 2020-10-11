@@ -4,7 +4,7 @@
     "description": "Another TS Discord bot ",
     "main": "src/index.ts",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "copyfiles -s -f \"./templates/*.json\" src/config/",
         "start": "ts-node ./src",
         "lint": "eslint . --ext .ts",
         "build": "tsc -p ./"
@@ -20,8 +20,10 @@
     },
     "homepage": "https://github.com/Gabriel-Paulucci/KurosawaDia#readme",
     "devDependencies": {
+        "@types/node": "^14.11.8",
         "@typescript-eslint/eslint-plugin": "^4.4.0",
         "@typescript-eslint/parser": "^4.4.0",
+        "copyfiles": "^2.4.0",
         "eslint": "^7.11.0",
         "ts-node": "^9.0.0",
         "typescript": "^4.0.3"
