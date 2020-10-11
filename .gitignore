@@ -7,3 +7,7 @@ build/
 tmp/
 temp/
 out/
+
+# Arquivos de config
+
+bot.json
