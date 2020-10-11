@@ -1,16 +1,8 @@
-import { Client } from 'discord.js'
-import config from './configs/bot.json'
+import dotenv from 'dotenv'
+import { env } from 'process'
+import KurosawaDia from './bot'
 
-const bot = new Client()
+dotenv.config()
 
-bot.on('ready', () => {
-    console.log('bot iniciado')
-})
-
-bot.on('message', msg => {
-    if (msg.content === 'ping') {
-        msg.channel.send('pong')
-    }
-})
-
-bot.login(config.token)
+const kurosawaDia = new KurosawaDia(env.bot_token as string)
+kurosawaDia.start()

@@ -4,10 +4,9 @@
     "description": "Another TS Discord bot ",
     "main": "src/index.ts",
     "scripts": {
-        "postinstall": "copyfiles -s -u 1 \"templates/**/*.json\" src/configs",
-        "start": "ts-node ./src",
+        "start": "ts-node .",
         "lint": "eslint . --ext .ts",
-        "build": "tsc -p ./"
+        "build": "tsc -p ."
     },
     "repository": {
         "type": "git",
@@ -23,12 +22,12 @@
         "@types/node": "^14.11.8",
         "@typescript-eslint/eslint-plugin": "^4.4.0",
         "@typescript-eslint/parser": "^4.4.0",
-        "copyfiles": "^2.4.0",
         "eslint": "^7.11.0",
         "ts-node": "^9.0.0",
         "typescript": "^4.0.3"
     },
     "dependencies": {
-        "discord.js": "^12.3.1"
+        "discord.js": "^12.3.1",
+        "dotenv": "^8.2.0"
     }
 }
