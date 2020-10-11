@@ -4,7 +4,7 @@
     "description": "Another TS Discord bot ",
     "main": "src/index.ts",
     "scripts": {
-        "postinstall": "copyfiles -s -f \"./templates/*.json\" src/config/",
+        "postinstall": "copyfiles -s -u 1 \"templates/**/*.json\" src/config",
         "start": "ts-node ./src",
         "lint": "eslint . --ext .ts",
         "build": "tsc -p ./"
