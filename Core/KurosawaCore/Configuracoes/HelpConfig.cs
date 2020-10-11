@@ -15,9 +15,9 @@ namespace KurosawaCore.Configuracoes
         {
             EmbedBuilder = new DiscordEmbedBuilder
             {
-                Title = "Eu ouvi alguem pedindo ajuda?? Não se preocupe, Dia a seu dispor :yum:",
+                Title = "Eu ouvi alguém pedindo ajuda? Não se preocupe, Dia a seu dispor! :yum:",
                 Color = DiscordColor.Purple,
-                Description = "Para mais informações sobre um modulo ou comando digite: `help {Comando}` que eu informarei mais sobre ele :smiley:",
+                Description = "Para mais informações sobre um módulo ou comando digite `help {Comando}` que eu lhe informarei mais sobre ele :smiley:",
                 ImageUrl = "https://i.imgur.com/mQVFSrP.gif"
             };
         }

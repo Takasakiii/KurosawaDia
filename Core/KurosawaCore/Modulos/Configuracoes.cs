@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 namespace KurosawaCore.Modulos
 {
     [Modulo("Configurações", "⚙")]
-    [Description("Em configurações você define preferencias de como agirei em seu servidor.")]
+    [Description("Em configurações, você define preferências de como vou agir em seu servidor.")]
     public class Configuracoes
     {
         [Command("setprefix")]
         [Aliases("prefix")]
-        [Description("Modifica o meu prefixo em um servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
+        [Description("Modifica o meu prefixo no servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)")]
         public async Task SetPrefix(CommandContext ctx, [Description("O meu novo prefixo no servidor.")]string novoPrefixo)
         {
             if (string.IsNullOrEmpty(novoPrefixo) || ctx.Channel.IsPrivate || !ctx.HasPermissions(Permissions.ManageGuild))

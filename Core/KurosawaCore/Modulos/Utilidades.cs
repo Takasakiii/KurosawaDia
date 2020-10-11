@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace KurosawaCore.Modulos
 {
     [Modulo("Utilidade", "🛠")]
-    [Description("Este módulo possui coisas uteis pro seu dia a dia.")]
+    [Description("Este módulo possui coisas úteis para o seu dia a dia.")]
     public class Utilidades
     {
         [Command("videochamada")]
@@ -68,7 +68,7 @@ namespace KurosawaCore.Modulos
             if (alvo == ctx.Client.CurrentUser)
                 frases = ArrayExtension.CriarArray("Ownt, que amor, você realmente quer me ver 😍", "Assim você me deixa sem jeito 😊");
             else
-                frases = ArrayExtension.CriarArray("Nossa, que avatar bonito, agora sei porque você queria vê-lo 🤣", "Vocês são realmente criativos para avatares 😂", "Com avatar assim seria um disperdicio não se tornar idol 😃", "Talvez se você pusesse um filtro ficaria melhor... 🤐");
+                frases = ArrayExtension.CriarArray("Nossa, que avatar bonito! Agora sei porque você queria vê-lo 🤣", "Vocês são realmente criativos para avatares 😂", "Com um avatar assim seria um desperdício não se tornar uma idol 😃", "Talvez se você colocasse um filtro ficaria melhor... 🤐");
             int rnd = new Random().Next(0, frases.Length);
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
@@ -175,8 +175,8 @@ namespace KurosawaCore.Modulos
 
         [Command("editsay")]
         [Aliases("esay")]
-        [Description("Faz eu editar algo que eu ja disse.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.\nA mensagem a editar precisa ser uma mensagem feita por mim")]
-        public async Task EditSay(CommandContext ctx, [Description("Mensagem que eu editarei")] string message, [Description("Mensagem para eu falar.")][RemainingText] string texto)
+        [Description("Faz eu editar algo que eu já disse.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando.\nA mensagem a editar precisa ser uma mensagem feita por mim")]
+        public async Task EditSay(CommandContext ctx, [Description("Mensagem a ser editada")] string message, [Description("Mensagem para eu falar.")][RemainingText] string texto)
         {
             if (ctx.Message.Attachments?.Count > 0 && ctx.Message.Attachments[0].FileName.EndsWith(".txt"))
             {
@@ -219,7 +219,7 @@ namespace KurosawaCore.Modulos
         [Command("calc")]
         [Aliases("math", "calcular")]
         [Description("Te fornece o resultado da conta solicitada")]
-        public async Task Calc (CommandContext ctx, [Description("Conta matematica")][RemainingText] string conta)
+        public async Task Calc (CommandContext ctx, [Description("Conta matemática")][RemainingText] string conta)
         {
             if (string.IsNullOrEmpty(conta))
                 throw new Exception("conta é nulo");
