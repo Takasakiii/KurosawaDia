@@ -1,8 +1,22 @@
 import dotenv from 'dotenv'
 import { env } from 'process'
-import KurosawaDia from './bot'
+import { kurosawaDia } from './core'
+import { dabataseBot } from './database'
+import { serverBot } from './server'
 
 dotenv.config()
 
-const kurosawaDia = new KurosawaDia(env.bot_token as string)
-kurosawaDia.start()
+init().catch(error => {
+    console.log(error)
+    process.exit()
+})
+
+async function init() {
+    await dabataseBot.start()
+
+    serverBot.port = env.express_port as unknown as number
+    serverBot.start()
+
+    kurosawaDia.token = env.bot_token as string
+    kurosawaDia.start()
+}
