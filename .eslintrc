@@ -17,6 +17,7 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "@typescript-eslint/no-var-requires": false
     }
 }
