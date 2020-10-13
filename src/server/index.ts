@@ -1,12 +1,16 @@
 import express from 'express'
 
 class ServerBot {
-    private app: express.Express
+    private _app: express.Express
     private _port: number
 
     constructor() {
-        this.app = express()
+        this._app = express()
         this._port = 0
+    }
+
+    public get app(): express.Express {
+        return this._app
     }
 
     public set port(value: number) {
@@ -14,7 +18,7 @@ class ServerBot {
     }
 
     public start() {
-        this.app.listen(this._port, () => {
+        this._app.listen(this._port, () => {
             console.log('Server bot listen in port: ' + this._port)
         })
     }
