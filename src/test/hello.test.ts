@@ -7,4 +7,9 @@ describe('hello world', () => {
         expect(result.text).toEqual('hello world')
         expect(result.status).toEqual(200)
     })
+    it('not hello', async () => {
+        const result = await supertest(serverBot.app).get('/')
+        expect(result.text).toEqual('hello worldaaaa')
+        expect(result.status).toEqual(200)
+    })
 })
