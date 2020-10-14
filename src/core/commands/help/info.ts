@@ -14,6 +14,10 @@ class CommandHelp extends Command {
     execCommand (context: IContext): void {
         context.message.channel.send('teste')
     }
+
+    visible (): boolean {
+        return true
+    }
 }
 
 const commandHelp = new CommandHelp()

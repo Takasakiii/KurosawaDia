@@ -2,7 +2,6 @@ import { IContext } from './context'
 
 export interface ICommandInfo {
     description: string
-    visible: boolean
     module: string
     usage: string[]
 }
@@ -13,6 +12,7 @@ export interface ICommand {
     info: ICommandInfo
 
     execCommand(context: IContext): void
+    visible(): boolean
 }
 
 export interface ICommands {
@@ -27,11 +27,13 @@ export abstract class Command implements ICommand {
     constructor () {
         this.info = {
             description: 'Sem descrição informada',
-            visible: true,
             module: 'Default',
             usage: []
         }
     }
 
     abstract execCommand(context: IContext): void
+    visible (): boolean {
+        return true
+    }
 }

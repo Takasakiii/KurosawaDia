@@ -7,7 +7,7 @@ import { serverBot } from './server'
 dotenv.config()
 
 init().catch(error => {
-    console.log(error)
+    console.error(error)
     process.exit()
 })
 

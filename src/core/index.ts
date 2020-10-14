@@ -27,7 +27,11 @@ class KurosawaDia {
         glob('./src/core/commands/**/*.ts', {
             absolute: true
         }, (error, files) => {
-            console.error(error)
+            if (error) {
+                console.error(error)
+                return
+            }
+
             console.log('Loading commands')
             let i = 0
             for (const file of files) {

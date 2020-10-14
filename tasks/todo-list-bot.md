@@ -1,11 +1,11 @@
 ### Comandos 
 
-* Ajuda
+* Help
     - [ ] Help
     - [ ] Sobre
     - [ ] Info
 
-* Configurações
+* Setting
     - [ ] Prefix
     - [ ] Bem vindo
     - [ ] Saida
@@ -16,19 +16,19 @@
     - [ ] Lcr
     - [ ] Dcr
 
-* Dono
+* Owner
     - [ ] Exec
     - [ ] Sudo
     - [ ] Set especial
     - [ ] Set adm
 
-* Imagem
+* Image
     - [ ] Cat
     - [ ] Dog
     - [ ] Loli
     - [ ] Loli bomb
 
-* Moderação
+* Moderation
     - [ ] Limpar chat
     - [ ] Kick
     - [ ] Soft ban
@@ -39,7 +39,7 @@
     - [ ] Hentai bomb
     - [ ] NHentai
 
-* Utilidades
+* Util
     - [ ] Video chamada
     - [ ] Emoji
     - [ ] Avatar
