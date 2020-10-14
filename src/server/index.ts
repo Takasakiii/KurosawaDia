@@ -70,8 +70,4 @@ class ServerBot {
 
 const serverBot = new ServerBot()
 
-serverBot.app.get('/', (req, res) => {
-    return res.status(200).send('hello world')
-})
-
 export { serverBot }
