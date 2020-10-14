@@ -1,7 +1,10 @@
 import { IContext } from './context'
 
-export interface ICommands {
-    [keyof: string]: ICommand
+export interface ICommandInfo {
+    description: string
+    visible: boolean
+    module: string
+    usage: string[]
 }
 
 export interface ICommand {
@@ -12,11 +15,8 @@ export interface ICommand {
     execCommand(context: IContext): void
 }
 
-export interface ICommandInfo {
-    description: string
-    visible: boolean
-    module: string
-    usage: string[]
+export interface ICommands {
+    [keyof: string]: ICommand
 }
 
 export abstract class Command implements ICommand {
@@ -24,7 +24,7 @@ export abstract class Command implements ICommand {
     abstract alias: string[];
     info: ICommandInfo;
 
-    constructor() {
+    constructor () {
         this.info = {
             description: 'Sem descrição informada',
             visible: true,

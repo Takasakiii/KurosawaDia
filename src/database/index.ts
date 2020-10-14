@@ -3,7 +3,7 @@ import { Connection, createConnection } from 'typeorm'
 class DabataseBot {
     private connection!: Connection
 
-    public async start() {
+    async start () {
         this.connection = await createConnection()
         console.log('Database start')
     }

@@ -11,7 +11,7 @@ init().catch(error => {
     process.exit()
 })
 
-async function init() {
+async function init () {
     await dabataseBot.start()
 
     serverBot.port = env.express_port as unknown as number

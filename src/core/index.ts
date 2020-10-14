@@ -4,17 +4,17 @@ import glob from 'glob'
 import { executeCommand } from './events/message'
 
 class KurosawaDia {
-    public client: Client
+    client: Client
     private _token: string
     private _commands: ICommands
 
-    constructor() {
+    constructor () {
         this.client = new Client()
         this._token = ''
         this._commands = {}
     }
 
-    public set token(value: string) {
+    set token (value: string) {
         if (!value) {
             console.log('token não foi definido')
             process.exit()
@@ -23,10 +23,11 @@ class KurosawaDia {
         this._token = value
     }
 
-    public registerCommands(): void {
+    registerCommands (): void {
         glob('./src/core/commands/**/*.ts', {
             absolute: true
         }, (error, files) => {
+            console.error(error)
             console.log('Loading commands')
             let i = 0
             for (const file of files) {
@@ -37,11 +38,11 @@ class KurosawaDia {
                 }
                 i++
             }
-            console.log(i + ' commands')
+            console.log(i + ' commands load')
         })
     }
 
-    public start(): void {
+    start (): void {
         this.client.on('ready', () => {
             console.log('Bot iniciado')
         })
