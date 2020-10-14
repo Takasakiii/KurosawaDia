@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 import { glob } from 'glob'
 
 class ServerBot {
@@ -21,22 +21,7 @@ class ServerBot {
     }
 
     private addMiddlewares () {
-        glob('./src/server/middlewares/**/*.ts', {
-            absolute: true
-        }, (error, files) => {
-            if (error) {
-                console.error(error)
-            }
-
-            console.log('Loading middlewares')
-            let i = 0
-            for (const file of files) {
-                const middleware = require(file).default
-                this._app.use(middleware)
-                i++
-            }
-            console.log(i + ' middlewares load')
-        })
+        this._app.use(json())
     }
 
     private addRoutes () {
