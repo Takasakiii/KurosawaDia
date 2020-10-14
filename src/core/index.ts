@@ -1,5 +1,5 @@
 import { Client } from 'discord.js'
-import { ICommands, ICommand } from './models/commands'
+import { ICommands, Command } from './models/commands'
 import glob from 'glob'
 import { executeCommand } from './events/message'
 
@@ -35,12 +35,15 @@ class KurosawaDia {
             console.log('Loading commands')
             let i = 0
             for (const file of files) {
-                const command = require(file).default as ICommand
-                this._commands[command.name] = command
-                for (const alia of command.alias) {
-                    this._commands[alia] = command
+                const command = require(file).default
+
+                if (command instanceof Command) {
+                    this._commands[command.name] = command
+                    for (const alia of command.alias) {
+                        this._commands[alia] = command
+                    }
+                    i++
                 }
-                i++
             }
             console.log(i + ' commands load')
         })
