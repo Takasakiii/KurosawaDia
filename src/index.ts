@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
 import { env } from 'process'
-import { kurosawaDia } from './core'
 import { dabataseBot } from './database'
 import { serverBot } from './server'
+import { kurosawaDia } from './core'
 
 dotenv.config()
 
