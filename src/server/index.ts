@@ -1,4 +1,4 @@
-import express, { Router } from 'express'
+import express from 'express'
 import { glob } from 'glob'
 
 class ServerBot {
@@ -7,7 +7,7 @@ class ServerBot {
 
     constructor () {
         this._app = express()
-        this._port = 0
+        this._port = 5000
         this.addMiddlewares()
         this.addRoutes()
     }
@@ -52,10 +52,8 @@ class ServerBot {
             for (const file of files) {
                 const route = require(file).default
 
-                if (route instanceof Router) {
-                    this._app.use('/', route as Router)
-                    i++
-                }
+                this._app.use('/', route)
+                i++
             }
             console.log(i + ' routes load')
         })
