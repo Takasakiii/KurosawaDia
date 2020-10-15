@@ -11,3 +11,9 @@ out/
 # Arquivos de config
 
 .env
+
+
+# Arquivos lock
+
+package-lock.json
+yarn.lock
