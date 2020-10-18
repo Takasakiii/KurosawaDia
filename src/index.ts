@@ -1,10 +1,10 @@
-import dotenv from 'dotenv'
+import { config } from 'dotenv'
 import { env } from 'process'
 import { dabataseBot } from './database'
 import { serverBot } from './server'
 import { kurosawaDia } from './core'
 
-dotenv.config()
+config()
 
 init().catch(error => {
     console.error(error)
