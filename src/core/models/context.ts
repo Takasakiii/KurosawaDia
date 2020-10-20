@@ -3,6 +3,7 @@ import { IBot } from './bot'
 
 export interface IContext {
     message: Message
+    args: string[]
     client: Client
     bot: IBot
     author: User

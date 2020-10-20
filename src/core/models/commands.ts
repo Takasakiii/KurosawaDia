@@ -48,7 +48,7 @@ export abstract class Command implements ICommand {
         return true
     }
 
-    validPermission (context: IContext): boolean {
+    validPermission (): boolean {
         return true
     }
 

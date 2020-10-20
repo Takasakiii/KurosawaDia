@@ -22,12 +22,13 @@ export function commandHandler (message: Message, commands: ICommands, bot: IBot
         return
     }
 
-    const context = {
+    const context: IContext = {
         message: message,
+        args: args,
         client: bot.client,
         bot: bot,
         author: message.author
-    } as IContext
+    }
 
     if (!command.validAuthorAndChannel(context)) return
 
