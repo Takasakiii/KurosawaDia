@@ -2,8 +2,8 @@ import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 
 class About extends Command {
-    name: string;
-    alias: string[];
+    name: string
+    alias: string[]
 
     constructor () {
         super()
@@ -11,6 +11,7 @@ class About extends Command {
         this.alias = [
             'sobre'
         ]
+        this.info.module = 'Help'
     }
 
     async execCommand (ctx: IContext): Promise<void> {

@@ -67,8 +67,8 @@ class KurosawaDia implements IBot {
             console.log('Bot iniciado')
         })
 
-        this.client.on('message', message => {
-            commandHandler(message, this._commands, this)
+        this.client.on('message', async message => {
+            await commandHandler(message, this._commands, this)
         })
 
         this.client.login(this._token)

@@ -3,7 +3,7 @@ import { IBot } from '../models/bot'
 import { ICommands } from '../models/commands'
 import { IContext } from '../models/context'
 
-export function commandHandler (message: Message, commands: ICommands, bot: IBot): void {
+export async function commandHandler (message: Message, commands: ICommands, bot: IBot): Promise<void> {
     if (!message.content.startsWith('~')) {
         return
     }
@@ -30,9 +30,9 @@ export function commandHandler (message: Message, commands: ICommands, bot: IBot
         author: message.author
     }
 
-    if (!command.validAuthorAndChannel(context)) return
+    if (!await command.validAuthorAndChannel(context)) return
 
-    if (!command.validPermission(context)) return
+    if (!await command.validPermission(context)) return
 
     command.execCommand(context)
 }
