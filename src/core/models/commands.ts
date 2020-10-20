@@ -19,7 +19,7 @@ export interface ICommand {
 
     validAuthorAndChannel(ctx: IContext): Promise<boolean>
     validPermission(ctx: IContext): Promise<boolean>
-    execCommand(ctx: IContext): void
+    execCommand(ctx: IContext): Promise<void>
     visible(): boolean
 }
 
@@ -52,7 +52,7 @@ export abstract class Command implements ICommand {
         return true
     }
 
-    abstract execCommand(ctx: IContext): void
+    abstract execCommand(ctx: IContext): Promise<void>
 
     visible (): boolean {
         return true

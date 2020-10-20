@@ -13,7 +13,7 @@
         "url": "git+https://github.com/Gabriel-Paulucci/KurosawaDia.git"
     },
     "author": "",
-    "license": "ISC",
+    "private": "true",
     "bugs": {
         "url": "https://github.com/Gabriel-Paulucci/KurosawaDia/issues"
     },
