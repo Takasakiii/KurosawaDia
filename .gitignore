@@ -16,4 +16,3 @@ out/
 # Arquivos lock
 
 package-lock.json
-yarn.lock

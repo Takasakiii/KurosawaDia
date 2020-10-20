@@ -1,7 +1,8 @@
-import { Client, Message } from 'discord.js'
+import { Message } from 'discord.js'
+import { IBot } from '../models/bot'
 import { ICommands } from '../models/commands'
 
-export function executeCommand (message: Message, commands: ICommands, client: Client): void {
+export function executeCommand (message: Message, commands: ICommands, bot: IBot): void {
     if (!message.content.startsWith('~') || message.author.bot) {
         return
     }
@@ -22,6 +23,8 @@ export function executeCommand (message: Message, commands: ICommands, client: C
 
     command.execCommand({
         message: message,
-        client: client
+        client: bot.client,
+        bot: bot,
+        author: message.author
     })
 }

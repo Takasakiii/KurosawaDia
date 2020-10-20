@@ -2,8 +2,10 @@ import { Client } from 'discord.js'
 import { ICommands, Command } from './models/commands'
 import glob from 'glob'
 import { executeCommand } from './events/message'
+import { IBot } from './models/bot'
+import { exit } from 'process'
 
-class KurosawaDia {
+class KurosawaDia implements IBot {
     client: Client
     private _token: string
     private _commands: ICommands
@@ -23,7 +25,21 @@ class KurosawaDia {
         this._token = value
     }
 
+    registerCommand (command: Command): void {
+        this._commands[command.name] = command
+        for (const alias of command.alias) {
+            if (!this._commands[alias]) {
+                this._commands[alias] = command
+            } else {
+                console.log('Comando ' + alias + ' ja existe')
+                exit()
+            }
+        }
+    }
+
     registerCommands (): void {
+        this._commands = {}
+
         glob('./src/core/commands/**/*.ts', {
             absolute: true
         }, (error, files) => {
@@ -38,10 +54,7 @@ class KurosawaDia {
                 const command = require(file).default
 
                 if (command instanceof Command) {
-                    this._commands[command.name] = command
-                    for (const alia of command.alias) {
-                        this._commands[alia] = command
-                    }
+                    this.registerCommand(command)
                     i++
                 }
             }
@@ -55,7 +68,7 @@ class KurosawaDia {
         })
 
         this.client.on('message', message => {
-            executeCommand(message, this._commands, this.client)
+            executeCommand(message, this._commands, this)
         })
 
         this.client.login(this._token)

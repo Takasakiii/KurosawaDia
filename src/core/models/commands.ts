@@ -1,9 +1,15 @@
 import { IContext } from './context'
 
+export interface IUsage {
+    description: string
+    optional: boolean
+    default: string
+}
+
 export interface ICommandInfo {
     description: string
     module: string
-    usage: string[]
+    usage: IUsage[]
 }
 
 export interface ICommand {
