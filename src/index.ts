@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import { env } from 'process'
-import { dabataseBot } from './database'
-import { kurosawaDia } from './core'
+import { dabataseBot } from '@database'
+import { kurosawaDia } from '@bot'
 
 config()
 

@@ -3,6 +3,7 @@
 * Help
     - [ ] Help
     - [ ] Sobre
+        * Renomeado para about
     - [ ] Info
 
 * Setting

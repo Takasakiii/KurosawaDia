@@ -10,13 +10,13 @@ export function commandHandler (message: Message, commands: ICommands, bot: IBot
 
     const args = message.content.slice(1).trim().split(/ +/)
 
-    const commandName = args.shift()?.toLowerCase() as string
+    const commandName = args.shift()?.toLowerCase()
 
     if (!commandName) {
         return
     }
 
-    const command = commands[commandName]
+    const command = commands[commandName.toLowerCase()]
 
     if (!command) {
         return
