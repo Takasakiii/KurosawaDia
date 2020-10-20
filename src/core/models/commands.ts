@@ -17,6 +17,7 @@ export interface ICommand {
     alias: string[]
     info: ICommandInfo
 
+    validAuthorAndChannel(context: IContext): boolean
     validPermission(context: IContext): boolean
     execCommand(context: IContext): void
     visible(): boolean
@@ -37,6 +38,14 @@ export abstract class Command implements ICommand {
             module: 'Default',
             usage: []
         }
+    }
+
+    validAuthorAndChannel (context: IContext): boolean {
+        if (context.author.bot || !context.message.guild) {
+            return false
+        }
+
+        return true
     }
 
     validPermission (context: IContext): boolean {

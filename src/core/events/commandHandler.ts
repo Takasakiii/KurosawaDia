@@ -4,7 +4,7 @@ import { ICommands } from '../models/commands'
 import { IContext } from '../models/context'
 
 export function commandHandler (message: Message, commands: ICommands, bot: IBot): void {
-    if (!message.content.startsWith('~') || message.author.bot) {
+    if (!message.content.startsWith('~')) {
         return
     }
 
@@ -28,6 +28,8 @@ export function commandHandler (message: Message, commands: ICommands, bot: IBot
         bot: bot,
         author: message.author
     } as IContext
+
+    if (!command.validAuthorAndChannel(context)) return
 
     if (!command.validPermission(context)) return
 
