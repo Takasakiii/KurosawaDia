@@ -17,6 +17,7 @@ export interface ICommand {
     alias: string[]
     info: ICommandInfo
 
+    validPermission(context: IContext): boolean
     execCommand(context: IContext): void
     visible(): boolean
 }
@@ -38,7 +39,12 @@ export abstract class Command implements ICommand {
         }
     }
 
+    validPermission (context: IContext): boolean {
+        return true
+    }
+
     abstract execCommand(context: IContext): void
+
     visible (): boolean {
         return true
     }

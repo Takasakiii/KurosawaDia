@@ -1,7 +1,7 @@
 import { Client } from 'discord.js'
 import { ICommands, Command } from './models/commands'
 import glob from 'glob'
-import { executeCommand } from './events/message'
+import { commandHandler } from './events/commandHandler'
 import { IBot } from './models/bot'
 import { exit } from 'process'
 
@@ -68,7 +68,7 @@ class KurosawaDia implements IBot {
         })
 
         this.client.on('message', message => {
-            executeCommand(message, this._commands, this)
+            commandHandler(message, this._commands, this)
         })
 
         this.client.login(this._token)
