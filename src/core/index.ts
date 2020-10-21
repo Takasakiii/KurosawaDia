@@ -26,14 +26,19 @@ class KurosawaDia implements IBot {
     }
 
     registerCommand (command: Command): void {
-        this._commands[command.name] = command
-        for (const alias of command.alias) {
-            if (!this._commands[alias]) {
-                this._commands[alias] = command
-            } else {
-                console.log('Comando ' + alias + ' ja existe')
-                exit()
+        if (!this._commands[command.name]) {
+            this._commands[command.name] = command
+            for (const alias of command.alias) {
+                if (!this._commands[alias]) {
+                    this._commands[alias] = command
+                } else {
+                    console.log('Comando ' + alias + ' ja existe')
+                    exit()
+                }
             }
+        } else {
+            console.log('Comando ' + command.name + ' ja existe')
+            exit()
         }
     }
 
@@ -51,11 +56,11 @@ class KurosawaDia implements IBot {
             console.log('Loading commands')
             let i = 0
             for (const file of files) {
-                const command = require(file).default
-                console.log(typeof command)
+                const Class = require(file).default
+                const command = new Class()
 
-                if (typeof command === 'function') {
-                    console.log('foi')
+                if (command instanceof Command) {
+                    this.registerCommand(command)
                     i++
                 }
             }
