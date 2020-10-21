@@ -12,7 +12,6 @@ out/
 
 .env
 
-
 # Arquivos lock
 
 package-lock.json

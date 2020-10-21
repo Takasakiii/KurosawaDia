@@ -1,7 +1,7 @@
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 
-class About extends Command {
+export default class About extends Command {
     name: string
     alias: string[]
 
@@ -18,7 +18,3 @@ class About extends Command {
         throw new Error('Method not implemented.')
     }
 }
-
-const about = new About()
-
-export default about

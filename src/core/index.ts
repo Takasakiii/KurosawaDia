@@ -52,9 +52,10 @@ class KurosawaDia implements IBot {
             let i = 0
             for (const file of files) {
                 const command = require(file).default
+                console.log(typeof command)
 
-                if (command instanceof Command) {
-                    this.registerCommand(command)
+                if (typeof command === 'function') {
+                    console.log('foi')
                     i++
                 }
             }

@@ -9,7 +9,7 @@ export interface IUsage {
 export interface ICommandInfo {
     description: string
     module: string
-    usage: IUsage[]
+    usages: IUsage[]
 }
 
 export interface ICommand {
@@ -36,7 +36,7 @@ export abstract class Command implements ICommand {
         this.info = {
             description: 'Sem descrição informada',
             module: 'Default',
-            usage: []
+            usages: []
         }
     }
 
