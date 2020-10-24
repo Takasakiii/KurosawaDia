@@ -35,17 +35,9 @@ namespace KurosawaCore
             {
                 Token = Config.Token,
                 TokenType = TokenType.Bot,
-                UseInternalLogHandler = true
+                UseInternalLogHandler = true,
+                LogLevel = LogLevel.Debug
             };
-
-            if (Debugger.IsAttached)
-            {
-                discordConfig.LogLevel = LogLevel.Debug;
-            }
-            else
-            {
-                discordConfig.LogLevel = LogLevel.Info;
-            }
 
             Cliente = new DiscordClient(discordConfig);
             new UserGuildEnter(ref Cliente);
