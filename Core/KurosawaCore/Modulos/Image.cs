@@ -52,7 +52,7 @@ namespace KurosawaCore.Modulos
                 await ctx.RespondAsync(embed: new DiscordEmbedBuilder
                 {
                     Title = "Você está procurando um cachorinho? Me adote.",
-                    Description = $"Me adote no Discord `{user.Username}#{user.Discriminator}` Woof Woof",
+                    Description = $"Me adote no Discord, `{user.Username}#{user.Discriminator}`! Woof Woof",
                     ThumbnailUrl = user.AvatarUrl,
                     Color = DiscordColor.Turquoise
                 });
@@ -79,7 +79,7 @@ namespace KurosawaCore.Modulos
 
         [Command("lolibomb")]
         [Hidden]
-        [Description("Manda varias imagens para você ser preso imediatamente.")]
+        [Description("Manda várias imagens para você ser preso imediatamente.")]
         public async Task LoliBomb(CommandContext ctx)
         {
             if ((byte)(await new ServidoresDAO().Get(new Servidores { ID = ctx.Guild.Id })).Especial < (byte)TiposServidores.LolisEdition)

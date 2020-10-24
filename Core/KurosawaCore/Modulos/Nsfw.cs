@@ -13,7 +13,7 @@ namespace KurosawaCore.Modulos
     public class Nsfw
     {
         [Command("hentai")]
-        [Description("Consiga uma imagem que façam com que sua família se orgulhe aqui.")]
+        [Description("Consiga uma imagem que faça com que sua família se orgulhe aqui.")]
         [RequireNsfw]
         public async Task Hentai(CommandContext ctx)
         {
@@ -34,9 +34,9 @@ namespace KurosawaCore.Modulos
 
         [Command ("nhentai")]
         [Aliases("doujin", "leituraculta")]
-        [Description("Abre um mini leitor para você poder ler seus conteudos educativos do nhentai (obs: não abre hentais com tag lolis ou derivadas)")]
+        [Description("Abre um mini leitor para você poder ler seus conteúdos educativos do nhentai (obs: não abre hentais com tag lolis ou derivadas)")]
         [RequireNsfw]
-        public async Task NHentai (CommandContext ctx, [Description("Numero / Codigo do nhentai")] uint codigo)
+        public async Task NHentai (CommandContext ctx, [Description("Número / Código do nhentai")] uint codigo)
         {
             await new NHentaiExtension(ctx).LerDoujin(codigo);
         }
