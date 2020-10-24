@@ -1,10 +1,15 @@
+import { IBot } from '@bot/models/bot'
+import { ICommands } from '@bot/models/commands'
+import { IContext } from '@bot/models/context'
+import { registerIdol } from '@database/functions/registerIdol'
 import { Message } from 'discord.js'
-import { IBot } from '../models/bot'
-import { ICommands } from '../models/commands'
-import { IContext } from '../models/context'
 
 export async function commandHandler (message: Message, commands: ICommands, bot: IBot): Promise<void> {
     if (!message.content.startsWith('~')) return
+
+    if (message.guild) {
+        registerIdol(message.guild.id, message.author.id)
+    }
 
     const args = message.content.slice(1).trim().split(/ +/)
 

@@ -1,18 +1,21 @@
 import { config } from 'dotenv'
-import { env } from 'process'
-import { dabataseBot } from '@database'
-import { kurosawaDia } from '@bot'
+import { env, exit } from 'process'
+import { KurosawaDia } from '@bot'
+import { DatabaseBot } from '@database'
 
 config()
 
 init().catch(error => {
     console.error(error)
-    process.exit()
+    exit()
 })
 
 async function init () {
-    await dabataseBot.start()
+    const databaseBot = new DatabaseBot()
+    await databaseBot.start()
 
+    const kurosawaDia = new KurosawaDia()
+    kurosawaDia.registerCommands()
     kurosawaDia.token = env.bot_token as string
     kurosawaDia.start()
 }

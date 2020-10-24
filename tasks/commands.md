@@ -1,4 +1,4 @@
-### Comandos 
+### Commands
 
 * Help
     - [ ] Help

@@ -1,4 +1,4 @@
-### Afazeres
+### Activities
 
 * Handler
     - [ ] Varificação de prefixo

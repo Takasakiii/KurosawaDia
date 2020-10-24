@@ -5,7 +5,7 @@ import { commandHandler } from './events/commandHandler'
 import { IBot } from './models/bot'
 import { exit } from 'process'
 
-class KurosawaDia implements IBot {
+export class KurosawaDia implements IBot {
     client: Client
     private _token: string
     private _commands: ICommands
@@ -80,8 +80,3 @@ class KurosawaDia implements IBot {
         this.client.login(this._token)
     }
 }
-
-const kurosawaDia = new KurosawaDia()
-kurosawaDia.registerCommands()
-
-export { kurosawaDia }

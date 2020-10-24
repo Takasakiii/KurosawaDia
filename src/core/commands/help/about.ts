@@ -15,6 +15,6 @@ export default class About extends Command {
     }
 
     async execCommand (ctx: IContext): Promise<void> {
-        throw new Error('Method not implemented.')
+        ctx.message.channel.send('teste')
     }
 }

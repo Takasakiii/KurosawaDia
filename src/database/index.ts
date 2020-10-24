@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm'
 
-class DabataseBot {
+export class DatabaseBot {
     private connection!: Connection
 
     async start () {
@@ -8,7 +8,3 @@ class DabataseBot {
         console.log('Database start')
     }
 }
-
-const dabataseBot = new DabataseBot()
-
-export { dabataseBot }
