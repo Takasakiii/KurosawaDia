@@ -153,7 +153,6 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb);
-            Console.WriteLine($"Comando whatsify feito por {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator} contendo {mensagem}");
         }
 
         [Command("say")]
@@ -172,7 +171,6 @@ namespace KurosawaCore.Modulos
 
             await new StringVariablesExtension(ctx.Member, ctx.Guild).SendMessage(ctx.Message.Channel, mensagem);
             await ctx.Message.DeleteAsync();
-            Console.WriteLine($"Comando say feito por {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator} contendo {mensagem}");
         }
 
         [Command("editsay")]
@@ -194,7 +192,6 @@ namespace KurosawaCore.Modulos
 
             await new StringVariablesExtension(ctx.Member, ctx.Guild).ModifyMessage(msgex.Message, texto);
             await ctx.Message.DeleteAsync();
-            Console.WriteLine($"Comando esay feito por {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator} contendo {texto}");
         }
 
         [Command("mentionrandom")]

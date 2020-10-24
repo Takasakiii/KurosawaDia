@@ -35,9 +35,18 @@ namespace KurosawaCore
             {
                 Token = Config.Token,
                 TokenType = TokenType.Bot,
-                UseInternalLogHandler = true,
-                LogLevel = LogLevel.Debug
+                UseInternalLogHandler = true
             };
+
+            if (Debugger.IsAttached)
+            {
+                discordConfig.LogLevel = LogLevel.Debug;
+            }
+            else
+            {
+                discordConfig.LogLevel = LogLevel.Info;
+            }
+
             Cliente = new DiscordClient(discordConfig);
             new UserGuildEnter(ref Cliente);
             new UserGuildExit(ref Cliente);
@@ -67,6 +76,7 @@ namespace KurosawaCore
                 Cliente.DebugLogger.LogMessage(LogLevel.Debug, "Kurosawa Dia - Handler", $"Comando Registrado: {comando.Key}", DateTime.Now);
             }
             new CommandErrored(ref comandos);
+            new CommandExecuted(ref comandos);
             Cliente.UseInteractivity(new InteractivityConfiguration
             {
                 Timeout = TimeSpan.FromMinutes(5)

@@ -41,6 +41,9 @@ namespace KurosawaCore.Configuracoes
 
             if (cr != null)
                 await new JsonEmbedExtension().SendMessage(msg.Channel, cr.Resposta);
+
+            Console.WriteLine($"[cr trigger] [{msg.Author.Username}#{msg.Author.Discriminator}] [{msg.Content}] [{cr.Resposta}]");
+
             return -1;
         }
 
