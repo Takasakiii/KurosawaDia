@@ -1,6 +1,6 @@
-import { env } from 'process'
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Idol } from './idol'
+import config from '@/configs/config.json'
 
 @Entity('guilds')
 export class Guild extends BaseEntity {
@@ -11,15 +11,15 @@ export class Guild extends BaseEntity {
     id!: number
 
     @Column('varchar', {
-        length: 20,
-        nullable: false
+        nullable: false,
+        length: 20
     })
     discordId!: string
 
     @Column('varchar', {
         nullable: false,
         length: 13,
-        default: env.bot_prefix as string
+        default: config.bot.prefix
     })
     prefix!: string
 
