@@ -109,6 +109,7 @@ namespace KurosawaCore.Modulos
                 Title = "Custom Reaction adicionada com sucesso 😃",
                 Color = DiscordColor.Orange
             });
+            Console.WriteLine($"Comando cr feito por {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator} contendo {split[1]}");
         }
 
 

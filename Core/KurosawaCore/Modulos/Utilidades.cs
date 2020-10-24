@@ -119,7 +119,7 @@ namespace KurosawaCore.Modulos
             if (mensagem == "")
                 throw new Exception();
 
-            DiscordChannel channel = await ctx.Client.GetChannelAsync(556598669500088320);
+            DiscordChannel channel = await ctx.Client.GetChannelAsync(769583932597338112);
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder
             {
@@ -153,6 +153,7 @@ namespace KurosawaCore.Modulos
                 Color = DiscordColor.Green
             };
             await ctx.RespondAsync(embed: eb);
+            Console.WriteLine($"Comando whatsify feito por {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator} contendo {mensagem}");
         }
 
         [Command("say")]
