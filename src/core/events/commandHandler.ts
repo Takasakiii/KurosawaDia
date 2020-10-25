@@ -1,17 +1,17 @@
 import { IBot } from '@bot/models/bot'
 import { ICommands } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
-import { getPrefix } from '@/database/functions/getPrefix'
 import { Message } from 'discord.js'
+import { customPrefix } from '../functions/customPrefix'
 
 export async function commandHandler (message: Message, commands: ICommands, bot: IBot): Promise<void> {
-    if (!message.content.startsWith('~')) return
+    const length = await customPrefix(message)
 
-    if (message.guild) {
-        getPrefix(message.guild.id, message.author.id)
+    if (length === -1) {
+        return
     }
 
-    const args = message.content.slice(1).trim().split(/ +/)
+    const args = message.content.slice(length).trim().split(/ +/)
 
     const commandName = args.shift()?.toLowerCase()
 
