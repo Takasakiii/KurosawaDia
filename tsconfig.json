@@ -53,6 +53,9 @@
       "@bot/*": [
         "./src/core/*"
       ],
+      "@configs/*": [
+        "./src/configs/*"
+      ],
       "@database": [
         "./src/database"
       ],

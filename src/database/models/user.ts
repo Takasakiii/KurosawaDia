@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Idol } from './idol'
 
 @Entity('users')
@@ -13,6 +13,7 @@ export class User extends BaseEntity {
         length: 64,
         nullable: false
     })
+    @Index({ unique: true })
     discordId!: string
 
     @OneToMany(() => Idol, x => x.guild)

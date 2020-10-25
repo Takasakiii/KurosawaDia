@@ -2,7 +2,7 @@ import { Guild } from '@database/models/guild'
 import { Idol } from '@database/models/idol'
 import { User } from '@database/models/user'
 
-export async function registerIdol (guildDiscordId: string, userDiscordId: string): Promise<Idol> {
+export async function getPrefix (guildDiscordId: string, userDiscordId: string): Promise<Idol> {
     let guild = await Guild.findOne({
         where: {
             discordId: guildDiscordId
@@ -35,13 +35,16 @@ export async function registerIdol (guildDiscordId: string, userDiscordId: strin
         where: {
             guildId: guild.id,
             userId: user.id
-        }
+        },
+        relations: [
+            'guild'
+        ]
     })
 
     if (!idol) {
         idol = Idol.create({
-            guildId: guild.id,
-            userId: user.id
+            guild: guild,
+            user: user
         })
 
         Idol.save(idol)
