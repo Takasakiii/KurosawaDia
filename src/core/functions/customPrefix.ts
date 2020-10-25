@@ -3,7 +3,7 @@ import { Message } from 'discord.js'
 
 export async function customPrefix (message: Message): Promise<number> {
     if (!message.guild) {
-        return message.content === '~' ? 1 : -1
+        return message.content.startsWith('~') ? 1 : -1
     } else {
         const idol = await getPrefix(message.guild.id, message.author.id)
 
