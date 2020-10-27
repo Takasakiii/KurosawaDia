@@ -61,7 +61,7 @@ export default class Prefix extends Command {
                 return true
             }, {
                 max: 1,
-                time: 5000
+                time: 30000
             })
 
             collector.on('collect', async (reaction) => {
