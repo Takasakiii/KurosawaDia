@@ -9,11 +9,13 @@ export class KurosawaDia implements IBot {
     client: Client
     private _token: string
     private _commands: ICommands
+    private _uniqueCommands: ICommands
 
     constructor () {
         this.client = new Client()
         this._token = ''
         this._commands = {}
+        this._uniqueCommands = {}
     }
 
     set token (value: string) {
@@ -28,6 +30,7 @@ export class KurosawaDia implements IBot {
     registerCommand (command: Command): void {
         if (!this._commands[command.name]) {
             this._commands[command.name] = command
+            this._uniqueCommands[command.name] = command
             for (const alias of command.alias) {
                 if (!this._commands[alias]) {
                     this._commands[alias] = command
@@ -65,7 +68,7 @@ export class KurosawaDia implements IBot {
                 }
             }
             console.log(i + ' commands load')
-            console.table(this._commands)
+            console.table(this._uniqueCommands)
         })
     }
 
