@@ -1,5 +1,5 @@
 # Kurosawa Dia
-Just another TS Discord Bot (Released Version)
+Just another TS Discord Bot (Released Version = C# (yet))
 
 (I'm in the process of transpilation for TypeScript, my last released version was in CSharp, you can check in here > [Last Version](https://github.com/Gabriel-Paulucci/KurosawaDia/tree/VersãoPublicada))
 
