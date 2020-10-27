@@ -1,21 +1,17 @@
 import { MessageEmbed } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
 import infos from '@configs/infos.json'
-import { Alias, Name } from '@bot/helpers/command'
+import { CommandAlias, CommandName, CommandInfo } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 
-@Name('info')
-@Alias('convite', 'ping')
+@CommandName('info')
+@CommandAlias('convite', 'ping')
+@CommandInfo({
+    description: 'Contém informações de suporte e algumas coisinhas pessoais.',
+    module: 'Help'
+})
 export default class Info extends Command {
-    constructor () {
-        super()
-        this.info = {
-            description: 'Contém informações de suporte e algumas coisinhas pessoais.',
-            module: 'Help'
-        }
-    }
-
     async execCommand (ctx: IContext): Promise<void> {
         const embed = new MessageEmbed({
             title: '**Dia\'s book:**',

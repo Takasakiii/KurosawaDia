@@ -7,16 +7,16 @@ import { exit } from 'process'
 import { ICommandInvoke, ICommandsInvoke } from './models/commandInvoke'
 
 export class KurosawaDia implements IBot {
-    client: Client
+    readonly client: Client
     private _token: string
-    private _commands: ICommandsInvoke
-    private _uniqueCommands: ICommandsInvoke
+    commands: ICommandsInvoke
+    uniqueCommands: ICommandsInvoke
 
     constructor () {
         this.client = new Client()
         this._token = ''
-        this._commands = {}
-        this._uniqueCommands = {}
+        this.commands = {}
+        this.uniqueCommands = {}
     }
 
     set token (value: string) {
@@ -35,16 +35,16 @@ export class KurosawaDia implements IBot {
             alias: Reflect.getMetadata('command:alias', Class)
         }
 
-        if (this._commands[commandInvoke.name]) {
+        if (this.commands[commandInvoke.name]) {
             console.log('Comando ' + commandInvoke.name + ' ja existe')
             exit()
         }
 
-        this._commands[commandInvoke.name] = commandInvoke
-        this._uniqueCommands[commandInvoke.name] = commandInvoke
+        this.commands[commandInvoke.name] = commandInvoke
+        this.uniqueCommands[commandInvoke.name] = commandInvoke
         for (const alias of commandInvoke.alias) {
-            if (!this._commands[alias]) {
-                this._commands[alias] = commandInvoke
+            if (!this.commands[alias]) {
+                this.commands[alias] = commandInvoke
             } else {
                 console.log('Comando ' + alias + ' ja existe')
                 exit()
@@ -53,7 +53,7 @@ export class KurosawaDia implements IBot {
     }
 
     registerCommands (): void {
-        this._commands = {}
+        this.commands = {}
 
         glob('./src/core/commands/**/*.ts', {
             absolute: true
@@ -81,7 +81,7 @@ export class KurosawaDia implements IBot {
                 }
             }
             console.log(i + ' commands load')
-            console.table(this._uniqueCommands)
+            console.table(this.uniqueCommands)
         })
     }
 
@@ -91,7 +91,7 @@ export class KurosawaDia implements IBot {
         })
 
         this.client.on('message', async message => {
-            await commandHandler(message, this._commands, this)
+            await commandHandler(message, this.commands, this)
         })
 
         this.client.login(this._token)

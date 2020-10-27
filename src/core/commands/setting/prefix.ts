@@ -3,25 +3,21 @@ import embedConfig from '@configs/embedConfig.json'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { setPrefix } from '@database/functions/setPrefix'
-import { Alias, Name } from '@bot/helpers/command'
+import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 
-@Name('prefix')
-@Alias('setprefix')
-export default class Prefix extends Command {
-    constructor () {
-        super()
-        this.info = {
-            description: 'Modifica o meu prefixo no servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)',
-            module: 'Setting',
-            usages: [
-                {
-                    description: 'O meu novo prefixo no servidor.',
-                    optional: false
-                }
-            ]
+@CommandName('prefix')
+@CommandAlias('setprefix')
+@CommandInfo({
+    description: 'Modifica o meu prefixo no servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)',
+    module: 'Setting',
+    usages: [
+        {
+            description: 'O meu novo prefixo no servidor.',
+            optional: false
         }
-    }
-
+    ]
+})
+export default class Prefix extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
         if (ctx.memberAuthor?.hasPermission('MANAGE_GUILD')) {
             return true

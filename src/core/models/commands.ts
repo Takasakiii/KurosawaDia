@@ -13,8 +13,6 @@ export interface ICommandInfo {
 }
 
 export interface ICommand {
-    info: ICommandInfo
-
     validAuthorAndChannel(ctx: IContext): Promise<boolean>
     validPermission(ctx: IContext): Promise<boolean>
     execCommand(ctx: IContext): Promise<void>
@@ -25,16 +23,13 @@ export interface ICommands {
     [keyof: string]: ICommand
 }
 
+/*
+@CommandInfo({
+    description: 'Sem descrição informada',
+    module: 'Default'
+})
+*/
 export abstract class Command implements ICommand {
-    info: ICommandInfo
-
-    constructor () {
-        this.info = {
-            description: 'Sem descrição informada',
-            module: 'Default'
-        }
-    }
-
     async validAuthorAndChannel (ctx: IContext): Promise<boolean> {
         if (ctx.author.bot || !ctx.message.guild) {
             return false
