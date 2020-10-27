@@ -2,7 +2,8 @@
     "colors": {
         "orange": "#ff6900",
         "yellow": "#fcb900",
-        "green": "#12bc00"
+        "green": "#12bc00",
+        "purple": "#800080"
     },
     "emojis": {
         "yes": "✅",

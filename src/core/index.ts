@@ -65,6 +65,7 @@ export class KurosawaDia implements IBot {
                 }
             }
             console.log(i + ' commands load')
+            console.table(this._commands)
         })
     }
 

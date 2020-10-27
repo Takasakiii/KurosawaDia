@@ -3,11 +3,10 @@
 * Help
     - [ ] Help
     - [ ] Sobre
-        * Renomeado para about
     - [ ] Info
 
 * Setting
-    - [ ] Prefix
+    - [x] Prefix
     - [ ] Bem vindo
     - [ ] Saida
 
