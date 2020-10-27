@@ -67,6 +67,12 @@ export class KurosawaDia implements IBot {
             let i = 0
             for (const file of files) {
                 const ClassDefinition = require(file).default
+
+                if (!ClassDefinition) {
+                    console.log('Commando não esta usando export default')
+                    exit()
+                }
+
                 const command = new ClassDefinition()
 
                 if (command instanceof Command) {

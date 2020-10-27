@@ -8,15 +8,8 @@ import { Alias, Name } from '@bot/helpers/command'
 @Name('prefix')
 @Alias('setprefix')
 export default class Prefix extends Command {
-    name: string
-    alias: string[]
-
     constructor () {
         super()
-        this.name = 'prefix'
-        this.alias = [
-            'setprefix'
-        ]
         this.info = {
             description: 'Modifica o meu prefixo no servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)',
             module: 'Setting',
