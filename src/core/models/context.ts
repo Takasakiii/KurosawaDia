@@ -1,4 +1,4 @@
-import { Client, Message, User } from 'discord.js'
+import { Client, DMChannel, Guild, GuildMember, Message, NewsChannel, TextChannel, User } from 'discord.js'
 import { IBot } from './bot'
 
 export interface IContext {
@@ -7,4 +7,7 @@ export interface IContext {
     client: Client
     bot: IBot
     author: User
+    memberAuthor: GuildMember | null
+    channel: TextChannel | DMChannel | NewsChannel,
+    guild: Guild | null
 }

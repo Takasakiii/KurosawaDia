@@ -15,29 +15,38 @@ export async function commandHandler (message: Message, commands: ICommands, bot
 
     const commandName = args.shift()?.toLowerCase()
 
-    if (!commandName) return
+    if (!commandName) {
+        return
+    }
 
     const command = commands[commandName.toLowerCase()]
 
-    if (!command) return
+    if (!command) {
+        return
+    }
 
     const context: IContext = {
         message: message,
         args: args,
         client: bot.client,
         bot: bot,
-        author: message.author
+        author: message.author,
+        memberAuthor: message.member,
+        channel: message.channel,
+        guild: message.guild
     }
 
     try {
-        if (!await command.validAuthorAndChannel(context)) return
+        if (!await command.validAuthorAndChannel(context)) {
+            return
+        }
 
-        if (!await command.validPermission(context)) return
+        if (!await command.validPermission(context)) {
+            return
+        }
 
         await command.execCommand(context)
     } catch (error) {
-        if (error instanceof Error) {
-            console.log(error)
-        }
+        console.log(error)
     }
 }

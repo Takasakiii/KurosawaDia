@@ -1,0 +1,11 @@
+{
+    "colors": {
+        "orange": "#ff6900",
+        "yellow": "#fcb900",
+        "green": "#12bc00"
+    },
+    "emojis": {
+        "yes": "✅",
+        "no": "❌"
+    }
+}

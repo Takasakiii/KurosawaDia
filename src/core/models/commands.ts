@@ -3,7 +3,7 @@ import { IContext } from './context'
 export interface IUsage {
     description: string
     optional: boolean
-    default: string
+    default?: string
 }
 
 export interface ICommandInfo {
@@ -48,7 +48,7 @@ export abstract class Command implements ICommand {
         return true
     }
 
-    async validPermission (): Promise<boolean> {
+    async validPermission (ctx: IContext): Promise<boolean> {
         return true
     }
 
