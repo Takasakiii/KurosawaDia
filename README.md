@@ -20,7 +20,7 @@ If you give me a chance you might like it 😉
 *(This gonna be updated as soon as possible...)*
 
 > ## Thanks For visiting me!
->> ## [Invite me for your server!](https://zuraaa.com/bots/389917977862078484/add) 
-![]("other/gifs/dia_chan_yay.gif")
+>> ## [Invite me for your server!](https://zuraaa.com/bots/389917977862078484/add)
+![](other/gifs/dia_chan_yay.gif)
 
 >     Copyright © 2020 Gabriel-Paulucci & KuryKat
