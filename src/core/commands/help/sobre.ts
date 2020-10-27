@@ -7,16 +7,12 @@ import { Alias, Name } from '@bot/helpers/command'
 @Name('sobre')
 @Alias('apresentacao', 'apresentação')
 export default class Sobre extends Command {
-    name: string
-    alias: string[]
-
     constructor () {
         super()
-        this.name = 'sobre'
-        this.alias = [
-            'apresentacao',
-            'apresentação'
-        ]
+        this.info = {
+            description: 'Digamos que tudo que precisa saber sobre mim você pode ver aqui :heart:',
+            module: 'Help'
+        }
     }
 
     async execCommand (ctx: IContext): Promise<void> {

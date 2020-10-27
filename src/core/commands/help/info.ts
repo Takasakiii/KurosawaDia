@@ -8,16 +8,12 @@ import { IContext } from '@bot/models/context'
 @Name('info')
 @Alias('convite', 'ping')
 export default class Info extends Command {
-    name: string
-    alias: string[]
-
     constructor () {
         super()
-        this.name = 'info'
-        this.alias = [
-            'convite',
-            'ping'
-        ]
+        this.info = {
+            description: 'Contém informações de suporte e algumas coisinhas pessoais.',
+            module: 'Help'
+        }
     }
 
     async execCommand (ctx: IContext): Promise<void> {

@@ -9,12 +9,10 @@ export interface IUsage {
 export interface ICommandInfo {
     description: string
     module: string
-    usages: IUsage[]
+    usages?: IUsage[]
 }
 
 export interface ICommand {
-    name: string
-    alias: string[]
     info: ICommandInfo
 
     validAuthorAndChannel(ctx: IContext): Promise<boolean>
@@ -28,15 +26,12 @@ export interface ICommands {
 }
 
 export abstract class Command implements ICommand {
-    abstract name: string;
-    abstract alias: string[];
-    info: ICommandInfo;
+    info: ICommandInfo
 
     constructor () {
         this.info = {
             description: 'Sem descrição informada',
-            module: 'Default',
-            usages: []
+            module: 'Default'
         }
     }
 
