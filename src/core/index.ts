@@ -1,15 +1,16 @@
 import { Client } from 'discord.js'
-import { ICommands, Command } from './models/commands'
+import { Command } from './models/commands'
 import glob from 'glob'
 import { commandHandler } from './events/commandHandler'
 import { IBot } from './models/bot'
 import { exit } from 'process'
+import { ICommandInvoke, ICommandsInvoke } from './models/commandInvoke'
 
 export class KurosawaDia implements IBot {
     client: Client
     private _token: string
-    private _commands: ICommands
-    private _uniqueCommands: ICommands
+    private _commands: ICommandsInvoke
+    private _uniqueCommands: ICommandsInvoke
 
     constructor () {
         this.client = new Client()
@@ -27,21 +28,27 @@ export class KurosawaDia implements IBot {
         this._token = value
     }
 
-    registerCommand (command: Command): void {
-        if (!this._commands[command.name]) {
-            this._commands[command.name] = command
-            this._uniqueCommands[command.name] = command
-            for (const alias of command.alias) {
-                if (!this._commands[alias]) {
-                    this._commands[alias] = command
-                } else {
-                    console.log('Comando ' + alias + ' ja existe')
-                    exit()
-                }
-            }
-        } else {
-            console.log('Comando ' + command.name + ' ja existe')
+    registerCommand (Class: any): void {
+        const commandInvoke: ICommandInvoke = {
+            ClassDefinition: Class,
+            name: Reflect.getMetadata('command:name', Class),
+            alias: Reflect.getMetadata('command:alias', Class)
+        }
+
+        if (this._commands[commandInvoke.name]) {
+            console.log('Comando ' + commandInvoke.name + ' ja existe')
             exit()
+        }
+
+        this._commands[commandInvoke.name] = commandInvoke
+        this._uniqueCommands[commandInvoke.name] = commandInvoke
+        for (const alias of commandInvoke.alias) {
+            if (!this._commands[alias]) {
+                this._commands[alias] = commandInvoke
+            } else {
+                console.log('Comando ' + alias + ' ja existe')
+                exit()
+            }
         }
     }
 
@@ -59,11 +66,11 @@ export class KurosawaDia implements IBot {
             console.log('Loading commands')
             let i = 0
             for (const file of files) {
-                const Class = require(file).default
-                const command = new Class()
+                const ClassDefinition = require(file).default
+                const command = new ClassDefinition()
 
                 if (command instanceof Command) {
-                    this.registerCommand(command)
+                    this.registerCommand(ClassDefinition)
                     i++
                 }
             }

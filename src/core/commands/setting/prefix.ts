@@ -1,9 +1,12 @@
-import { Command } from '@/core/models/commands'
-import { IContext } from '@/core/models/context'
 import { MessageEmbed, MessageReaction, User } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
-import { setPrefix } from '@/database/functions/setPrefix'
+import { Command } from '@bot/models/commands'
+import { IContext } from '@bot/models/context'
+import { setPrefix } from '@database/functions/setPrefix'
+import { Alias, Name } from '@bot/helpers/command'
 
+@Name('prefix')
+@Alias('setprefix')
 export default class Prefix extends Command {
     name: string
     alias: string[]

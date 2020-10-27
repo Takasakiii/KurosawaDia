@@ -1,4 +1,4 @@
-import { getPrefix } from '@/database/functions/getPrefix'
+import { getPrefix } from '@database/functions/getPrefix'
 import { Message } from 'discord.js'
 
 export async function customPrefix (message: Message): Promise<number> {

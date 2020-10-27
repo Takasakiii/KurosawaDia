@@ -1,10 +1,11 @@
 import { IBot } from '@bot/models/bot'
-import { ICommands } from '@bot/models/commands'
+import { ICommandsInvoke } from '@bot/models/commandInvoke'
+import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { Message } from 'discord.js'
 import { customPrefix } from '../functions/customPrefix'
 
-export async function commandHandler (message: Message, commands: ICommands, bot: IBot): Promise<void> {
+export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
     const length = await customPrefix(message)
 
     if (length === -1) {
@@ -19,7 +20,9 @@ export async function commandHandler (message: Message, commands: ICommands, bot
         return
     }
 
-    const command = commands[commandName.toLowerCase()]
+    const Invoke = commands[commandName.toLowerCase()]
+
+    const command = new Invoke.ClassDefinition() as Command
 
     if (!command) {
         return
