@@ -63,6 +63,6 @@ We have an automatic system that receives issues and posts to us in a faster way
 
 
 ### Navigation
-> [Back to Main README](../README.md)
+> [Back to Main README](./README.md)
 
      Copyright © 2020 Gabriel-Paulucci & KuryKat
