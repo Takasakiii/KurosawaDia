@@ -2,8 +2,8 @@
 
 * Help
     - [ ] Help
-    - [ ] Sobre
-    - [ ] Info
+    - [x] Sobre
+    - [x] Info
 
 * Setting
     - [x] Prefix
