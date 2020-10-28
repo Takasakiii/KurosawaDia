@@ -11,6 +11,10 @@ export async function eliminateMember (ctx: IContext, type: eliminateType, messa
     const target = ctx.message.mentions.members?.first()
     const targetRole = target?.roles.highest
 
+    if (!target) {
+        return
+    }
+
     if (!botRole || !authorRole || !targetRole) {
         ctx.channel.send('problema nas tags')
         return
@@ -44,15 +48,25 @@ export async function eliminateMember (ctx: IContext, type: eliminateType, messa
     const dm = await target?.createDM()
     await dm?.send(embedMember)
 
-    const log = `Responsável: ${ctx.author.username}#${ctx.author.discriminator} [${(!message ? 'Motivo: ' + message : '')}]`
+    const reason = `Responsável: ${ctx.author.username}#${ctx.author.discriminator} [${(!message ? 'Motivo: ' + message : '')}]`
 
     switch (type) {
     case 'ban':
-        await target?.ban({
-            reason: log
+        await target.ban({
+            reason: reason
         })
         break
+    case 'kick':
+        await target.kick(reason)
+        break
+    case 'softban':
+        await target.ban({
+            days: 1,
+            reason: reason
+        })
 
+        await ctx.guild?.members.unban(target.user)
+        break
     default:
         break
     }

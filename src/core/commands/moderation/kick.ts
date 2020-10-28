@@ -3,13 +3,13 @@ import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 
-@CommandName('ban')
+@CommandName('kick')
 @CommandInfo({
-    description: 'Bane um usuário.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)',
+    description: 'Expulsa um usuário.\n\n(Observação: você precisa da permissão de expulsar membros para poder usar esse comando.)',
     module: 'moderation',
     usages: [
         {
-            description: 'Usuário que deseja banir.',
+            description: 'Usuário que deseja expulsar.',
             optional: false
         },
         {
@@ -20,11 +20,11 @@ import { IContext } from '@bot/models/context'
 })
 export default class Ban extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
-        if (!ctx.memberAuthor?.hasPermission('BAN_MEMBERS')) {
+        if (!ctx.memberAuthor?.hasPermission('KICK_MEMBERS')) {
             return false
         }
 
-        if (!ctx.memberClient?.hasPermission('BAN_MEMBERS')) {
+        if (!ctx.memberClient?.hasPermission('KICK_MEMBERS')) {
             return false
         }
 
@@ -36,6 +36,6 @@ export default class Ban extends Command {
             return
         }
 
-        await eliminateMember(ctx, 'ban', ctx.args.slice(1).join(' ').toString())
+        await eliminateMember(ctx, 'kick', ctx.args.slice(1).join(' ').toString())
     }
 }

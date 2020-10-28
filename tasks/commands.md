@@ -32,7 +32,7 @@
     - [ ] Limpar chat
     - [ ] Kick
     - [ ] Soft ban
-    - [ ] Ban
+    - [x] Ban
 
 * NSFW
     - [ ] Hentai
