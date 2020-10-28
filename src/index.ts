@@ -2,6 +2,7 @@ import { config } from 'dotenv'
 import { env, exit } from 'process'
 import { KurosawaDia } from '@bot'
 import { DatabaseBot } from '@database'
+import './i18n'
 
 config()
 

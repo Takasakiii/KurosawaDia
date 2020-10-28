@@ -3,6 +3,7 @@ import { Command, ICommandInfo } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { MessageEmbed } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
+import { __ } from 'i18n'
 
 interface IModules {
     [keyof: string]: string
@@ -49,7 +50,7 @@ export default class Help extends Command {
             for (const key in modules) {
                 const element = modules[key]
 
-                embed.addField(key, element)
+                embed.addField(__('module.' + key), element)
             }
 
             ctx.channel.send(embed)
