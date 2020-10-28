@@ -8,7 +8,8 @@
 		"eliminate": {
 			"member": {
 				"ban": "banido",
-				"kick": "expulso"
+				"kick": "expulso",
+				"softban": "removido"
 			}
 		}
 	}

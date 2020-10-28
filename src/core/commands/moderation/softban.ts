@@ -3,13 +3,13 @@ import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 
-@CommandName('kick')
+@CommandName('softban')
 @CommandInfo({
-    description: 'Expulsa um usuário.\n\n(Observação: você precisa da permissão de expulsar membros para poder usar esse comando.)',
+    description: 'Expulsa um usuário e apaga suas mensagens.\n\n(Observação: você precisa da permissão de banir membros para poder usar esse comando.)',
     module: 'moderation',
     usages: [
         {
-            description: 'Usuário que deseja expulsar.',
+            description: 'Usuário que deseja remover.',
             optional: false
         },
         {
@@ -18,13 +18,13 @@ import { IContext } from '@bot/models/context'
         }
     ]
 })
-export default class Kick extends Command {
+export default class Softban extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
-        if (!ctx.memberAuthor?.hasPermission('KICK_MEMBERS')) {
+        if (!ctx.memberAuthor?.hasPermission('BAN_MEMBERS')) {
             return false
         }
 
-        if (!ctx.memberClient?.hasPermission('KICK_MEMBERS')) {
+        if (!ctx.memberClient?.hasPermission('BAN_MEMBERS')) {
             return false
         }
 
@@ -36,6 +36,6 @@ export default class Kick extends Command {
             return
         }
 
-        await eliminateMember(ctx, 'kick', ctx.args.slice(1).join(' ').toString())
+        await eliminateMember(ctx, 'softban', ctx.args.slice(1).join(' ').toString())
     }
 }

@@ -30,8 +30,8 @@
 
 * Moderation
     - [ ] Limpar chat
-    - [ ] Kick
-    - [ ] Soft ban
+    - [x] Kick
+    - [x] Soft ban
     - [x] Ban
 
 * NSFW
