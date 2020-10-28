@@ -87,6 +87,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/i18n@^0.8.7":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@types/i18n/-/i18n-0.8.7.tgz#f8aa1eba769747568dcea94e57a96bc5f6a852b6"
+  integrity sha512-Twh+PFhbjv+HBls9RJV81dsdhkdW2U2sBCvU0xQYreTWx+e6RtcPIFAXU11okvvTKYsVaJMVB8NgedUP+vvR5w==
+
 "@types/json-schema@^7.0.3":
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
