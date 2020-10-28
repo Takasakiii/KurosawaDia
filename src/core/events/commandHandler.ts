@@ -20,9 +20,13 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         return
     }
 
-    const Invoke = commands[commandName.toLowerCase()]
+    const invoke = commands[commandName.toLowerCase()]
 
-    const command = new Invoke.ClassDefinition() as Command
+    if (!invoke) {
+        return
+    }
+
+    const command = new invoke.ClassDefinition() as Command
 
     if (!command) {
         return

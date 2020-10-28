@@ -1,6 +1,7 @@
 import { IContext } from '@bot/models/context'
 import { MessageEmbed, Role } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
+import { __ } from 'i18n'
 
 type eliminateType = 'ban' | 'softban' | 'kick'
 
@@ -27,7 +28,7 @@ export async function eliminateMember (ctx: IContext, type: eliminateType, messa
 
     const embedMember = new MessageEmbed({
         title: '**Buuuu buuuu desu waaaa!!!!!**',
-        description: `Você foi ${type} do servidor **${ctx.guild?.name}**.`,
+        description: `Você foi ${__('function.eliminate.member.' + type)} do servidor **${ctx.guild?.name}**.`,
         image: {
             url: 'https://i.imgur.com/bwifre6.jpg'
         },
@@ -41,7 +42,7 @@ export async function eliminateMember (ctx: IContext, type: eliminateType, messa
     embedMember.addField('Responsável:', `${ctx.memberAuthor?.displayName}`)
 
     const dm = await target?.createDM()
-    dm?.send(embedMember)
+    await dm?.send(embedMember)
 
     const log = `Responsável: ${ctx.author.username}#${ctx.author.discriminator} [${(!message ? 'Motivo: ' + message : '')}]`
 
@@ -57,7 +58,7 @@ export async function eliminateMember (ctx: IContext, type: eliminateType, messa
     }
 
     const embedGuild = new MessageEmbed({
-        title: `Prontinhooo! O ${target?.user.username}#${target?.user.discriminator} foi ${type} do servidor 😀`,
+        title: `Prontinhooo! O ${target?.user.username}#${target?.user.discriminator} foi ${__('function.eliminate.member.' + type)} do servidor 😀`,
         color: embedConfig.colors.black
     })
 
