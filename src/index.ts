@@ -2,7 +2,16 @@ import { config } from 'dotenv'
 import { env, exit } from 'process'
 import { KurosawaDia } from '@bot'
 import { DatabaseBot } from '@database'
-import './i18n'
+import { configure } from 'i18n'
+
+configure({
+    locales: [
+        'pt-br'
+    ],
+    defaultLocale: 'pt-br',
+    directory: './src/i18n',
+    objectNotation: true
+})
 
 config()
 
