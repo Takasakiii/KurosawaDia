@@ -9,7 +9,7 @@ import { IContext } from '@bot/models/context'
 @CommandAlias('convite', 'ping')
 @CommandInfo({
     description: 'Contém informações de suporte e algumas coisinhas pessoais.',
-    module: 'Help'
+    module: 'help'
 })
 export default class Info extends Command {
     async execCommand (ctx: IContext): Promise<void> {

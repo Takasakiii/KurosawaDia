@@ -9,7 +9,7 @@ import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 @CommandAlias('setprefix')
 @CommandInfo({
     description: 'Modifica o meu prefixo no servidor.\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando.)',
-    module: 'Setting',
+    module: 'setting',
     usages: [
         {
             description: 'O meu novo prefixo no servidor.',
@@ -43,7 +43,7 @@ export default class Prefix extends Command {
                     return false
                 }
 
-                if (reaction.emoji.name !== embedConfig.emojis.yes && reaction.emoji.name !== embedConfig.emojis.no) {
+                if (reaction.emoji.id !== embedConfig.emojis.yes && reaction.emoji.id !== embedConfig.emojis.no) {
                     return false
                 }
 
@@ -54,7 +54,7 @@ export default class Prefix extends Command {
             })
 
             collector.on('collect', async (reaction) => {
-                if (reaction.emoji.name === embedConfig.emojis.yes) {
+                if (reaction.emoji.id === embedConfig.emojis.yes) {
                     await setPrefix(ctx.args[0], ctx.guild?.id as string)
 
                     embed.setTitle(`${ctx.memberAuthor?.displayName}, meu prefixo foi alterado com sucesso para \`${ctx.args[0]}\``)

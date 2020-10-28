@@ -42,12 +42,14 @@ export class KurosawaDia implements IBot {
 
         this.commands[commandInvoke.name] = commandInvoke
         this.uniqueCommands[commandInvoke.name] = commandInvoke
-        for (const alias of commandInvoke.alias) {
-            if (!this.commands[alias]) {
-                this.commands[alias] = commandInvoke
-            } else {
-                console.log('Comando ' + alias + ' ja existe')
-                exit()
+        if (commandInvoke.alias) {
+            for (const alias of commandInvoke.alias) {
+                if (!this.commands[alias]) {
+                    this.commands[alias] = commandInvoke
+                } else {
+                    console.log('Comando ' + alias + ' ja existe')
+                    exit()
+                }
             }
         }
     }

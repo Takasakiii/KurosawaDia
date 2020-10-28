@@ -1,6 +1,7 @@
 {
 	"module": {
-		"Help": "**Ajuda ❓ - Este módulo tem comandos para te ajudar na ultilização do bot.**",
-		"Setting": "**Configurações ⚙ - Em configurações, você define preferências de como vou agir em seu servidor.**"
+		"help": "**Ajuda ❓ - Este módulo tem comandos para te ajudar na ultilização do bot.**",
+		"setting": "**Configurações ⚙ - Em configurações, você define preferências de como vou agir em seu servidor.**",
+		"moderation": "module.moderation"
 	}
 }

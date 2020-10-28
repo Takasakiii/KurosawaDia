@@ -8,7 +8,7 @@ import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 @CommandAlias('apresentacao', 'apresentação')
 @CommandInfo({
     description: 'Digamos que tudo que precisa saber sobre mim você pode ver aqui :heart:',
-    module: 'Help'
+    module: 'help'
 })
 export default class Sobre extends Command {
     async execCommand (ctx: IContext): Promise<void> {

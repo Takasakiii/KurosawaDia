@@ -32,6 +32,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         message: message,
         args: args,
         client: bot.client,
+        memberClient: message.guild?.members.cache.get(bot.client.user?.id as string),
         bot: bot,
         author: message.author,
         memberAuthor: message.member,

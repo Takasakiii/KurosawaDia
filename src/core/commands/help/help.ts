@@ -13,7 +13,7 @@ interface IModules {
 @CommandAlias('ajuda', 'comandos')
 @CommandInfo({
     description: 'Com esse comando eu posso te fornecer informações, como se comunicar comigo e as tarefas que realizo.',
-    module: 'Help',
+    module: 'help',
     usages: [
         {
             description: 'Comando que você precisa de ajuda',
