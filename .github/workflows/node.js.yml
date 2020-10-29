@@ -5,9 +5,9 @@ name: Node.js CI Bot
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, newidolchan ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, newidolchan ]
 
 jobs:
   lint:
