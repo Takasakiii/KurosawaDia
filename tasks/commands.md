@@ -29,7 +29,7 @@
     - [ ] Loli bomb
 
 * Moderation
-    - [ ] Limpar chat
+    - [x] Clear chat
     - [x] Kick
     - [x] Soft ban
     - [x] Ban
