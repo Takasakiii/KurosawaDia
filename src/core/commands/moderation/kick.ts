@@ -1,3 +1,4 @@
+import BotPermissionError from '@bot/errors/botPermissionError'
 import { eliminateMember } from '@bot/functions/eliminateMember'
 import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
@@ -25,7 +26,7 @@ export default class Kick extends Command {
         }
 
         if (!ctx.memberClient?.hasPermission('KICK_MEMBERS')) {
-            return false
+            throw new BotPermissionError(['KICK_MEMBERS'])
         }
 
         return true

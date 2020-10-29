@@ -12,5 +12,10 @@
 				"softban": "removido"
 			}
 		}
+	},
+	"error": {
+		"permission": {
+			"KICK_MEMBERS": "expulsar membros"
+		}
 	}
 }

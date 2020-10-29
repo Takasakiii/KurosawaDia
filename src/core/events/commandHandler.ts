@@ -1,9 +1,11 @@
+import { BotBaseError } from '@bot/errors/baseError'
 import { IBot } from '@bot/models/bot'
 import { ICommandsInvoke } from '@bot/models/commandInvoke'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { Message } from 'discord.js'
 import { customPrefix } from '../functions/customPrefix'
+import { errorHandler } from './errorHandler'
 
 export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
     const length = await customPrefix(message)
@@ -55,6 +57,8 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
 
         await command.execCommand(context)
     } catch (error) {
-        console.log(error)
+        if (error instanceof BotBaseError) {
+            await errorHandler(context, error)
+        }
     }
 }
