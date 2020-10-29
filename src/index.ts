@@ -6,11 +6,13 @@ import { configure } from 'i18n'
 
 configure({
     locales: [
-        'pt-br'
+        'pt-br',
+        'en-us'
     ],
-    defaultLocale: 'pt-br',
+    defaultLocale: 'en-us',
     directory: './src/i18n',
-    objectNotation: true
+    objectNotation: true,
+    syncFiles: true
 })
 
 config()

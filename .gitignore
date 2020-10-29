@@ -7,6 +7,7 @@ build/
 tmp/
 temp/
 out/
+test/
 
 # Arquivos de config
 
