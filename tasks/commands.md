@@ -2,11 +2,11 @@
 
 * Help
     - [ ] Help
-    - [x] Sobre
-    - [x] Info
+    - [ ] Sobre
+    - [ ] Info
 
 * Setting
-    - [x] Prefix
+    - [ ] Prefix
     - [ ] Bem vindo
     - [ ] Saida
 
@@ -29,10 +29,10 @@
     - [ ] Loli bomb
 
 * Moderation
-    - [x] Clear chat
-    - [x] Kick
-    - [x] Soft ban
-    - [x] Ban
+    - [ ] Clear chat
+    - [ ] Kick
+    - [ ] Soft ban
+    - [ ] Ban
 
 * NSFW
     - [ ] Hentai
