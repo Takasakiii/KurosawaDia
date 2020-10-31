@@ -1,8 +1,8 @@
 import { config } from 'dotenv'
 import { env, exit } from 'process'
-import { KurosawaDia } from '@bot'
-import { DatabaseBot } from '@database'
 import { configure } from 'i18n'
+import kurosawaDia from '@bot'
+import serverSocket from '@server'
 
 configure({
     locales: [
@@ -23,10 +23,9 @@ init().catch(error => {
 })
 
 async function init () {
-    const databaseBot = new DatabaseBot()
-    await databaseBot.start()
+    serverSocket.url = env.server_socket_url as string
+    serverSocket.start()
 
-    const kurosawaDia = new KurosawaDia()
     kurosawaDia.registerCommands()
     kurosawaDia.token = env.bot_token as string
     kurosawaDia.start()

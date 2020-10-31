@@ -6,7 +6,7 @@ import { IBot } from './models/bot'
 import { exit } from 'process'
 import { ICommandInvoke, ICommandsInvoke } from './models/commandInvoke'
 
-export class KurosawaDia implements IBot {
+class KurosawaDia implements IBot {
     readonly client: Client
     private _token: string
     commands: ICommandsInvoke
@@ -99,3 +99,7 @@ export class KurosawaDia implements IBot {
         this.client.login(this._token)
     }
 }
+
+const kurosawaDia = new KurosawaDia()
+
+export default kurosawaDia
