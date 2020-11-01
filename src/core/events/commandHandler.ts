@@ -1,10 +1,10 @@
 import { BotBaseError } from '@bot/errors/baseError'
+import { customPrefix } from '@bot/functions/customPrefix'
 import { IBot } from '@bot/models/bot'
 import { ICommandsInvoke } from '@bot/models/commandInvoke'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { Message } from 'discord.js'
-import { customPrefix } from '../functions/customPrefix'
 import { errorHandler } from './errorHandler'
 
 export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
@@ -14,7 +14,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         return
     }
 
-    const args = message.content.slice(length).trim().split(/ +/)
+    const args = message.content.slice(1).trim().split(/ +/)
 
     const commandName = args.shift()?.toLowerCase()
 

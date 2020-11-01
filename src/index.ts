@@ -3,6 +3,7 @@ import { env, exit } from 'process'
 import { configure } from 'i18n'
 import kurosawaDia from '@bot'
 import serverSocket from '@server'
+import 'reflect-metadata'
 
 configure({
     locales: [
