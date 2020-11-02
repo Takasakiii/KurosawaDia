@@ -1,4 +1,4 @@
-import { BotBaseError } from '@bot/errors/baseError'
+import { BaseError } from '@bot/errors/baseError'
 import { customPrefix } from '@bot/functions/customPrefix'
 import { IBot } from '@bot/models/bot'
 import { ICommandsInvoke } from '@bot/models/commandInvoke'
@@ -57,7 +57,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
 
         await command.execCommand(context)
     } catch (error) {
-        if (error instanceof BotBaseError) {
+        if (error instanceof BaseError) {
             await errorHandler(context, error)
         }
     }

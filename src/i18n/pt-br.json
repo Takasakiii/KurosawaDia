@@ -1,1 +1,20 @@
-{}
+{
+	"error": {
+		"permission": {
+			"MANAGE_GUILD": "error.permission.MANAGE_GUILD",
+			"ADD_REACTIONS": "error.permission.ADD_REACTIONS",
+			"ATTACH_FILES": "error.permission.ATTACH_FILES",
+			"CONNECT": "error.permission.CONNECT"
+		},
+		"message": {
+			"bot": {
+				"one": "error.message.bot",
+				"other": "error.message.bot"
+			},
+			"client": {
+				"one": "error.message.client",
+				"other": "error.message.client"
+			}
+		}
+	}
+}

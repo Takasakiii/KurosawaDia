@@ -5,7 +5,7 @@ import embedConfig from '@configs/embedConfig.json'
 import { __n } from 'i18n'
 import { getMessageError } from '@bot/functions/genMessageError'
 
-export default class BotPermissionError extends BaseError {
+export default class ClientPermissionError extends BaseError {
     private permissions: PermissionString[]
 
     constructor (permissions: PermissionString[]) {
@@ -14,11 +14,11 @@ export default class BotPermissionError extends BaseError {
     }
 
     async sendEmbed (ctx: IContext): Promise<void> {
-        const message = getMessageError(ctx, this.permissions, 'client')
+        const message = getMessageError(ctx, this.permissions, 'author')
 
         const title = __n({
-            plural: 'error.message.bot',
-            singular: 'error.message.bot',
+            plural: 'error.message.client',
+            singular: 'error.message.client',
             locale: 'en-us'
         }, this.permissions.length)
 
@@ -27,7 +27,7 @@ export default class BotPermissionError extends BaseError {
             description: message,
             color: embedConfig.colors.orange,
             thumbnail: {
-                url: ctx.memberClient?.user.displayAvatarURL()
+                url: ctx.memberAuthor?.user.displayAvatarURL()
             }
         })
 

@@ -1,1 +1,20 @@
-{}
+{
+	"error": {
+		"permission": {
+			"MANAGE_GUILD": "Manage guild",
+			"ADD_REACTIONS": "Add reactions",
+			"ATTACH_FILES": "Attach files",
+			"CONNECT": "Connect"
+		},
+		"message": {
+			"bot": {
+				"one": "I need this permission: ",
+				"other": "I need these permissions: "
+			},
+			"client": {
+				"one": "You need to have this permission: ",
+				"other": "You need to have these permissions: "
+			}
+		}
+	}
+}
