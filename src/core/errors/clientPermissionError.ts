@@ -19,7 +19,7 @@ export default class ClientPermissionError extends BaseError {
         const title = __n({
             plural: 'error.message.client',
             singular: 'error.message.client',
-            locale: 'en-us'
+            locale: ctx.guildConfig.lang
         }, this.permissions.length)
 
         const embed = new MessageEmbed({

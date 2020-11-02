@@ -19,7 +19,7 @@ export default class BotPermissionError extends BaseError {
         const title = __n({
             plural: 'error.message.bot',
             singular: 'error.message.bot',
-            locale: 'en-us'
+            locale: ctx.guildConfig.lang
         }, this.permissions.length)
 
         const embed = new MessageEmbed({

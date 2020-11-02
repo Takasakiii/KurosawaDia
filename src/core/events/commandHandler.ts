@@ -8,6 +8,7 @@ import { registerIdol } from '@server/functions/registerIdol'
 import { GuildConfig } from '@server/models/guildConfig'
 import { Message } from 'discord.js'
 import { errorHandler } from './errorHandler'
+import { warningErrorHandler } from './warnigErrorHandler'
 
 export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
     let guildConfig = new GuildConfig()
@@ -71,6 +72,8 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
     } catch (error) {
         if (error instanceof BaseError) {
             await errorHandler(context, error)
+        } else {
+            await warningErrorHandler(context, error)
         }
     }
 }

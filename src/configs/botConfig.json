@@ -1,5 +1,11 @@
 {
     "bot": {
         "prefix": "~"
+    },
+    "supportGuild": {
+        "guildId": "764139884423151628",
+        "channels": {
+            "error": "764668379339816961"
+        }
     }
 }
