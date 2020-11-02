@@ -12,11 +12,11 @@ export function getMessageError (ctx: IContext, permissions: PermissionString[],
         const permission = permissions[i]
 
         if (type === 'client' && ctx.memberClient?.hasPermission(permission)) {
-            message += ctx.client.emojis.cache.get(embedConfig.emojis.enable)?.toString()
+            message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.enable)?.toString()
         } else if (type === 'author' && ctx.memberAuthor?.hasPermission(permission)) {
-            message += ctx.client.emojis.cache.get(embedConfig.emojis.enable)?.toString()
+            message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.enable)?.toString()
         } else {
-            message += ctx.client.emojis.cache.get(embedConfig.emojis.disable)?.toString()
+            message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.disable)?.toString()
         }
 
         message += __({

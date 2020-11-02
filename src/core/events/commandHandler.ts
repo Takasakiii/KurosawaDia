@@ -5,18 +5,21 @@ import { ICommandsInvoke } from '@bot/models/commandInvoke'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { registerIdol } from '@server/functions/registerIdol'
+import { GuildConfig } from '@server/models/guildConfig'
 import { Message } from 'discord.js'
 import { errorHandler } from './errorHandler'
 
 export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
+    let guildConfig = new GuildConfig()
+
     if (message.guild && !message.author.bot) {
-        await registerIdol(message.id, {
+        guildConfig = await registerIdol(message.id, {
             guildId: message.guild.id,
             userId: message.author.id
         })
     }
 
-    const length = await customPrefix(message)
+    const length = await customPrefix(message, guildConfig.prefix)
 
     if (length === -1) {
         return
@@ -45,13 +48,14 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
     const context: IContext = {
         message: message,
         args: args,
-        client: bot.client,
+        clientBot: bot.client,
         memberClient: message.guild?.members.cache.get(bot.client.user?.id as string),
         bot: bot,
         author: message.author,
         memberAuthor: message.member,
         channel: message.channel,
-        guild: message.guild
+        guild: message.guild,
+        guildConfig: guildConfig
     }
 
     try {

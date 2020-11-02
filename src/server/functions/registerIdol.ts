@@ -1,3 +1,4 @@
+import { GuildConfig } from '@server/models/guildConfig'
 import { sendPayload, waitPayload } from '@utils/payload'
 
 interface RegisterIdol {
@@ -5,7 +6,8 @@ interface RegisterIdol {
     userId: string
 }
 
-export async function registerIdol (messageId: string, data: RegisterIdol): Promise<boolean> {
+export async function registerIdol (messageId: string, data: RegisterIdol): Promise<GuildConfig> {
+    const promise = waitPayload<GuildConfig>(messageId)
     sendPayload('registerIdol', messageId, data)
-    return await waitPayload(messageId)
+    return await promise
 }
