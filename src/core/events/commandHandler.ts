@@ -4,10 +4,18 @@ import { IBot } from '@bot/models/bot'
 import { ICommandsInvoke } from '@bot/models/commandInvoke'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
+import { registerIdol } from '@server/functions/registerIdol'
 import { Message } from 'discord.js'
 import { errorHandler } from './errorHandler'
 
 export async function commandHandler (message: Message, commands: ICommandsInvoke, bot: IBot): Promise<void> {
+    if (message.guild && !message.author.bot) {
+        await registerIdol(message.id, {
+            guildId: message.guild.id,
+            userId: message.author.id
+        })
+    }
+
     const length = await customPrefix(message)
 
     if (length === -1) {
