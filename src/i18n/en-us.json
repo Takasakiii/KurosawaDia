@@ -16,5 +16,20 @@
 				"other": "You need to have these permissions: "
 			}
 		}
+	},
+	"command": {
+		"setprefix": {
+			"embeds": {
+				"enter": {
+					"title": "Enter the new prefix",
+					"description": "If you don't want to change it just ignore this message"
+				},
+				"confirm": {
+					"title": "Update prefix?",
+					"current": "Current prefix",
+					"new": "New prefix"
+				}
+			}
+		}
 	}
 }

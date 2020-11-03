@@ -8,7 +8,8 @@ import 'reflect-metadata'
 configure({
     locales: [
         'pt-br',
-        'en-us'
+        'en-us',
+        'conf-lang'
     ],
     defaultLocale: 'en-us',
     directory: './src/i18n',
