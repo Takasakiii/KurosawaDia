@@ -3,8 +3,7 @@
 		"permission": {
 			"MANAGE_GUILD": "Manage guild",
 			"ADD_REACTIONS": "Add reactions",
-			"ATTACH_FILES": "Attach files",
-			"CONNECT": "Connect"
+			"USE_EXTERNAL_EMOJIS": "Use external emojis"
 		},
 		"message": {
 			"bot": {

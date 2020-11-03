@@ -3,9 +3,10 @@ import ClientPermissionError from '@bot/errors/clientPermissionError'
 import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
-import { Message, MessageEmbed } from 'discord.js'
+import { Message, MessageEmbed, MessageReaction, User } from 'discord.js'
 import { __ } from 'i18n'
 import embedConfig from '@configs/embedConfig.json'
+import { setPrefix } from '@server/functions/setPrefix'
 
 @CommandName('setprefix')
 @CommandInfo({
@@ -14,12 +15,12 @@ import embedConfig from '@configs/embedConfig.json'
 })
 export default class SetPrefix extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
-        if (!ctx.memberClient?.hasPermission('MANAGE_GUILD')) {
-            throw new BotPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'])
+        if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS'])) {
+            throw new BotPermissionError(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS'], ctx.channel)
         }
 
-        if (!ctx.memberAuthor?.hasPermission('MANAGE_GUILD')) {
-            throw new ClientPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'])
+        if (!ctx.memberAuthor?.permissionsIn(ctx.channel).has(['MANAGE_GUILD', 'ADD_REACTIONS'])) {
+            throw new ClientPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'], ctx.channel)
         }
 
         return true
@@ -47,7 +48,7 @@ export default class SetPrefix extends Command {
                 return message.author === ctx.author && message.content.length > 0
             }, {
                 max: 1,
-                time: 5000,
+                time: 10000,
                 errors: [
                     'time'
                 ]
@@ -84,6 +85,25 @@ export default class SetPrefix extends Command {
             embedMessage = await ctx.channel.send(embed)
             await embedMessage.react(embedConfig.emojis.check)
             await embedMessage.react(embedConfig.emojis.uncheck)
+
+            const reaction = (await embedMessage.awaitReactions((reaction: MessageReaction, user: User) => {
+                return reaction.emoji.id === embedConfig.emojis.check && user.id === ctx.author.id
+            }, {
+                max: 1,
+                time: 10000,
+                errors: [
+                    'time'
+                ]
+            })).first()
+
+            if (!reaction) {
+                return
+            }
+
+            await setPrefix(ctx.message.id, {
+                guildId: ctx.guild?.id as string,
+                newPrefix: message?.content as string
+            })
         } catch (error) {
             await embedMessage.delete()
         }

@@ -3,8 +3,7 @@
 		"permission": {
 			"MANAGE_GUILD": "error.permission.MANAGE_GUILD",
 			"ADD_REACTIONS": "error.permission.ADD_REACTIONS",
-			"ATTACH_FILES": "error.permission.ATTACH_FILES",
-			"CONNECT": "error.permission.CONNECT"
+			"USE_EXTERNAL_EMOJIS": "error.permission.USE_EXTERNAL_EMOJIS"
 		},
 		"message": {
 			"bot": {

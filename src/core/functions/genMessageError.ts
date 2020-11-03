@@ -1,24 +1,20 @@
-import { IContext } from '@bot/models/context'
-import { PermissionString } from 'discord.js'
+import { Channel, GuildMember, PermissionString } from 'discord.js'
 import { __ } from 'i18n'
 import embedConfig from '@configs/embedConfig.json'
+import { IContext } from '@bot/models/context'
 
-type target = 'client' | 'author'
-
-export function getMessageError (ctx: IContext, permissions: PermissionString[], type: target): string {
+export function getMessageError (ctx: IContext, member: GuildMember, channel: Channel, permissions: PermissionString[]): string {
     let message = ''
 
     for (let i = 0; i < permissions.length; i++) {
         const permission = permissions[i]
 
-        if (type === 'client' && ctx.memberClient?.hasPermission(permission)) {
-            message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.enable)?.toString()
-        } else if (type === 'author' && ctx.memberAuthor?.hasPermission(permission)) {
+        if (member?.permissionsIn(channel).has(permission)) {
             message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.enable)?.toString()
         } else {
             message += ctx.clientBot.emojis.cache.get(embedConfig.emojis.disable)?.toString()
         }
-
+        message += ' '
         message += __({
             phrase: 'error.permission.' + permission,
             locale: 'en-us'

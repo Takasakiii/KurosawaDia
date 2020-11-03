@@ -11,12 +11,12 @@ import { IContext } from '@bot/models/context'
 })
 export default class SetLang extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
-        if (!ctx.memberClient?.hasPermission('MANAGE_GUILD')) {
-            throw new BotPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'])
+        if (!ctx.memberClient?.permissionsIn(ctx.channel).has('MANAGE_GUILD')) {
+            throw new BotPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'], ctx.channel)
         }
 
-        if (!ctx.memberAuthor?.hasPermission('MANAGE_GUILD')) {
-            throw new ClientPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'])
+        if (!ctx.memberAuthor?.permissionsIn(ctx.channel).has('MANAGE_GUILD')) {
+            throw new ClientPermissionError(['MANAGE_GUILD', 'ADD_REACTIONS'], ctx.channel)
         }
 
         return true
