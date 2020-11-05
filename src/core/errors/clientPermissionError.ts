@@ -25,7 +25,7 @@ export default class ClientPermissionError extends BaseError {
             description: message,
             color: embedConfig.colors.orange,
             thumbnail: {
-                url: ctx.memberAuthor?.user.displayAvatarURL()
+                url: ctx.author.displayAvatarURL({ dynamic: true })
             }
         })
 

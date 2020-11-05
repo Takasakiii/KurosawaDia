@@ -6,6 +6,7 @@ export interface IContext {
     message: Message
     args: string[]
     clientBot: Client
+    client: User | null
     memberClient: GuildMember | undefined
     bot: IBot
     author: User

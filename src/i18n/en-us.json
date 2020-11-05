@@ -25,8 +25,7 @@
 				},
 				"confirm": {
 					"title": "Update prefix?",
-					"current": "Current prefix",
-					"new": "New prefix"
+					"update": "Prefix update"
 				}
 			}
 		}

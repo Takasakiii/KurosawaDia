@@ -28,83 +28,81 @@ export default class SetPrefix extends Command {
 
     async execCommand (ctx: IContext): Promise<void> {
         let embed = new MessageEmbed({
-            color: embedConfig.colors.green
+            color: embedConfig.colors.green,
+            thumbnail: {
+                url: ctx.client?.displayAvatarURL({ dynamic: true })
+            }
         })
-
         embed.title = __({
             phrase: 'command.setprefix.embeds.enter.title',
             locale: ctx.guildConfig.lang
         })
-
         embed.description = __({
             phrase: 'command.setprefix.embeds.enter.description',
             locale: ctx.guildConfig.lang
         })
 
-        let embedMessage = await ctx.channel.send(embed)
+        const embedMessage = await ctx.channel.send(embed)
 
         try {
             const message = (await ctx.channel.awaitMessages((message: Message) => {
                 return message.author === ctx.author && message.content.length > 0
             }, {
                 max: 1,
-                time: 10000,
+                time: 20000,
                 errors: [
                     'time'
                 ]
             })).first()
 
             embed = new MessageEmbed({
-                color: embedConfig.colors.green
+                color: embedConfig.colors.green,
+                thumbnail: {
+                    url: ctx.client?.displayAvatarURL({ dynamic: true })
+                }
             })
-
             embed.title = __({
                 phrase: 'command.setprefix.embeds.confirm.title',
                 locale: ctx.guildConfig.lang
             })
-
             embed.addField(
                 __({
-                    phrase: 'command.setprefix.embeds.confirm.current',
+                    phrase: 'command.setprefix.embeds.confirm.update',
                     locale: ctx.guildConfig.lang
                 }),
-                ctx.guildConfig.prefix,
-                true
+                '`' + ctx.guildConfig.prefix + '` ' +
+                ctx.clientBot.emojis.cache.get(embedConfig.emojis.join_arrow)?.toString() +
+                ' `' + message?.content + '`'
             )
 
-            embed.addField(
-                __({
-                    phrase: 'command.setprefix.embeds.confirm.new',
-                    locale: ctx.guildConfig.lang
-                }),
-                message?.content,
-                true
-            )
-
-            await embedMessage.delete()
-            embedMessage = await ctx.channel.send(embed)
+            await embedMessage.edit(embed)
             await embedMessage.react(embedConfig.emojis.check)
             await embedMessage.react(embedConfig.emojis.uncheck)
 
             const reaction = (await embedMessage.awaitReactions((reaction: MessageReaction, user: User) => {
-                return reaction.emoji.id === embedConfig.emojis.check && user.id === ctx.author.id
+                return (reaction.emoji.id === embedConfig.emojis.check ||
+                    reaction.emoji.id === embedConfig.emojis.uncheck) &&
+                    user.id === ctx.author.id
             }, {
                 max: 1,
-                time: 10000,
+                time: 20000,
                 errors: [
                     'time'
                 ]
             })).first()
 
-            if (!reaction) {
-                return
-            }
+            await embedMessage.reactions.removeAll()
 
-            await setPrefix(ctx.message.id, {
-                guildId: ctx.guild?.id as string,
-                newPrefix: message?.content as string
-            })
+            if (reaction?.emoji.id === embedConfig.emojis.check) {
+                const newPrefix = await setPrefix(ctx.message.id, {
+                    guildId: ctx.guild?.id as string,
+                    newPrefix: message?.content as string
+                })
+            } else {
+
+            }
         } catch (error) {
+            console.log(error)
             await embedMessage.delete()
         }
     }

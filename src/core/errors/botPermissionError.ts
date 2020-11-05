@@ -25,7 +25,7 @@ export default class BotPermissionError extends BaseError {
             description: message,
             color: embedConfig.colors.orange,
             thumbnail: {
-                url: ctx.memberClient?.user.displayAvatarURL()
+                url: ctx.client?.displayAvatarURL({ dynamic: true })
             }
         })
 

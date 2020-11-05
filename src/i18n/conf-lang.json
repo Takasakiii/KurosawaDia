@@ -25,8 +25,7 @@
 				},
 				"confirm": {
 					"title": "command.setprefix.embeds.confirm.title",
-					"current": "command.setprefix.embeds.confirm.current",
-					"new": "command.setprefix.embeds.confirm.new"
+					"update": "command.setprefix.embeds.confirm.update"
 				}
 			}
 		}
