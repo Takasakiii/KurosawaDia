@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.80" />
-    <PackageReference Include="DSharpPlus" Version="3.2.3" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="3.2.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Unicode.net" Version="0.1.2" />
@@ -18,6 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ConfigController\ConfigController.csproj" />
     <ProjectReference Include="..\DataBaseController\DataBaseController.csproj" />
+    <ProjectReference Include="..\DSharpPlus.CommandsNext\DSharpPlus.CommandsNext.csproj" />
+    <ProjectReference Include="..\DSharpPlus.Interactivity\DSharpPlus.Interactivity.csproj" />
+    <ProjectReference Include="..\DSharpPlus\DSharpPlus.csproj" />
   </ItemGroup>
 
 </Project>
