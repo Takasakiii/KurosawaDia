@@ -5,9 +5,9 @@ name: Node.js CI Bot
 
 on:
   push:
-    branches: [ master, newidolchan, diachan ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, newidolchan, diachan ]
+    branches: [ master ]
 
 jobs:
   lint:
@@ -16,7 +16,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.15.x]
     
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.15.x]
 
     steps:
     - uses: actions/checkout@v2
