@@ -3,7 +3,8 @@
 		"permission": {
 			"MANAGE_GUILD": "error.permission.MANAGE_GUILD",
 			"ADD_REACTIONS": "error.permission.ADD_REACTIONS",
-			"USE_EXTERNAL_EMOJIS": "error.permission.USE_EXTERNAL_EMOJIS"
+			"USE_EXTERNAL_EMOJIS": "error.permission.USE_EXTERNAL_EMOJIS",
+			"MANAGE_EMOJIS": "error.permission.MANAGE_EMOJIS"
 		},
 		"message": {
 			"bot": {
@@ -21,11 +22,20 @@
 			"embeds": {
 				"enter": {
 					"title": "command.setprefix.embeds.enter.title",
-					"description": "command.setprefix.embeds.enter.description"
+					"description": "command.setprefix.embeds.enter.description",
+					"footer": "command.setprefix.embeds.enter.footer"
 				},
 				"confirm": {
 					"title": "command.setprefix.embeds.confirm.title",
 					"update": "command.setprefix.embeds.confirm.update"
+				},
+				"check": {
+					"title": "command.setprefix.embeds.check.title",
+					"new": "command.setprefix.embeds.check.field"
+				},
+				"uncheck": {
+					"title": "command.setprefix.embeds.uncheck.title",
+					"current": "command.setprefix.embeds.uncheck.current"
 				}
 			}
 		}

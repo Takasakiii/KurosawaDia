@@ -3,7 +3,8 @@
 		"permission": {
 			"MANAGE_GUILD": "Manage guild",
 			"ADD_REACTIONS": "Add reactions",
-			"USE_EXTERNAL_EMOJIS": "Use external emojis"
+			"USE_EXTERNAL_EMOJIS": "Use external emojis",
+			"MANAGE_EMOJIS": "Manage emojis"
 		},
 		"message": {
 			"bot": {
@@ -21,11 +22,20 @@
 			"embeds": {
 				"enter": {
 					"title": "Enter the new prefix",
-					"description": "If you don't want to change it just ignore this message"
+					"description": "The prefix must have a maximum of 6 characters",
+					"footer": "If you don't want to change it just ignore this message"
 				},
 				"confirm": {
 					"title": "Update prefix?",
 					"update": "Prefix update"
+				},
+				"check": {
+					"title": "Prefix changed",
+					"new": "New prefix"
+				},
+				"uncheck": {
+					"title": "Operation canceled",
+					"current": "Current prefix"
 				}
 			}
 		}

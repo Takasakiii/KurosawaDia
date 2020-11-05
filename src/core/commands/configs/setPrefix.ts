@@ -15,8 +15,8 @@ import { setPrefix } from '@server/functions/setPrefix'
 })
 export default class SetPrefix extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
-        if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS'])) {
-            throw new BotPermissionError(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS'], ctx.channel)
+        if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS', 'MANAGE_MESSAGES'])) {
+            throw new BotPermissionError(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS', 'MANAGE_MESSAGES'], ctx.channel)
         }
 
         if (!ctx.memberAuthor?.permissionsIn(ctx.channel).has(['MANAGE_GUILD', 'ADD_REACTIONS'])) {
@@ -41,12 +41,20 @@ export default class SetPrefix extends Command {
             phrase: 'command.setprefix.embeds.enter.description',
             locale: ctx.guildConfig.lang
         })
+        embed.footer = {
+            text: __({
+                phrase: 'command.setprefix.embeds.enter.footer',
+                locale: ctx.guildConfig.lang
+            })
+        }
 
         const embedMessage = await ctx.channel.send(embed)
 
         try {
             const message = (await ctx.channel.awaitMessages((message: Message) => {
-                return message.author === ctx.author && message.content.length > 0
+                return message.author.id === ctx.author.id &&
+                    message.content.length > 0 &&
+                    message.content.length < 7
             }, {
                 max: 1,
                 time: 20000,
@@ -98,11 +106,50 @@ export default class SetPrefix extends Command {
                     guildId: ctx.guild?.id as string,
                     newPrefix: message?.content as string
                 })
-            } else {
 
+                embed = new MessageEmbed({
+                    color: embedConfig.colors.green,
+                    thumbnail: {
+                        url: ctx.client?.displayAvatarURL()
+                    }
+                })
+                embed.title = __({
+                    phrase: 'command.setprefix.embeds.check.title',
+                    locale: ctx.guildConfig.lang
+                })
+                embed.addField(
+                    __({
+                        phrase: 'command.setprefix.embeds.check.new',
+                        locale: ctx.guildConfig.lang
+                    }),
+                    ctx.clientBot.emojis.cache.get(embedConfig.emojis.join_arrow)?.toString() +
+                    ' `' + newPrefix + '`'
+                )
+
+                await embedMessage.edit(embed)
+            } else {
+                embed = new MessageEmbed({
+                    color: embedConfig.colors.yellow,
+                    thumbnail: {
+                        url: ctx.client?.displayAvatarURL()
+                    }
+                })
+                embed.title = __({
+                    phrase: 'command.setprefix.embeds.uncheck.title',
+                    locale: ctx.guildConfig.lang
+                })
+                embed.addField(
+                    __({
+                        phrase: 'command.setprefix.embeds.uncheck.current',
+                        locale: ctx.guildConfig.lang
+                    }),
+                    ctx.clientBot.emojis.cache.get(embedConfig.emojis.join_arrow)?.toString() +
+                    ' `' + ctx.guildConfig.prefix + '`'
+                )
+
+                await embedMessage.edit(embed)
             }
         } catch (error) {
-            console.log(error)
             await embedMessage.delete()
         }
     }
