@@ -28,7 +28,7 @@ async function init () {
     serverSocket.url = env.server_socket_url as string
     serverSocket.start()
 
-    kurosawaDia.registerCommands()
     kurosawaDia.token = env.bot_token as string
+    kurosawaDia.registerCommands()
     kurosawaDia.start()
 }

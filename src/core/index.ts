@@ -5,6 +5,7 @@ import { commandHandler } from './events/commandHandler'
 import { IBot } from './models/bot'
 import { exit } from 'process'
 import { ICommandInvoke, ICommandsInvoke } from './models/commandInvoke'
+import { rateLimitHandler } from './events/rateLimitHandler'
 
 class KurosawaDia implements IBot {
     readonly client: Client
@@ -21,7 +22,7 @@ class KurosawaDia implements IBot {
 
     set token (value: string) {
         if (!value) {
-            console.log('token não foi definido')
+            console.log('Token has not been defined')
             process.exit()
         }
 
@@ -36,7 +37,7 @@ class KurosawaDia implements IBot {
         }
 
         if (this.commands[commandInvoke.name]) {
-            console.log('Comando ' + commandInvoke.name + ' ja existe')
+            console.log('Comando ' + commandInvoke.name + ' already exists')
             exit()
         }
 
@@ -47,7 +48,7 @@ class KurosawaDia implements IBot {
                 if (!this.commands[alias]) {
                     this.commands[alias] = commandInvoke
                 } else {
-                    console.log('Comando ' + alias + ' ja existe')
+                    console.log('Comando ' + alias + ' already exists')
                     exit()
                 }
             }
@@ -71,7 +72,7 @@ class KurosawaDia implements IBot {
                 const ClassDefinition = require(file).default
 
                 if (!ClassDefinition) {
-                    console.log('Commando não esta usando export default')
+                    console.log('Commando is not using export default')
                     exit()
                 }
 
@@ -89,11 +90,15 @@ class KurosawaDia implements IBot {
 
     start (): void {
         this.client.on('ready', () => {
-            console.log('Bot iniciado')
+            console.log('Bot start')
         })
 
         this.client.on('message', async message => {
             await commandHandler(message, this.commands, this)
+        })
+
+        this.client.on('rateLimit', async info => {
+            await rateLimitHandler(info)
         })
 
         this.client.login(this._token)
