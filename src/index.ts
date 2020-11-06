@@ -1,5 +1,5 @@
 import { config } from 'dotenv'
-import { env, exit } from 'process'
+import { env } from 'process'
 import { configure } from 'i18n'
 import kurosawaDia from '@bot'
 import serverSocket from '@server'
@@ -21,7 +21,6 @@ config()
 
 init().catch(error => {
     console.error(error)
-    exit()
 })
 
 async function init () {
