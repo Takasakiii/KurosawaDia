@@ -44,7 +44,7 @@
     - [ ] Video chamada
     - [ ] Emoji
     - [x] Avatar
-    - [ ] Server image
+    - [x] Server image
     - [ ] Sugestão
     - [ ] Bug
     - [ ] Whatsify

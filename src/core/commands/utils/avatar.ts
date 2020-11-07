@@ -1,4 +1,4 @@
-import { CommandName } from '@bot/helpers/command'
+import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import userResolver from '@bot/utils/userResolver'
@@ -6,6 +6,10 @@ import { MessageEmbed } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
 
 @CommandName('avatar')
+@CommandInfo({
+    description: 'command.avatar.description',
+    module: 'module.util'
+})
 export default class Avatar extends Command {
     async execCommand (ctx: IContext): Promise<void> {
         if (ctx.args.length > 0) {
@@ -26,7 +30,7 @@ export default class Avatar extends Command {
                     },
                     color: embedConfig.colors.purple
                 })
-                ctx.channel.send(embed)
+                await ctx.channel.send(embed)
             }
         } else {
             const embed = new MessageEmbed({
@@ -38,7 +42,7 @@ export default class Avatar extends Command {
                 },
                 color: embedConfig.colors.purple
             })
-            ctx.channel.send(embed)
+            await ctx.channel.send(embed)
         }
     }
 }
