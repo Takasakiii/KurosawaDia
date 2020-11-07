@@ -6,7 +6,8 @@
     - [ ] Info
 
 * Setting
-    - [ ] Prefix
+    - [x] Prefix
+        * Renomedo para setprefix
     - [ ] Bem vindo
     - [ ] Saida
 
@@ -42,7 +43,7 @@
 * Util
     - [ ] Video chamada
     - [ ] Emoji
-    - [ ] Avatar
+    - [x] Avatar
     - [ ] Server image
     - [ ] Sugestão
     - [ ] Bug
