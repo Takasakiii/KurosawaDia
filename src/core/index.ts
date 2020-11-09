@@ -36,6 +36,10 @@ class KurosawaDia implements IBot {
             alias: Reflect.getMetadata('command:alias', Class)
         }
 
+        if (!commandInvoke.name) {
+            return
+        }
+
         if (this.commands[commandInvoke.name]) {
             console.log('Comando ' + commandInvoke.name + ' already exists')
             exit()
