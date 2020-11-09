@@ -24,7 +24,7 @@ export default class ClearChat extends Command {
     async execCommand (ctx: IContext): Promise<void> {
         let remaining = Number(ctx.args[0] ?? 10)
 
-        if (!Number.isNaN(remaining)) {
+        if (Number.isNaN(remaining)) {
             return
         }
 
@@ -32,18 +32,24 @@ export default class ClearChat extends Command {
             return
         }
 
+        let messageId = ctx.message.id
+
         do {
             const amout = remaining > 99 ? 99 : remaining
 
-            remaining -= amout
-
-            const messages = await ctx.channel.messages.fetch({
-                limit: amout
+            let messages = await ctx.channel.messages.fetch({
+                limit: amout,
+                before: messageId
             })
 
-            if (messages.size === 0) {
+            if (!messages) {
                 break
             }
+
+            messageId = messages.last()?.id as string
+            messages = messages.filter(msg => !msg.pinned)
+
+            remaining -= messages.size
 
             await ctx.channel.bulkDelete(messages)
             await delay(1000)
