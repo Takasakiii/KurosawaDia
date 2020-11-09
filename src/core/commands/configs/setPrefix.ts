@@ -2,7 +2,7 @@ import BotPermissionError from '@bot/errors/botPermissionError'
 import ClientPermissionError from '@bot/errors/clientPermissionError'
 import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import { Message, MessageEmbed, MessageReaction, User } from 'discord.js'
 import { __ } from 'i18n'
 import embedConfig from '@configs/embedConfig.json'
@@ -14,7 +14,7 @@ import { setPrefix } from '@server/functions/setPrefix'
     module: 'configs'
 })
 export default class SetPrefix extends Command {
-    async validPermission (ctx: IContext): Promise<boolean> {
+    async validPermission (ctx: Context): Promise<boolean> {
         if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS', 'MANAGE_MESSAGES'])) {
             throw new BotPermissionError(['ADD_REACTIONS', 'USE_EXTERNAL_EMOJIS', 'MANAGE_MESSAGES'], ctx.channel)
         }
@@ -26,7 +26,7 @@ export default class SetPrefix extends Command {
         return true
     }
 
-    async execCommand (ctx: IContext): Promise<void> {
+    async execCommand (ctx: Context): Promise<void> {
         let embed = new MessageEmbed({
             color: embedConfig.colors.green,
             thumbnail: {

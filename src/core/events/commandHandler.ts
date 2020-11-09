@@ -3,7 +3,7 @@ import { customPrefix } from '@bot/functions/customPrefix'
 import { IBot } from '@bot/models/bot'
 import { ICommandsInvoke } from '@bot/models/commandInvoke'
 import { Command } from '@bot/models/commands'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import { registerIdol } from '@server/functions/registerIdol'
 import { GuildConfig } from '@server/models/guildConfig'
 import { Message } from 'discord.js'
@@ -46,7 +46,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         return
     }
 
-    const context: IContext = {
+    const context: Context = {
         message: message,
         args: args,
         clientBot: bot.client,

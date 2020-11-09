@@ -1,4 +1,4 @@
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import { Channel, PermissionString } from 'discord.js'
 
 export abstract class BaseError extends Error {
@@ -11,5 +11,5 @@ export abstract class BaseError extends Error {
         this.channel = channel
     }
 
-    abstract sendEmbed(ctx: IContext): Promise<void>
+    abstract sendEmbed(ctx: Context): Promise<void>
 }

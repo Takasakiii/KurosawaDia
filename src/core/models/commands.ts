@@ -1,4 +1,4 @@
-import { IContext } from './context'
+import { Context } from './context'
 
 export interface IUsage {
     description: string
@@ -13,9 +13,9 @@ export interface ICommandInfo {
 }
 
 export interface ICommand {
-    validAuthorAndChannel(ctx: IContext): Promise<boolean>
-    validPermission(ctx: IContext): Promise<boolean>
-    execCommand(ctx: IContext): Promise<void>
+    validAuthorAndChannel(ctx: Context): Promise<boolean>
+    validPermission(ctx: Context): Promise<boolean>
+    execCommand(ctx: Context): Promise<void>
     visible(): boolean
 }
 
@@ -30,7 +30,7 @@ export interface ICommands {
 })
 */
 export abstract class Command implements ICommand {
-    async validAuthorAndChannel (ctx: IContext): Promise<boolean> {
+    async validAuthorAndChannel (ctx: Context): Promise<boolean> {
         if (ctx.author.bot || !ctx.message.guild) {
             return false
         }
@@ -38,11 +38,11 @@ export abstract class Command implements ICommand {
         return true
     }
 
-    async validPermission (ctx: IContext): Promise<boolean> {
+    async validPermission (ctx: Context): Promise<boolean> {
         return true
     }
 
-    abstract execCommand(ctx: IContext): Promise<void>
+    abstract execCommand(ctx: Context): Promise<void>
 
     visible (): boolean {
         return true

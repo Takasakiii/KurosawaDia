@@ -1,6 +1,6 @@
 import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import userResolver from '@bot/utils/userResolver'
 import { MessageEmbed } from 'discord.js'
 import embedConfig from '@configs/embedConfig.json'
@@ -11,7 +11,7 @@ import embedConfig from '@configs/embedConfig.json'
     module: 'util'
 })
 export default class Avatar extends Command {
-    async execCommand (ctx: IContext): Promise<void> {
+    async execCommand (ctx: Context): Promise<void> {
         if (ctx.args.length > 0) {
             const id = userResolver(ctx.args[0])
             if (id) {

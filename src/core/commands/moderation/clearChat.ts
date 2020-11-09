@@ -2,7 +2,7 @@ import BotPermissionError from '@bot/errors/botPermissionError'
 import ClientPermissionError from '@bot/errors/clientPermissionError'
 import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import { delay } from '@utils/delay'
 import { DMChannel } from 'discord.js'
 
@@ -13,7 +13,7 @@ import { DMChannel } from 'discord.js'
     module: 'moderation'
 })
 export default class ClearChat extends Command {
-    async validPermission (ctx: IContext): Promise<boolean> {
+    async validPermission (ctx: Context): Promise<boolean> {
         if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['MANAGE_MESSAGES'])) {
             throw new BotPermissionError(['MANAGE_MESSAGES'], ctx.channel)
         }
@@ -25,7 +25,7 @@ export default class ClearChat extends Command {
         return true
     }
 
-    async execCommand (ctx: IContext): Promise<void> {
+    async execCommand (ctx: Context): Promise<void> {
         let remaining = Number(ctx.args[0] ?? 10)
 
         if (Number.isNaN(remaining)) {

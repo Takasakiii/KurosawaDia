@@ -1,9 +1,9 @@
 import { Channel, GuildMember, PermissionString } from 'discord.js'
 import { __ } from 'i18n'
 import embedConfig from '@configs/embedConfig.json'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 
-export function getMessageError (ctx: IContext, member: GuildMember, channel: Channel, permissions: PermissionString[]): string {
+export function getMessageError (ctx: Context, member: GuildMember, channel: Channel, permissions: PermissionString[]): string {
     let message = ''
 
     for (let i = 0; i < permissions.length; i++) {

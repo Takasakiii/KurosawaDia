@@ -1,4 +1,4 @@
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 import { GuildMember, MessageEmbed } from 'discord.js'
 import { BaseError } from './baseError'
 import embedConfig from '@configs/embedConfig.json'
@@ -6,7 +6,7 @@ import { __n } from 'i18n'
 import { getMessageError } from '@bot/functions/genMessageError'
 
 export default class BotPermissionError extends BaseError {
-    async sendEmbed (ctx: IContext): Promise<void> {
+    async sendEmbed (ctx: Context): Promise<void> {
         const message = getMessageError(
             ctx,
             ctx.memberClient as GuildMember,

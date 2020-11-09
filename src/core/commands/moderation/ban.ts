@@ -1,6 +1,6 @@
 import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
-import { IContext } from '@bot/models/context'
+import { Context } from '@bot/models/context'
 
 @CommandName('ban')
 @CommandInfo({
@@ -8,7 +8,7 @@ import { IContext } from '@bot/models/context'
     module: 'moderation'
 })
 export default class Ban extends Command {
-    async execCommand (ctx: IContext): Promise<void> {
+    async execCommand (ctx: Context): Promise<void> {
         throw new Error('Method not implemented.')
     }
 }
