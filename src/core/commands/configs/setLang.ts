@@ -6,8 +6,8 @@ import { IContext } from '@bot/models/context'
 
 @CommandName('setlang')
 @CommandInfo({
-    description: 'command.setprefix.description',
-    module: 'module.configs'
+    description: 'setlang',
+    module: 'configs'
 })
 export default class SetLang extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {

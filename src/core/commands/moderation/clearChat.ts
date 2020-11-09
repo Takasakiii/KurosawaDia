@@ -1,6 +1,6 @@
 import BotPermissionError from '@bot/errors/botPermissionError'
 import ClientPermissionError from '@bot/errors/clientPermissionError'
-import { CommandAlias, CommandName } from '@bot/helpers/command'
+import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { IContext } from '@bot/models/context'
 import { delay } from '@utils/delay'
@@ -8,6 +8,10 @@ import { DMChannel } from 'discord.js'
 
 @CommandName('clearchat')
 @CommandAlias('clear', 'prune')
+@CommandInfo({
+    description: 'clearchat',
+    module: 'moderation'
+})
 export default class ClearChat extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
         if (!ctx.memberClient?.permissionsIn(ctx.channel).has(['MANAGE_MESSAGES'])) {

@@ -9,3 +9,5 @@
         * Util
             - avatar
             - serverimage
+        * Moduration
+            - clearchat

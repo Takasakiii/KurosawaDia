@@ -14,6 +14,8 @@ export function CommandName (name: string) {
 
 export function CommandInfo (info: ICommandInfo) {
     return (target: any) => {
+        info.description = `command.${info.description}.description`
+        info.module = `module.${info.module}`
         Reflect.defineMetadata('command:info', info, target)
     }
 }

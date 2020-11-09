@@ -7,8 +7,8 @@ import embedConfig from '@configs/embedConfig.json'
 @CommandName('serverimage')
 @CommandAlias('simg', 'simage', 'serveravatar', 'savatar')
 @CommandInfo({
-    description: 'command.serverimage.description',
-    module: 'module.util'
+    description: 'serverimage',
+    module: 'util'
 })
 export default class ServerImage extends Command {
     async execCommand (ctx: IContext): Promise<void> {

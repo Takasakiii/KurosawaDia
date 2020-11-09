@@ -10,8 +10,8 @@ import { setPrefix } from '@server/functions/setPrefix'
 
 @CommandName('setprefix')
 @CommandInfo({
-    description: 'command.setprefix.description',
-    module: 'module.configs'
+    description: 'setprefix',
+    module: 'configs'
 })
 export default class SetPrefix extends Command {
     async validPermission (ctx: IContext): Promise<boolean> {
