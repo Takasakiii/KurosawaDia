@@ -38,6 +38,25 @@
 					"current": "Current prefix"
 				}
 			}
+		},
+		"clearchat": {
+			"embeds": {
+				"info": {
+					"title": "Clear chat result",
+					"deleted": {
+						"one": " deleted message of ",
+						"other": " deleted messages out of "
+					},
+					"pinned": {
+						"one": " pinned message not removed\n",
+						"other": " pinned messages not removed\n"
+					},
+					"remaining": {
+						"one": " message not found",
+						"other": " messages not found"
+					}
+				}
+			}
 		}
 	}
 }

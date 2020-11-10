@@ -38,6 +38,25 @@
 					"current": "command.setprefix.embeds.uncheck.current"
 				}
 			}
+		},
+		"clearchat": {
+			"embeds": {
+				"info": {
+					"title": "command.clearchat.embeds.info.title",
+					"deleted": {
+						"one": "command.clearchat.embeds.info.deleted",
+						"other": "command.clearchat.embeds.info.deleted"
+					},
+					"pinned": {
+						"one": "command.clearchat.embeds.info.pinneds",
+						"other": "command.clearchat.embeds.info.pinneds"
+					},
+					"remaining": {
+						"one": "command.clearchat.embeds.info.remaining",
+						"other": "command.clearchat.embeds.info.remaining"
+					}
+				}
+			}
 		}
 	}
 }

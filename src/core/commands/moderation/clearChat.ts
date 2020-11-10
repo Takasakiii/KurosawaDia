@@ -4,7 +4,9 @@ import { CommandAlias, CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { Context } from '@bot/models/context'
 import { delay } from '@utils/delay'
-import { DMChannel } from 'discord.js'
+import { DiscordAPIError, DMChannel, MessageEmbed } from 'discord.js'
+import { __, __n } from 'i18n'
+import embedConfig from '@configs/embedConfig.json'
 
 @CommandName('clearchat')
 @CommandAlias('clear', 'prune')
@@ -32,6 +34,9 @@ export default class ClearChat extends Command {
             return
         }
 
+        const amount = remaining
+        let pinneds = 0
+
         if (ctx.channel instanceof DMChannel) {
             return
         }
@@ -46,17 +51,72 @@ export default class ClearChat extends Command {
                 before: messageId
             })
 
-            if (!messages) {
+            if (messages.size === 0) {
                 break
             }
+
+            const messageAmout = messages.size
 
             messageId = messages.last()?.id as string
             messages = messages.filter(msg => !msg.pinned)
 
             remaining -= messages.size
+            pinneds += messageAmout - messages.size
 
-            await ctx.channel.bulkDelete(messages)
-            await delay(1000)
+            try {
+                await ctx.channel.bulkDelete(messages)
+            } catch (error) {
+                if (error instanceof DiscordAPIError) {
+                    break
+                }
+            }
+            await delay(2500)
         } while (remaining > 0)
+
+        const embed = new MessageEmbed({
+            thumbnail: {
+                url: ctx.client?.displayAvatarURL()
+            },
+            color: embedConfig.colors.purple
+        })
+        embed.title = __({
+            phrase: 'command.clearchat.embeds.info.title',
+            locale: ctx.guildConfig.lang
+        })
+
+        let description = ''
+
+        description += amount - remaining
+        description += __n({
+            plural: 'command.clearchat.embeds.info.deleted',
+            singular: 'command.clearchat.embeds.info.deleted',
+            count: amount - remaining,
+            locale: ctx.guildConfig.lang
+        })
+        description += amount + '\n'
+
+        if (pinneds) {
+            description += pinneds
+            description += __n({
+                plural: 'command.clearchat.embeds.info.pinned',
+                singular: 'command.clearchat.embeds.info.pinned',
+                count: pinneds,
+                locale: ctx.guildConfig.lang
+            })
+        }
+
+        if (remaining > 0) {
+            description += remaining
+            description += __n({
+                plural: 'command.clearchat.embeds.info.remaining',
+                singular: 'command.clearchat.embeds.info.remaining',
+                count: remaining,
+                locale: ctx.guildConfig.lang
+            })
+        }
+
+        embed.description = description
+
+        await ctx.channel.send(embed)
     }
 }
