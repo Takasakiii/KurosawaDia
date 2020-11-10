@@ -46,7 +46,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         return
     }
 
-    const context: Context = {
+    const context = {
         message: message,
         args: args,
         clientBot: bot.client,
@@ -58,7 +58,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         channel: message.channel,
         guild: message.guild,
         guildConfig: guildConfig
-    }
+    } as Context
 
     try {
         if (!await command.validAuthorAndChannel(context)) {
