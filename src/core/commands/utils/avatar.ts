@@ -8,7 +8,13 @@ import embedConfig from '@configs/embedConfig.json'
 @CommandName('avatar')
 @CommandInfo({
     description: 'avatar',
-    module: 'util'
+    module: 'util',
+    usages: [
+        {
+            description: 'user',
+            optional: true
+        }
+    ]
 })
 export default class Avatar extends Command {
     async execCommand (ctx: Context): Promise<void> {

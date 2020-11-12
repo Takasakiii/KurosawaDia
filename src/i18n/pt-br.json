@@ -86,7 +86,10 @@
 		},
 		"avatar": {
 			"info": {
-				"description": "command.avatar.info.description"
+				"description": "command.avatar.info.description",
+				"usages": {
+					"user": "command.avatar.info.usages.user"
+				}
 			}
 		},
 		"serverimage": {
