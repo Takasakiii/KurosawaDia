@@ -19,6 +19,9 @@
 	},
 	"command": {
 		"setprefix": {
+			"info": {
+				"description": "command.setprefix.info.description"
+			},
 			"embeds": {
 				"enter": {
 					"title": "command.setprefix.embeds.enter.title",
@@ -40,6 +43,9 @@
 			}
 		},
 		"clearchat": {
+			"info": {
+				"description": "command.clearchat.info.description"
+			},
 			"embeds": {
 				"info": {
 					"title": "command.clearchat.embeds.info.title",
@@ -57,6 +63,42 @@
 					}
 				}
 			}
+		},
+		"help": {
+			"info": {
+				"description": "command.help.info.description"
+			},
+			"embeds": {
+				"single": {
+					"title": "command.help.embeds.single.title"
+				}
+			}
+		},
+		"setlang": {
+			"info": {
+				"description": "command.setlang.info.description"
+			}
+		},
+		"ban": {
+			"info": {
+				"description": "command.ban.info.description"
+			}
+		},
+		"avatar": {
+			"info": {
+				"description": "command.avatar.info.description"
+			}
+		},
+		"serverimage": {
+			"info": {
+				"description": "command.serverimage.info.description"
+			}
 		}
+	},
+	"module": {
+		"configs": "module.configs",
+		"helper": "module.helper",
+		"moderation": "module.moderation",
+		"util": "module.util"
 	}
 }

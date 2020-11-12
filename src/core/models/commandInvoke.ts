@@ -1,4 +1,5 @@
 export interface ICommandInvoke {
+    module: string
     ClassDefinition: any,
     name: string
     alias: string[]

@@ -19,6 +19,9 @@
 	},
 	"command": {
 		"setprefix": {
+			"info": {
+				"description": "Modify my prefix on the server"
+			},
 			"embeds": {
 				"enter": {
 					"title": "Enter the new prefix",
@@ -40,6 +43,9 @@
 			}
 		},
 		"clearchat": {
+			"info": {
+				"description": "command.clearchat.info.description"
+			},
 			"embeds": {
 				"info": {
 					"title": "Clear chat result",
@@ -57,6 +63,42 @@
 					}
 				}
 			}
+		},
+		"help": {
+			"info": {
+				"description": "command.help.info.description"
+			},
+			"embeds": {
+				"single": {
+					"title": "More information for the {{ name }} command"
+				}
+			}
+		},
+		"setlang": {
+			"info": {
+				"description": "command.setlang.info.description"
+			}
+		},
+		"ban": {
+			"info": {
+				"description": "command.ban.info.description"
+			}
+		},
+		"avatar": {
+			"info": {
+				"description": "command.avatar.info.description"
+			}
+		},
+		"serverimage": {
+			"info": {
+				"description": "command.serverimage.info.description"
+			}
 		}
+	},
+	"module": {
+		"configs": "Settings ⚙️ - In settings, you define preferences for how I will act on your server",
+		"helper": "module.helper",
+		"moderation": "module.moderation",
+		"util": "module.util"
 	}
 }

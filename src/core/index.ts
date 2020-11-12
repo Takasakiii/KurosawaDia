@@ -31,6 +31,7 @@ class KurosawaDia implements IBot {
 
     registerCommand (Class: any): void {
         const commandInvoke: ICommandInvoke = {
+            module: Reflect.getMetadata('command:info', Class).module,
             ClassDefinition: Class,
             name: Reflect.getMetadata('command:name', Class),
             alias: Reflect.getMetadata('command:alias', Class)
@@ -88,7 +89,11 @@ class KurosawaDia implements IBot {
                 }
             }
             console.log(i + ' commands load')
-            console.table(this.uniqueCommands)
+            console.table(this.uniqueCommands, [
+                'module',
+                'name',
+                'ClassDefinition'
+            ])
         })
     }
 
