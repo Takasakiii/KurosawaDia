@@ -11,6 +11,8 @@ import embedConfig from '@configs/embedConfig.json'
     module: 'util',
     usages: [
         {
+            name: 'user',
+            type: 'DiscordUser',
             description: 'user',
             optional: true
         }

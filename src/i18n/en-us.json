@@ -70,7 +70,14 @@
 			},
 			"embeds": {
 				"single": {
-					"title": "More information for the {{ name }} command"
+					"title": "More information for the {{ name }} command",
+					"usages": {
+						"one": "Command argument",
+						"other": "Command arguments"
+					},
+					"vars": {
+						"optional": " (Optional)"
+					}
 				}
 			}
 		},
@@ -86,9 +93,11 @@
 		},
 		"avatar": {
 			"info": {
-				"description": "command.avatar.info.description",
+				"description": "Shows a user's avatar",
 				"usages": {
-					"user": "command.avatar.info.usages.user"
+					"user": {
+						"description": "User of the person you want to get the avatar"
+					}
 				}
 			}
 		},

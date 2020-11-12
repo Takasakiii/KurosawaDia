@@ -1,6 +1,10 @@
 import { Context } from './context'
 
+type types = 'Number' | 'String' | 'DiscordUser'
+
 export interface IUsage {
+    name: string
+    type: types
     description: string
     optional: boolean
     default?: string

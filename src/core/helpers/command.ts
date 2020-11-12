@@ -25,7 +25,7 @@ export function CommandInfo (info: ICommandInfo) {
             if (info.usages) {
                 for (let i = 0; i < info.usages.length; i++) {
                     const usage = info.usages[i]
-                    usage.description = infoPath + '.usages.' + usage.description
+                    usage.description = infoPath + '.usages.' + usage.name + '.description'
                     __(usage.description)
                 }
             }

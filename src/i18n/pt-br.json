@@ -70,7 +70,14 @@
 			},
 			"embeds": {
 				"single": {
-					"title": "command.help.embeds.single.title"
+					"title": "command.help.embeds.single.title",
+					"usages": {
+						"one": "command.help.embeds.single.usages",
+						"other": "command.help.embeds.single.usages"
+					},
+					"vars": {
+						"optional": "command.help.embeds.single.vars.optional"
+					}
 				}
 			}
 		},
@@ -88,7 +95,9 @@
 			"info": {
 				"description": "command.avatar.info.description",
 				"usages": {
-					"user": "command.avatar.info.usages.user"
+					"user": {
+						"description": "command.avatar.info.usages.user.description"
+					}
 				}
 			}
 		},
