@@ -12,7 +12,7 @@ import embedConfig from '@configs/embedConfig.json'
     usages: [
         {
             name: 'user',
-            type: 'DiscordUser',
+            type: 'User',
             description: 'user',
             optional: true
         }
