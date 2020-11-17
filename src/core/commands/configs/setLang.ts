@@ -4,6 +4,7 @@ import { CommandInfo, CommandName } from '@bot/helpers/command'
 import { Command } from '@bot/models/commands'
 import { Context } from '@bot/models/context'
 import { setLang } from '@server/functions/setLang'
+import { Langs } from '@server/models/langs'
 
 @CommandName('setlang')
 @CommandInfo({
@@ -26,27 +27,15 @@ export default class SetLang extends Command {
     async execCommand (ctx: Context): Promise<void> {
         if (ctx.args.length > 0) {
             if (ctx.guildConfig.lang !== ctx.args[0]) {
-                switch (ctx.args[0]) {
-                case 'pt-br':
+                if (ctx.args[0] in Langs) {
                     await setLang(ctx.message.id, {
                         guildId: ctx.guild?.id as string,
-                        newLang: 'pt-br'
+                        newLang: ctx.args[0]
                     })
-                    break
-
-                case 'en-us':
-                    setLang(ctx.message.id, {
-                        guildId: ctx.guild?.id as string,
-                        newLang: 'en-us'
-                    })
-                    break
-
-                default:
-                    ctx.channel.send('lingua não encontrada')
-                    break
+                    ctx.channel.send('nova lingua ' + ctx.args[0])
+                } else {
+                    ctx.channel.send('lingua n existe')
                 }
-
-                ctx.channel.send('nova lingua' + ctx.args[0])
             }
         } else {
             ctx.channel.send('sem lang')
