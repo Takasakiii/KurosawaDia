@@ -24,10 +24,10 @@ init().catch(error => {
 })
 
 async function init () {
-    serverSocket.url = env.server_socket_url as string
+    serverSocket.url = env.SERVER_SOCKET_URL as string
     serverSocket.start()
 
-    kurosawaDia.token = env.bot_token as string
+    kurosawaDia.token = env.BOT_TOKEN as string
     kurosawaDia.registerCommands()
     kurosawaDia.start()
 }
