@@ -47,12 +47,13 @@
         "discord.js": "^12.3.1",
         "dotenv": "^8.2.0",
         "glob": "^7.1.6",
+        "global": "^4.4.0",
         "i18n": "^0.13.2",
         "reflect-metadata": "^0.1.13",
         "socket.io-client": "^2.3.1",
         "ts-node": "^9.0.0",
         "tsconfig-paths": "^3.9.0",
-        "typescript": "^4.0.3"
+        "typescript": "^4.1.2"
     },
     "engines": {
         "node": ">=14.15.0",

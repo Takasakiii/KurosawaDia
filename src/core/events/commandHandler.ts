@@ -26,7 +26,7 @@ export async function commandHandler (message: Message, commands: ICommandsInvok
         return
     }
 
-    const args = message.content.slice(1).trim().split(/ +/)
+    const args = message.content.slice(length).trim().split(/ +/)
 
     const commandName = args.shift()?.toLowerCase()
 
