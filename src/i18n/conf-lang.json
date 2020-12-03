@@ -4,7 +4,8 @@
 			"MANAGE_GUILD": "error.permission.MANAGE_GUILD",
 			"ADD_REACTIONS": "error.permission.ADD_REACTIONS",
 			"USE_EXTERNAL_EMOJIS": "error.permission.USE_EXTERNAL_EMOJIS",
-			"MANAGE_EMOJIS": "error.permission.MANAGE_EMOJIS"
+			"MANAGE_EMOJIS": "error.permission.MANAGE_EMOJIS",
+			"BAN_MEMBERS": "error.permission.BAN_MEMBERS"
 		},
 		"message": {
 			"bot": {
@@ -89,6 +90,17 @@
 		"ban": {
 			"info": {
 				"description": "command.ban.info.description"
+			},
+			"embeds": {
+				"warning": {
+					"description": "command.ban.embeds.warning.description",
+					"reason": "command.ban.embeds.warning.reason",
+					"responsible": "command.ban.embeds.warning.responsible"
+				},
+				"conclusion": {
+					"description": "command.ban.embeds.conclusion.description",
+					"reason": "command.ban.embeds.conclusion.reason"
+				}
 			}
 		},
 		"avatar": {

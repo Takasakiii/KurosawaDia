@@ -4,7 +4,8 @@
 			"MANAGE_GUILD": "Manage guild",
 			"ADD_REACTIONS": "Add reactions",
 			"USE_EXTERNAL_EMOJIS": "Use external emojis",
-			"MANAGE_EMOJIS": "Manage emojis"
+			"MANAGE_EMOJIS": "Manage emojis",
+			"BAN_MEMBERS": "error.permission.BAN_MEMBERS"
 		},
 		"message": {
 			"bot": {
@@ -89,6 +90,17 @@
 		"ban": {
 			"info": {
 				"description": "command.ban.info.description"
+			},
+			"embeds": {
+				"warning": {
+					"description": "You were banned by {{ author }} from the {{ server }} server",
+					"reason": "Reason",
+					"responsible": "Responsible:"
+				},
+				"conclusion": {
+					"description": "Ready! The {{ target }} has been banned from the server 😀",
+					"reason": "Reason"
+				}
 			}
 		},
 		"avatar": {
