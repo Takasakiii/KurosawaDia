@@ -4,7 +4,7 @@ use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Comm
 use crate::utils::{constants::colors, user::get_user_from_id_or_mention};
 
 #[group]
-#[commands(avatar, server_image)]
+#[commands(avatar, server_image, whatsify)]
 pub struct Util;
 
 #[command]
@@ -79,6 +79,24 @@ async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image(avatar);
 
     msg.channel_id.send_message(ctx, |x| x 
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+
+    Ok(())
+}
+
+#[command]
+#[aliases("copipasta", "zapironga")]
+async fn whatsify(ctx: &Context, msg: &Message) -> CommandResult {
+    let mut embed = CreateEmbed::default();
+
+    let texto = msg.content.split(" ").skip(1).collect::<Vec<&str>>().join(" ");
+
+    embed.description(format!("```{}```", texto));
+    embed.color(colors::GREEN);
+
+    msg.channel_id.send_message(ctx, |x| x
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
