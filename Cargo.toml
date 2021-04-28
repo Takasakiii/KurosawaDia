@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 serenity = "^0.10.5"
 dotenv = "^0.15.0"
+rand = "^0.8.3"
 
 [dependencies.tokio]
 features = ["macros", "rt-multi-thread"]
