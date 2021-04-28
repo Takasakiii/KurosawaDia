@@ -1,13 +1,24 @@
 use rand::Rng;
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{CommandResult, macros::{command, group}}, model::channel::Message};
+use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message}};
 
 use crate::utils::{constants::colors, user::get_user_from_id_or_mention};
 
 #[group]
-#[commands(avatar, server_image, whatsify)]
+#[commands(emoji, avatar, server_image, whatsify)]
 pub struct Util;
 
-#[command]
+#[command("emoji")]
+#[aliases("emogi", "emote")]
+async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let emoji = args.single::<String>().unwrap();
+
+    println!("{}", emoji);
+
+    Ok(())
+}
+
+#[command("avatar")]
+#[aliases("uimg")]
 async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
     let user = get_user_from_id_or_mention(msg, ctx).await;
     let user = match user {
@@ -21,6 +32,8 @@ async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
     };
 
     let avatar = format!("{}?size=2048", avatar);
+
+    println!("{}", &avatar);
 
     let mut embed = CreateEmbed::default();
     embed.color(colors::GREEN);
@@ -86,14 +99,18 @@ async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     Ok(())
 }
 
-#[command]
+#[command("whatsify")]
 #[aliases("copipasta", "zapironga")]
-async fn whatsify(ctx: &Context, msg: &Message) -> CommandResult {
+async fn whatsify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let mut embed = CreateEmbed::default();
 
-    let texto = msg.content.split(" ").skip(1).collect::<Vec<&str>>().join(" ");
+    let texto = args.remains();
 
-    embed.description(format!("```{}```", texto));
+    if texto.is_none() {
+        return Err("Nenhuma mensagem enviada".into());
+    }
+
+    embed.description(format!("```{}```", texto.unwrap()));
     embed.color(colors::GREEN);
 
     msg.channel_id.send_message(ctx, |x| x
