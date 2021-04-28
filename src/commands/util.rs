@@ -1,14 +1,14 @@
 use rand::Rng;
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{CommandResult, macros::{command, group}}, model::channel::Message};
 
-use crate::utils::user::get_user_from_id_or_mention;
+use crate::utils::{constants::colors, user::get_user_from_id_or_mention};
 
 #[group]
-#[commands(avatar)]
+#[commands(avatar, server_image)]
 pub struct Util;
 
 #[command]
-pub async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
+async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
     let user = get_user_from_id_or_mention(msg, ctx).await;
     let user = match user {
         Some(user) => user,
@@ -16,12 +16,14 @@ pub async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
     };
 
     let avatar = match user.avatar_url() {
-        Some(avatar) => avatar,
+        Some(url) => url,
         None => user.default_avatar_url()
     };
 
+    let avatar = format!("{}?size=2048", avatar);
+
     let mut embed = CreateEmbed::default();
-    embed.color(0x5fad47);
+    embed.color(colors::GREEN);
     embed.image(&avatar);
 
     let kurosawa = ctx.cache.current_user().await;
@@ -51,6 +53,32 @@ pub async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
     embed.description(format!("{}\n[Link direto]({})", user.tag(), &avatar));
 
     msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+
+    Ok(())
+}
+
+#[command("serverimage")]
+#[aliases("simg")]
+#[only_in("guilds")]
+async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
+    let guild = msg.guild(ctx).await.unwrap();
+
+    let avatar = match guild.icon_url() {
+        Some(url) => url,
+        None => return Err("Sem imagem do servidor".into())
+    };
+
+    let avatar = format!("{}?size=2048", avatar);
+
+    let mut embed = CreateEmbed::default();
+    embed.title(guild.name);
+    embed.description(format!("[Link direto]({})", avatar));
+    embed.image(avatar);
+
+    msg.channel_id.send_message(ctx, |x| x 
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
