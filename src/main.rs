@@ -1,7 +1,8 @@
-use serenity::Client;
-
 mod commands;
 mod events;
+pub mod utils;
+
+use serenity::Client;
 
 #[tokio::main]
 async fn main() {
