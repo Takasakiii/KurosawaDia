@@ -1,5 +1,6 @@
 use rand::Rng;
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message}};
+use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message}, utils::parse_emoji};
+use unic_emoji_char::is_emoji;
 
 use crate::utils::{constants::colors, user::get_user_from_id_or_mention};
 
@@ -10,9 +11,48 @@ pub struct Util;
 #[command("emoji")]
 #[aliases("emogi", "emote")]
 async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let emoji = args.single::<String>().unwrap();
+    let emoji_mention = args.single::<String>().unwrap();
 
-    println!("{}", emoji);
+    let emoji = parse_emoji(&emoji_mention);
+
+    match emoji {
+        Some(emoji) => {
+            println!("{:?}", emoji);
+        },
+        None => {
+            if emoji_mention.len() <= 8 {
+                let mut chars = emoji_mention.chars();
+                let mut emoji = Vec::new();
+                emoji.push(chars.next().unwrap());
+
+                if is_emoji(emoji[0]) {
+                    let emoji_modify = chars.next();
+                    if emoji_modify.is_some() && is_emoji(emoji_modify.unwrap()) {
+                        emoji.push(emoji_modify.unwrap());
+                    }
+
+                    let utf32 = if emoji.len() == 2 {
+                        format!("{:x}-{:x}", emoji[0] as u32, emoji[1] as u32)
+                    } else {
+                        format!("{:x}", emoji[0] as u32)
+                    };
+
+                    let link = format!("https://twemoji.maxcdn.com/2/72x72/{}.png", utf32);
+
+                    let mut embed = CreateEmbed::default();
+                    embed.title(emoji_mention);
+                    embed.description(format!("[Link direto]({})", &link));
+                    embed.color(colors::GREEN);
+                    embed.image(&link);
+
+                    msg.channel_id.send_message(ctx, |x| x
+                        .set_embed(embed)
+                        .reference_message(msg)
+                    ).await?;
+                }
+            }
+        }
+    }
 
     Ok(())
 }
@@ -30,10 +70,6 @@ async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
         Some(url) => url,
         None => user.default_avatar_url()
     };
-
-    let avatar = format!("{}?size=2048", avatar);
-
-    println!("{}", &avatar);
 
     let mut embed = CreateEmbed::default();
     embed.color(colors::GREEN);
