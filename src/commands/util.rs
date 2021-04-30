@@ -17,7 +17,17 @@ async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     match emoji {
         Some(emoji) => {
-            println!("{:?}", emoji);
+            let link = emoji.url();
+            let mut embed = CreateEmbed::default();
+            embed.title(emoji.name);
+            embed.description(format!("[Link direto]({})", &link));
+            embed.image(&link);
+            embed.color(colors::GREEN);
+
+            msg.channel_id.send_message(ctx, |x| x
+                .set_embed(embed)
+                .reference_message(msg)
+            ).await?;
         },
         None => {
             if emoji_mention.len() <= 8 {
