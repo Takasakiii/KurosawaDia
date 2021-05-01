@@ -2,7 +2,7 @@ use rand::Rng;
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message}, utils::parse_emoji};
 use unic_emoji_char::is_emoji;
 
-use crate::utils::{constants::colors, user::get_user_from_id_or_mention};
+use crate::utils::{constants::colors, user::get_user_from_args};
 
 #[group]
 #[commands(emoji, avatar, server_image, whatsify)]
@@ -69,8 +69,8 @@ async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
 #[command("avatar")]
 #[aliases("uimg")]
-async fn avatar(ctx: &Context, msg: &Message) -> CommandResult {
-    let user = get_user_from_id_or_mention(msg, ctx).await;
+async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let user = get_user_from_args(ctx, &mut args).await;
     let user = match user {
         Some(user) => user,
         None => msg.author.clone()

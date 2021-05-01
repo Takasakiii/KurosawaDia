@@ -1,32 +1,18 @@
-use serenity::{client::Context, model::{channel::Message, prelude::User}};
+use serenity::{client::Context, framework::standard::Args, model::{prelude::User}, utils::parse_username};
 
-pub async fn get_user_from_id_or_mention(msg: &Message, ctx: &Context) -> Option<User> {
-    match msg.mentions.first() {
-        Some(user) => Some(user.clone()),
-        None => {
-            let mut msg_splited = msg.content.split(" ").into_iter();
-            let _ = msg_splited.next();
-            let id = msg_splited.next();
+pub async fn get_user_from_args(ctx: &Context, args: &mut Args) -> Option<User> {
+    let id = match args.single::<String>() {
+        Ok(id) => id,
+        Err(_) => return None
+    };
 
-            match id {
-                Some(id) => {
-                    let formated_id = id.parse::<u64>();
-
-                    match formated_id {
-                        Ok(id) => {
-                            let user = ctx.http.get_user(id)
-                                .await;
-                            
-                            match user {
-                                Ok(user) => Some(user),
-                                Err(_) => None
-                            }
-                        },
-                        Err(_) => None
-                    }
-                },
-                None => None
-            }
+    let user = match parse_username(&id) {
+        Some(id) => id,
+        None => match id.parse::<u64>() {
+            Ok(id) => id,
+            Err(_) => return None
         }
-    }
+    };
+
+    ctx.cache.user(user).await
 }
