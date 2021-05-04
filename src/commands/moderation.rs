@@ -1,9 +1,9 @@
-use serenity::{client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::channel::Message};
+use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message, prelude::User}};
 
-use crate::utils::user::{get_user_from_args, get_user_role_position};
+use crate::utils::{constants::colors, user::{get_user_from_args, get_user_role_position}};
 
 #[group]
-#[commands(limpar_chat, ban)]
+#[commands(limpar_chat, ban, kick)]
 pub struct Moderation;
 
 #[command("limparchat")]
@@ -91,6 +91,7 @@ async fn limpar_chat(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
 
 #[command("ban")]
 #[only_in("guilds")]
+#[required_permissions("BAN_MEMBERS")]
 async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = match get_user_from_args(ctx, &mut args).await {
         Some(user) => user,
@@ -98,7 +99,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     };
 
     let reason = args.remains().unwrap_or("");
-    let guild = msg.guild_id.unwrap();
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
     
@@ -107,15 +108,68 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
 
     if author_role > member_role && bot_role > member_role {
+        send_alert(&ctx, &msg, &user, "banido", &guild.name, &reason).await;
         match guild.ban_with_reason(ctx, user, 0, reason).await {
             Ok(_) => {
                 println!("foda");
             },
-            Err(_) => return Err("Tentou banir o dono".into())
+            Err(err) => return Err(err.into())
         };
     } else {
         return Err("Sem permissão para banir o membro".into())
     }
 
     Ok(())
-} 
+}
+
+#[command("kick")]
+#[only_in("guilds")]
+#[required_permissions("KICK_MEMBERS")]
+async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let user = match get_user_from_args(ctx, &mut args).await {
+        Some(user) => user,
+        None => return Err("Usuario não encontrado".into())
+    };
+
+    let reason = args.remains().unwrap_or("");
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+
+    let member_role = get_user_role_position(ctx, &guild, &user).await?;
+    
+    let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
+
+    let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
+
+    if author_role > member_role && bot_role > member_role {
+        send_alert(&ctx, &msg, &user, "expulso", &guild.name, &reason).await;
+        match guild.kick_with_reason(ctx, user, reason).await {
+            Ok(_) => {
+                println!("foda");
+            },
+            Err(err) => return Err(err.into())
+        };
+    } else {
+        return Err("Sem permissão para banir o membro".into())
+    }
+
+    Ok(())
+}
+
+async fn send_alert(ctx: &Context, msg: &Message, user: &User, tipo: &str, guild_name: &String, reason: &str) {
+    let mut embed = CreateEmbed::default();
+    embed.title("**Buuuu buuuu desu waaaa!!!!!**");
+    embed.description(format!("Você foi {} do servidor **{}**", tipo, guild_name));
+    embed.image("https://i.imgur.com/bwifre6.jpg");
+    embed.color(colors::BLACK);
+    embed.field("Motivo: ", reason, false);
+    embed.field("Responsável: ", msg.author.tag(), false);
+
+    let dm = user.create_dm_channel(ctx).await;
+
+    if dm.is_ok() {
+        let dm = dm.unwrap();
+        dm.send_message(ctx, |x| x
+            .set_embed(embed)
+        ).await.ok();
+    }
+}
