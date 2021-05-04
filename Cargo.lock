@@ -468,6 +468,7 @@ dependencies = [
 name = "kurosawa_dia"
 version = "1.4.0"
 dependencies = [
+ "chrono",
  "dotenv",
  "rand 0.8.3",
  "serenity",

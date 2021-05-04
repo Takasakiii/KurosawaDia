@@ -11,6 +11,7 @@ serenity = "^0.10.5"
 dotenv = "^0.15.0"
 rand = "^0.8.3"
 unic-emoji-char = "^0.9.0"
+chrono = "^0.4.19"
 
 [dependencies.tokio]
 features = ["macros", "rt-multi-thread"]

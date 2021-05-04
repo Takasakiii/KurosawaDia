@@ -1,4 +1,4 @@
-use serenity::{client::Context, framework::standard::Args, model::{prelude::User}, utils::parse_username};
+use serenity::{client::Context, framework::standard::{Args, CommandError}, model::{id::GuildId, prelude::User}, utils::parse_username};
 
 pub async fn get_user_from_args(ctx: &Context, args: &mut Args) -> Option<User> {
     let id = match args.single::<String>() {
@@ -17,5 +17,13 @@ pub async fn get_user_from_args(ctx: &Context, args: &mut Args) -> Option<User> 
     match ctx.cache.user(user_id).await {
         Some(user) => Some(user),
         None => ctx.http.get_user(user_id).await.ok()
+    }
+}
+
+pub async fn get_user_role_position(ctx: &Context, guild: &GuildId, user: &User) -> Result<i64, CommandError> {
+    let member = guild.member(ctx, user.id).await?;
+    match member.highest_role_info(ctx).await {
+        Some((_, position)) => Ok(position),
+        None => Ok(0)
     }
 }

@@ -2,6 +2,7 @@ mod config;
 mod util;
 mod moderation;
 
+use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::channel::Message};
 
 pub fn crete_framework() -> StandardFramework {
@@ -13,8 +14,16 @@ pub fn crete_framework() -> StandardFramework {
 }
 
 #[hook]
-async fn erro_handle(_: &Context, _: &Message, name: &str, why: CommandResult) {
+async fn erro_handle(ctx: &Context, msg: &Message, name: &str, why: CommandResult) {
     if let Err(why) = why {
-        println!("Command: {} Error: {:?}", name, why)
+        let date = Utc::now();
+
+        println!(
+            "Time: {} User: {} Command: {} Error: {:?}", 
+            date.to_rfc3339_opts(SecondsFormat::Secs, false), 
+            msg.author.tag(), 
+            name, 
+            why);
+        msg.react(ctx, '❌').await.unwrap();
     }
 }
