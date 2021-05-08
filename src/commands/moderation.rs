@@ -3,7 +3,7 @@ use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args
 use crate::utils::{constants::colors, user::{get_user_from_args, get_user_role_position}};
 
 #[group]
-#[commands(limpar_chat, ban, kick)]
+#[commands(limpar_chat, ban, kick, softban)]
 pub struct Moderation;
 
 #[command("limparchat")]
@@ -109,7 +109,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     if author_role > member_role && bot_role > member_role {
         send_alert(&ctx, &msg, &user, "banido", &guild.name, &reason).await;
-        match guild.ban_with_reason(ctx, &user, 0, reason).await {
+        match guild.ban_with_reason(ctx, &user, 7, reason).await {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
                 embed.description(format!("Prontinhooo! O {} foi banido do servidor 😀", user.tag()));
@@ -164,6 +164,48 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         };
     } else {
         return Err("Sem permissão para expulsar o membro".into())
+    }
+
+    Ok(())
+}
+
+#[command("softban")]
+#[only_in("guilds")]
+#[required_permissions("BAN_MEMBERS")]
+async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let user = match get_user_from_args(ctx, &mut args).await {
+        Some(user) => user,
+        None => return Err("Usuario não encontrado".into())
+    };
+
+    let reason = args.remains().unwrap_or("Não informado");
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+
+    let member_role = get_user_role_position(ctx, &guild, &user).await?;
+    
+    let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
+
+    let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
+
+    if author_role > member_role && bot_role > member_role {
+        send_alert(&ctx, &msg, &user, "removido", &guild.name, &reason).await;
+        match guild.ban_with_reason(ctx, &user, 7, reason).await {
+            Ok(_) => {
+                let mut embed = CreateEmbed::default();
+                embed.description(format!("Prontinhooo! O {} foi removido do servidor 😀", user.tag()));
+                embed.color(colors::PURPLE);
+
+                msg.channel_id.send_message(ctx, |x| x
+                    .set_embed(embed)
+                    .reference_message(msg)
+                ).await?;
+
+                guild.unban(ctx, &user).await?;
+            },
+            Err(err) => return Err(err.into())
+        };
+    } else {
+        return Err("Sem permissão para remover o membro".into())
     }
 
     Ok(())
