@@ -92,6 +92,7 @@ async fn limpar_chat(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
 #[command("ban")]
 #[only_in("guilds")]
 #[required_permissions("BAN_MEMBERS")]
+#[min_args(1)]
 async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = match get_user_from_args(ctx, &mut args).await {
         Some(user) => user,
@@ -132,6 +133,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("kick")]
 #[only_in("guilds")]
 #[required_permissions("KICK_MEMBERS")]
+#[min_args(1)]
 async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = match get_user_from_args(ctx, &mut args).await {
         Some(user) => user,
@@ -172,6 +174,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("softban")]
 #[only_in("guilds")]
 #[required_permissions("BAN_MEMBERS")]
+#[min_args(1)]
 async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = match get_user_from_args(ctx, &mut args).await {
         Some(user) => user,

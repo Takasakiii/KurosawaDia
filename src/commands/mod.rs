@@ -1,6 +1,7 @@
 mod config;
 mod util;
 mod moderation;
+mod weeb;
 
 use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::channel::Message};
@@ -10,6 +11,7 @@ pub fn crete_framework() -> StandardFramework {
         .configure(|x| x.prefix("k."))
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)
+        .group(&weeb::WEEB_GROUP)
         .after(erro_handle)
 }
 

@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::{Rng, thread_rng};
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message}, utils::parse_emoji};
 use unic_emoji_char::is_emoji;
 
@@ -93,7 +93,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             "Assim você me deixa sem jeito 😊"
         ];
 
-        let mut rng = rand::thread_rng();
+        let mut rng = thread_rng();
 
         embed.title(titles[rng.gen_range(0..titles.len())]);
     } else {
@@ -104,7 +104,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             "Talvez se você colocasse um filtro ficaria melhor... 🤐"
         ];
 
-        let mut rng = rand::thread_rng();
+        let mut rng = thread_rng();
 
         embed.title(titles[rng.gen_range(0..titles.len())]);
     }
