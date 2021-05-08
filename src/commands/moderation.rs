@@ -98,7 +98,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         None => return Err("Usuario não encontrado".into())
     };
 
-    let reason = args.remains().unwrap_or("");
+    let reason = args.remains().unwrap_or("Não informado");
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
@@ -109,9 +109,16 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     if author_role > member_role && bot_role > member_role {
         send_alert(&ctx, &msg, &user, "banido", &guild.name, &reason).await;
-        match guild.ban_with_reason(ctx, user, 0, reason).await {
+        match guild.ban_with_reason(ctx, &user, 0, reason).await {
             Ok(_) => {
-                println!("foda");
+                let mut embed = CreateEmbed::default();
+                embed.description(format!("Prontinhooo! O {} foi banido do servidor 😀", user.tag()));
+                embed.color(colors::PURPLE);
+
+                msg.channel_id.send_message(ctx, |x| x
+                    .set_embed(embed)
+                    .reference_message(msg)
+                ).await?;
             },
             Err(err) => return Err(err.into())
         };
@@ -131,7 +138,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         None => return Err("Usuario não encontrado".into())
     };
 
-    let reason = args.remains().unwrap_or("");
+    let reason = args.remains().unwrap_or("Não informado");
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
@@ -142,14 +149,21 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     if author_role > member_role && bot_role > member_role {
         send_alert(&ctx, &msg, &user, "expulso", &guild.name, &reason).await;
-        match guild.kick_with_reason(ctx, user, reason).await {
+        match guild.kick_with_reason(ctx, &user, reason).await {
             Ok(_) => {
-                println!("foda");
+                let mut embed = CreateEmbed::default();
+                embed.description(format!("Prontinhooo! O {} foi expulso do servidor 😀", user.tag()));
+                embed.color(colors::PURPLE);
+
+                msg.channel_id.send_message(ctx, |x| x
+                    .set_embed(embed)
+                    .reference_message(msg)
+                ).await?;
             },
             Err(err) => return Err(err.into())
         };
     } else {
-        return Err("Sem permissão para banir o membro".into())
+        return Err("Sem permissão para expulsar o membro".into())
     }
 
     Ok(())
@@ -160,7 +174,7 @@ async fn send_alert(ctx: &Context, msg: &Message, user: &User, tipo: &str, guild
     embed.title("**Buuuu buuuu desu waaaa!!!!!**");
     embed.description(format!("Você foi {} do servidor **{}**", tipo, guild_name));
     embed.image("https://i.imgur.com/bwifre6.jpg");
-    embed.color(colors::BLACK);
+    embed.color(colors::PURPLE);
     embed.field("Motivo: ", reason, false);
     embed.field("Responsável: ", msg.author.tag(), false);
 
