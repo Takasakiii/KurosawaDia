@@ -5,7 +5,7 @@ use unidecode::unidecode_char;
 use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
 
 #[group]
-#[commands(owoify, hug)]
+#[commands(owoify, hug, kiss)]
 pub struct Weeb;
 
 #[command("hug")]
@@ -22,6 +22,32 @@ async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let title = match user {
         Some(user) => format!("{} está abraçando {}", msg.author.name, user.name),
         None => format!("{} está se abraçando", msg.author.name)
+    };
+
+    embed.title(title);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+    
+    Ok(())
+}
+
+#[command("kiss")]
+#[only_in("guilds")]
+async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let api = get_weeb_api();
+    let image = api.get_random("kiss").await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.url);
+    embed.color(colors::PINK);
+
+    let user = get_user_from_args(ctx, &mut args).await;
+    let title = match user {
+        Some(user) => format!("{} está beijando {}", msg.author.name, user.name),
+        None => format!("{} está se beijando", msg.author.name)
     };
 
     embed.title(title);
