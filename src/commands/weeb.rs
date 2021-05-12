@@ -5,7 +5,7 @@ use unidecode::unidecode_char;
 use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
 
 #[group]
-#[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance, megumin)]
+#[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance, megumin, rem)]
 pub struct Weeb;
 
 #[command("hug")]
@@ -243,6 +243,26 @@ async fn megumin(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
     embed.title("Megumin ❤");
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+    
+    Ok(())
+}
+
+#[command("rem")]
+#[only_in("guilds")]
+#[max_args(0)]
+async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
+    let api = get_weeb_api();
+    let image = api.get_random("rem").await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.url);
+    embed.color(colors::PINK);
+    embed.title("Rem ❤");
 
     msg.channel_id.send_message(ctx, |x| x
         .set_embed(embed)
