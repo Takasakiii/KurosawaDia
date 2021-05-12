@@ -2,11 +2,18 @@ use rand::{Rng, thread_rng};
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::channel::Message};
 use unidecode::unidecode_char;
 
-use crate::utils::constants::colors;
+use crate::{apis::get_weeb_api, utils::constants::colors};
 
 #[group]
-#[commands(owoify)]
+#[commands(owoify, hug)]
 pub struct Weeb;
+
+#[command("hug")]
+async fn hug(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+    let api = get_weeb_api();
+    
+    Ok(())
+}
 
 #[command("owoify")]
 #[aliases("furroify", "furrofy", "furrar")]
