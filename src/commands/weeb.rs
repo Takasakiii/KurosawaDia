@@ -2,19 +2,29 @@ use rand::{Rng, thread_rng};
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::channel::Message};
 use unidecode::unidecode_char;
 
-use crate::{apis::get_weeb_api, utils::constants::colors};
+use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
 
 #[group]
 #[commands(owoify, hug)]
 pub struct Weeb;
 
 #[command("hug")]
-async fn hug(ctx: &Context, msg: &Message, _args: Args) -> CommandResult {
+#[only_in("guilds")]
+async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("hug").await?;
 
     let mut embed = CreateEmbed::default();
     embed.image(image.url);
+    embed.color(colors::PINK);
+
+    let user = get_user_from_args(ctx, &mut args).await;
+    let title = match user {
+        Some(user) => format!("{} está abraçando {}", msg.author.name, user.name),
+        None => format!("{} está se abraçando", msg.author.name)
+    };
+
+    embed.title(title);
 
     msg.channel_id.send_message(ctx, |x| x
         .set_embed(embed)
