@@ -5,7 +5,7 @@ use unidecode::unidecode_char;
 use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
 
 #[group]
-#[commands(owoify, hug, kiss, slap, punch, lick, cry, pat)]
+#[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance)]
 pub struct Weeb;
 
 #[command("hug")]
@@ -192,6 +192,34 @@ async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let title = match user {
         Some(user) => format!("{} está fazendo carinho em {}", msg.author.name, user.name),
         None => format!("{} está carente", msg.author.name)
+    };
+
+    embed.title(title);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+    
+    Ok(())
+}
+
+#[command("dance")]
+#[aliases("dancar")]
+#[only_in("guilds")]
+#[max_args(1)]
+async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let api = get_weeb_api();
+    let image = api.get_random("dance").await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.url);
+    embed.color(colors::PINK);
+
+    let user = get_user_from_args(ctx, &mut args).await;
+    let title = match user {
+        Some(user) => format!("{} começou a dançar com {}", msg.author.name, user.name),
+        None => format!("{} começou a dançar com a vassoura", msg.author.name)
     };
 
     embed.title(title);
