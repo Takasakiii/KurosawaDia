@@ -5,7 +5,7 @@ use unidecode::unidecode_char;
 use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
 
 #[group]
-#[commands(owoify, hug, kiss, slap, punch)]
+#[commands(owoify, hug, kiss, slap, punch, lick)]
 pub struct Weeb;
 
 #[command("hug")]
@@ -108,6 +108,34 @@ async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let title = match user {
         Some(user) => format!("{} está socando {}", msg.author.name, user.name),
         None => format!("{} está se socando", msg.author.name)
+    };
+
+    embed.title(title);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+    
+    Ok(())
+}
+
+#[command("lick")]
+#[aliases("lamber")]
+#[only_in("guilds")]
+#[max_args(1)]
+async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let api = get_weeb_api();
+    let image = api.get_random("lick").await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.url);
+    embed.color(colors::PINK);
+
+    let user = get_user_from_args(ctx, &mut args).await;
+    let title = match user {
+        Some(user) => format!("{} está lambendo {}", msg.author.name, user.name),
+        None => format!("{} está se lambendo", msg.author.name)
     };
 
     embed.title(title);
