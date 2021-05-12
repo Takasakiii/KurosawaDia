@@ -9,8 +9,17 @@ use crate::{apis::get_weeb_api, utils::constants::colors};
 pub struct Weeb;
 
 #[command("hug")]
-async fn hug(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+async fn hug(ctx: &Context, msg: &Message, _args: Args) -> CommandResult {
     let api = get_weeb_api();
+    let image = api.get_random("hug").await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.url);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
     
     Ok(())
 }
