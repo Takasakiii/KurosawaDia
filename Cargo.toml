@@ -13,6 +13,7 @@ rand = "^0.8.3"
 unic-emoji-char = "^0.9.0"
 chrono = "^0.4.19"
 unidecode = "^0.3.0"
+mysql_async = "^0.27.1"
 
 [dependencies.tokio]
 features = ["macros", "rt-multi-thread"]

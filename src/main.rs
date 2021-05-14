@@ -3,13 +3,19 @@ mod events;
 pub mod utils;
 pub mod apis;
 pub mod config;
+pub mod database;
 
 use config::get_token;
+use database::crate_database;
 use serenity::Client;
 
 #[tokio::main]
 async fn main() {
     dotenv::dotenv().ok();
+
+    crate_database()
+        .await
+        .expect("Falha em iniciar a db");
 
     let mut kurosawa = Client::builder(get_token())
         .event_handler(events::Handler)
