@@ -11,10 +11,16 @@ use crate::database::functions::guild::register_guild;
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
-        .configure(|x| x.prefix("k."))
+        .configure(|x| x
+            .dynamic_prefix(|_ctx, _msg| Box::pin(async move {
+                Some("k.".to_string())
+            }))
+            .prefix("")
+        )
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)
         .group(&weeb::WEEB_GROUP)
+        .group(&config::CONFIG_GROUP)
         .before(before_command)
         .after(after_command)
         .normal_message(normal_message)
@@ -26,17 +32,23 @@ async fn normal_message(_ctx: &Context, _msg: &Message) {
 }
 
 #[hook]
-async fn before_command(_ctx: &Context, msg: &Message, _name: &str) -> bool {
+async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
     match msg.guild_id {
         Some(guild_id) => {
+            let guild = guild_id.to_guild_cached(ctx).await;
             let thread = spawn(async move {
-                register_guild(guild_id).await
+                if let Some(guild) = guild {
+                    register_guild(guild).await
+                } else {
+                    Err("Falha em pegar a guild".into())
+                }
             });
 
-            let result = match thread.await {
-                Ok(result) => result,
-                Err(_) => return false
-            };
+            if name == "prefix" {
+                if let Err(_) = thread.await {
+                    return false;
+                }
+            }
 
             true
         },

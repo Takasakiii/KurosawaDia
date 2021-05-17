@@ -19,3 +19,7 @@ pub fn get_database_name() -> String {
     var("KUROSAWA_DATABASE_NAME")
         .expect("Falha ao pegar o nome da db")
 }
+
+pub fn get_default_prefix() -> String {
+    "k.".into()
+}

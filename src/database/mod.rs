@@ -6,7 +6,7 @@ use mysql::{Error, Pool, PooledConn, prelude::Queryable};
 
 use crate::config::{get_database_connection_string, get_database_name};
 
-use self::generator::{database::gen_database, procedores::gen_procedores, seeding::gen_seeding};
+use self::generator::{database::gen_database, procedores::gen_procedores};
 
 static mut CONNECTION: Option<Pool> = None;
 
@@ -47,7 +47,6 @@ pub async fn crate_database() -> Result<(), Error> {
 
     gen_database(&mut conn).await?;
     gen_procedores(&mut conn).await?;
-    gen_seeding(&mut conn).await?;
 
     Ok(())
 }
