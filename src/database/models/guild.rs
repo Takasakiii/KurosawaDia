@@ -1,6 +1,6 @@
 pub struct DbGuild {
-    discord_id: u64,
-    name: String,
-    prefix: String,
-    guild_type: i32
+    pub discord_id: u64,
+    pub name: String,
+    pub prefix: String,
+    pub guild_type: i32
 }
