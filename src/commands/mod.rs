@@ -4,10 +4,10 @@ mod moderation;
 mod weeb;
 
 use chrono::{SecondsFormat, Utc};
-use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::channel::Message};
+use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message}};
 use tokio::spawn;
 
-use crate::{config::get_default_prefix, database::functions::guild::{get_prefix, register_guild}};
+use crate::{config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_prefix, register_guild}};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
@@ -23,6 +23,8 @@ pub fn crete_framework() -> StandardFramework {
                 Some(get_default_prefix())
             }))
             .prefix("")
+            .on_mention(get_id_mention())
+            .no_dm_prefix(true)
         )
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)

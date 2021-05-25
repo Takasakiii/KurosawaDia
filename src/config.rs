@@ -1,5 +1,7 @@
 use std::env::var;
 
+use serenity::model::id::UserId;
+
 pub fn get_weeb_api_token() -> String {
     var("KUROSAWA_WEEB_API_TOKEN")
         .unwrap_or("sem token".to_string())
@@ -22,4 +24,11 @@ pub fn get_database_name() -> String {
 
 pub fn get_default_prefix() -> String {
     "k.".into()
+}
+
+pub fn get_id_mention() -> Option<UserId> {
+    match var("KUROSAWA_BOT_ID") {
+        Ok(id) => Some(UserId(id.parse::<u64>().expect("Falha ao converter a id"))),
+        Err(_) => None
+    }
 }
