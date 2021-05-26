@@ -28,6 +28,7 @@ pub fn crete_framework() -> StandardFramework {
             .prefix("")
             .on_mention(get_id_mention())
             .no_dm_prefix(true)
+            .case_insensitivity(true)
         )
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)
