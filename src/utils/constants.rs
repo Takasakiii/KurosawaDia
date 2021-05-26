@@ -4,6 +4,7 @@ pub mod colors {
     pub const PINK: i32 = 0xff69b4;
     pub const YELLOW: i32 = 0xf5e76c;
     pub const TURQUOISE: i32 = 0x7cdbe6;
+    pub const LILAC: i32 = 0xd862e3;
 }
 
 pub mod emojis {

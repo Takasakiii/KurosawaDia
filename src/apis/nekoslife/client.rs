@@ -1,4 +1,5 @@
 use isahc::{AsyncReadResponseExt, HttpClient};
+use rand::{Rng, thread_rng};
 use serenity::framework::standard::CommandError;
 
 use super::nekoslife_image::NekosLifeImage;
@@ -29,6 +30,21 @@ impl NekosLifeClient {
         match result {
             Ok(mut response) => Ok(response.json().await?),
             Err(_) => Err("Falha ao pegar a imagem".into())
+        }
+    }
+
+    pub async fn gen_hentai(&self) -> Result<NekosLifeImage, CommandError> {
+        let types = ["lewdk", "nsfw_neko_gif"];
+
+        let num = thread_rng().gen_range(0..types.len());
+
+        let result = self.client
+            .get_async(format!("{}/{}", BASE_URL, types[num]))
+            .await;
+
+        match result {
+            Ok(mut response) => Ok(response.json().await?),
+            Err(_) => Err("Falha ao pegar a imagem de hentai".into())
         }
     }
 }

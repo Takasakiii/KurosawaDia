@@ -3,6 +3,7 @@ mod util;
 mod moderation;
 mod weeb;
 mod image;
+mod nsfw;
 
 use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message}};
@@ -32,6 +33,7 @@ pub fn crete_framework() -> StandardFramework {
         .group(&weeb::WEEB_GROUP)
         .group(&config::CONFIG_GROUP)
         .group(&image::IMAGE_GROUP)
+        .group(&nsfw::NSFW_GROUP)
         .before(before_command)
         .after(after_command)
         .normal_message(normal_message)
