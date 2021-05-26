@@ -10,3 +10,10 @@ pub mod colors {
 pub mod emojis {
     pub const CONFIRM: &str = "check:770694069638135843";
 }
+
+pub mod infos {
+    pub const CONVITE_DIA: &str = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=conviteDia";
+    pub const CONVITE_SERVER: &str = "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=serverDia";
+    pub const VERSION_NUMBER: &str = "1.4.0";
+    pub const VERSION_NAME: &str = "New stage";
+}
