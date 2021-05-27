@@ -13,6 +13,7 @@ unic-emoji-char = "^0.9.0"
 chrono = "^0.4.19"
 unidecode = "^0.3.0"
 mysql = "^20.1.0"
+base64 = "^0.13.0"
 
 [dependencies.serenity]
 features = ["collector"]

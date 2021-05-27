@@ -1,10 +1,10 @@
 use rand::{Rng, thread_rng};
 use serenity::{builder::CreateEmbed, client::Context, framework::standard::{CommandResult, macros::{command, group}}, model::channel::Message};
 
-use crate::{apis::{get_nekoslife_api, get_woof_api}, utils::{constants::colors, user::get_user_from_id}};
+use crate::{apis::{get_danbooru_api, get_nekoslife_api, get_woof_api}, database::{functions::guild::get_db_guild, models::guild::DbGuildType}, utils::{constants::colors, user::get_user_from_id}};
 
 #[group]
-#[commands(cat, dog)]
+#[commands(cat, dog, loli)]
 pub struct Image;
 
 #[command("cat")]
@@ -60,6 +60,31 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
         }
 
     }
+
+    Ok(())
+}
+
+#[command("loli")]
+#[only_in("guilds")]
+async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
+    let guild = msg.guild(ctx).await.unwrap();
+    let db_guild = get_db_guild(guild).await?;
+
+    if db_guild.guild_type == DbGuildType::Normal as u32 {
+        return Ok(());
+    }
+
+    let api = get_danbooru_api();
+    let image = api.get_loli().await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.large_file_url);
+    embed.color(colors::TURQUOISE);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
 
     Ok(())
 }

@@ -29,7 +29,7 @@ impl WoofClient {
             Ok(mut response) => {
                 Ok(response.json().await?)
             },
-            Err(_) => Err("Falha ao pegar a imagem".into())
+            Err(_) => Err("Falha ao pegar a imagem de woof".into())
         }
     }
 }

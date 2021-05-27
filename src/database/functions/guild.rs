@@ -14,7 +14,7 @@ pub async fn register_guild(guild: Guild) -> CommandResult {
     Ok(())
 }
 
-pub async fn get_prefix(guild: Guild) -> Result<DbGuild, CommandError> {
+pub async fn get_db_guild(guild: Guild) -> Result<DbGuild, CommandError> {
     let mut conn = get_database_connection().await?;
 
     let mut result: Vec<DbGuild> = conn.exec_map(r"

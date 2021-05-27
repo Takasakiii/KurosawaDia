@@ -774,6 +774,7 @@ dependencies = [
 name = "kurosawa_dia"
 version = "1.4.0"
 dependencies = [
+ "base64 0.13.0",
  "chrono",
  "dotenv",
  "isahc",

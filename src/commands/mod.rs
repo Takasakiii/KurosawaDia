@@ -10,7 +10,7 @@ use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message}};
 use tokio::spawn;
 
-use crate::{config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_prefix, register_guild}};
+use crate::{config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_db_guild, register_guild}};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
@@ -18,7 +18,7 @@ pub fn crete_framework() -> StandardFramework {
             .dynamic_prefix(|ctx, msg| Box::pin(async move {
                 if let Some(guild) = msg.guild_id {
                     if let Some(guild) = guild.to_guild_cached(ctx).await {
-                        if let Ok(db_guild) = get_prefix(guild).await {
+                        if let Ok(db_guild) = get_db_guild(guild).await {
                             return Some(db_guild.prefix);
                         }
                     }
@@ -60,7 +60,7 @@ async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
                 }
             });
 
-            if name == "prefix" {
+            if name == "prefix" || name == "loli" {
                 return match thread.await {
                     Ok(result) => {
                         match result {
