@@ -33,3 +33,10 @@ pub async fn get_user_role_position(ctx: &Context, guild: &Guild, user: &User) -
 
     Ok(position)
 }
+
+pub async fn get_user_from_id(ctx: &Context, id: u64) -> Option<User> {
+    match ctx.cache.user(id).await {
+        Some(user) => Some(user),
+        None => ctx.http.get_user(id).await.ok()
+    }
+}
