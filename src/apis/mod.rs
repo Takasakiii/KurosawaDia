@@ -1,14 +1,16 @@
-use self::{danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient, weeb::client::WeebClient, woof::client::WoofClient};
+use self::{danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient, violet::client::VioletCLient, weeb::client::WeebClient, woof::client::WoofClient};
 
 pub mod weeb;
 pub mod nekoslife;
 pub mod woof;
 pub mod danbooru;
+pub mod violet;
 
 static mut WEEB_API: Option<WeebClient> = None;
 static mut NEKOSLIFE_API: Option<NekosLifeClient> = None;
 static mut WOOF_API: Option<WoofClient> = None;
 static mut DANBOORU_API: Option<DanbooruClient> = None;
+static mut VIOLET_API: Option<VioletCLient> = None;
 
 pub fn get_weeb_api() -> &'static WeebClient {
     unsafe {
@@ -53,6 +55,18 @@ pub fn get_danbooru_api() -> &'static DanbooruClient {
             None => {
                 DANBOORU_API = Some(DanbooruClient::new());
                 DANBOORU_API.as_ref().unwrap()
+            }
+        }
+    }
+}
+
+pub fn get_violet_api() -> &'static VioletCLient {
+    unsafe {
+        match &VIOLET_API {
+            Some(violet_api) => violet_api,
+            None => {
+                VIOLET_API = Some(VioletCLient::new());
+                VIOLET_API.as_ref().unwrap()
             }
         }
     }

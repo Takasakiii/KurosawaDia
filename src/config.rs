@@ -37,3 +37,8 @@ pub fn get_danbooru_token() -> String {
     var("KUROSAWA_DANBOORU_TOKEN")
         .expect("Falha ao pegar o token do danbooru")
 }
+
+pub fn get_violet_token() -> String {
+    var("KUROSAWA_VIOLET_TOKEN")
+        .expect("Falha ao pegar o token da violet")
+}

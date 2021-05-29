@@ -10,7 +10,7 @@ use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message}};
 use tokio::spawn;
 
-use crate::{config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_db_guild, register_guild}};
+use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_db_guild, register_guild}};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
@@ -92,5 +92,10 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
             name, 
             why);
         msg.react(ctx, '❌').await.unwrap();
+
+        let api = get_violet_api();
+        if let Err(_) = api.send_error(VioletError::error(why, name)).await {
+            print!("Falha ao enviar o erro para a violet")
+        }
     }
 }

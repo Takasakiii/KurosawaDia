@@ -781,6 +781,8 @@ dependencies = [
  "mysql",
  "rand 0.8.3",
  "serde",
+ "serde_json",
+ "serde_repr",
  "serde_urlencoded",
  "serenity",
  "tokio",
@@ -1518,6 +1520,17 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
+]
+
+[[package]]
+name = "serde_repr"
+version = "0.1.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "98d0516900518c29efa217c298fa1f4e6c6ffc85ae29fd7f4ee48f176e1a9ed5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
