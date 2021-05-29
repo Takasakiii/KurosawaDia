@@ -67,4 +67,18 @@ impl DanbooruClient {
             Err(_) => Err("Falha ao pegar a imagem de hentai".into())
         }
     }
+
+    pub async fn get_tags(&self, tags: &[&str]) -> Result<DanbooruImage, CommandError> {
+        let result = self.client
+            .get_async(format!("{}/posts/random.json?{}",
+                BASE_URL,
+                serde_urlencoded::to_string(&[("tags", tags.join(" "))])?
+            ))
+            .await;
+
+        match result {
+            Ok(mut response) => Ok(response.json().await?),
+            Err(_) => Err("Falha ao pegar a imagem de hentai".into())
+        }
+    }
 }
