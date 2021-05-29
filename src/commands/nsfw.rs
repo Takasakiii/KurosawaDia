@@ -54,16 +54,31 @@ async fn hdanbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
             .map(String::as_str)
             .collect::<Vec<&str>>()
             .as_slice())
-        .await?;
+        .await;
 
-    let mut embed = CreateEmbed::default();
-    embed.image(image.large_file_url);
-    embed.color(colors::LILAC);
+    match image {
+        Ok(image) => {
+            let mut embed = CreateEmbed::default();
+            embed.image(image.large_file_url);
+            embed.color(colors::LILAC);
+        
+            msg.channel_id.send_message(ctx, |x| x
+                .set_embed(embed)
+                .reference_message(msg)
+            ).await?;
+        },
+        Err(_) => {
+            let mut embed = CreateEmbed::default();
+            embed.title("Tags não encontradas");
+            embed.color(colors::YELLOW);
+        
+            msg.channel_id.send_message(ctx, |x| x
+                .set_embed(embed)
+                .reference_message(msg)
+            ).await?;
+        }
+    }
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
 
     Ok(())
 }
@@ -90,16 +105,31 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
             .map(String::as_str)
             .collect::<Vec<&str>>()
             .as_slice())
-        .await?;
+        .await;
 
-    let mut embed = CreateEmbed::default();
-    embed.image(image.large_file_url);
-    embed.color(colors::LILAC);
+    match image {
+        Ok(image) => {
+            let mut embed = CreateEmbed::default();
+            embed.image(image.large_file_url);
+            embed.color(colors::LILAC);
+        
+            msg.channel_id.send_message(ctx, |x| x
+                .set_embed(embed)
+                .reference_message(msg)
+            ).await?;
+        },
+        Err(_) => {
+            let mut embed = CreateEmbed::default();
+            embed.title("Tags não encontradas");
+            embed.color(colors::YELLOW);
+        
+            msg.channel_id.send_message(ctx, |x| x
+                .set_embed(embed)
+                .reference_message(msg)
+            ).await?;
+        }
+    }
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
-
+    
     Ok(())
 }
