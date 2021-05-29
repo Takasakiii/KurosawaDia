@@ -37,4 +37,34 @@ impl DanbooruClient {
             Err(_) => Err("Falha ao pegar a imagem de loli".into())
         }
     }
+
+    pub async fn get_hentai_random(&self) -> Result<DanbooruImage, CommandError> {
+        let result = self.client
+            .get_async(format!("{}/posts/random.json?tags=rating%3Ae%20-loli%20-shota%20-toddlercon", 
+                BASE_URL
+            ))
+            .await;
+
+        match result {
+            Ok(mut response) => Ok(response.json().await?),
+            Err(_) => Err("Falha ao pegar a imagem de hentai".into())
+        }
+    }
+
+    pub async fn get_hentai_tags(&self, tags: &[&str]) -> Result<DanbooruImage, CommandError> {
+        let mut search_tags = vec!["rating:e"];
+        search_tags.extend_from_slice(tags);
+
+        let result = self.client
+            .get_async(format!("{}/posts/random.json?{}",
+                BASE_URL,
+                serde_urlencoded::to_string(&[("tags", search_tags.join(" "))])?
+            ))
+            .await;
+
+        match result {
+            Ok(mut response) => Ok(response.json().await?),
+            Err(_) => Err("Falha ao pegar a imagem de hentai".into())
+        }
+    }
 }

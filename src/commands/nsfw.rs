@@ -1,10 +1,9 @@
-use rand::{Rng, thread_rng};
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{CommandError, CommandResult, macros::{command, group}}, model::channel::{Channel, Message}};
+use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandError, CommandResult, macros::{command, group}}, model::channel::{Channel, Message}};
 
-use crate::{apis::get_nekoslife_api, utils::constants::colors};
+use crate::{apis::get_danbooru_api, utils::constants::colors};
 
 #[group]
-#[commands(hentai)]
+#[commands(hentai, hdanborru)]
 pub struct Nsfw;
 
 #[command("hentai")]
@@ -17,10 +16,12 @@ async fn hentai(ctx: &Context, msg: &Message) -> CommandResult {
         }
     }
 
-    let image = get_hentai_url().await?;
+    let image = get_danbooru_api()
+        .get_hentai_random()
+        .await?;
 
     let mut embed = CreateEmbed::default();
-    embed.image(image);
+    embed.image(image.large_file_url);
     embed.color(colors::LILAC);
 
     msg.channel_id.send_message(ctx, |x| x
@@ -31,16 +32,38 @@ async fn hentai(ctx: &Context, msg: &Message) -> CommandResult {
     Ok(())
 }
 
-async fn get_hentai_url() -> Result<String, CommandError> {
-    let num = thread_rng().gen_range(0..1);
+#[command("hdanbooru")]
+#[max_args(5)]
+async fn hdanborru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
+    let channel = msg.channel(ctx).await;
 
-    if num == 0 {
-        let image = get_nekoslife_api()
-            .gen_hentai()
-            .await?;
-
-        return Ok(image.url);
+    if let Some(Channel::Guild(channel)) = channel {
+        if !channel.nsfw {
+            return Ok(());
+        }
     }
 
-    Ok("foda".into())
+    let mut tags: Vec<String> = Vec::new();
+
+    while let Ok(arg) = args.single::<String>() {
+        tags.push(arg);
+    }
+
+    let image = get_danbooru_api()
+        .get_hentai_tags(tags.iter()
+            .map(String::as_str)
+            .collect::<Vec<&str>>()
+            .as_slice())
+        .await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.image(image.large_file_url);
+    embed.color(colors::LILAC);
+
+    msg.channel_id.send_message(ctx, |x| x
+        .set_embed(embed)
+        .reference_message(msg)
+    ).await?;
+
+    Ok(())
 }
