@@ -1,7 +1,7 @@
 use mysql::{params, prelude::Queryable};
 use serenity::{framework::standard::{CommandError, CommandResult}, model::guild::Guild};
 
-use crate::database::{get_database_connection, models::guild::DbGuild};
+use crate::database::{get_database_connection, models::guild::{DbGuild, DbGuildType}};
 
 pub async fn register_guild(guild: Guild) -> CommandResult {
     let mut conn = get_database_connection().await?;
@@ -57,5 +57,26 @@ pub async fn set_prefix(guild: Guild, new_prefix: &String) -> CommandResult {
         Ok(())
     } else {
         Err("Falha em atualizar o prefixo na db".into())
+    }
+}
+
+pub async fn set_especial(guild: Guild, new_type: DbGuildType) -> CommandResult {
+    let mut conn = get_database_connection().await?;
+
+    conn.exec_drop(r"
+        UPDATE guilds
+        SET guild_type = :guild_type
+        WHERE discord_id = :discord_id 
+    ", params! {
+        "discord_id" => guild.id.to_string(),
+        "guild_type" => u32::from(new_type).to_string()
+    })?;
+
+    let rows = conn.affected_rows();
+
+    if rows == 1 {
+        Ok(())
+    } else {
+        Err("Falha em atualizar o typo na db".into())
     }
 }

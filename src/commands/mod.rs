@@ -5,9 +5,10 @@ mod weeb;
 mod image;
 mod nsfw;
 mod about;
+mod owner;
 
 use chrono::{SecondsFormat, Utc};
-use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message}};
+use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message, id::UserId}};
 use tokio::spawn;
 
 use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_db_guild, register_guild}};
@@ -29,6 +30,9 @@ pub fn crete_framework() -> StandardFramework {
             .on_mention(get_id_mention())
             .no_dm_prefix(true)
             .case_insensitivity(true)
+            .owners(vec![
+                UserId(203713369927057408)
+            ].into_iter().collect())
         )
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)
@@ -37,6 +41,7 @@ pub fn crete_framework() -> StandardFramework {
         .group(&image::IMAGE_GROUP)
         .group(&nsfw::NSFW_GROUP)
         .group(&about::ABOUT_GROUP)
+        .group(&owner::OWNER_GROUP)
         .before(before_command)
         .after(after_command)
         .normal_message(normal_message)
@@ -91,7 +96,7 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
             msg.author.tag(), 
             name, 
             why);
-        msg.react(ctx, '❌').await.unwrap();
+        let _ = msg.react(ctx, '❌').await;
 
         let api = get_violet_api();
         if let Err(_) = api.send_error(VioletError::error(why, name)).await {
