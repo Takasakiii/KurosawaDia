@@ -26,5 +26,12 @@ pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
         )
     ")?;
 
+    conn.query_drop(r"
+        CREATE TABLE IF NOT EXISTS status (
+            id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+            status VARCHAR(100) NOT NULL
+        )
+    ")?;
+
     Ok(())
 }
