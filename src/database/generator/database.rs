@@ -33,5 +33,16 @@ pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
         )
     ")?;
 
+    conn.query_drop(r"
+        CREATE TABLE IF NOT EXISTS custom_reactions (
+            id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+            question TEXT NOT NULL,
+            reply TEXT NOT NULL,
+            cr_type INT UNSIGNED NOT NULL DEFAULT 0,
+            guild_id BIGINT UNSIGNED NOT NULL,
+            FOREIGN KEY (guild_id) REFERENCES guilds(discord_id)
+        )
+    ")?;
+
     Ok(())
 }

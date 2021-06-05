@@ -11,7 +11,7 @@ use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message, id::UserId}};
 use tokio::spawn;
 
-use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::guild::{get_db_guild, register_guild}};
+use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::{custom_reaction::get_custom_reaction, guild::{get_db_guild, register_guild}}};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
@@ -48,8 +48,20 @@ pub fn crete_framework() -> StandardFramework {
 }
 
 #[hook]
-async fn normal_message(_ctx: &Context, _msg: &Message) {
-
+async fn normal_message(ctx: &Context, msg: &Message) {
+    if let Some(guild) = msg.guild(ctx).await {
+        match get_custom_reaction(guild, msg.content_safe(ctx).await).await {
+            Ok(Some(cr)) => {
+                msg.channel_id.send_message(ctx, |x| x
+                    .content(cr.reply)
+                ).await.ok();
+            },
+            Err(err) => {
+                println!("{:?}", err)
+            },
+            _ => {}
+        }
+    }
 }
 
 #[hook]
