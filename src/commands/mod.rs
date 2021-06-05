@@ -6,6 +6,7 @@ mod image;
 mod nsfw;
 mod about;
 mod owner;
+mod custom_reaction;
 
 use chrono::{SecondsFormat, Utc};
 use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message, id::UserId}};
@@ -17,11 +18,9 @@ pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
         .configure(|x| x
             .dynamic_prefix(|ctx, msg| Box::pin(async move {
-                if let Some(guild) = msg.guild_id {
-                    if let Some(guild) = guild.to_guild_cached(ctx).await {
-                        if let Ok(db_guild) = get_db_guild(guild).await {
-                            return Some(db_guild.prefix);
-                        }
+                if let Some(guild) = msg.guild(ctx).await {
+                    if let Ok(db_guild) = get_db_guild(guild).await {
+                        return Some(db_guild.prefix);
                     }
                 }
                 Some(get_default_prefix())
@@ -42,6 +41,7 @@ pub fn crete_framework() -> StandardFramework {
         .group(&nsfw::NSFW_GROUP)
         .group(&about::ABOUT_GROUP)
         .group(&owner::OWNER_GROUP)
+        .group(&custom_reaction::CUSTOMREACTION_GROUP)
         .before(before_command)
         .after(after_command)
         .normal_message(normal_message)
@@ -50,7 +50,9 @@ pub fn crete_framework() -> StandardFramework {
 #[hook]
 async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
-        match get_custom_reaction(guild, msg.content_safe(ctx).await).await {
+        let content = &msg.content;
+
+        match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
                 msg.channel_id.send_message(ctx, |x| x
                     .content(cr.reply)

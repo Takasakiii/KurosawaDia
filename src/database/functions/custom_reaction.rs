@@ -1,10 +1,10 @@
 use mysql::{params, prelude::Queryable};
 use rand::{Rng, thread_rng};
-use serenity::{framework::standard::CommandError, model::guild::Guild};
+use serenity::{framework::standard::{CommandError, CommandResult}, model::guild::Guild};
 
 use crate::database::{get_database_connection, models::custom_reaction::{DbCustomReaction, DbCustomReactionType}};
 
-pub async fn get_custom_reaction(guild: Guild, question: String) -> Result<Option<DbCustomReaction>, CommandError> {
+pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<DbCustomReaction>, CommandError> {
     let mut conn = get_database_connection().await?;
 
     let mut results: Vec<DbCustomReaction> = conn.exec_map(r"
@@ -48,4 +48,30 @@ pub async fn get_custom_reaction(guild: Guild, question: String) -> Result<Optio
     }
 
     Ok(None)
+}
+
+pub async fn add_custom_reaction(guild: Guild, question: String, reply: String, cr_type: DbCustomReactionType) -> CommandResult {
+    let mut conn = get_database_connection().await?;
+
+    conn.exec_drop(r"
+        INSERT INTO custom_reactions (
+            question,
+            reply,
+            cr_type,
+            guild_id
+        )
+        VALUES (
+            :question,
+            :reply,
+            :cr_type,
+            :guild_id
+        )
+    ", params! {
+        "question" => question,
+        "reply" => reply,
+        "cr_type" => u32::from(cr_type).to_string(),
+        "guild_id" => guild.id.to_string()
+    })?;
+
+    Ok(())
 }
