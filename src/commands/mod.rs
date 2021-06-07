@@ -9,7 +9,7 @@ mod owner;
 mod custom_reaction;
 
 use chrono::{SecondsFormat, Utc};
-use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, macros::hook}}, model::{channel::Message, id::UserId}};
+use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, DispatchError, macros::hook}}, model::{channel::Message, id::UserId}};
 use tokio::spawn;
 
 use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::{custom_reaction::get_custom_reaction, guild::{get_db_guild, register_guild}}};
@@ -45,6 +45,11 @@ pub fn crete_framework() -> StandardFramework {
         .before(before_command)
         .after(after_command)
         .normal_message(normal_message)
+        .on_dispatch_error(dispatch_error)
+}
+
+#[hook]
+async fn dispatch_error(_ctx: &Context, _msg: &Message, _err: DispatchError) {
 }
 
 #[hook]
