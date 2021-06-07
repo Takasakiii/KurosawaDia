@@ -16,9 +16,10 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
         "guild_id" => guild.id.to_string(),
         "question" => &question
     }, |(id, question, reply, cr_type, guild_id)| {
+        let cr_type: u32 = cr_type;
         DbCustomReaction {
             id,
-            cr_type,
+            cr_type: DbCustomReactionType::from(cr_type),
             guild_id,
             question,
             reply
@@ -34,7 +35,7 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
 
         let custom_reaction = results.remove(index);
         
-        if custom_reaction.cr_type == DbCustomReactionType::Normal as u32 {
+        if custom_reaction.cr_type == DbCustomReactionType::Normal {
             if custom_reaction.question == question {
                 return Ok(Some(custom_reaction));
             }
@@ -74,4 +75,75 @@ pub async fn add_custom_reaction(guild: Guild, question: String, reply: String, 
     })?;
 
     Ok(())
+}
+
+pub async fn remove_custom_reaction(guild: Guild, id: u32) -> Result<bool, CommandError> {
+    let mut conn = get_database_connection().await?;
+
+    conn.exec_drop(r"
+        DELETE FROM custom_reactions
+        WHERE
+            guild_id = :guild_id and
+            id = :id
+    ", params! {
+        "guild_id" => guild.id.to_string(),
+        "id" => id.to_string()
+    })?;
+
+    if conn.affected_rows() == 1 {
+        Ok(true)
+    } else {
+        Ok(false)
+    }
+}
+
+pub async fn list_custom_reaction(guild: Guild, find: &str, page: u8) -> Result<Vec<DbCustomReaction>, CommandError> {
+    let mut conn = get_database_connection().await?;
+    let skip = page * 10;
+
+    let results: Vec<DbCustomReaction> = if find == "" {
+        conn.exec_map(r"
+            SELECT * FROM custom_reactions
+            WHERE
+                guild_id = :guild_id
+            LIMIT :skip, 10
+        ", params! {
+            "guild_id" => guild.id.0,
+            "skip" => skip
+        }, |(id, question, reply, cr_type, guild_id)| {
+            let cr_type: u32 = cr_type;
+    
+            DbCustomReaction {
+                id,
+                question,
+                reply,
+                cr_type: DbCustomReactionType::from(cr_type), 
+                guild_id
+            }
+        })?
+    } else {
+        conn.exec_map(r"
+            SELECT * FROM custom_reactions
+            WHERE
+                guild_id = :guild_id and
+                reply LIKE concat('%', :find, '%')
+            LIMIT :skip, 10
+        ", params! {
+            "guild_id" => guild.id.0,
+            "find" => find,
+            "skip" => skip
+        }, |(id, question, reply, cr_type, guild_id)| {
+            let cr_type: u32 = cr_type;
+    
+            DbCustomReaction {
+                id,
+                question,
+                reply,
+                cr_type: DbCustomReactionType::from(cr_type), 
+                guild_id
+            }
+        })?
+    };
+
+    Ok(results)
 }
