@@ -778,6 +778,7 @@ dependencies = [
  "chrono",
  "dotenv",
  "isahc",
+ "lazy_static",
  "mysql",
  "rand 0.8.3",
  "serde",

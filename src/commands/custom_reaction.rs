@@ -1,4 +1,6 @@
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::Message, guild::Guild}};
+use std::time::Duration;
+
+use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::{Message, ReactionType}, guild::Guild}};
 
 use crate::{database::{functions::custom_reaction::{add_custom_reaction, list_custom_reaction, remove_custom_reaction}, models::custom_reaction::DbCustomReactionType}, utils::constants::colors};
 
@@ -120,23 +122,68 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let guild = msg.guild(ctx).await.unwrap();
     let mut page = 0;
 
-    let custom_reactions = list_custom_reaction(guild, find, page).await?;
+    let mut message_send = false;
+    let mut message: Option<Message> = None;
 
-    let mut embed = CreateEmbed::default();
-    embed.title("Lista de reações customizadas");
-    embed.field(
-        format!("Página {}", page + 1), 
-        format!("```md\n{}\n```", custom_reactions.iter().fold("".to_string(), |result, cr| {
-            format!("{}\n{}", result, cr.format())
-        })), 
-        false
-    );
-    embed.color(colors::ORANGE);
+    loop {
+        let custom_reactions = list_custom_reaction(&guild, find, page).await?;
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+        if !message_send {
+            message = Some(msg.channel_id.send_message(ctx, |x| x
+                .reference_message(msg)
+                .reactions(vec![
+                    ReactionType::Unicode("▶".into())
+                ])
+                .embed(|e| e
+                    .title("Lista de reações customizadas")
+                    .field(
+                        format!("Página {}", page + 1), 
+                        format!("```md\n{}\n```", custom_reactions.iter().fold("".to_string(), |result, cr| {
+                            format!("{}\n{}", result, cr.format())
+                        })), 
+                        false
+                    )
+                    .color(colors::ORANGE)
+                )
+            ).await?);
+
+            message_send = true;
+        } else {
+            message.clone().unwrap().edit(ctx, |x| x
+                .embed(|e| e
+                    .title("Lista de reações customizadas")
+                    .field(
+                        format!("Página {}", page + 1), 
+                        format!("```md\n{}\n```", custom_reactions.iter().fold("".to_string(), |result, cr| {
+                            format!("{}\n{}", result, cr.format())
+                        })), 
+                        false
+                    )
+                    .color(colors::ORANGE)
+                )
+            ).await?;
+        }
+
+        let collector = message.as_ref().unwrap().await_reaction(ctx)
+            .timeout(Duration::from_secs(30))
+            .author_id(msg.author.id)
+            .await;
+
+        match collector {
+            Some(reaction) => {
+                if reaction.is_added() {
+                    let reaction = reaction.as_inner_ref();
+            
+                    if reaction.emoji.as_data() == "▶" {
+                        page += 1;
+                    }
+                }
+            },
+            None => {
+                break;
+            }
+        }
+    }
 
     Ok(())
 }

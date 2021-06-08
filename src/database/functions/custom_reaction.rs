@@ -8,10 +8,10 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
     let mut conn = get_database_connection().await?;
 
     let mut results: Vec<DbCustomReaction> = conn.exec_map(r"
-        SELECT * FROM custom_reactions cr
+        SELECT * FROM custom_reactions 
         WHERE 
-            cr.guild_id = :guild_id and
-            :question LIKE concat('%', cr.question, '%')
+            guild_id = :guild_id and
+            :question LIKE concat('%', lower(question), '%')
     ", params! {
         "guild_id" => guild.id.to_string(),
         "question" => &question
@@ -97,7 +97,7 @@ pub async fn remove_custom_reaction(guild: Guild, id: u32) -> Result<bool, Comma
     }
 }
 
-pub async fn list_custom_reaction(guild: Guild, find: &str, page: u8) -> Result<Vec<DbCustomReaction>, CommandError> {
+pub async fn list_custom_reaction(guild: &Guild, find: &str, page: u8) -> Result<Vec<DbCustomReaction>, CommandError> {
     let mut conn = get_database_connection().await?;
     let skip = page * 10;
 
