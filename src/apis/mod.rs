@@ -7,11 +7,11 @@ pub mod danbooru;
 pub mod violet;
 
 lazy_static::lazy_static! {
-    static ref WEEB_API: WeebClient = WeebClient::new();
-    static ref NEKOSLIFE_API: NekosLifeClient = NekosLifeClient::new();
-    static ref WOOF_API: WoofClient = WoofClient::new();
-    static ref DANBOORU_API: DanbooruClient = DanbooruClient::new();
-    static ref VIOLET_API: VioletCLient = VioletCLient::new();
+    static ref WEEB_API: WeebClient = WeebClient::default();
+    static ref NEKOSLIFE_API: NekosLifeClient = NekosLifeClient::default();
+    static ref WOOF_API: WoofClient = WoofClient::default();
+    static ref DANBOORU_API: DanbooruClient = DanbooruClient::default();
+    static ref VIOLET_API: VioletCLient = VioletCLient::default();
 }
 
 pub fn get_weeb_api() -> &'static WeebClient {

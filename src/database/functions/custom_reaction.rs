@@ -26,7 +26,7 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
         }
     })?;
 
-    if results.len() == 0 {
+    if results.is_empty() {
         return Ok(None);
     }
 
@@ -43,7 +43,7 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
             return Ok(Some(custom_reaction));
         }
 
-        if results.len() == 0 {
+        if results.is_empty() {
             break;
         }
     }
@@ -101,7 +101,7 @@ pub async fn list_custom_reaction(guild: &Guild, find: &str, page: u8) -> Result
     let mut conn = get_database_connection().await?;
     let skip = page * 10;
 
-    let results: Vec<DbCustomReaction> = if find == "" {
+    let results: Vec<DbCustomReaction> = if find.is_empty() {
         conn.exec_map(r"
             SELECT * FROM custom_reactions
             WHERE

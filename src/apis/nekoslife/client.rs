@@ -11,7 +11,7 @@ pub struct NekosLifeClient {
 }
 
 impl NekosLifeClient {
-    pub fn new() -> Self {
+    pub fn default() -> Self {
         let client = HttpClient::builder()
             .build()
             .expect("Falha em criar o client nekos life");

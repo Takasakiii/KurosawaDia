@@ -13,7 +13,7 @@ pub struct VioletCLient {
 }
 
 impl VioletCLient {
-    pub fn new() -> Self {
+    pub fn default() -> Self {
         let client = HttpClient::builder()
             .default_header("Authorization", get_violet_token())
             .default_header("Content-Type", "application/json")

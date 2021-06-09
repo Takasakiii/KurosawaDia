@@ -39,7 +39,7 @@ pub async fn get_db_guild(guild: Guild) -> Result<DbGuild, CommandError> {
     }
 }
 
-pub async fn set_prefix(guild: Guild, new_prefix: &String) -> CommandResult {
+pub async fn set_prefix(guild: Guild, new_prefix: &str) -> CommandResult {
     let mut conn = get_database_connection().await?;
 
     conn.exec_drop(r"

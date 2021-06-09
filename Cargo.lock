@@ -213,9 +213,9 @@ dependencies = [
 
 [[package]]
 name = "command_attr"
-version = "0.3.5"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8fe1f0b69fde68f40ea2ee6ca8db23bc40d2e593db884659a65d8486032cc65b"
+checksum = "fd0432ed2b23b75b490f30cb28ec8261d49e419c39bb53e974bd1731e07cc9d0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1548,9 +1548,9 @@ dependencies = [
 
 [[package]]
 name = "serenity"
-version = "0.10.5"
+version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "deead3f7ecbbbe4c249e07af17686937ccb9d7fa24ca3accd1d223e369a75272"
+checksum = "e7775b6c4a554e495372cfa5d0e70349c84c62415666cf80c1ea79bc447c78d9"
 dependencies = [
  "async-trait",
  "async-tungstenite",
@@ -1803,9 +1803,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.5.0"
+version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "83f0c8e7c0addab50b663055baf787d0af7f413a46e6e7fb9559a4e4db7137a5"
+checksum = "0a38d31d7831c6ed7aad00aa4c12d9375fd225a6dd77da1d25b707346319a975"
 dependencies = [
  "autocfg",
  "bytes 1.0.1",

@@ -4,7 +4,7 @@ use serenity::model::id::UserId;
 
 pub fn get_weeb_api_token() -> String {
     var("KUROSAWA_WEEB_API_TOKEN")
-        .unwrap_or("sem token".to_string())
+        .unwrap_or_else(|_| "sem token".to_string())
 }
 
 pub fn get_token() -> String {

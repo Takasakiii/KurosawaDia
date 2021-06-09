@@ -15,7 +15,7 @@ pub struct Config;
 #[max_args(1)]
 #[min_args(1)]
 async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let new_prefix = args.single::<String>().unwrap_or(get_default_prefix());
+    let new_prefix = args.single::<String>().unwrap_or_else(|_| get_default_prefix());
 
     if new_prefix.len() > 15 {
         return Err("Prefix deve ser menor que 15".into());
@@ -43,7 +43,7 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         if reaction_action.is_added() {
             let reaction = reaction_action.as_inner_ref();
 
-            if &reaction.emoji.as_data() == emojis::CONFIRM {
+            if reaction.emoji.as_data() == emojis::CONFIRM {
                 let guild = msg.guild_id.ok_or("Falha em pegar o guild id")?;
                 let guild = guild.to_guild_cached(ctx).await
                     .ok_or("Falha em pegar a guild do cache")?;

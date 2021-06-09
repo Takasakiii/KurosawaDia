@@ -12,7 +12,7 @@ pub struct WeebClient{
 }
 
 impl WeebClient {
-    pub fn new() -> Self {
+    pub fn default() -> Self {
         let client = HttpClient::builder()
             .default_header("Authorization", format!("Wolke {}", get_weeb_api_token()))
             .build()

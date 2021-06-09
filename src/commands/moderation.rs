@@ -214,7 +214,7 @@ async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     Ok(())
 }
 
-async fn send_alert(ctx: &Context, msg: &Message, user: &User, tipo: &str, guild_name: &String, reason: &str) {
+async fn send_alert(ctx: &Context, msg: &Message, user: &User, tipo: &str, guild_name: &str, reason: &str) {
     let mut embed = CreateEmbed::default();
     embed.title("**Buuuu buuuu desu waaaa!!!!!**");
     embed.description(format!("Você foi {} do servidor **{}**", tipo, guild_name));

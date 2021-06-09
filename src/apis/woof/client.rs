@@ -10,7 +10,7 @@ pub struct WoofClient {
 }
 
 impl WoofClient {
-    pub fn new() -> Self {
+    pub fn default() -> Self {
         let client = HttpClient::builder()
             .build()
             .expect("Falha ao gerar o client woof");

@@ -87,10 +87,7 @@ async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
             if name == "prefix" || name == "loli" {
                 return match thread.await {
                     Ok(result) => {
-                        match result {
-                            Ok(_) => true,
-                            Err(_) => false
-                        }
+                        result.is_ok()
                     },
                     Err(_) => false
                 };
@@ -118,7 +115,7 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
         let _ = msg.react(ctx, '❌').await;
 
         let api = get_violet_api();
-        if let Err(_) = api.send_error(VioletError::error(why, name)).await {
+        if api.send_error(VioletError::error(why, name)).await.is_err() {
             print!("Falha ao enviar o erro para a violet")
         }
     }

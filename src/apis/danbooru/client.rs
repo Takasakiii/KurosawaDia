@@ -12,7 +12,7 @@ pub struct DanbooruClient {
 }
 
 impl DanbooruClient {
-    pub fn new() -> Self {
+    pub fn default() -> Self {
         let client = HttpClient::builder()
             .default_header("Authorization", format!("Basic {}",
                 base64::encode(get_danbooru_token())
