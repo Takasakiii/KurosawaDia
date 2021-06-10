@@ -146,6 +146,9 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
     let crs_count = count_custom_reactions(&guild, find).await?;
 
+    let mut next_page = crs_count > 10;
+    let mut previous_page = false;
+
     loop {
         let custom_reactions = list_custom_reaction(&guild, find, page).await?;
 
@@ -161,8 +164,11 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                     .set_embed(build_embed(page, &custom_reactions))
                 ).await?;
 
-                message.react(ctx, ReactionType::Unicode("◀".into())).await.ok();
-                message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
+                if next_page {
+                    message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
+                } else {
+                    break;
+                }
 
                 message_cache = Some(message);
             }
@@ -182,8 +188,24 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
                 if reaction.emoji.as_data() == "▶" && crs_count > ((page + 1) * 10) as u32 {
                     page += 1;
+                    if !previous_page {
+                        message.react(ctx, ReactionType::Unicode("◀".into())).await.ok();
+                        previous_page = true;
+                    }
+                    if crs_count <= ((page + 1) * 10) as u32 {
+                        message.delete_reaction_emoji(ctx, ReactionType::Unicode("▶".into())).await.ok();
+                        next_page = false;
+                    }
                 } else if reaction.emoji.as_data() == "◀" && page > 0 {
                     page -= 1;
+                    if !next_page {
+                        message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
+                        next_page = true;
+                    }
+                    if page == 0 {
+                        message.delete_reaction_emoji(ctx, ReactionType::Unicode("◀".into())).await.ok();
+                        previous_page = false;
+                    }
                 }
             },
             None => {
