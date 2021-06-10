@@ -6,7 +6,7 @@ pub mod woof;
 pub mod danbooru;
 pub mod violet;
 
-lazy_static::lazy_static! {
+lazy_static! {
     static ref WEEB_API: WeebClient = WeebClient::default();
     static ref NEKOSLIFE_API: NekosLifeClient = NekosLifeClient::default();
     static ref WOOF_API: WoofClient = WoofClient::default();

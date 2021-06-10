@@ -1,13 +1,16 @@
+use config::get_token;
+use database::crate_database;
+use serenity::Client;
+
+#[macro_use]
+extern crate lazy_static;
+
 mod commands;
 mod events;
 pub mod utils;
 pub mod apis;
 pub mod config;
 pub mod database;
-
-use config::get_token;
-use database::crate_database;
-use serenity::Client;
 
 #[tokio::main]
 async fn main() {

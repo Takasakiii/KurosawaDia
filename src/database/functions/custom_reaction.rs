@@ -4,12 +4,14 @@ use serenity::{framework::standard::{CommandError, CommandResult}, model::guild:
 
 use crate::database::{get_database_connection, models::custom_reaction::{DbCustomReaction, DbCustomReactionType}};
 
+use super::DbResult;
+
 pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<DbCustomReaction>, CommandError> {
     let mut conn = get_database_connection().await?;
 
     let mut results: Vec<DbCustomReaction> = conn.exec_map(r"
-        SELECT * FROM custom_reactions 
-        WHERE 
+        SELECT * FROM custom_reactions
+        WHERE
             guild_id = :guild_id and
             :question LIKE concat('%', lower(question), '%')
     ", params! {
@@ -34,7 +36,7 @@ pub async fn get_custom_reaction(guild: Guild, question: &str) -> Result<Option<
         let index = thread_rng().gen_range(0..results.len());
 
         let custom_reaction = results.remove(index);
-        
+
         if custom_reaction.cr_type == DbCustomReactionType::Normal {
             if custom_reaction.question == question {
                 return Ok(Some(custom_reaction));
@@ -112,12 +114,12 @@ pub async fn list_custom_reaction(guild: &Guild, find: &str, page: u8) -> Result
             "skip" => skip
         }, |(id, question, reply, cr_type, guild_id)| {
             let cr_type: u32 = cr_type;
-    
+
             DbCustomReaction {
                 id,
                 question,
                 reply,
-                cr_type: DbCustomReactionType::from(cr_type), 
+                cr_type: DbCustomReactionType::from(cr_type),
                 guild_id
             }
         })?
@@ -134,16 +136,50 @@ pub async fn list_custom_reaction(guild: &Guild, find: &str, page: u8) -> Result
             "skip" => skip
         }, |(id, question, reply, cr_type, guild_id)| {
             let cr_type: u32 = cr_type;
-    
+
             DbCustomReaction {
                 id,
                 question,
                 reply,
-                cr_type: DbCustomReactionType::from(cr_type), 
+                cr_type: DbCustomReactionType::from(cr_type),
                 guild_id
             }
         })?
     };
 
     Ok(results)
+}
+
+pub async fn count_custom_reactions(guild: &Guild, find: &str) -> DbResult<u32> {
+    let mut conn = get_database_connection().await?;
+
+    let mut result = if find.is_empty() {
+        conn.exec_map(r"
+            SELECT count(*) FROM custom_reactions
+            WHERE
+                guild_id = :guild_id
+        ", params! {
+            "guild_id" => guild.id.to_string()
+        }, |count:u32| {
+            count
+        })?
+    } else {
+        conn.exec_map(r"
+            SELECT count(*) FROM custom_reactions
+            WHERE
+                guild_id = :guild_id and
+                reply LIKE concat('%', :find, '%')
+        ", params! {
+            "guild_id" => guild.id.to_string(),
+            "find" => find
+        }, |count| {
+            count
+        })?
+    };
+
+    if let Some(count) = result.pop() {
+        Ok(count)
+    } else {
+        Err("Falha ao pegar a contagem de custom reactions".into())
+    }
 }
