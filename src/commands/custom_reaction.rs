@@ -145,33 +145,33 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     };
 
     let crs_count = count_custom_reactions(&guild, find).await?;
-
-    let mut next_page = crs_count > 10;
-    let mut previous_page = false;
+    let mut edit_page = true;
+    let mut custom_reactions;
 
     loop {
-        let custom_reactions = list_custom_reaction(&guild, find, page).await?;
+        if edit_page {
+            custom_reactions = list_custom_reaction(&guild, find, page).await?;
 
-        match message_cache.as_mut() {
-            Some(message) => {
-                message.edit(ctx, |x| x
-                    .set_embed(build_embed(page, &custom_reactions))
-                ).await?;
-            },
-            None => {
-                let message = msg.channel_id.send_message(ctx, |x| x
-                    .reference_message(msg)
-                    .set_embed(build_embed(page, &custom_reactions))
-                ).await?;
+            match message_cache.as_mut() {
+                Some(message) => {
+                    message.edit(ctx, |x| x
+                        .set_embed(build_embed(page, &custom_reactions))
+                    ).await?;
+                },
+                None => {
+                    let message = msg.channel_id.send_message(ctx, |x| x
+                        .reference_message(msg)
+                        .set_embed(build_embed(page, &custom_reactions))
+                    ).await?;
 
-                if next_page {
+                    message.react(ctx, ReactionType::Unicode("◀".into())).await.ok();
                     message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
-                } else {
-                    break;
-                }
 
-                message_cache = Some(message);
+                    message_cache = Some(message);
+                }
             }
+
+            edit_page = false;
         }
 
         let message = message_cache.as_mut().unwrap();
@@ -188,24 +188,10 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
                 if reaction.emoji.as_data() == "▶" && crs_count > ((page + 1) * 10) as u32 {
                     page += 1;
-                    if !previous_page {
-                        message.react(ctx, ReactionType::Unicode("◀".into())).await.ok();
-                        previous_page = true;
-                    }
-                    if crs_count <= ((page + 1) * 10) as u32 {
-                        message.delete_reaction_emoji(ctx, ReactionType::Unicode("▶".into())).await.ok();
-                        next_page = false;
-                    }
+                    edit_page = true;
                 } else if reaction.emoji.as_data() == "◀" && page > 0 {
                     page -= 1;
-                    if !next_page {
-                        message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
-                        next_page = true;
-                    }
-                    if page == 0 {
-                        message.delete_reaction_emoji(ctx, ReactionType::Unicode("◀".into())).await.ok();
-                        previous_page = false;
-                    }
+                    edit_page = true;
                 }
             },
             None => {
