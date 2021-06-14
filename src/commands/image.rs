@@ -5,6 +5,7 @@ use crate::{apis::{get_danbooru_api, get_nekoslife_api, get_woof_api}, database:
 
 #[group]
 #[commands(cat, dog, loli)]
+#[description("Image 🖼️- Este módulo possui imagens fofinhas para agraciar seu computador")]
 pub struct Image;
 
 #[command("cat")]

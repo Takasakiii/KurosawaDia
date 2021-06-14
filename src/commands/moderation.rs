@@ -4,6 +4,7 @@ use crate::utils::{constants::colors, user::{get_user_from_args, get_user_role_p
 
 #[group]
 #[commands(limpar_chat, ban, kick, softban)]
+#[description("Moderação ⚖️- Este módulo possui coisas para te ajudar a moderar seu servidor")]
 pub struct Moderation;
 
 #[command("limparchat")]
@@ -103,7 +104,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
-    
+
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
     let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
@@ -144,7 +145,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
-    
+
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
     let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
@@ -185,7 +186,7 @@ async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
-    
+
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
     let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;

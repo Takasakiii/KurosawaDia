@@ -4,6 +4,7 @@ use crate::{apis::get_danbooru_api, utils::constants::colors};
 
 #[group]
 #[commands(hentai, hdanbooru, danbooru)]
+#[description("Nsfw 🔞- Este módulo possui coisas para você dar orgulho para sua família")]
 pub struct Nsfw;
 
 #[command("hentai")]
@@ -61,7 +62,7 @@ async fn hdanbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
             let mut embed = CreateEmbed::default();
             embed.image(image.large_file_url);
             embed.color(colors::LILAC);
-        
+
             msg.channel_id.send_message(ctx, |x| x
                 .set_embed(embed)
                 .reference_message(msg)
@@ -71,7 +72,7 @@ async fn hdanbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
             let mut embed = CreateEmbed::default();
             embed.title("Tags não encontradas");
             embed.color(colors::YELLOW);
-        
+
             msg.channel_id.send_message(ctx, |x| x
                 .set_embed(embed)
                 .reference_message(msg)
@@ -112,7 +113,7 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
             let mut embed = CreateEmbed::default();
             embed.image(image.large_file_url);
             embed.color(colors::LILAC);
-        
+
             msg.channel_id.send_message(ctx, |x| x
                 .set_embed(embed)
                 .reference_message(msg)
@@ -122,7 +123,7 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
             let mut embed = CreateEmbed::default();
             embed.title("Tags não encontradas");
             embed.color(colors::YELLOW);
-        
+
             msg.channel_id.send_message(ctx, |x| x
                 .set_embed(embed)
                 .reference_message(msg)
@@ -130,6 +131,6 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         }
     }
 
-    
+
     Ok(())
 }

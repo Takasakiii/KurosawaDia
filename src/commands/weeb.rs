@@ -6,6 +6,7 @@ use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_a
 
 #[group]
 #[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance, megumin, rem)]
+#[description("Weeb ❤️- Este módulo é o mais amoroso de todos.")]
 pub struct Weeb;
 
 #[command("hug")]
@@ -32,7 +33,7 @@ async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -60,7 +61,7 @@ async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -88,7 +89,7 @@ async fn slap(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -116,7 +117,7 @@ async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -144,7 +145,7 @@ async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -172,7 +173,7 @@ async fn cry(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -200,7 +201,7 @@ async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -228,7 +229,7 @@ async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -248,7 +249,7 @@ async fn megumin(ctx: &Context, msg: &Message) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -268,7 +269,7 @@ async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
         .set_embed(embed)
         .reference_message(msg)
     ).await?;
-    
+
     Ok(())
 }
 
@@ -278,7 +279,7 @@ async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
 async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let text = args.remains().unwrap();
     let chars = text.chars().collect::<Vec<char>>();
-    
+
     if text.len() > 800 {
         return Err("Texto maior que 800".into());
     }
@@ -286,9 +287,9 @@ async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let mut result = "".to_string();
 
     let faces = [" OwO ", " owo ", " oωo ", " òωó ", " °ω° ", " UwU ", " >w< ", " ^w^ "];
-    
+
     let mut indexer = 0;
-    
+
     loop {
         if chars.len() <= indexer {
             break;

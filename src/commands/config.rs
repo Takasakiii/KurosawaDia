@@ -6,6 +6,7 @@ use crate::{config::get_default_prefix, database::functions::guild::set_prefix, 
 
 #[group]
 #[commands(prefix)]
+#[description("Configurações ⚙️- Em configurações, você define preferências de como vou agir em seu servidor.")]
 pub struct Config;
 
 #[command("prefix")]
@@ -14,6 +15,9 @@ pub struct Config;
 #[required_permissions("MANAGE_GUILD")]
 #[max_args(1)]
 #[min_args(1)]
+#[description("Modifica o meu prefixo no servidor\n\n(Observação: você precisa da permissão de administrador ou da permissão de gerenciar servidor para poder usar esse comando)")]
+#[usage("prefix <novo prefixo>")]
+#[example("prefix +")]
 async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let new_prefix = args.single::<String>().unwrap_or_else(|_| get_default_prefix());
 
@@ -47,7 +51,7 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                 let guild = msg.guild_id.ok_or("Falha em pegar o guild id")?;
                 let guild = guild.to_guild_cached(ctx).await
                     .ok_or("Falha em pegar a guild do cache")?;
-            
+
                 set_prefix(guild, &new_prefix).await?;
 
                 let mut embed = CreateEmbed::default();
@@ -61,7 +65,6 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             }
         }
     }
-
 
     Ok(())
 }

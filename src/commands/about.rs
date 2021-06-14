@@ -4,6 +4,7 @@ use crate::utils::constants::{colors, infos};
 
 #[group]
 #[commands(sobre, info)]
+#[description("Ajuda ❓- Este módulo tem comandos para te ajudar na ultilização do bot")]
 pub struct About;
 
 #[command("sobre")]
@@ -47,40 +48,40 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     let guilds = ctx.cache.guild_count().await;
 
     embed.field(
-        "Sobre mim:", 
+        "Sobre mim:",
         r"__Nome__: Kurosawa Dia (Dia-chan)
         __Aniversário__: 1° de Janeiro (Quero presentes!)
-        __Ocupação__: Estudante e traficante/idol nas horas vagas", 
+        __Ocupação__: Estudante e traficante/idol nas horas vagas",
         false);
 
     embed.field(
-        "As pessoas que fazem tudo isso ser possível:", 
+        "As pessoas que fazem tudo isso ser possível:",
         r"Jena#0439
         Yummi#4986
         LuckShiba#6614
         Vulcan#4805
-        
-        E é claro você que acredita em meu potencial :orange_heart:", 
+
+        E é claro você que acredita em meu potencial :orange_heart:",
         false);
 
     embed.field(
-        "Links úteis:", 
+        "Links úteis:",
         format!(
             "[Me adicione em seu servidor]({})\n[Entre no meu servidor para dar suporte ao projeto]({})",
-            infos::CONVITE_DIA, 
+            infos::CONVITE_DIA,
             infos::CONVITE_SERVER),
         false);
 
     // __Ping__: {ctx.Client.Ping}\n
 
     embed.field(
-        "Informações chatas:", 
+        "Informações chatas:",
         format!(
             "__Servidores__: {}\n__Usuarios__: {}\n__Versão__: {} ({})",
             guilds,
             users,
             infos::VERSION_NUMBER,
-            infos::VERSION_NAME), 
+            infos::VERSION_NAME),
         false);
 
     msg.channel_id.send_message(ctx, |x| x

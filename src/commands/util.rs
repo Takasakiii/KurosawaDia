@@ -6,6 +6,7 @@ use crate::utils::{constants::colors, user::get_user_from_args};
 
 #[group]
 #[commands(emoji, avatar, server_image, whatsify)]
+#[description("Utilidade 🛠️- Este módulo possui coisas úteis para o seu dia a dia")]
 pub struct Util;
 
 #[command("emoji")]
@@ -89,7 +90,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     if user.id == kurosawa.id {
         let titles = [
-            "Ownt, que amor, você realmente quer me ver 😍", 
+            "Ownt, que amor, você realmente quer me ver 😍",
             "Assim você me deixa sem jeito 😊"
         ];
 
@@ -98,7 +99,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         embed.title(titles[rng.gen_range(0..titles.len())]);
     } else {
         let titles = [
-            "Nossa, que avatar bonito! Agora sei porque você queria vê-lo 🤣", 
+            "Nossa, que avatar bonito! Agora sei porque você queria vê-lo 🤣",
             "Vocês são realmente criativos para avatares 😂",
             "Com um avatar assim seria um desperdício não se tornar uma idol 😃",
             "Talvez se você colocasse um filtro ficaria melhor... 🤐"
@@ -137,7 +138,7 @@ async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     embed.description(format!("[Link direto]({})", avatar));
     embed.image(avatar);
 
-    msg.channel_id.send_message(ctx, |x| x 
+    msg.channel_id.send_message(ctx, |x| x
         .set_embed(embed)
         .reference_message(msg)
     ).await?;

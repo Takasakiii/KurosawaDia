@@ -8,11 +8,13 @@ mod about;
 mod owner;
 mod custom_reaction;
 
+use std::collections::HashSet;
+
 use chrono::{SecondsFormat, Utc};
-use serenity::{client::Context, framework::{StandardFramework, standard::{CommandResult, DispatchError, macros::hook}}, model::{channel::Message, id::UserId}};
+use serenity::{builder::CreateEmbed, client::Context, framework::{StandardFramework, standard::{Args, CommandGroup, CommandResult, DispatchError, HelpOptions, macros::{hook, help}}}, model::{channel::Message, id::UserId}};
 use tokio::spawn;
 
-use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::{custom_reaction::get_custom_reaction, guild::{get_db_guild, register_guild}}};
+use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::{custom_reaction::get_custom_reaction, guild::{get_db_guild, register_guild}}, utils::constants::colors};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
@@ -46,6 +48,104 @@ pub fn crete_framework() -> StandardFramework {
         .after(after_command)
         .normal_message(normal_message)
         .on_dispatch_error(dispatch_error)
+        .help(&HELP)
+}
+
+#[help]
+async fn help(
+    ctx: &Context,
+    msg: &Message,
+    mut args: Args,
+    _: &'static HelpOptions,
+    groups: &[&'static CommandGroup],
+    _: HashSet<UserId>
+) -> CommandResult {
+    if args.is_empty() {
+        let mut embed = CreateEmbed::default();
+        embed.title("Comandos atacaaaaar 😁");
+        embed.description("Para mais informações sobre um módulo ou comando, digite `help {Comando}` que eu lhe informarei mais sobre ele");
+        embed.image("https://i.imgur.com/mQVFSrP.gif");
+        embed.color(colors::PURPLE);
+
+        for group in groups.iter() {
+            if !group.options.help_available {
+                continue;
+            }
+
+            let group_description = group.options.description.unwrap_or(group.name);
+            let group_cmds = group.options.commands
+                .iter()
+                .map(|cmds| cmds.options.names.first().unwrap())
+                .fold("".to_string(), |init, item|
+                    format!("{} `{}`", init, item)
+                );
+
+            embed.field(group_description, group_cmds, false);
+        }
+
+        msg.channel_id.send_message(ctx, |x| x
+            .set_embed(embed)
+            .reference_message(msg)
+        ).await?;
+    } else {
+        let cmd_name = args.single::<String>()?;
+
+        let prefix = if let Some(guild) = msg.guild(ctx).await {
+            if let Ok(db_guild) = get_db_guild(guild).await {
+                db_guild.prefix
+            } else {
+                get_default_prefix()
+            }
+        } else {
+            get_default_prefix()
+        };
+
+        let mut embed = CreateEmbed::default();
+        embed.color(colors::PURPLE);
+
+        if cmd_name == "help" {
+
+        } else {
+            let mut cmd = None;
+
+            for group in groups.iter() {
+                for cmds in group.options.commands.iter() {
+                    if cmds.options.names.iter().any(|x| x == &cmd_name) {
+                        cmd = Some(cmds);
+                    }
+                }
+            }
+
+            match cmd {
+                None => {
+                    embed.title("Comando não encontrado");
+                },
+                Some(cmd) => {
+                    embed.image("https://i.imgur.com/vg0z9yT.jpg");
+                    embed.title(format!("Mais informações para {}", cmd.options.names[0]));
+                    if let Some(description) = cmd.options.desc {
+                        embed.description(description);
+                    }
+                    if let Some(usage) = cmd.options.usage {
+                        embed.field("Uso", format!("`{}{}`", prefix, usage), false);
+                    }
+                    if !cmd.options.examples.is_empty() {
+                        let examples = cmd.options.examples.iter().fold("".to_string(), |result, item|
+                            format!("{}\n`{}{}`", result, prefix, item)
+                        );
+                        embed.field("Exemplos", examples, false);
+                    }
+                }
+            };
+        }
+
+        msg.channel_id.send_message(ctx, |x| x
+            .set_embed(embed)
+            .reference_message(msg)
+        ).await?;
+    }
+
+    Ok(())
 }
 
 #[hook]
@@ -107,10 +207,10 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
         let date = Utc::now();
 
         println!(
-            "Time: {} User: {} Command: {} Error: {:?}", 
-            date.to_rfc3339_opts(SecondsFormat::Secs, false), 
-            msg.author.tag(), 
-            name, 
+            "Time: {} User: {} Command: {} Error: {:?}",
+            date.to_rfc3339_opts(SecondsFormat::Secs, false),
+            msg.author.tag(),
+            name,
             why);
         let _ = msg.react(ctx, '❌').await;
 

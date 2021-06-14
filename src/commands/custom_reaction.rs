@@ -6,6 +6,7 @@ use crate::{database::{functions::custom_reaction::{add_custom_reaction, count_c
 
 #[group]
 #[commands(acr, aecr, dcr, lcr)]
+#[description("Reações Customizadas 💬- Este módulo possui comandos para você controlar as minhas Reações Customizadas.")]
 pub struct CustomReaction;
 
 #[command("adicionarrc")]
