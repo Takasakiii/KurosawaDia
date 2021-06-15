@@ -1,0 +1,34 @@
+version: "3"
+services:
+    bot:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: kurosawa_dia_bot
+        image: kurosawa_dia_bot
+        depends_on:
+            - db
+        networks:
+            - kurosawa_dia
+        environment:
+            KUROSAWA_TOKEN: ${KUROSAWA_TOKEN}
+            KUROSAWA_BOT_ID: ${KUROSAWA_BOT_ID}
+            KUROSAWA_WEEB_API_TOKEN: ${KUROSAWA_WEEB_API_TOKEN}
+            KUROSAWA_DATABASE_CONNECTION_STRING: mysql://root:${KUROSAWA_DATABASE_PASSWORD}@db:3306
+            KUROSAWA_DATABASE_NAME: ${KUROSAWA_DATABASE_NAME}
+            KUROSAWA_DANBOORU_TOKEN: ${KUROSAWA_DANBOORU_TOKEN}
+            KUROSAWA_VIOLET_TOKEN: ${KUROSAWA_VIOLET_TOKEN}
+    db:
+        image: mariadb:10.5
+        container_name: kurosawa_dia_db
+        volumes:
+            - mariadb:/var/lib/mysql
+        environment:
+            MARIADB_ROOT_PASSWORD: ${KUROSAWA_DATABASE_PASSWORD}
+        networks:
+            - kurosawa_dia
+networks:
+    kurosawa_dia:
+        driver: bridge
+volumes:
+    mariadb:
