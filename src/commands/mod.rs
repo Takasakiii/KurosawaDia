@@ -1,40 +1,63 @@
-mod config;
-mod util;
-mod moderation;
-mod weeb;
-mod image;
-mod nsfw;
 mod about;
-mod owner;
+mod config;
 mod custom_reaction;
+mod image;
+mod moderation;
+mod nsfw;
+mod owner;
+mod util;
+mod weeb;
 
 use std::collections::HashSet;
 
 use chrono::{SecondsFormat, Utc};
-use serenity::{builder::CreateEmbed, client::Context, framework::{StandardFramework, standard::{Args, CommandGroup, CommandResult, DispatchError, HelpOptions, macros::{hook, help}}}, model::{channel::Message, id::UserId}};
+use rand::{thread_rng, Rng};
+use serenity::{
+    builder::{CreateEmbed, CreateEmbedFooter},
+    client::Context,
+    framework::{
+        standard::{
+            macros::{help, hook},
+            Args, CommandGroup, CommandResult, DispatchError, HelpOptions,
+        },
+        StandardFramework,
+    },
+    model::{channel::Message, id::UserId},
+};
 use tokio::spawn;
 
-use crate::{apis::{get_violet_api, violet::data_error::VioletError}, config::{get_default_prefix, get_id_mention}, database::functions::{custom_reaction::get_custom_reaction, guild::{get_db_guild, register_guild}}, utils::constants::colors};
+use crate::{
+    apis::{get_violet_api, violet::data_error::VioletError},
+    config::{get_default_prefix, get_id_mention},
+    database::{
+        functions::{
+            custom_reaction::get_custom_reaction,
+            guild::{get_db_guild, register_guild},
+        },
+        models::guild::DbGuildType,
+    },
+    utils::constants::colors,
+};
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
-        .configure(|x| x
-            .dynamic_prefix(|ctx, msg| Box::pin(async move {
-                if let Some(guild) = msg.guild(ctx).await {
-                    if let Ok(db_guild) = get_db_guild(guild).await {
-                        return Some(db_guild.prefix);
+        .configure(|x| {
+            x.dynamic_prefix(|ctx, msg| {
+                Box::pin(async move {
+                    if let Some(guild) = msg.guild(ctx).await {
+                        if let Ok(db_guild) = get_db_guild(guild).await {
+                            return Some(db_guild.prefix);
+                        }
                     }
-                }
-                Some(get_default_prefix())
-            }))
+                    Some(get_default_prefix())
+                })
+            })
             .prefix("")
             .on_mention(get_id_mention())
             .no_dm_prefix(true)
             .case_insensitivity(true)
-            .owners(vec![
-                UserId(203713369927057408)
-            ].into_iter().collect())
-        )
+            .owners(vec![UserId(203713369927057408)].into_iter().collect())
+        })
         .group(&util::UTIL_GROUP)
         .group(&moderation::MODERATION_GROUP)
         .group(&weeb::WEEB_GROUP)
@@ -58,7 +81,7 @@ async fn help(
     mut args: Args,
     _: &'static HelpOptions,
     groups: &[&'static CommandGroup],
-    _: HashSet<UserId>
+    _: HashSet<UserId>,
 ) -> CommandResult {
     if args.is_empty() {
         let mut embed = CreateEmbed::default();
@@ -73,20 +96,19 @@ async fn help(
             }
 
             let group_description = group.options.description.unwrap_or(group.name);
-            let group_cmds = group.options.commands
+            let group_cmds = group
+                .options
+                .commands
                 .iter()
                 .map(|cmds| cmds.options.names.first().unwrap())
-                .fold("".to_string(), |init, item|
-                    format!("{} `{}`", init, item)
-                );
+                .fold("".to_string(), |init, item| format!("{} `{}`", init, item));
 
             embed.field(group_description, group_cmds, false);
         }
 
-        msg.channel_id.send_message(ctx, |x| x
-            .set_embed(embed)
-            .reference_message(msg)
-        ).await?;
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     } else {
         let cmd_name = args.single::<String>()?;
 
@@ -97,14 +119,22 @@ async fn help(
                 get_default_prefix()
             }
         } else {
-            get_default_prefix()
+            "".to_string()
         };
 
         let mut embed = CreateEmbed::default();
         embed.color(colors::PURPLE);
 
         if cmd_name == "help" {
-
+            embed.image("https://i.imgur.com/vg0z9yT.jpg");
+            embed.title("Mais informações para help");
+            embed.description("Com esse comando eu posso te fornecer informações, como se comunicar comigo e as tarefas que realizo");
+            embed.field("Uso", format!("`{0}help <comando>*`", prefix), false);
+            embed.field(
+                "Exemplos",
+                format!("`{0}help prefix`\n`{0}help`", prefix),
+                false,
+            );
         } else {
             let mut cmd = None;
 
@@ -119,38 +149,92 @@ async fn help(
             match cmd {
                 None => {
                     embed.title("Comando não encontrado");
-                },
+                }
                 Some(cmd) => {
-                    embed.image("https://i.imgur.com/vg0z9yT.jpg");
+                    if !cmd.options.help_available {
+                        let db_guild = if let Some(guild) = msg.guild(ctx).await {
+                            if let Ok(guild) = get_db_guild(guild).await {
+                                Some(guild)
+                            } else {
+                                None
+                            }
+                        } else {
+                            None
+                        };
+
+                        match db_guild {
+                            Some(db_guild) => {
+                                if db_guild.guild_type == DbGuildType::Normal as u32 {
+                                    return Ok(());
+                                }
+                            }
+                            None => {
+                                return Ok(());
+                            }
+                        }
+                    }
+
+                    let images = vec![
+                        "https://i.imgur.com/vg0z9yT.jpg",
+                        "https://i.imgur.com/AUpMkBP.jpg",
+                    ];
+
+                    let random = thread_rng().gen_range(0..images.len());
+
+                    embed.image(images[random]);
                     embed.title(format!("Mais informações para {}", cmd.options.names[0]));
+                    let mut footer = CreateEmbedFooter::default();
+                    footer.text("<> indica que é obrigatório, [] indica que é opcional");
+                    embed.set_footer(footer);
                     if let Some(description) = cmd.options.desc {
                         embed.description(description);
+                    }
+                    if cmd.options.names.len() > 1 {
+                        let aliases = cmd
+                            .options
+                            .names
+                            .iter()
+                            .skip(1)
+                            .fold("".to_string(), |result, item| {
+                                format!("{}\n- {}", result, item)
+                            });
+                        embed.field("Outros jeitos que eu entendo", aliases, false);
                     }
                     if let Some(usage) = cmd.options.usage {
                         embed.field("Uso", format!("`{}{}`", prefix, usage), false);
                     }
                     if !cmd.options.examples.is_empty() {
-                        let examples = cmd.options.examples.iter().fold("".to_string(), |result, item|
-                            format!("{}\n`{}{}`", result, prefix, item)
+                        let examples = cmd
+                            .options
+                            .examples
+                            .iter()
+                            .fold("".to_string(), |result, item| {
+                                format!("{}\n`{}{}`", result, prefix, item)
+                            });
+                        embed.field(
+                            if cmd.options.examples.len() > 1 {
+                                "Exemplos"
+                            } else {
+                                "Exemplo"
+                            },
+                            examples,
+                            false,
                         );
-                        embed.field("Exemplos", examples, false);
                     }
                 }
             };
         }
 
-        msg.channel_id.send_message(ctx, |x| x
-            .set_embed(embed)
-            .reference_message(msg)
-        ).await?;
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     }
 
     Ok(())
 }
 
 #[hook]
-async fn dispatch_error(_ctx: &Context, _msg: &Message, _err: DispatchError) {
-}
+async fn dispatch_error(_ctx: &Context, _msg: &Message, _err: DispatchError) {}
 
 #[hook]
 async fn normal_message(ctx: &Context, msg: &Message) {
@@ -159,13 +243,14 @@ async fn normal_message(ctx: &Context, msg: &Message) {
 
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
-                msg.channel_id.send_message(ctx, |x| x
-                    .content(cr.reply)
-                ).await.ok();
-            },
+                msg.channel_id
+                    .send_message(ctx, |x| x.content(cr.reply))
+                    .await
+                    .ok();
+            }
             Err(err) => {
                 println!("{:?}", err)
-            },
+            }
             _ => {}
         }
     }
@@ -186,18 +271,14 @@ async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
 
             if name == "prefix" || name == "loli" {
                 return match thread.await {
-                    Ok(result) => {
-                        result.is_ok()
-                    },
-                    Err(_) => false
+                    Ok(result) => result.is_ok(),
+                    Err(_) => false,
                 };
             }
 
             true
-        },
-        None => {
-            true
         }
+        None => true,
     }
 }
 
@@ -211,7 +292,8 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
             date.to_rfc3339_opts(SecondsFormat::Secs, false),
             msg.author.tag(),
             name,
-            why);
+            why
+        );
         let _ = msg.react(ctx, '❌').await;
 
         let api = get_violet_api();

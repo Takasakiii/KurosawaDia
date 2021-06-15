@@ -1,6 +1,17 @@
-use serenity::{builder::{CreateEmbed, CreateEmbedFooter}, client::Context, framework::standard::{CommandResult, macros::{command, group}}, model::channel::Message};
+use serenity::{
+    builder::{CreateEmbed, CreateEmbedFooter},
+    client::Context,
+    framework::standard::{
+        macros::{command, group},
+        CommandResult,
+    },
+    model::channel::Message,
+};
 
-use crate::utils::constants::{colors, infos};
+use crate::utils::{
+    constants::{colors, infos},
+    user::get_user_from_id,
+};
 
 #[group]
 #[commands(sobre, info)]
@@ -8,6 +19,8 @@ use crate::utils::constants::{colors, infos};
 pub struct About;
 
 #[command("sobre")]
+#[aliases("apresentacao", "apresentação")]
+#[description("Digamos que tudo que precisa saber sobre mim você pode ver aqui ❤️")]
 async fn sobre(ctx: &Context, msg: &Message) -> CommandResult {
     let mut embed = CreateEmbed::default();
     embed.title("Será um enorme prazer te ajudar :yum:");
@@ -27,15 +40,16 @@ async fn sobre(ctx: &Context, msg: &Message) -> CommandResult {
 
     embed.set_footer(footer);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
 
 #[command("info")]
+#[aliases("convite", "ping")]
+#[description("Contém informações de suporte e algumas coisinhas pessoais")]
 async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     let mut embed = CreateEmbed::default();
     embed.title("**Dia's book:**");
@@ -52,17 +66,25 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
         r"__Nome__: Kurosawa Dia (Dia-chan)
         __Aniversário__: 1° de Janeiro (Quero presentes!)
         __Ocupação__: Estudante e traficante/idol nas horas vagas",
-        false);
+        false,
+    );
+
+    let takasaki = get_user_from_id(ctx, 274289097689006080).await.unwrap();
+    let shiba = get_user_from_id(ctx, 355750436424384524).await.unwrap();
+    let yummi = get_user_from_id(ctx, 368280970102833153).await.unwrap();
+    let vulcan = get_user_from_id(ctx, 203713369927057408).await.unwrap();
 
     embed.field(
         "As pessoas que fazem tudo isso ser possível:",
-        r"Jena#0439
-        Yummi#4986
-        LuckShiba#6614
-        Vulcan#4805
-
-        E é claro você que acredita em meu potencial :orange_heart:",
-        false);
+        format!(
+            "{}\n{}\n{}\n{}\nE é claro você que acredita em meu potencial :orange_heart:",
+            vulcan.tag(),
+            takasaki.tag(),
+            shiba.tag(),
+            yummi.tag()
+        ),
+        false,
+    );
 
     embed.field(
         "Links úteis:",
@@ -81,13 +103,14 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
             guilds,
             users,
             infos::VERSION_NUMBER,
-            infos::VERSION_NAME),
-        false);
+            infos::VERSION_NAME
+        ),
+        false,
+    );
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }

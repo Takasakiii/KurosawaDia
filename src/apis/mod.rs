@@ -1,10 +1,13 @@
-use self::{danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient, violet::client::VioletCLient, weeb::client::WeebClient, woof::client::WoofClient};
+use self::{
+    danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient,
+    violet::client::VioletCLient, weeb::client::WeebClient, woof::client::WoofClient,
+};
 
-pub mod weeb;
-pub mod nekoslife;
-pub mod woof;
 pub mod danbooru;
+pub mod nekoslife;
 pub mod violet;
+pub mod weeb;
+pub mod woof;
 
 lazy_static! {
     static ref WEEB_API: WeebClient = WeebClient::default();

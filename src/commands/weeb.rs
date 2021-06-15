@@ -1,18 +1,33 @@
-use rand::{Rng, thread_rng};
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::channel::Message};
+use rand::{thread_rng, Rng};
+use serenity::{
+    builder::CreateEmbed,
+    client::Context,
+    framework::standard::{
+        macros::{command, group},
+        Args, CommandResult,
+    },
+    model::channel::Message,
+};
 use unidecode::unidecode_char;
 
-use crate::{apis::get_weeb_api, utils::{constants::colors, user::get_user_from_args}};
+use crate::{
+    apis::get_weeb_api,
+    utils::{constants::colors, user::get_user_from_args},
+};
 
 #[group]
 #[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance, megumin, rem)]
-#[description("Weeb ❤️- Este módulo é o mais amoroso de todos.")]
+#[description("Weeb ❤️- Este módulo é o mais amoroso de todos")]
 pub struct Weeb;
 
 #[command("hug")]
 #[aliases("abraço", "abraco", "abrasar")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dê um abraço em si mesmo(a) ou em seu amiguinho")]
+#[usage("hug [usuario]")]
+#[example("hug @Vulcan")]
+#[example("hug 203713369927057408")]
 async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("hug").await?;
@@ -24,15 +39,14 @@ async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está abraçando {}", msg.author.name, user.name),
-        None => format!("{} está se abraçando", msg.author.name)
+        None => format!("{} está se abraçando", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -41,6 +55,10 @@ async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("beijar", "beijo")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dê um beijo em si mesmo(a) ou em seu amiguinho")]
+#[usage("kiss [usuario]")]
+#[example("kiss @Vulcan")]
+#[example("kiss 203713369927057408")]
 async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("kiss").await?;
@@ -52,15 +70,14 @@ async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está beijando {}", msg.author.name, user.name),
-        None => format!("{} está se beijando", msg.author.name)
+        None => format!("{} está se beijando", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -69,6 +86,10 @@ async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("bater")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dê um tapa em si mesmo(a) ou em seu amiguinho")]
+#[usage("slap [usuario]")]
+#[example("slap @Vulcan")]
+#[example("slap 203713369927057408")]
 async fn slap(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("slap").await?;
@@ -80,15 +101,14 @@ async fn slap(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está dando um tapa em {}", msg.author.name, user.name),
-        None => format!("{} está se batendo", msg.author.name)
+        None => format!("{} está se batendo", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -97,6 +117,10 @@ async fn slap(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("socar")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dê um soco em si mesmo ou em seu amiguinho")]
+#[usage("punch [usuario]")]
+#[example("punch @Vulcan")]
+#[example("punch 203713369927057408")]
 async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("punch").await?;
@@ -108,15 +132,14 @@ async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está socando {}", msg.author.name, user.name),
-        None => format!("{} está se socando", msg.author.name)
+        None => format!("{} está se socando", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -125,6 +148,10 @@ async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("lamber")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dê uma lambida em si mesmo ou em seu amiguinho")]
+#[usage("kick [usuario]")]
+#[example("kick @Vulcan")]
+#[example("kick 203713369927057408")]
 async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("lick").await?;
@@ -136,15 +163,14 @@ async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está lambendo {}", msg.author.name, user.name),
-        None => format!("{} está se lambendo", msg.author.name)
+        None => format!("{} está se lambendo", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -153,6 +179,10 @@ async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("chorar")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Chore sozinho(a) ou junto com alguém")]
+#[usage("cry [usuario]")]
+#[example("cry @Vulcan")]
+#[example("cry 203713369927057408")]
 async fn cry(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("cry").await?;
@@ -164,15 +194,14 @@ async fn cry(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está chorando com {}", msg.author.name, user.name),
-        None => format!("{} está chorando", msg.author.name)
+        None => format!("{} está chorando", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -181,6 +210,10 @@ async fn cry(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("acariciar")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Faça carinho em seu amiguinho (a não ser que você esteja carente)")]
+#[usage("pat [usuario]")]
+#[example("pat @Vulcan")]
+#[example("pat 203713369927057408")]
 async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("pat").await?;
@@ -192,15 +225,14 @@ async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} está fazendo carinho em {}", msg.author.name, user.name),
-        None => format!("{} está carente", msg.author.name)
+        None => format!("{} está carente", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -209,6 +241,10 @@ async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[aliases("dancar")]
 #[only_in("guilds")]
 #[max_args(1)]
+#[description("Dance sozinho(a) ou com o seu amiguinho")]
+#[usage("dance [usuario]")]
+#[example("dance @Vulcan")]
+#[example("dance 203713369927057408")]
 async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("dance").await?;
@@ -220,15 +256,14 @@ async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await;
     let title = match user {
         Some(user) => format!("{} começou a dançar com {}", msg.author.name, user.name),
-        None => format!("{} começou a dançar com a vassoura", msg.author.name)
+        None => format!("{} começou a dançar com a vassoura", msg.author.name),
     };
 
     embed.title(title);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -236,6 +271,7 @@ async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("megumin")]
 #[only_in("guilds")]
 #[max_args(0)]
+#[description("Mostra uma imagem da Megumin")]
 async fn megumin(ctx: &Context, msg: &Message) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("megumin").await?;
@@ -245,10 +281,9 @@ async fn megumin(ctx: &Context, msg: &Message) -> CommandResult {
     embed.color(colors::PINK);
     embed.title("Megumin ❤");
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -256,6 +291,7 @@ async fn megumin(ctx: &Context, msg: &Message) -> CommandResult {
 #[command("rem")]
 #[only_in("guilds")]
 #[max_args(0)]
+#[description("Mostra uma imagem da Rem")]
 async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
     let api = get_weeb_api();
     let image = api.get_random("rem").await?;
@@ -265,10 +301,9 @@ async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
     embed.color(colors::PINK);
     embed.title("Rem ❤");
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -276,6 +311,9 @@ async fn rem(ctx: &Context, msg: &Message) -> CommandResult {
 #[command("owoify")]
 #[aliases("furroify", "furrofy", "furrar")]
 #[min_args(1)]
+#[description("Transforma uma frase em câncer")]
+#[usage("owoify <texto>")]
+#[example("owoify Olá, meu nome é Kurosawa Dia!")]
 async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let text = args.remains().unwrap();
     let chars = text.chars().collect::<Vec<char>>();
@@ -286,7 +324,9 @@ async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
     let mut result = "".to_string();
 
-    let faces = [" OwO ", " owo ", " oωo ", " òωó ", " °ω° ", " UwU ", " >w< ", " ^w^ "];
+    let faces = [
+        " OwO ", " owo ", " oωo ", " òωó ", " °ω° ", " UwU ", " >w< ", " ^w^ ",
+    ];
 
     let mut indexer = 0;
 
@@ -301,16 +341,15 @@ async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
             result.push('w');
         } else if text.len() - indexer != 1 && (ch == 'n' || ch == 'N') {
             let next = chars[indexer + 1];
-            let next_norm = unidecode_char(next)
-                .chars()
-                .next()
-                .unwrap();
-            let next_lower = next_norm
-                .to_lowercase()
-                .next()
-                .unwrap();
+            let next_norm = unidecode_char(next).chars().next().unwrap();
+            let next_lower = next_norm.to_lowercase().next().unwrap();
 
-            if next_lower == 'a' || next_lower == 'e' || next_lower == 'i' || next_lower == 'o' || next_lower == 'u' {
+            if next_lower == 'a'
+                || next_lower == 'e'
+                || next_lower == 'i'
+                || next_lower == 'o'
+                || next_lower == 'u'
+            {
                 if next_norm == next_lower {
                     result.push_str(format!("{}y", ch).as_str());
                 } else {
@@ -332,7 +371,7 @@ async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
             if ch == 'o' && chars[indexer + 1] == 'v' && chars[indexer + 2] == 'e' {
                 result.push_str("uv");
                 indexer += 2;
-            } else if ch == 'O' && chars[indexer + 1] == 'V' && chars[indexer + 2] == 'E'  {
+            } else if ch == 'O' && chars[indexer + 1] == 'V' && chars[indexer + 2] == 'E' {
                 result.push_str("UV");
                 indexer += 2;
             } else {
@@ -349,10 +388,9 @@ async fn owoify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     embed.description(result);
     embed.color(colors::PINK);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }

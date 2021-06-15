@@ -1,4 +1,4 @@
-use isahc::{HttpClient, http::StatusCode};
+use isahc::{http::StatusCode, HttpClient};
 use serde_json::to_string;
 use serenity::framework::standard::CommandResult;
 
@@ -9,7 +9,7 @@ use super::data_error::VioletError;
 const BASE_URL: &str = "https://violet.zuraaa.com/api/apps/1/events";
 
 pub struct VioletCLient {
-    client: HttpClient
+    client: HttpClient,
 }
 
 impl VioletCLient {
@@ -20,9 +20,7 @@ impl VioletCLient {
             .build()
             .expect("Falha ao criar o client da violet");
 
-        Self {
-            client
-        }
+        Self { client }
     }
 
     pub async fn send_error(&self, error: VioletError) -> CommandResult {

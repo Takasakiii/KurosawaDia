@@ -1,7 +1,19 @@
-use rand::{Rng, thread_rng};
-use serenity::{builder::CreateEmbed, client::Context, framework::standard::{CommandResult, macros::{command, group}}, model::channel::Message};
+use rand::{thread_rng, Rng};
+use serenity::{
+    builder::CreateEmbed,
+    client::Context,
+    framework::standard::{
+        macros::{command, group},
+        CommandResult,
+    },
+    model::channel::Message,
+};
 
-use crate::{apis::{get_danbooru_api, get_nekoslife_api, get_woof_api}, database::{functions::guild::get_db_guild, models::guild::DbGuildType}, utils::{constants::colors, user::get_user_from_id}};
+use crate::{
+    apis::{get_danbooru_api, get_nekoslife_api, get_woof_api},
+    database::{functions::guild::get_db_guild, models::guild::DbGuildType},
+    utils::{constants::colors, user::get_user_from_id},
+};
 
 #[group]
 #[commands(cat, dog, loli)]
@@ -9,6 +21,7 @@ use crate::{apis::{get_danbooru_api, get_nekoslife_api, get_woof_api}, database:
 pub struct Image;
 
 #[command("cat")]
+#[description("Mostra uma imagem aleatória de um gato")]
 async fn cat(ctx: &Context, msg: &Message) -> CommandResult {
     let api = get_nekoslife_api();
     let image = api.get_cat().await?;
@@ -19,15 +32,15 @@ async fn cat(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::TURQUOISE);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
 
 #[command("dog")]
+#[description("Mostra uma imagem aleatória de um cachorro")]
 async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
     let rng = thread_rng().gen_range(0..100);
 
@@ -41,10 +54,9 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
         embed.image(image.message);
         embed.color(colors::TURQUOISE);
 
-        msg.channel_id.send_message(ctx, |x| x
-            .set_embed(embed)
-            .reference_message(msg)
-        ).await?;
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     } else {
         let user = get_user_from_id(ctx, 355750436424384524).await;
         if let Some(user) = user {
@@ -54,12 +66,23 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
             embed.thumbnail(user.avatar_url().unwrap());
             embed.color(colors::TURQUOISE);
 
-            msg.channel_id.send_message(ctx, |x| x
-                .set_embed(embed)
-                .reference_message(msg)
-            ).await?;
-        }
+            msg.channel_id
+                .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+                .await?;
+        } else {
+            let api = get_woof_api();
+            let image = api.get_random().await?;
 
+            let mut embed = CreateEmbed::default();
+            embed.title("Woof");
+            embed.description(format!("[Link direto]({})", image.message));
+            embed.image(image.message);
+            embed.color(colors::TURQUOISE);
+
+            msg.channel_id
+                .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+                .await?;
+        }
     }
 
     Ok(())
@@ -67,6 +90,8 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command("loli")]
 #[only_in("guilds")]
+#[help_available(false)]
+#[description("Manda uma imagem para que você seja preso")]
 async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
     let guild = msg.guild(ctx).await.unwrap();
     let db_guild = get_db_guild(guild).await?;
@@ -82,10 +107,9 @@ async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image(image.large_file_url);
     embed.color(colors::TURQUOISE);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }

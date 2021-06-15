@@ -1,4 +1,11 @@
-use serenity::{client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::channel::Message};
+use serenity::{
+    client::Context,
+    framework::standard::{
+        macros::{command, group},
+        Args, CommandResult,
+    },
+    model::channel::Message,
+};
 
 use crate::database::{functions::guild::set_especial, models::guild::DbGuildType};
 

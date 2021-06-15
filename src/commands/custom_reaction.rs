@@ -1,8 +1,28 @@
 use std::time::Duration;
 
-use serenity::{builder::{CreateEmbed, CreateEmbedFooter}, client::Context, framework::standard::{Args, CommandResult, macros::{command, group}}, model::{channel::{Message, ReactionType}, guild::Guild}};
+use serenity::{
+    builder::{CreateEmbed, CreateEmbedFooter},
+    client::Context,
+    framework::standard::{
+        macros::{command, group},
+        Args, CommandResult,
+    },
+    model::{
+        channel::{Message, ReactionType},
+        guild::Guild,
+    },
+};
 
-use crate::{database::{functions::custom_reaction::{add_custom_reaction, count_custom_reactions, list_custom_reaction, remove_custom_reaction}, models::custom_reaction::{DbCustomReaction, DbCustomReactionType}}, utils::constants::colors};
+use crate::{
+    database::{
+        functions::custom_reaction::{
+            add_custom_reaction, count_custom_reactions, list_custom_reaction,
+            remove_custom_reaction,
+        },
+        models::custom_reaction::{DbCustomReaction, DbCustomReactionType},
+    },
+    utils::constants::colors,
+};
 
 #[group]
 #[commands(acr, aecr, dcr, lcr)]
@@ -13,6 +33,10 @@ pub struct CustomReaction;
 #[aliases("acr", "adicionarcr", "arc")]
 #[only_in("guilds")]
 #[min_args(3)]
+#[required_permissions("MANAGE_GUILD")]
+#[description("Adiciona uma reação customizada ao servidor\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[usage("acr <mensagem> | <resposta>")]
+#[example("acr oi | olá")]
 async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let args = args.remains().unwrap().split('|').collect::<Vec<&str>>();
 
@@ -26,17 +50,17 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
         guild,
         args[0].trim_end().to_string(),
         args[1].trim_start().to_string(),
-        DbCustomReactionType::Normal
-    ).await?;
+        DbCustomReactionType::Normal,
+    )
+    .await?;
 
     let mut embed = CreateEmbed::default();
     embed.title("Reação customizada adicionada com sucesso 😃");
     embed.color(colors::ORANGE);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
@@ -45,6 +69,10 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 #[aliases("aecr", "arce", "adicionarcrespecial")]
 #[only_in("guilds")]
 #[min_args(3)]
+#[required_permissions("MANAGE_GUILD")]
+#[description("Adiciona uma reação customizada especial ao servidor\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[usage("aecr <mensagem> | <resposta>")]
+#[example("aecr oi | olá")]
 async fn aecr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let args = args.remains().unwrap().split('|').collect::<Vec<&str>>();
 
@@ -58,24 +86,27 @@ async fn aecr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
         guild,
         args[0].trim_end().to_string(),
         args[1].trim_start().to_string(),
-        DbCustomReactionType::Especial
-    ).await?;
-
-
+        DbCustomReactionType::Especial,
+    )
+    .await?;
 
     let mut embed = CreateEmbed::default();
     embed.title("Reação customizada especial adicionada com sucesso 😃");
     embed.color(colors::ORANGE);
 
-    msg.channel_id.send_message(ctx, |x| x
-        .set_embed(embed)
-        .reference_message(msg)
-    ).await?;
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
 
     Ok(())
 }
 
-async fn create_custom_reaction(guild: Guild, question: String, reply: String, cr_type: DbCustomReactionType) -> CommandResult {
+async fn create_custom_reaction(
+    guild: Guild,
+    question: String,
+    reply: String,
+    cr_type: DbCustomReactionType,
+) -> CommandResult {
     add_custom_reaction(guild, question, reply, cr_type).await?;
 
     Ok(())
@@ -86,6 +117,10 @@ async fn create_custom_reaction(guild: Guild, question: String, reply: String, c
 #[only_in("guilds")]
 #[min_args(1)]
 #[max_args(1)]
+#[required_permissions("MANAGE_GUILD")]
+#[description("Remove uma reação customizada especifica\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[usage("dcr <id da reação>")]
+#[example("dcr 1258")]
 async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let id = args.single::<u32>()?;
 
@@ -96,19 +131,17 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         embed.title("Reação customizada removida com sucesso 😊");
         embed.color(colors::ORANGE);
 
-        msg.channel_id.send_message(ctx, |x| x
-            .set_embed(embed)
-            .reference_message(msg)
-        ).await?;
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     } else {
         let mut embed = CreateEmbed::default();
         embed.title("Reação customizada não encontrada 😔");
         embed.color(colors::YELLOW);
 
-        msg.channel_id.send_message(ctx, |x| x
-            .set_embed(embed)
-            .reference_message(msg)
-        ).await?;
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     }
 
     Ok(())
@@ -117,6 +150,10 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("listrc")]
 #[aliases("lcr", "listarrc", "listcr")]
 #[only_in("guilds")]
+#[description("Lista as reações customizadas")]
+#[usage("lcr [pesquisa]")]
+#[example("lcr")]
+#[example("lcr oi")]
 async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let find = args.remains().unwrap_or("");
 
@@ -131,10 +168,13 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
         embed.color(colors::ORANGE);
         embed.field(
             format!("Página {}", page + 1),
-            format!("```md\n{}\n```", custom_reactions.iter().fold("".to_string(), |result, cr| {
-                format!("{}\n{}", result, cr.format())
-            })),
-            false
+            format!(
+                "```md\n{}\n```",
+                custom_reactions.iter().fold("".to_string(), |result, cr| {
+                    format!("{}\n{}", result, cr.format())
+                })
+            ),
+            false,
         );
 
         let mut embed_footer = CreateEmbedFooter::default();
@@ -155,18 +195,27 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
             match message_cache.as_mut() {
                 Some(message) => {
-                    message.edit(ctx, |x| x
-                        .set_embed(build_embed(page, &custom_reactions))
-                    ).await?;
-                },
+                    message
+                        .edit(ctx, |x| x.set_embed(build_embed(page, &custom_reactions)))
+                        .await?;
+                }
                 None => {
-                    let message = msg.channel_id.send_message(ctx, |x| x
-                        .reference_message(msg)
-                        .set_embed(build_embed(page, &custom_reactions))
-                    ).await?;
+                    let message = msg
+                        .channel_id
+                        .send_message(ctx, |x| {
+                            x.reference_message(msg)
+                                .set_embed(build_embed(page, &custom_reactions))
+                        })
+                        .await?;
 
-                    message.react(ctx, ReactionType::Unicode("◀".into())).await.ok();
-                    message.react(ctx, ReactionType::Unicode("▶".into())).await.ok();
+                    message
+                        .react(ctx, ReactionType::Unicode("◀".into()))
+                        .await
+                        .ok();
+                    message
+                        .react(ctx, ReactionType::Unicode("▶".into()))
+                        .await
+                        .ok();
 
                     message_cache = Some(message);
                 }
@@ -177,7 +226,8 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 
         let message = message_cache.as_mut().unwrap();
 
-        let collector = message.await_reaction(ctx)
+        let collector = message
+            .await_reaction(ctx)
             .timeout(Duration::from_secs(30))
             .author_id(msg.author.id)
             .removed(true)
@@ -194,7 +244,7 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                     page -= 1;
                     edit_page = true;
                 }
-            },
+            }
             None => {
                 message.delete_reactions(ctx).await.ok();
                 break;

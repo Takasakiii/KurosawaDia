@@ -1,6 +1,10 @@
 mod status;
 
-use serenity::{async_trait, client::{Context, EventHandler}, model::prelude::Ready};
+use serenity::{
+    async_trait,
+    client::{Context, EventHandler},
+    model::prelude::Ready,
+};
 
 use crate::events::status::loop_status_update;
 

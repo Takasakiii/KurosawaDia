@@ -6,7 +6,7 @@ use super::woof_image::WoofImage;
 const BASE_URL: &str = "https://dog.ceo/api/breeds/image/random";
 
 pub struct WoofClient {
-    client: HttpClient
+    client: HttpClient,
 }
 
 impl WoofClient {
@@ -15,21 +15,15 @@ impl WoofClient {
             .build()
             .expect("Falha ao gerar o client woof");
 
-        Self {
-            client
-        }
+        Self { client }
     }
 
     pub async fn get_random(&self) -> Result<WoofImage, CommandError> {
-        let result = self.client
-            .get_async(BASE_URL)
-            .await;
+        let result = self.client.get_async(BASE_URL).await;
 
         match result {
-            Ok(mut response) => {
-                Ok(response.json().await?)
-            },
-            Err(_) => Err("Falha ao pegar a imagem de woof".into())
+            Ok(mut response) => Ok(response.json().await?),
+            Err(_) => Err("Falha ao pegar a imagem de woof".into()),
         }
     }
 }

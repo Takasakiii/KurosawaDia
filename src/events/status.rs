@@ -10,14 +10,14 @@ pub async fn loop_status_update(ctx: Context) {
 
     loop {
         let status = get_db_status().await;
-    
+
         if let Ok(status_vec) = status {
             if status_vec.is_empty() {
                 interval.tick().await;
             } else {
                 for status in &status_vec {
                     ctx.set_activity(Activity::playing(&status.status)).await;
-            
+
                     interval.tick().await;
                 }
             }
@@ -25,5 +25,4 @@ pub async fn loop_status_update(ctx: Context) {
             interval.tick().await;
         }
     }
-
 }

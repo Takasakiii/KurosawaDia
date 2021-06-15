@@ -3,7 +3,7 @@ pub struct DbCustomReaction {
     pub question: String,
     pub reply: String,
     pub cr_type: DbCustomReactionType,
-    pub guild_id: u64
+    pub guild_id: u64,
 }
 
 impl DbCustomReaction {
@@ -19,14 +19,14 @@ impl DbCustomReaction {
 #[derive(PartialEq)]
 pub enum DbCustomReactionType {
     Normal = 0,
-    Especial = 1
+    Especial = 1,
 }
 
 impl From<u32> for DbCustomReactionType {
     fn from(el: u32) -> Self {
         match el {
             1 => DbCustomReactionType::Especial,
-            _ => DbCustomReactionType::Normal
+            _ => DbCustomReactionType::Normal,
         }
     }
 }

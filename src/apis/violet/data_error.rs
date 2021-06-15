@@ -7,7 +7,7 @@ pub struct VioletError {
     severity: Severity,
     title: String,
     message: String,
-    stacktrace: String
+    stacktrace: String,
 }
 
 impl VioletError {
@@ -16,7 +16,7 @@ impl VioletError {
             severity: Severity::Error,
             title: format!("Command error in {}", cmd_name),
             stacktrace: format!("{:?}", why),
-            message: why.to_string()
+            message: why.to_string(),
         }
     }
 }
@@ -29,7 +29,7 @@ pub enum Severity {
     Error = 2,
     Warning = 3,
     Info = 4,
-    Verbose = 5
+    Verbose = 5,
 }
 
 impl From<u8> for Severity {
@@ -40,7 +40,7 @@ impl From<u8> for Severity {
             3 => Severity::Warning,
             4 => Severity::Info,
             5 => Severity::Verbose,
-            _ => Severity::NoDefined
+            _ => Severity::NoDefined,
         }
     }
 }
@@ -53,7 +53,7 @@ impl From<Severity> for u8 {
             Severity::Error => 2,
             Severity::Warning => 3,
             Severity::Info => 4,
-            Severity::Verbose => 5
+            Severity::Verbose => 5,
         }
     }
 }
