@@ -145,10 +145,9 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     let guild = msg.guild(ctx).await.unwrap();
 
-    let avatar = match guild.icon_url() {
-        Some(url) => url,
-        None => return Err("Sem imagem do servidor".into()),
-    };
+    let avatar = guild
+        .icon_url()
+        .unwrap_or_else(|| "https://cdn.discordapp.com/embed/avatars/1.png".to_string());
 
     let avatar = format!("{}?size=2048", avatar);
 
