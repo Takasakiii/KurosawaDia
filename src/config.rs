@@ -19,7 +19,7 @@ pub fn get_database_name() -> String {
 }
 
 pub fn get_default_prefix() -> String {
-    "k.".into()
+    "~".to_string()
 }
 
 pub fn get_id_mention() -> Option<UserId> {
