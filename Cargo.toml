@@ -1,5 +1,6 @@
 [package]
 name = "kurosawa_dia"
+description = "New stage"
 version = "1.4.0"
 authors = ["Gabriel-Paulucci <gabrielpauluccimunizmendes@gmail.com>"]
 edition = "2018"

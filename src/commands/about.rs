@@ -102,8 +102,8 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
             "__Servidores__: {}\n__Usuarios__: {}\n__Versão__: {} ({})",
             guilds,
             users,
-            infos::VERSION_NUMBER,
-            infos::VERSION_NAME
+            env!("CARGO_PKG_VERSION"),
+            env!("CARGO_PKG_DESCRIPTION")
         ),
         false,
     );

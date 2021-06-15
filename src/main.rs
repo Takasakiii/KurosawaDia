@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use config::get_token;
 use database::crate_database;
 use serenity::Client;
@@ -11,6 +13,9 @@ pub mod config;
 pub mod database;
 mod events;
 pub mod utils;
+
+type KurosawaError = Box<dyn Error + Send + Sync + 'static>;
+type KurosawaResult<T> = Result<T, KurosawaError>;
 
 #[tokio::main]
 async fn main() {

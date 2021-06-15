@@ -6,15 +6,15 @@ use serenity::{
         macros::{command, group},
         Args, CommandResult,
     },
-    model::channel::Message,
+    model::channel::{Channel, Message},
     utils::parse_emoji,
 };
 use unic_emoji_char::is_emoji;
 
-use crate::utils::{constants::colors, user::get_user_from_args};
+use crate::utils::{channel::get_channel_from_id, constants::colors, user::get_user_from_args};
 
 #[group]
-#[commands(emoji, avatar, server_image, whatsify)]
+#[commands(emoji, avatar, server_image, whatsify, suggestion, bug)]
 #[description("Utilidade 🛠️- Este módulo possui coisas úteis para o seu dia a dia")]
 pub struct Util;
 
@@ -166,6 +166,10 @@ async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command("whatsify")]
 #[aliases("copipasta", "zapironga")]
+#[min_args(1)]
+#[description("Converte um texto com emoji do Discord para um texto com emojis universais")]
+#[usage("copipasta <texto>")]
+#[example("copipasta Olá, meu nome é Kurosawa Dia!")]
 async fn whatsify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let mut embed = CreateEmbed::default();
 
@@ -176,6 +180,71 @@ async fn whatsify(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     }
 
     embed.description(format!("```{}```", texto.unwrap()));
+    embed.color(colors::GREEN);
+
+    msg.channel_id
+        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+        .await?;
+
+    Ok(())
+}
+
+#[command("sugestao")]
+#[min_args(1)]
+#[description("Nos envie uma sugestão")]
+#[usage("sugestao <sugestão>")]
+#[example("sugestao ser o melhor bot de todos")]
+async fn suggestion(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+    let text = args.remains().unwrap();
+
+    send_suggestion(ctx, msg, text, "Sugestão").await?;
+
+    Ok(())
+}
+
+#[command("bug")]
+#[min_args(1)]
+#[description("Nos reporte um bug")]
+#[usage("bug <bug>")]
+#[example("sugestao o comando não esta funcionando")]
+async fn bug(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+    let text = args.remains().unwrap();
+
+    send_suggestion(ctx, msg, text, "Bug").await?;
+
+    Ok(())
+}
+
+async fn send_suggestion(
+    ctx: &Context,
+    msg: &Message,
+    text: &str,
+    suggestion_type: &str,
+) -> CommandResult {
+    let mut embed = CreateEmbed::default();
+    embed.title(format!("Nova sugestão de {}", msg.author.tag()));
+    embed.color(colors::LILAC);
+    embed.field(suggestion_type, text, false);
+    if let Some(guild) = msg.guild(ctx).await {
+        embed.field("Servidor", guild.name, false);
+    }
+    embed.field(
+        "Mais informações",
+        format!("Channel: {}\nUser: {}", msg.channel_id.0, msg.author.id),
+        false,
+    );
+
+    let channel = get_channel_from_id(ctx, 769583932597338112).await?;
+
+    if let Channel::Guild(channel) = channel {
+        channel.send_message(ctx, |x| x.set_embed(embed)).await?;
+    }
+
+    let mut embed = CreateEmbed::default();
+    embed.description(format!(
+        "{}, obrigada! Usarei isso para melhorar ❤",
+        msg.author.tag()
+    ));
     embed.color(colors::GREEN);
 
     msg.channel_id
