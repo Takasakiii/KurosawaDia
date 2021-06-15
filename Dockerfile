@@ -3,7 +3,7 @@ COPY . /app
 WORKDIR /app
 RUN cargo build --release
 
-FROM ubuntu:20.04
+FROM debian:10.4
 RUN apt update
 RUN apt install -y curl openssl libssl-dev
 COPY --from=build /app/target/release/kurosawa_dia /app/kurosawa_dia
