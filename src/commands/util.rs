@@ -89,7 +89,7 @@ async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[example("uimg @Vulcan")]
 #[example("uimg 203713369927057408")]
 async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let user = match user {
         Some(user) => user,
         None => msg.author.clone(),

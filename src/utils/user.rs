@@ -5,17 +5,19 @@ use serenity::{
     utils::parse_username,
 };
 
-pub async fn get_user_from_args(ctx: &Context, args: &mut Args) -> Option<User> {
+use crate::KurosawaResult;
+
+pub async fn get_user_from_args(ctx: &Context, args: &mut Args) -> KurosawaResult<User> {
     let id = match args.single::<String>() {
         Ok(id) => id,
-        Err(_) => return None,
+        Err(_) => return Err("falha ao converter o id".into()),
     };
 
     let user_id = match parse_username(&id) {
         Some(id) => id,
         None => match id.parse::<u64>() {
             Ok(id) => id,
-            Err(_) => return None,
+            Err(_) => return Err("falha ao converter o id".into()),
         },
     };
 
@@ -40,9 +42,9 @@ pub async fn get_user_role_position(
     Ok(position)
 }
 
-pub async fn get_user_from_id(ctx: &Context, id: u64) -> Option<User> {
+pub async fn get_user_from_id(ctx: &Context, id: u64) -> KurosawaResult<User> {
     match ctx.cache.user(id).await {
-        Some(user) => Some(user),
-        None => ctx.http.get_user(id).await.ok(),
+        Some(user) => Ok(user),
+        None => Ok(ctx.http.get_user(id).await?),
     }
 }

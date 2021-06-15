@@ -58,7 +58,7 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
             .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
             .await?;
     } else {
-        let user = get_user_from_id(ctx, 355750436424384524).await;
+        let user = get_user_from_id(ctx, 355750436424384524).await.ok();
         if let Some(user) = user {
             let mut embed = CreateEmbed::default();
             embed.title("Você está procurando um cachorinho? Me adote");

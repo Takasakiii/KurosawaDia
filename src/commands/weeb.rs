@@ -36,7 +36,7 @@ async fn hug(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está abraçando {}", msg.author.name, user.name),
         None => format!("{} está se abraçando", msg.author.name),
@@ -67,7 +67,7 @@ async fn kiss(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está beijando {}", msg.author.name, user.name),
         None => format!("{} está se beijando", msg.author.name),
@@ -98,7 +98,7 @@ async fn slap(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está dando um tapa em {}", msg.author.name, user.name),
         None => format!("{} está se batendo", msg.author.name),
@@ -129,7 +129,7 @@ async fn punch(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está socando {}", msg.author.name, user.name),
         None => format!("{} está se socando", msg.author.name),
@@ -160,7 +160,7 @@ async fn lick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está lambendo {}", msg.author.name, user.name),
         None => format!("{} está se lambendo", msg.author.name),
@@ -191,7 +191,7 @@ async fn cry(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está chorando com {}", msg.author.name, user.name),
         None => format!("{} está chorando", msg.author.name),
@@ -222,7 +222,7 @@ async fn pat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} está fazendo carinho em {}", msg.author.name, user.name),
         None => format!("{} está carente", msg.author.name),
@@ -253,7 +253,7 @@ async fn dance(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.image(image.url);
     embed.color(colors::PINK);
 
-    let user = get_user_from_args(ctx, &mut args).await;
+    let user = get_user_from_args(ctx, &mut args).await.ok();
     let title = match user {
         Some(user) => format!("{} começou a dançar com {}", msg.author.name, user.name),
         None => format!("{} começou a dançar com a vassoura", msg.author.name),

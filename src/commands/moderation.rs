@@ -32,7 +32,7 @@ pub struct Moderation;
 async fn limpar_chat(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let mut count = args.single::<u64>().unwrap_or(10);
 
-    match get_user_from_args(ctx, &mut args).await {
+    match get_user_from_args(ctx, &mut args).await.ok() {
         Some(user) => {
             let mut message_ref = msg.id;
 
@@ -115,10 +115,7 @@ async fn limpar_chat(ctx: &Context, msg: &Message, mut args: Args) -> CommandRes
 #[example("ban 203713369927057408")]
 #[example("ban 203713369927057408 fez baderna")]
 async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let user = match get_user_from_args(ctx, &mut args).await {
-        Some(user) => user,
-        None => return Err("Usuario não encontrado".into()),
-    };
+    let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
@@ -164,10 +161,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[example("kick 203713369927057408")]
 #[example("kick 203713369927057408 fez baderna")]
 async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let user = match get_user_from_args(ctx, &mut args).await {
-        Some(user) => user,
-        None => return Err("Usuario não encontrado".into()),
-    };
+    let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
@@ -213,10 +207,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[example("softban 203713369927057408")]
 #[example("softban 203713369927057408 fez baderna")]
 async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let user = match get_user_from_args(ctx, &mut args).await {
-        Some(user) => user,
-        None => return Err("Usuario não encontrado".into()),
-    };
+    let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
     let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
