@@ -6,7 +6,7 @@ use serenity::{
         macros::{command, group},
         CommandResult,
     },
-    model::channel::Message,
+    model::channel::{Channel, Message},
 };
 
 use crate::{
@@ -93,6 +93,16 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
 #[help_available(false)]
 #[description("Manda uma imagem para que você seja preso")]
 async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
+    let channel = msg.channel(ctx).await;
+
+    if let Some(Channel::Guild(channel)) = channel {
+        if !channel.nsfw {
+            return Ok(());
+        }
+    } else {
+        return Ok(());
+    }
+
     let guild = msg.guild(ctx).await.unwrap();
     let db_guild = get_db_guild(guild).await?;
 
