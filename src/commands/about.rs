@@ -58,7 +58,13 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image("https://i.imgur.com/qGb6xtG.jpg");
     embed.color(colors::PURPLE);
 
-    let users = ctx.cache.user_count().await;
+    let mut users = 0;
+    for guild in ctx.cache.guilds().await.iter() {
+        if let Some(guild) = guild.to_guild_cached(&ctx.cache).await {
+            users += guild.member_count;
+        }
+    }
+
     let guilds = ctx.cache.guild_count().await;
 
     embed.field(
