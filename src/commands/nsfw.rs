@@ -12,7 +12,7 @@ use crate::{apis::get_danbooru_api, utils::constants::colors};
 
 #[group]
 #[commands(hentai, hdanbooru, danbooru)]
-#[description("Nsfw 🔞- Este módulo possui coisas para você dar orgulho para sua família")]
+#[description("Nsfw 🔞- Esse módulo possui coisas para você dar orgulho para sua família")]
 pub struct Nsfw;
 
 #[command("hentai")]
@@ -141,7 +141,7 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         }
         Err(_) => {
             let mut embed = CreateEmbed::default();
-            embed.title("Tags não encontradas");
+            embed.title("Nenhuma imagem encontrada com essas tags");
             embed.color(colors::YELLOW);
 
             msg.channel_id

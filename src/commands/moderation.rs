@@ -15,7 +15,7 @@ use crate::utils::{
 
 #[group]
 #[commands(limpar_chat, ban, kick, softban)]
-#[description("Moderação ⚖️- Este módulo possui coisas para te ajudar a moderar seu servidor")]
+#[description("Moderação ⚖️- Esse módulo possui coisas para te ajudar a moderar seu servidor")]
 #[only_in("guilds")]
 pub struct Moderation;
 

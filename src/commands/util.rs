@@ -15,7 +15,7 @@ use crate::utils::{channel::get_channel_from_id, constants::colors, user::get_us
 
 #[group]
 #[commands(emoji, avatar, server_image, whatsify, suggestion, bug)]
-#[description("Utilidade 🛠️- Este módulo possui coisas úteis para o seu dia a dia")]
+#[description("Utilidade 🛠️- Esse módulo possui coisas úteis para o seu dia a dia")]
 pub struct Util;
 
 #[command("emoji")]
@@ -205,7 +205,7 @@ async fn suggestion(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 #[min_args(1)]
 #[description("Nos reporte um bug")]
 #[usage("bug <bug>")]
-#[example("sugestao o comando não esta funcionando")]
+#[example("sugestao o comando cat não esta funcionando")]
 async fn bug(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let text = args.remains().unwrap();
 
