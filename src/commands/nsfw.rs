@@ -8,7 +8,10 @@ use serenity::{
     model::channel::{Channel, Message},
 };
 
-use crate::{apis::get_danbooru_api, utils::constants::colors};
+use crate::{
+    apis::{danbooru::danbooru_image::DanbooruImage, get_danbooru_api},
+    utils::constants::colors,
+};
 
 #[group]
 #[commands(hentai, hdanbooru, danbooru)]
@@ -40,9 +43,9 @@ async fn hentai(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 #[command("hdanbooru")]
-#[max_args(5)]
+#[max_args(6)]
 #[description("Consiga imagens maravilhosas diretamente do danbooru")]
-#[usage("hdanbooru [tag] [tag] [tag] [tag] [tag]")]
+#[usage("hdanbooru [tag] [tag] [tag] [tag] [tag] [tag]")]
 #[example("hdanbooru love_live!")]
 #[example("hdanbooru love_live! solo")]
 #[example("hdanbooru love_live! solo highres")]
@@ -72,26 +75,7 @@ async fn hdanbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResul
         )
         .await;
 
-    match image {
-        Ok(image) => {
-            let mut embed = CreateEmbed::default();
-            embed.image(image.large_file_url);
-            embed.color(colors::LILAC);
-
-            msg.channel_id
-                .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
-                .await?;
-        }
-        Err(_) => {
-            let mut embed = CreateEmbed::default();
-            embed.title("Tags não encontradas");
-            embed.color(colors::YELLOW);
-
-            msg.channel_id
-                .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
-                .await?;
-        }
-    }
+    send_danbooru_image(ctx, msg, &image.ok()).await?;
 
     Ok(())
 }
@@ -129,17 +113,28 @@ async fn danbooru(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult
         )
         .await;
 
+    send_danbooru_image(ctx, msg, &image.ok()).await?;
+
+    Ok(())
+}
+
+async fn send_danbooru_image(
+    ctx: &Context,
+    msg: &Message,
+    image: &Option<DanbooruImage>,
+) -> CommandResult {
     match image {
-        Ok(image) => {
+        Some(image) => {
             let mut embed = CreateEmbed::default();
-            embed.image(image.large_file_url);
+            embed.image(&image.large_file_url);
             embed.color(colors::LILAC);
+            embed.description(format!("[Link da imagem]({})", image.large_file_url));
 
             msg.channel_id
                 .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
                 .await?;
         }
-        Err(_) => {
+        None => {
             let mut embed = CreateEmbed::default();
             embed.title("Nenhuma imagem encontrada com essas tags");
             embed.color(colors::YELLOW);
