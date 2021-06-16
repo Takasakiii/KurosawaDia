@@ -200,6 +200,17 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                         .await?;
                 }
                 None => {
+                    if custom_reactions.is_empty() {
+                        msg.channel_id
+                            .send_message(ctx, |x| {
+                                x.reference_message(msg).embed(|e| {
+                                    e.color(colors::ORANGE)
+                                        .title("Não há nenhuma reação customizada.")
+                                })
+                            })
+                            .await?;
+                        return Ok(());
+                    }
                     let message = msg
                         .channel_id
                         .send_message(ctx, |x| {
