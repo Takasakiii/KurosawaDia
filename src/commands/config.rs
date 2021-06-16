@@ -19,7 +19,7 @@ use crate::{
 #[group]
 #[commands(prefix)]
 #[description(
-    "Configurações ⚙️- Em configurações, você define preferências de como vou agir em seu servidor."
+    "Configurações ⚙️- Em configurações, você define preferências de como vou agir em seu servidor"
 )]
 pub struct Config;
 
@@ -38,7 +38,7 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         .unwrap_or_else(|_| get_default_prefix());
 
     if new_prefix.len() > 15 {
-        return Err("Prefix deve ser menor que 15".into());
+        return Err("Prefixo deve ser menor que 15".into());
     }
 
     let mut embed_confirmation = CreateEmbed::default();

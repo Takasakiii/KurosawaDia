@@ -15,7 +15,7 @@ use crate::utils::{
 
 #[group]
 #[commands(sobre, info)]
-#[description("Ajuda ❓- Este módulo tem comandos para te ajudar na ultilização do bot")]
+#[description("Ajuda ❓- Esse módulo tem comandos para te ajudar na utilização do bot")]
 pub struct About;
 
 #[command("sobre")]
@@ -105,7 +105,7 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     embed.field(
         "Informações chatas:",
         format!(
-            "__Servidores__: {}\n__Usuarios__: {}\n__Versão__: {} ({})",
+            "__Servidores__: {}\n__Usuários__: {}\n__Versão__: {} ({})",
             guilds,
             users,
             env!("CARGO_PKG_VERSION"),

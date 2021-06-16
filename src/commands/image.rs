@@ -17,7 +17,7 @@ use crate::{
 
 #[group]
 #[commands(cat, dog, loli)]
-#[description("Image 🖼️- Este módulo possui imagens fofinhas para agraciar seu computador")]
+#[description("Image 🖼️- Esse módulo possui imagens fofinhas para agraciar seu computador")]
 pub struct Image;
 
 #[command("cat")]
