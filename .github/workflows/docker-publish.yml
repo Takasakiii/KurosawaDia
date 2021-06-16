@@ -1,7 +1,8 @@
 name: Docker
 
 on:
-  workflow_dispatch:
+  release:
+    types: [created]
 
 env:
   REGISTRY: ghcr.io
