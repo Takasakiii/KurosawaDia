@@ -28,7 +28,7 @@ use tokio::spawn;
 
 use crate::{
     apis::{get_violet_api, violet::data_error::VioletError},
-    config::{get_default_prefix, get_id_mention},
+    config::KurosawaConfig,
     database::{
         functions::{
             custom_reaction::get_custom_reaction,
@@ -42,18 +42,18 @@ use crate::{
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
         .configure(|x| {
-            x.dynamic_prefix(|ctx, msg| {
+            x.dynamic_prefix(move |ctx, msg| {
                 Box::pin(async move {
                     if let Some(guild) = msg.guild(ctx).await {
                         if let Ok(db_guild) = get_db_guild(guild).await {
                             return Some(db_guild.prefix);
                         }
                     }
-                    Some(get_default_prefix())
+                    Some(KurosawaConfig::get_default_prefix())
                 })
             })
             .prefix("")
-            .on_mention(get_id_mention())
+            .on_mention(Some(KurosawaConfig::get_id_mention()))
             .no_dm_prefix(true)
             .case_insensitivity(true)
             .owners(vec![UserId(203713369927057408)].into_iter().collect())
@@ -116,7 +116,7 @@ async fn help(
             if let Ok(db_guild) = get_db_guild(guild).await {
                 db_guild.prefix
             } else {
-                get_default_prefix()
+                KurosawaConfig::get_default_prefix()
             }
         } else {
             "".to_string()

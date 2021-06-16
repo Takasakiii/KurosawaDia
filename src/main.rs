@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use config::get_token;
+use config::KurosawaConfig;
 use database::crate_database;
 use serenity::Client;
 
@@ -23,7 +23,7 @@ async fn main() {
 
     crate_database().await.expect("Falha em iniciar a db");
 
-    let mut kurosawa = Client::builder(get_token())
+    let mut kurosawa = Client::builder(KurosawaConfig::get_token())
         .event_handler(events::Handler)
         .framework(commands::crete_framework())
         .await

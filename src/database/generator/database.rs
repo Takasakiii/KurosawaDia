@@ -1,6 +1,6 @@
 use mysql::{prelude::Queryable, Error, PooledConn};
 
-use crate::config::get_default_prefix;
+use crate::config::KurosawaConfig;
 
 pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
     conn.query_drop(format!(
@@ -12,7 +12,7 @@ pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
             guild_type INT UNSIGNED NOT NULL DEFAULT 0
         )
     ",
-        get_default_prefix()
+        KurosawaConfig::get_default_prefix()
     ))?;
 
     conn.query_drop(
