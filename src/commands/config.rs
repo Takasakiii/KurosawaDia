@@ -11,7 +11,6 @@ use serenity::{
 };
 
 use crate::{
-    config::get_default_prefix,
     database::functions::guild::set_prefix,
     utils::constants::{colors, emojis},
 };
@@ -33,9 +32,7 @@ pub struct Config;
 #[usage("prefix <novo prefixo>")]
 #[example("prefix +")]
 async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let new_prefix = args
-        .single::<String>()
-        .unwrap_or_else(|_| get_default_prefix());
+    let new_prefix = args.single::<String>()?;
 
     if new_prefix.len() > 15 {
         return Err("Prefixo deve ser menor que 15".into());
