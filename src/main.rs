@@ -11,6 +11,7 @@ pub mod apis;
 mod commands;
 pub mod config;
 pub mod database;
+pub mod errors;
 mod events;
 pub mod utils;
 

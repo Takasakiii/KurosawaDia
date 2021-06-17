@@ -9,7 +9,9 @@ pub mod colors {
 }
 
 pub mod emojis {
-    pub const CONFIRM: &str = "check:770694069638135843";
+    pub const CHECK: &str = "check:770694069638135843";
+    pub const ENABLED: &str = "enabled:772528984914919514";
+    pub const DISABLED: &str = "disabled:772526323473842176";
 }
 
 pub mod infos {

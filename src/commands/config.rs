@@ -67,7 +67,7 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         if reaction_action.is_added() {
             let reaction = reaction_action.as_inner_ref();
 
-            if reaction.emoji.as_data() == emojis::CONFIRM {
+            if reaction.emoji.as_data() == emojis::CHECK {
                 let guild = msg.guild_id.ok_or("Falha em pegar o guild id")?;
                 let guild = guild
                     .to_guild_cached(ctx)

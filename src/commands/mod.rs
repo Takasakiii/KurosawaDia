@@ -36,6 +36,7 @@ use crate::{
         },
         models::guild::DbGuildType,
     },
+    errors::error_permission,
     utils::constants::colors,
 };
 
@@ -96,14 +97,18 @@ async fn help(
             }
 
             let group_description = group.options.description.unwrap_or(group.name);
-            let group_cmds = group
-                .options
-                .commands
-                .iter()
-                .map(|cmds| cmds.options.names.first().unwrap())
-                .fold("".to_string(), |init, item| format!("{} `{}`", init, item));
+            let group_cmds = group.options.commands;
 
-            embed.field(group_description, group_cmds, false);
+            let mut group_cmds_name = "".to_string();
+
+            for cmd in group_cmds.iter() {
+                if cmd.options.help_available {
+                    group_cmds_name
+                        .push_str(format!(" `{}`", cmd.options.names.first().unwrap()).as_str());
+                }
+            }
+
+            embed.field(group_description, group_cmds_name, false);
         }
 
         msg.channel_id
@@ -234,7 +239,14 @@ async fn help(
 }
 
 #[hook]
-async fn dispatch_error(_ctx: &Context, _msg: &Message, _err: DispatchError) {}
+async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
+    match err {
+        DispatchError::LackingPermissions(permissions) => {
+            error_permission(ctx, msg, permissions).await
+        }
+        _ => return,
+    }
+}
 
 #[hook]
 async fn normal_message(ctx: &Context, msg: &Message) {
@@ -298,7 +310,7 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
 
         let api = get_violet_api();
         if api.send_error(VioletError::error(why, name)).await.is_err() {
-            print!("Falha ao enviar o erro para a violet")
+            eprintln!("Falha ao enviar o erro para a violet")
         }
     }
 }
