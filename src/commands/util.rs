@@ -83,7 +83,6 @@ async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("avatar")]
 #[aliases("uimg")]
 #[max_args(1)]
-#[min_args(1)]
 #[description("Mostra o avatar de um usuário")]
 #[usage("uimg <usuario>")]
 #[example("uimg @Vulcan")]
