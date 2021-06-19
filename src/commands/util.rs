@@ -258,7 +258,7 @@ async fn send_suggestion(
 #[command("say")]
 #[min_args(1)]
 #[required_permissions("MANAGE_MESSAGES")]
-#[description("Faz eu falar algo à sua vontade.\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando")]
+#[description("Faz eu falar algo à sua vontade\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando")]
 #[usage("say <message>")]
 #[example("say oie eu sou a Kurosawa Dia")]
 #[example("say { \"title\": \"oie eu sou a Kurosawa Dia\" }")]

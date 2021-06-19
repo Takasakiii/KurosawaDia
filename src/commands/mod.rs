@@ -28,6 +28,7 @@ use tokio::spawn;
 
 use crate::{
     apis::{get_violet_api, violet::data_error::VioletError},
+    components::embed::{Embed, IsEmbed},
     config::KurosawaConfig,
     database::{
         functions::{
@@ -255,10 +256,33 @@ async fn normal_message(ctx: &Context, msg: &Message) {
 
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
-                msg.channel_id
-                    .send_message(ctx, |x| x.content(cr.reply))
-                    .await
-                    .ok();
+                let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
+                match is_embed {
+                    IsEmbed::Embed(embed, result) => {
+                        let msg_send = msg
+                            .channel_id
+                            .send_message(ctx, move |x| {
+                                if let Some(text) = &embed.plain_text {
+                                    x.content(text);
+                                }
+                                x.set_embed(embed.into())
+                            })
+                            .await;
+
+                        if msg_send.is_err() {
+                            msg.channel_id
+                                .send_message(ctx, |x| x.content(result))
+                                .await
+                                .ok();
+                        }
+                    }
+                    IsEmbed::Message(text) => {
+                        msg.channel_id
+                            .send_message(ctx, |x| x.content(text))
+                            .await
+                            .ok();
+                    }
+                }
             }
             Err(err) => {
                 println!("{:?}", err)
