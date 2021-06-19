@@ -9,6 +9,7 @@ extern crate lazy_static;
 
 pub mod apis;
 mod commands;
+pub mod components;
 pub mod config;
 pub mod database;
 pub mod errors;
