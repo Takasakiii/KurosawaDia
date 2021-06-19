@@ -42,53 +42,53 @@ pub enum IsEmbed {
 
 impl Embed {
     pub async fn from_str(ctx: &Context, msg: &Message, json_raw: &str) -> IsEmbed {
-        if from_str::<Embed>(json_raw).is_ok() {
-            let json = json_raw.chars().collect::<Vec<char>>();
-            let mut result = "".to_string();
-            let mut indexer = 0;
+        let json = json_raw.chars().collect::<Vec<char>>();
+        let mut result = "".to_string();
+        let mut indexer = 0;
 
-            'loop_inicial: loop {
-                if json.len() == indexer {
-                    break;
-                }
-
-                if json[indexer] == '%' {
-                    let mut var_size = 0;
-                    let mut var_name = "".to_string();
-
-                    loop {
-                        var_size += 1;
-
-                        if json.len() == indexer + var_size {
-                            result.push_str(&json_raw[indexer..json.len()]);
-                            break 'loop_inicial;
-                        }
-
-                        if json[indexer + var_size] == '%' {
-                            let var_result = Embed::switch_args(ctx, msg, &var_name).await;
-
-                            if var_result != var_name {
-                                result.push_str(&var_result);
-                            } else {
-                                result.push_str(&format!("%{}%", var_result));
-                            }
-
-                            indexer += var_size;
-                            break;
-                        } else {
-                            var_name.push(json[indexer + var_size]);
-                        }
-                    }
-                } else {
-                    result.push(json[indexer])
-                }
-
-                indexer += 1;
+        'loop_inicial: loop {
+            if json.len() == indexer {
+                break;
             }
 
-            IsEmbed::Embed(from_str(&result).unwrap(), result)
+            if json[indexer] == '%' {
+                let mut var_size = 0;
+                let mut var_name = "".to_string();
+
+                loop {
+                    var_size += 1;
+
+                    if json.len() == indexer + var_size {
+                        result.push_str(&json_raw[indexer..json.len()]);
+                        break 'loop_inicial;
+                    }
+
+                    if json[indexer + var_size] == '%' {
+                        let var_result = Embed::switch_args(ctx, msg, &var_name).await;
+
+                        if var_result != var_name {
+                            result.push_str(&var_result);
+                        } else {
+                            result.push_str(&format!("%{}%", var_result));
+                        }
+
+                        indexer += var_size;
+                        break;
+                    } else {
+                        var_name.push(json[indexer + var_size]);
+                    }
+                }
+            } else {
+                result.push(json[indexer])
+            }
+
+            indexer += 1;
+        }
+
+        if let Ok(embed) = from_str::<Embed>(&result) {
+            IsEmbed::Embed(embed, result)
         } else {
-            IsEmbed::Message(json_raw.to_string())
+            IsEmbed::Message(result)
         }
     }
 
