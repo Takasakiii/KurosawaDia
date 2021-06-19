@@ -23,7 +23,7 @@ pub struct EmbedField {
 
 #[derive(Deserialize)]
 pub struct Embed {
-    #[serde(rename = "camelCase")]
+    #[serde(rename = "plainText")]
     pub plain_text: Option<String>,
     pub title: Option<String>,
     pub description: Option<String>,
@@ -36,7 +36,7 @@ pub struct Embed {
 }
 
 pub enum IsEmbed {
-    Embed(Embed),
+    Embed(Embed, String),
     Message(String),
 }
 
@@ -47,14 +47,10 @@ impl Embed {
             let mut result = "".to_string();
             let mut indexer = 0;
 
-            println!("size {}", json.len());
-
             'loop_inicial: loop {
                 if json.len() == indexer {
                     break;
                 }
-
-                println!("index {} {}", indexer, json[indexer]);
 
                 if json[indexer] == '%' {
                     let mut var_size = 0;
@@ -90,7 +86,7 @@ impl Embed {
                 indexer += 1;
             }
 
-            IsEmbed::Embed(from_str(&result).unwrap())
+            IsEmbed::Embed(from_str(&result).unwrap(), result)
         } else {
             IsEmbed::Message(json_raw.to_string())
         }

@@ -266,15 +266,22 @@ async fn say(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let json = args.remains().unwrap();
     let is_embed = Embed::from_str(ctx, msg, json).await;
     match is_embed {
-        IsEmbed::Embed(embed) => {
-            msg.channel_id
+        IsEmbed::Embed(embed, result) => {
+            let msg_send = msg
+                .channel_id
                 .send_message(ctx, move |x| {
                     if let Some(text) = &embed.plain_text {
                         x.content(text);
                     }
                     x.set_embed(embed.into())
                 })
-                .await?;
+                .await;
+
+            if msg_send.is_err() {
+                msg.channel_id
+                    .send_message(ctx, |x| x.content(result))
+                    .await?;
+            }
         }
         IsEmbed::Message(text) => {
             msg.channel_id
