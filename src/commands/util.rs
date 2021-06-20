@@ -283,7 +283,11 @@ async fn say(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                     .await?;
             }
         }
-        IsEmbed::Message(text) => {
+        IsEmbed::Message(mut text) => {
+            if text.len() > 2000 {
+                text = format!("{}...", &text[0..1997]);
+            }
+
             msg.channel_id
                 .send_message(ctx, |x| x.content(text))
                 .await?;
