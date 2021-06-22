@@ -26,7 +26,7 @@ use crate::{
 
 #[group]
 #[commands(acr, aecr, dcr, lcr)]
-#[description("Reações Customizadas 💬- Este módulo possui comandos para você controlar as minhas Reações Customizadas.")]
+#[description("Reações Customizadas 💬- Esse módulo possui comandos para você controlar as minhas Reações Customizadas")]
 pub struct CustomReaction;
 
 #[command("adicionarrc")]
@@ -34,7 +34,7 @@ pub struct CustomReaction;
 #[only_in("guilds")]
 #[min_args(3)]
 #[required_permissions("MANAGE_GUILD")]
-#[description("Adiciona uma reação customizada ao servidor\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[description("Adiciona uma reação customizada ao servidor\n\n(Observação: você precisa ter a permissão de gerenciar servidor)")]
 #[usage("acr <mensagem> | <resposta>")]
 #[example("acr oi | olá")]
 async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
@@ -70,7 +70,7 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 #[only_in("guilds")]
 #[min_args(3)]
 #[required_permissions("MANAGE_GUILD")]
-#[description("Adiciona uma reação customizada especial ao servidor\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[description("Adiciona uma reação customizada especial ao servidor\n\n(Observação: você precisa ter a permissão de gerenciar servidor)")]
 #[usage("aecr <mensagem> | <resposta>")]
 #[example("aecr oi | olá")]
 async fn aecr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
@@ -118,7 +118,7 @@ async fn create_custom_reaction(
 #[min_args(1)]
 #[max_args(1)]
 #[required_permissions("MANAGE_GUILD")]
-#[description("Remove uma reação customizada especifica\n\n(Observação: você precisa ter permissão de gerenciar servidor)")]
+#[description("Remove uma reação customizada especifica\n\n(Observação: você precisa ter a permissão de gerenciar servidor)")]
 #[usage("dcr <id da reação>")]
 #[example("dcr 1258")]
 async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
@@ -200,6 +200,17 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                         .await?;
                 }
                 None => {
+                    if custom_reactions.is_empty() {
+                        msg.channel_id
+                            .send_message(ctx, |x| {
+                                x.reference_message(msg).embed(|e| {
+                                    e.color(colors::ORANGE)
+                                        .title("Não há nenhuma reação customizada.")
+                                })
+                            })
+                            .await?;
+                        return Ok(());
+                    }
                     let message = msg
                         .channel_id
                         .send_message(ctx, |x| {

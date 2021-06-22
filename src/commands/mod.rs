@@ -28,7 +28,8 @@ use tokio::spawn;
 
 use crate::{
     apis::{get_violet_api, violet::data_error::VioletError},
-    config::{get_default_prefix, get_id_mention},
+    components::embed::{Embed, IsEmbed},
+    config::KurosawaConfig,
     database::{
         functions::{
             custom_reaction::get_custom_reaction,
@@ -36,24 +37,25 @@ use crate::{
         },
         models::guild::DbGuildType,
     },
+    errors::error_permission,
     utils::constants::colors,
 };
 
 pub fn crete_framework() -> StandardFramework {
     StandardFramework::new()
         .configure(|x| {
-            x.dynamic_prefix(|ctx, msg| {
+            x.dynamic_prefix(move |ctx, msg| {
                 Box::pin(async move {
                     if let Some(guild) = msg.guild(ctx).await {
                         if let Ok(db_guild) = get_db_guild(guild).await {
                             return Some(db_guild.prefix);
                         }
                     }
-                    Some(get_default_prefix())
+                    Some(KurosawaConfig::get_default_prefix())
                 })
             })
             .prefix("")
-            .on_mention(get_id_mention())
+            .on_mention(Some(KurosawaConfig::get_id_mention()))
             .no_dm_prefix(true)
             .case_insensitivity(true)
             .owners(vec![UserId(203713369927057408)].into_iter().collect())
@@ -96,14 +98,18 @@ async fn help(
             }
 
             let group_description = group.options.description.unwrap_or(group.name);
-            let group_cmds = group
-                .options
-                .commands
-                .iter()
-                .map(|cmds| cmds.options.names.first().unwrap())
-                .fold("".to_string(), |init, item| format!("{} `{}`", init, item));
+            let group_cmds = group.options.commands;
 
-            embed.field(group_description, group_cmds, false);
+            let mut group_cmds_name = "".to_string();
+
+            for cmd in group_cmds.iter() {
+                if cmd.options.help_available {
+                    group_cmds_name
+                        .push_str(format!(" `{}`", cmd.options.names.first().unwrap()).as_str());
+                }
+            }
+
+            embed.field(group_description, group_cmds_name, false);
         }
 
         msg.channel_id
@@ -116,7 +122,7 @@ async fn help(
             if let Ok(db_guild) = get_db_guild(guild).await {
                 db_guild.prefix
             } else {
-                get_default_prefix()
+                KurosawaConfig::get_default_prefix()
             }
         } else {
             "".to_string()
@@ -234,7 +240,14 @@ async fn help(
 }
 
 #[hook]
-async fn dispatch_error(_ctx: &Context, _msg: &Message, _err: DispatchError) {}
+async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
+    match err {
+        DispatchError::LackingPermissions(permissions) => {
+            error_permission(ctx, msg, permissions).await
+        }
+        _ => return,
+    }
+}
 
 #[hook]
 async fn normal_message(ctx: &Context, msg: &Message) {
@@ -243,10 +256,33 @@ async fn normal_message(ctx: &Context, msg: &Message) {
 
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
-                msg.channel_id
-                    .send_message(ctx, |x| x.content(cr.reply))
-                    .await
-                    .ok();
+                let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
+                match is_embed {
+                    IsEmbed::Embed(embed, result) => {
+                        let msg_send = msg
+                            .channel_id
+                            .send_message(ctx, move |x| {
+                                if let Some(text) = &embed.plain_text {
+                                    x.content(text);
+                                }
+                                x.set_embed(embed.into())
+                            })
+                            .await;
+
+                        if msg_send.is_err() {
+                            msg.channel_id
+                                .send_message(ctx, |x| x.content(result))
+                                .await
+                                .ok();
+                        }
+                    }
+                    IsEmbed::Message(text) => {
+                        msg.channel_id
+                            .send_message(ctx, |x| x.content(text))
+                            .await
+                            .ok();
+                    }
+                }
             }
             Err(err) => {
                 println!("{:?}", err)
@@ -298,7 +334,7 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
 
         let api = get_violet_api();
         if api.send_error(VioletError::error(why, name)).await.is_err() {
-            print!("Falha ao enviar o erro para a violet")
+            eprintln!("Falha ao enviar o erro para a violet")
         }
     }
 }

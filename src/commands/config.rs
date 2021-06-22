@@ -11,7 +11,6 @@ use serenity::{
 };
 
 use crate::{
-    config::get_default_prefix,
     database::functions::guild::set_prefix,
     utils::constants::{colors, emojis},
 };
@@ -19,7 +18,7 @@ use crate::{
 #[group]
 #[commands(prefix)]
 #[description(
-    "Configurações ⚙️- Em configurações, você define preferências de como vou agir em seu servidor."
+    "Configurações ⚙️- Em configurações, você define preferências de como vou agir em seu servidor"
 )]
 pub struct Config;
 
@@ -33,12 +32,10 @@ pub struct Config;
 #[usage("prefix <novo prefixo>")]
 #[example("prefix +")]
 async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let new_prefix = args
-        .single::<String>()
-        .unwrap_or_else(|_| get_default_prefix());
+    let new_prefix = args.single::<String>()?;
 
     if new_prefix.len() > 15 {
-        return Err("Prefix deve ser menor que 15".into());
+        return Err("Prefixo deve ser menor que 15".into());
     }
 
     let mut embed_confirmation = CreateEmbed::default();
@@ -70,7 +67,7 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         if reaction_action.is_added() {
             let reaction = reaction_action.as_inner_ref();
 
-            if reaction.emoji.as_data() == emojis::CONFIRM {
+            if reaction.emoji.as_data() == emojis::CHECK {
                 let guild = msg.guild_id.ok_or("Falha em pegar o guild id")?;
                 let guild = guild
                     .to_guild_cached(ctx)

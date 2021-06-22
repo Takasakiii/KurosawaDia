@@ -1,7 +1,7 @@
 use isahc::{AsyncReadResponseExt, HttpClient};
 use serenity::framework::standard::CommandError;
 
-use crate::config::get_danbooru_token;
+use crate::config::KurosawaConfig;
 
 use super::danbooru_image::DanbooruImage;
 
@@ -16,7 +16,10 @@ impl DanbooruClient {
         let client = HttpClient::builder()
             .default_header(
                 "Authorization",
-                format!("Basic {}", base64::encode(get_danbooru_token())),
+                format!(
+                    "Basic {}",
+                    base64::encode(KurosawaConfig::get_danbooru_token())
+                ),
             )
             .build()
             .expect("Falha ao gerar o client danbooru");

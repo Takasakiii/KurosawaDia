@@ -11,11 +11,14 @@ use serenity::{
 };
 use unic_emoji_char::is_emoji;
 
-use crate::utils::{channel::get_channel_from_id, constants::colors, user::get_user_from_args};
+use crate::{
+    components::embed::{Embed, IsEmbed},
+    utils::{channel::get_channel_from_id, constants::colors, user::get_user_from_args},
+};
 
 #[group]
-#[commands(emoji, avatar, server_image, whatsify, suggestion, bug)]
-#[description("Utilidade 🛠️- Este módulo possui coisas úteis para o seu dia a dia")]
+#[commands(emoji, avatar, server_image, whatsify, suggestion, bug, say)]
+#[description("Utilidade 🛠️- Esse módulo possui coisas úteis para o seu dia a dia")]
 pub struct Util;
 
 #[command("emoji")]
@@ -83,7 +86,6 @@ async fn emoji(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[command("avatar")]
 #[aliases("uimg")]
 #[max_args(1)]
-#[min_args(1)]
 #[description("Mostra o avatar de um usuário")]
 #[usage("uimg <usuario>")]
 #[example("uimg @Vulcan")]
@@ -145,16 +147,16 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     let guild = msg.guild(ctx).await.unwrap();
 
-    let avatar = match guild.icon_url() {
-        Some(url) => url,
-        None => return Err("Sem imagem do servidor".into()),
-    };
+    let avatar = guild
+        .icon_url()
+        .unwrap_or_else(|| "https://cdn.discordapp.com/embed/avatars/1.png".to_string());
 
     let avatar = format!("{}?size=2048", avatar);
 
     let mut embed = CreateEmbed::default();
     embed.title(guild.name);
     embed.description(format!("[Link direto]({})", avatar));
+    embed.color(colors::GREEN);
     embed.image(avatar);
 
     msg.channel_id
@@ -206,7 +208,7 @@ async fn suggestion(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 #[min_args(1)]
 #[description("Nos reporte um bug")]
 #[usage("bug <bug>")]
-#[example("sugestao o comando não esta funcionando")]
+#[example("sugestao o comando cat não esta funcionando")]
 async fn bug(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let text = args.remains().unwrap();
 
@@ -251,5 +253,46 @@ async fn send_suggestion(
         .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
         .await?;
 
+    Ok(())
+}
+
+#[command("say")]
+#[min_args(1)]
+#[required_permissions("MANAGE_MESSAGES")]
+#[description("Faz eu falar algo à sua vontade\n\n(Observação: você precisa da permissão de gerenciar mensagens para poder usar esse comando")]
+#[usage("say <message>")]
+#[example("say oie eu sou a Kurosawa Dia")]
+#[example("say { \"title\": \"oie eu sou a Kurosawa Dia\" }")]
+async fn say(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+    let json = args.remains().unwrap();
+    let is_embed = Embed::from_str(ctx, msg, json).await;
+    match is_embed {
+        IsEmbed::Embed(embed, result) => {
+            let msg_send = msg
+                .channel_id
+                .send_message(ctx, move |x| {
+                    if let Some(text) = &embed.plain_text {
+                        x.content(text);
+                    }
+                    x.set_embed(embed.into())
+                })
+                .await;
+
+            if msg_send.is_err() {
+                msg.channel_id
+                    .send_message(ctx, |x| x.content(result))
+                    .await?;
+            }
+        }
+        IsEmbed::Message(mut text) => {
+            if text.len() > 2000 {
+                text = format!("{}...", &text[0..1997]);
+            }
+
+            msg.channel_id
+                .send_message(ctx, |x| x.content(text))
+                .await?;
+        }
+    };
     Ok(())
 }

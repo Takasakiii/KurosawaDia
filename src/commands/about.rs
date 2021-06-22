@@ -15,7 +15,7 @@ use crate::utils::{
 
 #[group]
 #[commands(sobre, info)]
-#[description("Ajuda ❓- Este módulo tem comandos para te ajudar na ultilização do bot")]
+#[description("Ajuda ❓- Esse módulo tem comandos para te ajudar na utilização do bot")]
 pub struct About;
 
 #[command("sobre")]
@@ -58,7 +58,13 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     embed.image("https://i.imgur.com/qGb6xtG.jpg");
     embed.color(colors::PURPLE);
 
-    let users = ctx.cache.user_count().await;
+    let mut users = 0;
+    for guild in ctx.cache.guilds().await.iter() {
+        if let Some(guild) = guild.to_guild_cached(&ctx.cache).await {
+            users += guild.member_count;
+        }
+    }
+
     let guilds = ctx.cache.guild_count().await;
 
     embed.field(
@@ -99,7 +105,7 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     embed.field(
         "Informações chatas:",
         format!(
-            "__Servidores__: {}\n__Usuarios__: {}\n__Versão__: {} ({})",
+            "__Servidores__: {}\n__Usuários__: {}\n__Versão__: {} ({})",
             guilds,
             users,
             env!("CARGO_PKG_VERSION"),

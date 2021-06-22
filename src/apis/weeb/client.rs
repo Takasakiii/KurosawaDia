@@ -1,7 +1,7 @@
 use isahc::{prelude::*, HttpClient};
 use serenity::framework::standard::CommandError;
 
-use crate::config::get_weeb_api_token;
+use crate::config::KurosawaConfig;
 
 use super::weeb_image::WeebImage;
 
@@ -14,7 +14,10 @@ pub struct WeebClient {
 impl WeebClient {
     pub fn default() -> Self {
         let client = HttpClient::builder()
-            .default_header("Authorization", format!("Wolke {}", get_weeb_api_token()))
+            .default_header(
+                "Authorization",
+                format!("Wolke {}", KurosawaConfig::get_weeb_api_token()),
+            )
             .build()
             .expect("Falha ao gerar o client weeb");
 

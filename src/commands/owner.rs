@@ -11,11 +11,11 @@ use crate::database::{functions::guild::set_especial, models::guild::DbGuildType
 
 #[group]
 #[commands(especial)]
+#[owners_only]
 #[help_available(false)]
 pub struct Owner;
 
 #[command("setespecial")]
-#[owners_only]
 #[max_args(1)]
 #[min_args(1)]
 #[only_in("guilds")]

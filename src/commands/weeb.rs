@@ -17,7 +17,7 @@ use crate::{
 
 #[group]
 #[commands(owoify, hug, kiss, slap, punch, lick, cry, pat, dance, megumin, rem)]
-#[description("Weeb ❤️- Este módulo é o mais amoroso de todos")]
+#[description("Weeb ❤️- Esse módulo é o mais amoroso de todos")]
 pub struct Weeb;
 
 #[command("hug")]

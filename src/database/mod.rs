@@ -4,7 +4,7 @@ pub mod models;
 
 use mysql::{prelude::Queryable, Error, Pool, PooledConn};
 
-use crate::config::{get_database_connection_string, get_database_name};
+use crate::config::KurosawaConfig;
 
 use self::generator::{database::gen_database, procedores::gen_procedores};
 
@@ -17,8 +17,8 @@ pub async fn get_database_connection() -> Result<PooledConn, Error> {
             None => {
                 let connection_string = format!(
                     "{}/{}",
-                    get_database_connection_string(),
-                    get_database_name()
+                    KurosawaConfig::get_database_connection_string(),
+                    KurosawaConfig::get_database_name()
                 );
                 let pool = Pool::new(connection_string)?;
                 let conn = pool.get_conn()?;
@@ -35,7 +35,7 @@ pub async fn crate_database() -> Result<(), Error> {
         Err(err) => {
             if let Error::MySqlError(err) = err {
                 if err.code == 1049 {
-                    let pool = Pool::new(get_database_connection_string())?;
+                    let pool = Pool::new(KurosawaConfig::get_database_connection_string())?;
                     let mut conn = pool.get_conn()?;
                     conn.query_drop(r"CREATE DATABASE IF NOT EXISTS kurosawa_dia")?;
 
