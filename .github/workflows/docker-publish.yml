@@ -1,4 +1,4 @@
-name: Docker Version
+name: Docker
 
 on:
   workflow_dispatch:
