@@ -156,6 +156,7 @@ async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
     let mut embed = CreateEmbed::default();
     embed.title(guild.name);
     embed.description(format!("[Link direto]({})", avatar));
+    embed.color(colors::GREEN);
     embed.image(avatar);
 
     msg.channel_id

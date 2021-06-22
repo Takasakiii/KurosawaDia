@@ -46,7 +46,7 @@ impl Embed {
         let mut result = "".to_string();
         let mut indexer = 0;
 
-        'loop_inicial: loop {
+        'main_loop: loop {
             if json.len() == indexer {
                 break;
             }
@@ -60,7 +60,7 @@ impl Embed {
 
                     if json.len() == indexer + var_size {
                         result.push_str(&json_raw[indexer..json.len()]);
-                        break 'loop_inicial;
+                        break 'main_loop;
                     }
 
                     if json[indexer + var_size] == '%' {
