@@ -43,8 +43,5 @@ pub async fn get_user_role_position(
 }
 
 pub async fn get_user_from_id(ctx: &Context, id: u64) -> KurosawaResult<User> {
-    match ctx.cache.user(id).await {
-        Some(user) => Ok(user),
-        None => Ok(ctx.http.get_user(id).await?),
-    }
+    Ok(ctx.http.get_user(id).await?)
 }

@@ -6,7 +6,7 @@ use crate::config::KurosawaConfig;
 
 use super::data_error::VioletError;
 
-const BASE_URL: &str = "https://violet.zuraaa.com/api/apps/1/events";
+const BASE_URL: &str = "https://violet.takasaki.dev/api/apps/1/events";
 
 pub struct VioletCLient {
     client: HttpClient,

@@ -126,8 +126,8 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     let guild = msg.guild(ctx).await.unwrap();
 
+    let mut embed = CreateEmbed::default();
     if remove_custom_reaction(guild, id).await? {
-        let mut embed = CreateEmbed::default();
         embed.title("Reação customizada removida com sucesso 😊");
         embed.color(colors::ORANGE);
 
@@ -135,7 +135,6 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
             .await?;
     } else {
-        let mut embed = CreateEmbed::default();
         embed.title("Reação customizada não encontrada 😔");
         embed.color(colors::YELLOW);
 
