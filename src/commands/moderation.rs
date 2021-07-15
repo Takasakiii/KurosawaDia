@@ -145,7 +145,13 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             Err(err) => return Err(err.into()),
         };
     } else {
-        return Err("Sem permissão para banir o membro".into());
+        let mut embed = CreateEmbed::default();
+        embed.title("Sem permissão para banir o membro");
+        embed.color(colors::YELLOW);
+
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     }
 
     Ok(())
@@ -191,7 +197,13 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             Err(err) => return Err(err.into()),
         };
     } else {
-        return Err("Sem permissão para expulsar o membro".into());
+        let mut embed = CreateEmbed::default();
+        embed.title("Sem permissão para expulsar o membro");
+        embed.color(colors::YELLOW);
+
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     }
 
     Ok(())
@@ -239,7 +251,13 @@ async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
             Err(err) => return Err(err.into()),
         };
     } else {
-        return Err("Sem permissão para remover o membro".into());
+        let mut embed = CreateEmbed::default();
+        embed.title("Sem permissão para remover o membro");
+        embed.color(colors::YELLOW);
+
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
     }
 
     Ok(())
