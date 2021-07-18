@@ -16,7 +16,7 @@ pub mod emojis {
 
 pub mod infos {
     pub const CONVITE_DIA: &str =
-        "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=conviteDia";
+        "https://kurosawa.fardragi.com/paginas/redirecionar.html?pg=conviteDia";
     pub const CONVITE_SERVER: &str =
-        "https://kurosawa.zuraaa.com/paginas/redirecionar.html?pg=serverDia";
+        "https://kurosawa.fardragi.com/paginas/redirecionar.html?pg=serverDia";
 }
