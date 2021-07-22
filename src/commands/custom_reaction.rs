@@ -76,10 +76,6 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 async fn aecr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let args = args.remains().unwrap().split('|').collect::<Vec<&str>>();
 
-    if args.len() != 2 {
-        return Ok(());
-    }
-
     let guild = msg.guild(ctx).await.unwrap();
 
     create_custom_reaction(
@@ -122,7 +118,21 @@ async fn create_custom_reaction(
 #[usage("dcr <id da reação>")]
 #[example("dcr 1258")]
 async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
-    let id = args.single::<u32>()?;
+    let id = args.single::<u32>();
+
+    let id = if id.is_err() {
+        let mut embed = CreateEmbed::default();
+        embed.title("Por favor insira um valor valido");
+        embed.color(colors::YELLOW);
+
+        msg.channel_id
+            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+            .await?;
+
+        return Ok(());
+    } else {
+        id.unwrap()
+    };
 
     let guild = msg.guild(ctx).await.unwrap();
 

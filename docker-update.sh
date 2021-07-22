@@ -18,7 +18,7 @@ echo Remove container kurosawa-bot
 docker rm kurosawa-bot
 
 echo Create container kurosawa-bot
-docker create --name kurosawa-bot --env-file .env --network Kurosawa ghcr.io/fardragi/kurosawadia
+docker create --name kurosawa-bot --env-file .env --network Kurosawa ghcr.io/fardragi/kurosawadia:$version
 
 echo Start container kurosawa-bot
 docker start kurosawa-bot
