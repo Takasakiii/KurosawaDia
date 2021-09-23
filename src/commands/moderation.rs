@@ -128,7 +128,7 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
 
     if author_role > member_role && bot_role > member_role {
-        send_alert(&ctx, &msg, &user, "banido", &guild.name, &reason).await;
+        send_alert(ctx, msg, &user, "banido", &guild.name, reason).await;
         match guild.ban_with_reason(ctx, &user, 7, reason).await {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
@@ -180,7 +180,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
 
     if author_role > member_role && bot_role > member_role {
-        send_alert(&ctx, &msg, &user, "expulso", &guild.name, &reason).await;
+        send_alert(ctx, msg, &user, "expulso", &guild.name, reason).await;
         match guild.kick_with_reason(ctx, &user, reason).await {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
@@ -232,7 +232,7 @@ async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
         get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
 
     if author_role > member_role && bot_role > member_role {
-        send_alert(&ctx, &msg, &user, "removido", &guild.name, &reason).await;
+        send_alert(ctx, msg, &user, "removido", &guild.name, reason).await;
         match guild.ban_with_reason(ctx, &user, 7, reason).await {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
