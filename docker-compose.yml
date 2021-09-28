@@ -5,6 +5,7 @@ services:
         container_name: kurosawa_dia_bot
         depends_on:
             - db
+            - ssh
         networks:
             - kurosawa_dia
         environment:
@@ -24,6 +25,14 @@ services:
             MARIADB_ROOT_PASSWORD: ${KUROSAWA_DATABASE_PASSWORD}
         networks:
             - kurosawa_dia
+    ssh:
+        container_name: kurosawa_dia_ssh
+        context: ./docker
+        dockerfile: ssh.Dockerfile
+        networks:
+            - kurosawa_dia
+        ports:
+            - "127.0.0.1:2222:22"
 networks:
     kurosawa_dia:
         driver: bridge
