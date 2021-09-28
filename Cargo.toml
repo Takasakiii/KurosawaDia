@@ -1,7 +1,7 @@
 [package]
 name = "kurosawa_dia"
-description = "New stage - Patch 1"
-version = "1.4.1"
+description = "New stage - Patch 2"
+version = "1.4.2"
 authors = ["Gabriel-Paulucci <gabrielpauluccimunizmendes@gmail.com>"]
 edition = "2018"
 resolver = "2"
