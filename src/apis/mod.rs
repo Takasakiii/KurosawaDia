@@ -1,6 +1,6 @@
 use self::{
-    danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient,
-    violet::client::VioletCLient, weeb::client::WeebClient, woof::client::WoofClient,
+    danbooru::client::DanbooruClient, nekoslife::client::NekosLifeClient, weeb::client::WeebClient,
+    woof::client::WoofClient,
 };
 
 pub mod danbooru;
@@ -14,7 +14,7 @@ lazy_static! {
     static ref NEKOSLIFE_API: NekosLifeClient = NekosLifeClient::default();
     static ref WOOF_API: WoofClient = WoofClient::default();
     static ref DANBOORU_API: DanbooruClient = DanbooruClient::default();
-    static ref VIOLET_API: VioletCLient = VioletCLient::default();
+    // static ref VIOLET_API: VioletCLient = VioletCLient::default();
 }
 
 pub fn get_weeb_api() -> &'static WeebClient {
@@ -33,6 +33,6 @@ pub fn get_danbooru_api() -> &'static DanbooruClient {
     &DANBOORU_API
 }
 
-pub fn get_violet_api() -> &'static VioletCLient {
-    &VIOLET_API
-}
+// pub fn get_violet_api() -> &'static VioletCLient {
+//     &VIOLET_API
+// }

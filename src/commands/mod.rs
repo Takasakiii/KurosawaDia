@@ -27,7 +27,6 @@ use serenity::{
 use tokio::spawn;
 
 use crate::{
-    apis::{get_violet_api, violet::data_error::VioletError},
     components::embed::{Embed, IsEmbed},
     config::KurosawaConfig,
     database::{
@@ -332,9 +331,9 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
         );
         let _ = msg.react(ctx, '❌').await;
 
-        let api = get_violet_api();
-        if api.send_error(VioletError::error(why, name)).await.is_err() {
-            eprintln!("Falha ao enviar o erro para a violet")
-        }
+        // let api = get_violet_api();
+        // if api.send_error(VioletError::error(why, name)).await.is_err() {
+        //     eprintln!("Falha ao enviar o erro para a violet")
+        // }
     }
 }

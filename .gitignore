@@ -1,3 +1,5 @@
 /target
 .env
 docker-compose.sh
+
+docker-compose --env-file .env up --force-recreate --build -d
