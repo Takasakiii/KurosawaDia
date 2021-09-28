@@ -15,7 +15,6 @@ services:
             KUROSAWA_DATABASE_CONNECTION_STRING: mysql://root:${KUROSAWA_DATABASE_PASSWORD}@kurosawa_dia_db:3306
             KUROSAWA_DATABASE_NAME: ${KUROSAWA_DATABASE_NAME}
             KUROSAWA_DANBOORU_TOKEN: ${KUROSAWA_DANBOORU_TOKEN}
-            KUROSAWA_VIOLET_TOKEN: ${KUROSAWA_VIOLET_TOKEN}
     db:
         image: mariadb:10.5
         container_name: kurosawa_dia_db
