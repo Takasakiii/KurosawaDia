@@ -1,11 +1,8 @@
 version: "3"
 services:
     bot:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: ghcr.io/fardragi/kurosawadia:latest
         container_name: kurosawa_dia_bot
-        image: kurosawa_dia_bot
         depends_on:
             - db
         networks:
