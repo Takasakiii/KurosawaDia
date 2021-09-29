@@ -4,8 +4,10 @@ services:
         image: ghcr.io/fardragi/kurosawadia:latest
         container_name: kurosawa_dia_bot
         depends_on:
-            - db
-            - ssh
+            db:
+                condition: service_healthy
+            ssh:
+                condition: service_started
         networks:
             - kurosawa_dia
         environment:
@@ -24,10 +26,16 @@ services:
             MARIADB_ROOT_PASSWORD: ${KUROSAWA_DATABASE_PASSWORD}
         networks:
             - kurosawa_dia
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "--silent"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
     ssh:
         container_name: kurosawa_dia_ssh
-        context: ./docker
-        dockerfile: ssh.Dockerfile
+        build:
+            context: ./docker
+            dockerfile: ssh.Dockerfile
         networks:
             - kurosawa_dia
         ports:
