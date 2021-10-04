@@ -3,6 +3,7 @@ services:
     bot:
         image: ghcr.io/fardragi/kurosawadia:latest
         container_name: kurosawa_dia_bot
+        restart: always
         depends_on:
             db:
                 condition: service_healthy
@@ -20,6 +21,7 @@ services:
     db:
         image: mariadb:10.5
         container_name: kurosawa_dia_db
+        restart: always
         volumes:
             - mariadb:/var/lib/mysql
         environment:
@@ -33,6 +35,7 @@ services:
             retries: 5
     ssh:
         container_name: kurosawa_dia_ssh
+        restart: always
         build:
             context: ./docker
             dockerfile: ssh.Dockerfile
