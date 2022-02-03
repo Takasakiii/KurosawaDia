@@ -1,12 +1,14 @@
 FROM ubuntu:20.04
 
-RUN apt update
+ARG password
+ARG username
 
+RUN apt update
 RUN apt install openssh-server sudo -y
 
-RUN useradd -rm -d /home/main -s /bin/bash -g root -G sudo -u 1000 main
+RUN useradd -rm -d /home/${username} -s /bin/bash -g root -G sudo -u 1000 ${username}
 
-RUN echo 'main:bolinhodecake' | chpasswd
+RUN echo '${username}:${password}' | chpasswd
 
 RUN service ssh start
 
