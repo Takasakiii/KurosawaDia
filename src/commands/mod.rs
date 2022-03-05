@@ -32,7 +32,7 @@ use crate::{
     database::{
         functions::{
             custom_reaction::get_custom_reaction,
-            guild::{get_db_guild, register_guild},
+            guild::{get_db_guild, register_guild}, users::register_user,
         },
         models::guild::DbGuildType,
     },
@@ -302,6 +302,12 @@ async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
                 } else {
                     Err("Falha em pegar a guild".into())
                 }
+            });
+
+            let user = msg.author.clone();
+
+            spawn(async move {
+                register_user(user).await
             });
 
             if name == "prefix" || name == "loli" {
