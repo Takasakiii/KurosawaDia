@@ -40,3 +40,18 @@ pub async fn get_db_user(discord_id: UserId) -> DbResult<DbUser> {
         Err("Guild não registrada".into())
     }
 }
+
+pub async fn set_enable_cr(discord_id: UserId, value: bool) -> CommandResult {
+    let mut conn = get_database_connection().await?;
+
+    conn.exec_drop(r"
+        UPDATE users
+        SET enable_cr = :enable_cr
+        WHERE discord_id = :discord_id
+    ", params! {
+        "enable_cr" => value,
+        "discord_id" => discord_id.to_string()
+    })?;
+
+    Ok(())
+}

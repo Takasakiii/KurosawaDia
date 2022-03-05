@@ -15,17 +15,17 @@ use serenity::{
 
 use crate::{
     database::{
-        functions::custom_reaction::{
+        functions::{custom_reaction::{
             add_custom_reaction, count_custom_reactions, list_custom_reaction,
             remove_custom_reaction,
-        },
+        }, users::set_enable_cr},
         models::custom_reaction::{DbCustomReaction, DbCustomReactionType},
     },
     utils::constants::colors,
 };
 
 #[group]
-#[commands(acr, aecr, dcr, lcr)]
+#[commands(acr, aecr, dcr, lcr, enable_cr, desable_cr)]
 #[description("Reações Customizadas 💬- Esse módulo possui comandos para você controlar as minhas Reações Customizadas")]
 pub struct CustomReaction;
 
@@ -271,6 +271,52 @@ async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
             }
         }
     }
+
+    Ok(())
+}
+
+#[command("enablecr")]
+#[aliases("ecr", "ativarcr")]
+#[only_in("guilds")]
+#[description("Ativa as custom reactions")]
+#[usage("enablecr")]
+#[example("enablecr")]
+async fn enable_cr(ctx: &Context, msg: &Message) -> CommandResult {
+    set_enable_cr(msg.author.id, true).await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.title("Suas custom reactions foram ativadas");
+    embed.color(colors::GREEN);
+
+    msg.channel_id
+        .send_message(ctx, |x| {
+            x.reference_message(msg)
+                .set_embed(embed)
+        })
+        .await?;
+
+    Ok(())
+}
+
+#[command("desablecr")]
+#[aliases("dcr", "desativarcr")]
+#[only_in("guilds")]
+#[description("Desabilita as custom reactions")]
+#[usage("desablecr")]
+#[example("desablecr")]
+async fn desable_cr(ctx: &Context, msg: &Message) -> CommandResult {
+    set_enable_cr(msg.author.id, false).await?;
+
+    let mut embed = CreateEmbed::default();
+    embed.title("Suas custom reactions foram desativadas");
+    embed.color(colors::GREEN);
+
+    msg.channel_id
+        .send_message(ctx, |x| {
+            x.reference_message(msg)
+                .set_embed(embed)
+        })
+        .await?;
 
     Ok(())
 }
