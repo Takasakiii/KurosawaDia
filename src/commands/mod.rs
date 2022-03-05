@@ -32,7 +32,7 @@ use crate::{
     database::{
         functions::{
             custom_reaction::get_custom_reaction,
-            guild::{get_db_guild, register_guild}, users::register_user,
+            guild::{get_db_guild, register_guild}, users::{register_user, get_db_user},
         },
         models::guild::DbGuildType,
     },
@@ -253,41 +253,51 @@ async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
         let content = &msg.content;
 
-        match get_custom_reaction(guild, content).await {
-            Ok(Some(cr)) => {
-                let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
-                match is_embed {
-                    IsEmbed::Embed(embed, result) => {
-                        let msg_send = msg
-                            .channel_id
-                            .send_message(ctx, move |x| {
-                                if let Some(text) = &embed.plain_text {
-                                    x.content(text);
-                                }
-                                x.set_embed(embed.into())
-                            })
-                            .await;
+        match get_db_user(msg.author.id).await {
+            Ok(user) => {
+                if user.enable_cr {
 
-                        if msg_send.is_err() {
-                            msg.channel_id
-                                .send_message(ctx, |x| x.content(result))
-                                .await
-                                .ok();
+                    match get_custom_reaction(guild, content).await {
+                        Ok(Some(cr)) => {
+                            let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
+                            match is_embed {
+                                IsEmbed::Embed(embed, result) => {
+                                    let msg_send = msg
+                                        .channel_id
+                                        .send_message(ctx, move |x| {
+                                            if let Some(text) = &embed.plain_text {
+                                                x.content(text);
+                                            }
+                                            x.set_embed(embed.into())
+                                        })
+                                        .await;
+
+                                    if msg_send.is_err() {
+                                        msg.channel_id
+                                            .send_message(ctx, |x| x.content(result))
+                                            .await
+                                            .ok();
+                                    }
+                                }
+                                IsEmbed::Message(text) => {
+                                    msg.channel_id
+                                        .send_message(ctx, |x| x.content(text))
+                                        .await
+                                        .ok();
+                                }
+                            }
                         }
-                    }
-                    IsEmbed::Message(text) => {
-                        msg.channel_id
-                            .send_message(ctx, |x| x.content(text))
-                            .await
-                            .ok();
+                        Err(err) => {
+                            println!("{:?}", err)
+                        }
+                        _ => {}
                     }
                 }
-            }
+            },
             Err(err) => {
                 println!("{:?}", err)
-            }
-            _ => {}
-        }
+            },
+        };
     }
 }
 
