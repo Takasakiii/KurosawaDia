@@ -37,7 +37,7 @@ pub async fn get_db_user(discord_id: UserId) -> DbResult<DbUser> {
     if let Some(db_user) = result.pop() {
         Ok(db_user)
     } else {
-        Err("Guild não registrada".into())
+        Err("User não registrado".into())
     }
 }
 

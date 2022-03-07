@@ -25,7 +25,7 @@ use crate::{
 };
 
 #[group]
-#[commands(acr, aecr, dcr, lcr, enable_cr, desable_cr)]
+#[commands(acr, aecr, dcr, lcr, enable_cr, disable_cr)]
 #[description("Reações Customizadas 💬- Esse módulo possui comandos para você controlar as minhas Reações Customizadas")]
 pub struct CustomReaction;
 
@@ -298,13 +298,13 @@ async fn enable_cr(ctx: &Context, msg: &Message) -> CommandResult {
     Ok(())
 }
 
-#[command("desablecr")]
+#[command("disablecr")]
 #[aliases("dcr", "desativarcr")]
 #[only_in("guilds")]
 #[description("Desabilita as custom reactions")]
-#[usage("desablecr")]
-#[example("desablecr")]
-async fn desable_cr(ctx: &Context, msg: &Message) -> CommandResult {
+#[usage("disablecr")]
+#[example("disablecr")]
+async fn disable_cr(ctx: &Context, msg: &Message) -> CommandResult {
     set_enable_cr(msg.author.id, false).await?;
 
     let mut embed = CreateEmbed::default();
