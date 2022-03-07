@@ -37,13 +37,13 @@ services:
         build:
             context: ./docker
             dockerfile: ssh.Dockerfile
+            args:
+                password: ${SSH_PASSWORD}
+                username: ${SSH_USERNAME}
         networks:
             - kurosawa_dia
         ports:
             - "127.0.0.1:2222:22"
-        args:
-            password: ${SSH_PASSWORD}
-            username: ${SSH_USERNAME}
 networks:
     kurosawa_dia:
         driver: bridge
