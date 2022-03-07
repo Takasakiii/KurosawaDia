@@ -774,7 +774,7 @@ dependencies = [
 
 [[package]]
 name = "kurosawa_dia"
-version = "1.4.2"
+version = "1.4.3"
 dependencies = [
  "base64 0.13.0",
  "chrono",
