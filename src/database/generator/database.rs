@@ -60,7 +60,7 @@ pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
         ALTER TABLE users
         ADD COLUMN enable_cr BOOLEAN NOT NULL DEFAULT TRUE
     ",
-    )?;
+    ).ok();
 
     Ok(())
 }
