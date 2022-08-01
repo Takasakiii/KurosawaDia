@@ -59,13 +59,13 @@ async fn info(ctx: &Context, msg: &Message) -> CommandResult {
     embed.color(colors::PURPLE);
 
     let mut users = 0;
-    for guild in ctx.cache.guilds().await.iter() {
-        if let Some(guild) = guild.to_guild_cached(&ctx.cache).await {
+    for guild in ctx.cache.guilds().iter() {
+        if let Some(guild) = guild.to_guild_cached(&ctx.cache) {
             users += guild.member_count;
         }
     }
 
-    let guilds = ctx.cache.guild_count().await;
+    let guilds = ctx.cache.guild_count();
 
     embed.field(
         "Sobre mim:",

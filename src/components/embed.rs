@@ -106,21 +106,21 @@ impl Embed {
                 }
             }
             "membros" => {
-                if let Some(guild) = msg.guild(ctx).await {
+                if let Some(guild) = msg.guild(ctx) {
                     guild.member_count.to_string()
                 } else {
                     0.to_string()
                 }
             }
             "idservidor" => {
-                if let Some(guild) = msg.guild(ctx).await {
+                if let Some(guild) = msg.guild(ctx) {
                     guild.id.to_string()
                 } else {
                     0.to_string()
                 }
             }
             "server" => {
-                if let Some(guild) = msg.guild(ctx).await {
+                if let Some(guild) = msg.guild(ctx) {
                     guild.name
                 } else {
                     "".to_string()

@@ -106,7 +106,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     embed.color(colors::GREEN);
     embed.image(&avatar);
 
-    let kurosawa = ctx.cache.current_user().await;
+    let kurosawa = ctx.cache.current_user();
 
     if user.id == kurosawa.id {
         let titles = [
@@ -145,7 +145,7 @@ async fn avatar(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 #[max_args(0)]
 #[description("Mostra o ícone do servidor")]
 async fn server_image(ctx: &Context, msg: &Message) -> CommandResult {
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
 
     let avatar = guild
         .icon_url()
@@ -227,7 +227,7 @@ async fn send_suggestion(
     embed.title(format!("Nova sugestão de {}", msg.author.tag()));
     embed.color(colors::LILAC);
     embed.field(suggestion_type, text, false);
-    if let Some(guild) = msg.guild(ctx).await {
+    if let Some(guild) = msg.guild(ctx) {
         embed.field("Servidor", guild.name, false);
     }
     embed.field(

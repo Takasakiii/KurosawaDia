@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct DbGuild {
     pub discord_id: u64,
     pub name: String,

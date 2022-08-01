@@ -10,8 +10,8 @@ use serenity::{
 use crate::utils::constants::{colors, emojis};
 
 pub async fn error_permission(ctx: &Context, msg: &Message, permissions: Permissions) {
-    if let Some(guild) = &msg.guild(ctx).await {
-        if let (Ok(member), Some(Channel::Guild(channel))) =
+    if let Some(guild) = &msg.guild(ctx) {
+        if let (Ok(member), Ok(Channel::Guild(channel))) =
             (&msg.member(ctx).await, &msg.channel(ctx).await)
         {
             if let Ok(user_perm) = guild.user_permissions_in(channel, member) {

@@ -15,10 +15,13 @@ use serenity::{
 
 use crate::{
     database::{
-        functions::{custom_reaction::{
-            add_custom_reaction, count_custom_reactions, list_custom_reaction,
-            remove_custom_reaction,
-        }, users::set_enable_cr},
+        functions::{
+            custom_reaction::{
+                add_custom_reaction, count_custom_reactions, list_custom_reaction,
+                remove_custom_reaction,
+            },
+            users::set_enable_cr,
+        },
         models::custom_reaction::{DbCustomReaction, DbCustomReactionType},
     },
     utils::constants::colors,
@@ -44,7 +47,7 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
         return Ok(());
     }
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
 
     create_custom_reaction(
         guild,
@@ -76,7 +79,7 @@ async fn acr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
 async fn aecr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let args = args.remains().unwrap().split('|').collect::<Vec<&str>>();
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
 
     create_custom_reaction(
         guild,
@@ -134,7 +137,7 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         id.unwrap()
     };
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
 
     let mut embed = CreateEmbed::default();
     if remove_custom_reaction(guild, id).await? {
@@ -166,7 +169,7 @@ async fn dcr(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 async fn lcr(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
     let find = args.remains().unwrap_or("");
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
     let mut page = 0;
 
     let mut message_cache: Option<Message> = None;
@@ -289,10 +292,7 @@ async fn enable_cr(ctx: &Context, msg: &Message) -> CommandResult {
     embed.color(colors::GREEN);
 
     msg.channel_id
-        .send_message(ctx, |x| {
-            x.reference_message(msg)
-                .set_embed(embed)
-        })
+        .send_message(ctx, |x| x.reference_message(msg).set_embed(embed))
         .await?;
 
     Ok(())
@@ -312,10 +312,7 @@ async fn disable_cr(ctx: &Context, msg: &Message) -> CommandResult {
     embed.color(colors::GREEN);
 
     msg.channel_id
-        .send_message(ctx, |x| {
-            x.reference_message(msg)
-                .set_embed(embed)
-        })
+        .send_message(ctx, |x| x.reference_message(msg).set_embed(embed))
         .await?;
 
     Ok(())

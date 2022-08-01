@@ -118,14 +118,13 @@ async fn ban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
-    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
 
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
-    let bot_role =
-        get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
+    let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().into()).await?;
 
     if author_role > member_role && bot_role > member_role {
         send_alert(ctx, msg, &user, "banido", &guild.name, reason).await;
@@ -170,14 +169,13 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
-    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
 
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
-    let bot_role =
-        get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
+    let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().into()).await?;
 
     if author_role > member_role && bot_role > member_role {
         send_alert(ctx, msg, &user, "expulso", &guild.name, reason).await;
@@ -222,14 +220,13 @@ async fn softban(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult 
     let user = get_user_from_args(ctx, &mut args).await?;
 
     let reason = args.remains().unwrap_or("Não informado");
-    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+    let guild = msg.guild_id.unwrap().to_guild_cached(ctx).unwrap();
 
     let member_role = get_user_role_position(ctx, &guild, &user).await?;
 
     let author_role = get_user_role_position(ctx, &guild, &msg.author).await?;
 
-    let bot_role =
-        get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
+    let bot_role = get_user_role_position(ctx, &guild, &ctx.cache.current_user().into()).await?;
 
     if author_role > member_role && bot_role > member_role {
         send_alert(ctx, msg, &user, "removido", &guild.name, reason).await;

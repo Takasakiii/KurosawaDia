@@ -2,7 +2,9 @@ pub mod functions;
 mod generator;
 pub mod models;
 
-use mysql::{prelude::Queryable, Error, Pool, PooledConn};
+use std::convert::TryFrom;
+
+use mysql::{prelude::Queryable, Error, Opts, Pool, PooledConn};
 
 use crate::config::KurosawaConfig;
 
@@ -20,7 +22,8 @@ pub async fn get_database_connection() -> Result<PooledConn, Error> {
                     KurosawaConfig::get_database_connection_string(),
                     KurosawaConfig::get_database_name()
                 );
-                let pool = Pool::new(connection_string)?;
+                let opts = Opts::try_from(connection_string.as_str())?;
+                let pool = Pool::new(opts)?;
                 let conn = pool.get_conn()?;
                 CONNECTION = Some(pool);
                 Ok(conn)
@@ -35,7 +38,9 @@ pub async fn crate_database() -> Result<(), Error> {
         Err(err) => {
             if let Error::MySqlError(err) = err {
                 if err.code == 1049 {
-                    let pool = Pool::new(KurosawaConfig::get_database_connection_string())?;
+                    let opts =
+                        Opts::try_from(KurosawaConfig::get_database_connection_string().as_str())?;
+                    let pool = Pool::new(opts)?;
                     let mut conn = pool.get_conn()?;
                     conn.query_drop(r"CREATE DATABASE IF NOT EXISTS kurosawa_dia")?;
 

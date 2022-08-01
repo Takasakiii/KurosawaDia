@@ -30,7 +30,7 @@ pub async fn get_user_role_position(
     user: &User,
 ) -> Result<i64, CommandError> {
     let member = guild.member(ctx, user.id).await?;
-    let mut position = match member.highest_role_info(ctx).await {
+    let mut position = match member.highest_role_info(ctx) {
         Some((_, position)) => position,
         None => 0,
     };

@@ -71,7 +71,6 @@ async fn prefix(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                 let guild = msg.guild_id.ok_or("Falha em pegar o guild id")?;
                 let guild = guild
                     .to_guild_cached(ctx)
-                    .await
                     .ok_or("Falha em pegar a guild do cache")?;
 
                 set_prefix(guild, &new_prefix).await?;

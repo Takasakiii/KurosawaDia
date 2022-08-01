@@ -32,7 +32,8 @@ use crate::{
     database::{
         functions::{
             custom_reaction::get_custom_reaction,
-            guild::{get_db_guild, register_guild}, users::{register_user, get_db_user},
+            guild::{get_db_guild, register_guild},
+            users::{get_db_user, register_user},
         },
         models::guild::DbGuildType,
     },
@@ -45,7 +46,7 @@ pub fn crete_framework() -> StandardFramework {
         .configure(|x| {
             x.dynamic_prefix(move |ctx, msg| {
                 Box::pin(async move {
-                    if let Some(guild) = msg.guild(ctx).await {
+                    if let Some(guild) = msg.guild(ctx) {
                         if let Ok(db_guild) = get_db_guild(guild).await {
                             return Some(db_guild.prefix);
                         }
@@ -117,7 +118,7 @@ async fn help(
     } else {
         let cmd_name = args.single::<String>()?;
 
-        let prefix = if let Some(guild) = msg.guild(ctx).await {
+        let prefix = if let Some(guild) = msg.guild(ctx) {
             if let Ok(db_guild) = get_db_guild(guild).await {
                 db_guild.prefix
             } else {
@@ -157,7 +158,7 @@ async fn help(
                 }
                 Some(cmd) => {
                     if !cmd.options.help_available {
-                        let db_guild = if let Some(guild) = msg.guild(ctx).await {
+                        let db_guild = if let Some(guild) = msg.guild(ctx) {
                             if let Ok(guild) = get_db_guild(guild).await {
                                 Some(guild)
                             } else {
@@ -239,7 +240,7 @@ async fn help(
 }
 
 #[hook]
-async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
+async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError, _: &str) {
     match err {
         DispatchError::LackingPermissions(permissions) => {
             error_permission(ctx, msg, permissions).await
@@ -250,16 +251,12 @@ async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
 
 #[hook]
 async fn normal_message(ctx: &Context, msg: &Message) {
-    if let Some(guild) = msg.guild(ctx).await {
+    if let Some(guild) = msg.guild(ctx) {
         let content = &msg.content;
 
         let execute = match get_db_user(msg.author.id).await {
-            Ok(user) => {
-                user.enable_cr
-            },
-            Err(_) => {
-                true
-            },
+            Ok(user) => user.enable_cr,
+            Err(_) => true,
         };
 
         if execute {
@@ -306,7 +303,7 @@ async fn normal_message(ctx: &Context, msg: &Message) {
 async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
     match msg.guild_id {
         Some(guild_id) => {
-            let guild = guild_id.to_guild_cached(ctx).await;
+            let guild = guild_id.to_guild_cached(ctx);
             let thread = spawn(async move {
                 if let Some(guild) = guild {
                     register_guild(guild).await
@@ -317,9 +314,7 @@ async fn before_command(ctx: &Context, msg: &Message, name: &str) -> bool {
 
             let user = msg.author.clone();
 
-            spawn(async move {
-                register_user(user).await
-            });
+            spawn(async move { register_user(user).await });
 
             if name == "prefix" || name == "loli" {
                 return match thread.await {

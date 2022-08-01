@@ -22,7 +22,7 @@ pub struct Owner;
 async fn especial(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let new_type = args.single::<u32>()?;
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
 
     set_especial(guild, DbGuildType::from(new_type)).await?;
 

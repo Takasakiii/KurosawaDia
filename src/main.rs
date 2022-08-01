@@ -2,7 +2,7 @@ use std::error::Error;
 
 use config::KurosawaConfig;
 use database::crate_database;
-use serenity::Client;
+use serenity::{prelude::GatewayIntents, Client};
 
 #[macro_use]
 extern crate lazy_static;
@@ -25,7 +25,9 @@ async fn main() {
 
     crate_database().await.expect("Falha em iniciar a db");
 
-    let mut kurosawa = Client::builder(KurosawaConfig::get_token())
+    let intents = GatewayIntents::all();
+
+    let mut kurosawa = Client::builder(KurosawaConfig::get_token(), intents)
         .event_handler(events::Handler)
         .framework(commands::crete_framework())
         .await

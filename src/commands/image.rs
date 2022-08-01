@@ -95,7 +95,7 @@ async fn dog(ctx: &Context, msg: &Message) -> CommandResult {
 async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
     let channel = msg.channel(ctx).await;
 
-    if let Some(Channel::Guild(channel)) = channel {
+    if let Ok(Channel::Guild(channel)) = channel {
         if !channel.nsfw {
             return Ok(());
         }
@@ -103,7 +103,7 @@ async fn loli(ctx: &Context, msg: &Message) -> CommandResult {
         return Ok(());
     }
 
-    let guild = msg.guild(ctx).await.unwrap();
+    let guild = msg.guild(ctx).unwrap();
     let db_guild = get_db_guild(guild).await?;
 
     if db_guild.guild_type == DbGuildType::Normal as u32 {
