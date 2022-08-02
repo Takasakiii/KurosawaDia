@@ -1,7 +1,7 @@
 version: "3.9"
 services:
     bot:
-        image: ghcr.io/fardragi/kurosawadia:latest
+        image: ghcr.io/fardragi/kurosawadia:1.4.4
         container_name: kurosawa_dia_bot
         restart: always
         depends_on:
