@@ -23,7 +23,8 @@ public class LogEvent : IAutoStartService
 
     public Task HandleEvent(LogMessage message)
     {
-        Console.WriteLine(message);
+        var exception = message.Exception != null ? $"\n\t{message.Exception}" : "";
+        Console.WriteLine($"[{message.Severity}] {message.Source} - {message.Message}{exception}");
         return Task.CompletedTask;
     }
 }

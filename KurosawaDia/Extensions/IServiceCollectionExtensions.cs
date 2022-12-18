@@ -22,5 +22,7 @@ public static class IServiceCollectionExtensions
     {
         services.AddTransient<IAutoStartService, LogEvent>();
         services.AddTransient<IAutoStartService, ReadEvent>();
+        services.AddTransient<IAutoStartService, InteractionCreatedEvent>();
+        services.AddTransient<IAutoStartService, SlashCommandExecutedEvent>();
     }
 }

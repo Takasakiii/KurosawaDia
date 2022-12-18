@@ -26,7 +26,6 @@ var dependencies = services.BuildServiceProvider();
 var assembly = Assembly.GetExecutingAssembly();
 await interactions.AddModulesAsync(assembly, dependencies);
 
-
 dependencies.GetRequiredService<ActivatorService>()?.ActiveAllServices();
 
 await client.LoginAsync(
